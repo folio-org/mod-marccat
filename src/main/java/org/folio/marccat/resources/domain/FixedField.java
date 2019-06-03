@@ -28,11 +28,11 @@ import java.util.Map;
   "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode", "qualityAssuranceTargetCode", "antecedentSourceCode",
   "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode",
   "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColorCode", "kindOfColorStockCode", "deteriorationStageCode", "completenessCode",
-  "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "videoRecordingFormatCode","remoteSensingDataTypeCode","soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode",
+  "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode", "videoRecordingFormatCode", "remoteSensingDataTypeCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode",
   "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "remoteDataTypeCode", "speedCode", "grooveWidthCode",
   "tapeWidthCode", "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode",
   "storageTechniqueCode", "classOfBrailleWritingCode1", "classOfBrailleWritingCode2", "levelOfContractionCode", "brailleMusicFormatCode1",
-  "brailleMusicFormatCode2", "brailleMusicFormatCode3","specificPhysicalCharacteristicsCode",
+  "brailleMusicFormatCode2", "brailleMusicFormatCode3", "specificPhysicalCharacteristicsCode",
   "formatCode", "sequenceNumber", "attributes"})
 public class FixedField {
 
@@ -1590,6 +1590,7 @@ public class FixedField {
     this.computerFileFormCode = computerFileFormCode;
     return this;
   }
+
   /**
    * @return The visualRunningTime
    */
@@ -2857,26 +2858,27 @@ public class FixedField {
 
 
   //DA QUI
+
   /**
    * @return The videoRecordingFormatCode
    */
   @JsonProperty("videoRecordingFormatCode")
   public String getVideoRecordingFormatCode() {
-    return videoRecordingFormatCode ;
+    return videoRecordingFormatCode;
   }
 
   /**
-   * @param videoRecordingFormatCode  The videoRecordingFormatCode
+   * @param videoRecordingFormatCode The videoRecordingFormatCode
    */
   @JsonProperty("videoRecordingFormatCode")
   public void setVideoRecordingFormatCode(String videoRecordingFormatCode) {
     this.attributes.put("videoRecordingFormatCode", videoRecordingFormatCode);
-    this.videoRecordingFormatCode  = videoRecordingFormatCode ;
+    this.videoRecordingFormatCode = videoRecordingFormatCode;
   }
 
   public FixedField withVideoRecordingFormatCode(String videoRecordingFormatCode) {
-    this.attributes.put("videoRecordingFormatCode", videoRecordingFormatCode );
-    this.videoRecordingFormatCode  = videoRecordingFormatCode ;
+    this.attributes.put("videoRecordingFormatCode", videoRecordingFormatCode);
+    this.videoRecordingFormatCode = videoRecordingFormatCode;
     return this;
   }
 
@@ -2889,19 +2891,20 @@ public class FixedField {
   }
 
   /**
-   * @param remoteSensingDataTypeCode   The remoteSensingDataTypeCode
+   * @param remoteSensingDataTypeCode The remoteSensingDataTypeCode
    */
   @JsonProperty("remoteSensingDataTypeCode")
-  public void setRemoteSensingDataTypeCodee (String remoteSensingDataTypeCode) {
+  public void setRemoteSensingDataTypeCodee(String remoteSensingDataTypeCode) {
     this.attributes.put("remoteSensingDataTypeCode", remoteSensingDataTypeCode);
-    this.remoteSensingDataTypeCode  = remoteSensingDataTypeCode ;
+    this.remoteSensingDataTypeCode = remoteSensingDataTypeCode;
   }
 
-  public FixedField withRemoteSensingDataTypeCode(String remoteSensingDataTypeCode ) {
-    this.attributes.put("remoteSensingDataTypeCode", remoteSensingDataTypeCode );
-    this.remoteSensingDataTypeCode  = remoteSensingDataTypeCode ;
+  public FixedField withRemoteSensingDataTypeCode(String remoteSensingDataTypeCode) {
+    this.attributes.put("remoteSensingDataTypeCode", remoteSensingDataTypeCode);
+    this.remoteSensingDataTypeCode = remoteSensingDataTypeCode;
     return this;
   }
+
   /**
    * @return The soundOnMediumOrSeparateCode
    */

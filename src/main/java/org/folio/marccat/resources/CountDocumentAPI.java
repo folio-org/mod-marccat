@@ -1,21 +1,14 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.CountDocument;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 
-/**
- * CountDocument RESTful APIs.
- *
- * @author carment
- * @since 1.0
- */
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class CountDocumentAPI extends BaseResource {
 
   /**

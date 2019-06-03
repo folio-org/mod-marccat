@@ -1,6 +1,5 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
@@ -24,15 +23,7 @@ import static org.folio.marccat.resources.shared.RecordUtils.*;
 import static org.folio.marccat.resources.shared.ValidationUtils.validate;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
-/**
- * Bibliographic records API.
- *
- * @author nbianchini
- * @since 1.0
- */
 
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
 

@@ -22,9 +22,12 @@ import java.util.Map;
  */
 public abstract class Global {
 
+  public static final String BASE_URI = "marccat";
   public static final String MODULE_NAME = "MARCCAT";
   public static final String OKAPI_TENANT_HEADER_NAME = "X-Okapi-Tenant";
+  public static final String OKAPI_TENANT_HEADER_VALUE = "tnx";
   public static final String OKAPI_TOKEN_HEADER_NAME = "X-Okapi-Token";
+  public static final String OKAPI_TOKEN_HEADER_VALUE = "folio_demo";
   public static final String EMPTY_STRING = "";
   public static final String EMPTY_VALUE = " ";
   public static final String SUBFIELD_DELIMITER_FOR_VIEW = "\\$";

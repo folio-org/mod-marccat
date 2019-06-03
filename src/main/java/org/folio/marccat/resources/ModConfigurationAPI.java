@@ -2,7 +2,6 @@ package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.constants.Global;
 import org.folio.rest.client.ConfigurationsClient;
 import org.folio.rest.client.TenantClient;
@@ -17,16 +16,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import static java.lang.System.out;
+import static org.folio.marccat.config.constants.Global.*;
 
 /**
  * @author cchiama
  * @since 1.0
  */
 
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI)
 public class ModConfigurationAPI extends BaseResource {
 
 
@@ -39,25 +38,21 @@ public class ModConfigurationAPI extends BaseResource {
   private String local;
 
 
-  private static String getFile(String filename) throws IOException {
-    return IOUtils.toString(ModConfigurationAPI.class.getClassLoader().getResourceAsStream(filename), "UTF-8");
+  private static String getFile() throws IOException {
+    return IOUtils.toString(ModConfigurationAPI.class.getClassLoader().getResourceAsStream("sample/marccat_configuration.sample"), StandardCharsets.UTF_8);
   }
 
   @ResponseBody
   @GetMapping("/entries")
   public ResponseEntity<Object> getConfigurationEntries(
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "tnx") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(local, 8085, tenant, token);
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = OKAPI_TENANT_HEADER_NAME) final String token) throws UnsupportedEncodingException {
+    cc = new ConfigurationsClient(local, tenant, token);
     cc.getConfigurationsEntries(null, 0, 100, null, lang, response -> {
       response.bodyHandler(handler -> {
-        try {
-          entries = new String(handler.getBytes(), "UTF8");
-          jsonobj = new JSONObject(entries);
-        } catch (UnsupportedEncodingException e) {
-          logger.debug(String.valueOf(e));
-        }
+        entries = new String(handler.getBytes(), StandardCharsets.UTF_8);
+        jsonobj = new JSONObject(entries);
       });
     });
     return new ResponseEntity<>((jsonobj != null) ? jsonobj.toMap() : "{}", HttpStatus.OK);
@@ -67,15 +62,15 @@ public class ModConfigurationAPI extends BaseResource {
   @PostMapping("/entries")
   public ResponseEntity<Object> saveConfigurationEntries(
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_marccat") final String token) throws Exception {
-    String content = getFile("sample/marccat_configuration.sample");
-    cc = new ConfigurationsClient(local, 8085, tenant, "folio_demo");
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = OKAPI_TOKEN_HEADER_VALUE) final String token) throws Exception {
+    String content = getFile();
+    cc = new ConfigurationsClient(local, tenant, OKAPI_TOKEN_HEADER_VALUE);
     Config conf = new ObjectMapper().readValue(content, Config.class);
     cc.postConfigurationsEntries(lang, conf, response -> {
       response.bodyHandler(handler -> {
         try {
-          out.println(new String(handler.getBytes(), "UTF8"));
+          out.println(new String(handler.getBytes(), StandardCharsets.UTF_8));
         } catch (Exception e) {
           logger.debug(String.valueOf(e));
         }
@@ -89,9 +84,9 @@ public class ModConfigurationAPI extends BaseResource {
   public void deleteConfigurationEntriesByEntryId(
     @PathVariable final String entryId,
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(local, 8085, tenant, token);
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = OKAPI_TOKEN_HEADER_VALUE) final String token) throws UnsupportedEncodingException {
+    cc = new ConfigurationsClient(local, tenant, token);
     cc.deleteConfigurationsEntriesByEntryId(entryId, lang, response -> {
       response.bodyHandler(out::println);
     });
@@ -101,19 +96,19 @@ public class ModConfigurationAPI extends BaseResource {
   @GetMapping("/entries/deleteAll")
   public ResponseEntity<Object> deleteAllConfigurationEntries(
     @RequestParam(name = "lang", defaultValue = "en") final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = "folio_demo") final String token) throws UnsupportedEncodingException {
-    cc = new ConfigurationsClient(local, 8085, "tnx", "folio_demo");
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(name = Global.OKAPI_TOKEN_HEADER_NAME, defaultValue = OKAPI_TOKEN_HEADER_VALUE) final String token) throws UnsupportedEncodingException {
+    cc = new ConfigurationsClient(local, OKAPI_TENANT_HEADER_NAME, OKAPI_TOKEN_HEADER_VALUE);
     cc.getConfigurationsEntries(null, 0, 100, null, lang, response -> {
       response.bodyHandler(handler -> {
         try {
-          entries = new String(handler.getBytes(), "UTF8");
+          entries = new String(handler.getBytes(), StandardCharsets.UTF_8);
           jsonobj = new JSONObject(entries);
           JSONArray list = (JSONArray) jsonobj.get("configs");
           for (Object aList : list) {
             JSONObject js = (JSONObject) aList;
             String entryId = (String) js.get("id");
-            cc.deleteConfigurationsEntriesByEntryId(entryId, lang, respons -> {
+            cc.deleteConfigurationsEntriesByEntryId(entryId, lang, r -> {
               out.println("Entry ->" + entryId + " deleted");
             });
           }
@@ -127,15 +122,15 @@ public class ModConfigurationAPI extends BaseResource {
 
   @PostMapping("/tenant")
   public void createTenant(
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) throws Exception {
-    TenantClient tenantClient = new TenantClient(local, 8085, "tdnx", "tndx");
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant) throws Exception {
+    TenantClient tenantClient = new TenantClient(local, OKAPI_TENANT_HEADER_VALUE, OKAPI_TOKEN_HEADER_VALUE);
     TenantAttributes ta = new TenantAttributes();
     ta.setModuleTo(Global.MODULE_NAME);
     tenantClient.postTenant(ta, response -> {
       out.println(ta);
       response.bodyHandler(handler -> {
         try {
-          out.println(new String(handler.getBytes(), "UTF8"));
+          out.println(new String(handler.getBytes(), StandardCharsets.UTF_8));
 
         } catch (Exception e) {
           logger.debug(String.valueOf(e));
