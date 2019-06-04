@@ -1,7 +1,7 @@
 {
-  "srvcId": "${artifactId}-${version}",
+  "srvcId": "@artifactId@-@version@",
   "nodeId": "localhost",
   "descriptor": {
-    "exec": "java -Dport=%p -jar ../${artifactId}/target/${artifactId}-fat.jar -Dhttp.port=%p"
+    "exec": "java -Dport=%p -jar ../@artifactId@/target/@artifactId@-fat.jar -Dhttp.port=%p"
   }
 }

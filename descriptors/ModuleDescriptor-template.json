@@ -1,5 +1,5 @@
 {
-  "id": "${artifactId}-${version}",
+  "id": "@artifactId@-@version@",
   "name": "MARCcat",
   "requires": [
   ],
@@ -211,7 +211,7 @@
     }
   ],
   "launchDescriptor": {
-    "dockerImage": "${artifactId}:${version}",
+    "dockerImage": "@artifactId@-@version@",
     "dockerArgs": {
       "HostConfig": {
         "PortBindings": {
