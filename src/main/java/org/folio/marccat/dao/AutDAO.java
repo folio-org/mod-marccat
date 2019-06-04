@@ -55,6 +55,7 @@ public class AutDAO extends AbstractDAO {
       headingNumber,
       searchingView}, new Type[]{
       Hibernate.INTEGER, Hibernate.INTEGER});
+
     return (!countDoc.isEmpty()) ? (Integer) countDoc.get(0) : 0;
   }
 

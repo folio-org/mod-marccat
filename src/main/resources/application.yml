@@ -1,22 +1,19 @@
 configuration:
-  endpoint: http://151.1.165.20:8085/configurations/entries
+  endpoint: http://localhost:8085/configurations/entries
   port: 8085
-  local: 151.1.165.20
+  local: localhost
   baseUrl: marccat
 
 logging:
   level:
     root: ERROR
-    org.springframework: ERROR
+    org.springframework: DEBUG
     net.sf.hibernate: ERROR
     net.sf.hibernate.SQL: DEBUG
     #net.sf.hibernate.type: INFO
     org.folio.marccat.integration.search: DEBUG
     ru.yandex: ERROR
-    org.folio.marccat: INFO
-
-server:
-  port: 8080
+    org.folio.marccat: DEBUG
 
 #spring:
 #  profiles:

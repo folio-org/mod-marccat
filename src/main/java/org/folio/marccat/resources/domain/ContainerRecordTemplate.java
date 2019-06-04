@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.annotation.Generated;
 
 /**
- * Container for BibliographicRecord and RecordTemplate.
+ * Container for BibliographicRecord and Search.
  * <p>
  */
 
