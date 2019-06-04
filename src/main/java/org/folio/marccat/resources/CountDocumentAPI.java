@@ -5,7 +5,7 @@ import io.vertx.core.Context;
 import io.vertx.core.Handler;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
-import org.folio.marccat.resources.common.CountDoc;
+import org.folio.marccat.spring.rest.CountDoc;
 import org.folio.marccat.resources.domain.CountDocument;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

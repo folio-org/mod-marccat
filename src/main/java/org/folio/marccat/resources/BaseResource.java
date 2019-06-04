@@ -9,7 +9,7 @@ import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.SystemInternalFailureException;
 import org.folio.marccat.integration.Configuration;
 import org.folio.marccat.resources.domain.ErrorCollection;
-import org.folio.marccat.resources.service.BaseService;
+import org.folio.marccat.spring.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;

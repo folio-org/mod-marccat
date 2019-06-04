@@ -1,4 +1,4 @@
-package org.folio.marccat.resources.service;
+package org.folio.marccat.spring.service;
 
 import io.vertx.core.Future;
 import org.folio.common.OkapiParams;

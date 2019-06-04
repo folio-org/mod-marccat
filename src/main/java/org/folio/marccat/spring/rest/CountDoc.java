@@ -1,4 +1,4 @@
-package org.folio.marccat.resources.common;
+package org.folio.marccat.spring.rest;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Context;
