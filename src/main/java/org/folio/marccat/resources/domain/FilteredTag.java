@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +23,11 @@ public class FilteredTag {
 
   @JsonProperty("ind1")
   @Size(min = 1, max = 1)
-  private List <String> ind1 = new ArrayList <>();
+  private List<String> ind1 = new ArrayList<>();
 
   @JsonProperty("ind2")
   @Size(min = 1, max = 1)
-  private List <String> ind2 = new ArrayList <>();
+  private List<String> ind2 = new ArrayList<>();
 
   /**
    * @return The tag
@@ -63,7 +62,7 @@ public class FilteredTag {
    * @param ind1 The ind1
    */
   @JsonProperty("ind1")
-  public void setInd1( List<String> ind1) {
+  public void setInd1(List<String> ind1) {
     this.ind1 = ind1;
   }
 
@@ -84,11 +83,11 @@ public class FilteredTag {
    * @param ind2 The ind2
    */
   @JsonProperty("ind2")
-  public void setInd2(List <String> ind2) {
+  public void setInd2(List<String> ind2) {
     this.ind2 = ind2;
   }
 
-  public FilteredTag withInd2(List <String> ind2) {
+  public FilteredTag withInd2(List<String> ind2) {
     this.ind2 = ind2;
     return this;
   }

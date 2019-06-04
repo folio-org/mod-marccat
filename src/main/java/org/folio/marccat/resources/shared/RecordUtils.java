@@ -121,6 +121,7 @@ public class RecordUtils {
     }
 
   }
+
   /**
    * Return category code on field.
    *
@@ -130,14 +131,14 @@ public class RecordUtils {
    */
   public static int getTagCategory(final Field field, final StorageService storageService) {
     boolean hasTitle = isNameTitle(field.getCode(), field.getVariableField().getValue());
-    return storageService.getTagCategory(field.getCode(),field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);
+    return storageService.getTagCategory(field.getCode(), field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);
   }
 
   /**
    * Return category code of a heading by tag number.
    *
-   * @param heading          -- the heading
-   * @param storageService   -- the storageService module.
+   * @param heading        -- the heading
+   * @param storageService -- the storageService module.
    * @return a category code.
    */
   public static int getTagCategory(final Heading heading, final StorageService storageService) {
@@ -148,8 +149,8 @@ public class RecordUtils {
   /**
    * Check if present a tag of type title name.
    *
-   * @param tag            --  the tag number
-   * @param displayValue   -- the display value of a tag
+   * @param tag          --  the tag number
+   * @param displayValue -- the display value of a tag
    * @return true if name title, false otherwise.
    */
   public static boolean isNameTitle(String tag, String displayValue) {

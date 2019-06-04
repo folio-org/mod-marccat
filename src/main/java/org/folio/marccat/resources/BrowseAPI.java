@@ -1,10 +1,11 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.HeadingDecoratorCollection;
 import org.folio.marccat.shared.MapHeading;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -12,11 +13,7 @@ import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.MappingUtils.toHeading;
 
-/**
- * Headings RESTful APIs.
- */
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
+
 public class BrowseAPI extends BaseResource {
 
   @GetMapping("/browse")
