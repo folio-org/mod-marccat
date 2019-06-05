@@ -188,13 +188,11 @@ public class StorageService implements Closeable {
    * @return the {@link CatalogItem} associated with the given data.
    */
   public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
-    switch (searchingView) {
-      case View.AUTHORITY:
-        return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
-      default:
-        return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
+    if(searchingView == View.AUTHORITY)
+      return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
+    else
+      return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
     }
-  }
 
   /**
    * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
@@ -410,7 +408,7 @@ public class StorageService implements Closeable {
         final LDG_STATS stats = dao.getStats(session, bf.getLoadingStatisticsNumber());
         if (stats.getRecordsAdded() > 0) {
           final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
-          ids = lmr.stream().map(l -> l.getBibItemNumber()).collect(Collectors.toList());
+          ids = lmr.stream().map(LOADING_MARC_RECORDS :: getBibItemNumber).collect(Collectors.toList());
         }
         result.put(Global.LOADING_FILE_FILENAME, file.getName());
         result.put(Global.LOADING_FILE_IDS, ids);
@@ -450,17 +448,15 @@ public class StorageService implements Closeable {
    * @param view the related view.
    */
   public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
-    switch (view) {
-      case View.AUTHORITY:
-        new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
-        break;
-      default:
-        try {
-          new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
-        } catch (final HibernateException exception) {
-          throw new DataAccessException(exception);
-        }
-    }
+    if(view == View.AUTHORITY)
+      new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
+    else
+      try {
+        new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
+      } catch (final HibernateException exception) {
+        throw new DataAccessException(exception);
+      }
+
   }
 
   /**
@@ -1813,16 +1809,16 @@ public class StorageService implements Closeable {
    */
   public FilteredTag getFilteredTag(final String tagNumber) throws DataAccessException {
     try {
+      final BibliographicCorrelationDAO correlationDAO = new BibliographicCorrelationDAO();
       final FilteredTag filteredTag = new FilteredTag();
       final List <String> firstIndicators = new ArrayList <>();
       final List <String> secondIndicators = new ArrayList <>();
-      new BibliographicCorrelationDAO().getFilteredTag(tagNumber, session)
-        .stream().forEach((CorrelationKey key) -> {
-        setIndicators(firstIndicators, secondIndicators, key);
-      });
+      correlationDAO.getFilteredTag(tagNumber, session)
+        .stream().forEach( key -> setIndicators(firstIndicators, secondIndicators, key));
       filteredTag.setTag(tagNumber);
       filteredTag.setInd1(getDistinctIndicators(firstIndicators));
       filteredTag.setInd2(getDistinctIndicators(secondIndicators));
+      filteredTag.setSubfields(correlationDAO.getSubfieldsTag(tagNumber, session));
       return filteredTag;
     } catch (HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -1865,5 +1861,7 @@ public class StorageService implements Closeable {
       secondIndicators.addAll(Global.SKIP_IN_FILING_CODES);
     }
   }
+
+
 
 }

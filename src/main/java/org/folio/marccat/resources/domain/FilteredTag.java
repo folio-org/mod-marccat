@@ -16,19 +16,20 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"tag", "ind1", "ind2"})
+@JsonPropertyOrder({"tag", "ind1", "ind2", "subfields"})
 public class FilteredTag {
 
   @JsonProperty("tag")
   private String tag;
 
   @JsonProperty("ind1")
-  @Size(min = 1, max = 1)
   private List <String> ind1 = new ArrayList <>();
 
   @JsonProperty("ind2")
-  @Size(min = 1, max = 1)
   private List <String> ind2 = new ArrayList <>();
+
+  @JsonProperty("subfields")
+  private String subfields;
 
   /**
    * @return The tag
@@ -93,5 +94,24 @@ public class FilteredTag {
     return this;
   }
 
+  /**
+   * @return The subfields
+   */
+  @JsonProperty("subfields")
+  public String getSubfields() {
+    return subfields;
+  }
 
+  /**
+   * @param tag The subfields
+   */
+  @JsonProperty("subfields")
+  public void setSubfields(String subfields) {
+    this.subfields = subfields;
+  }
+
+  public FilteredTag withSubfields(String subfields) {
+    this.subfields = subfields;
+    return this;
+  }
 }
