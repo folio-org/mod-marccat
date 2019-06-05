@@ -211,7 +211,7 @@
     }
   ],
   "launchDescriptor": {
-    "dockerImage": "@artifactId@-@version@",
+    "dockerImage": "@artifactId@:@version@",
     "dockerArgs": {
       "HostConfig": {
         "PortBindings": {

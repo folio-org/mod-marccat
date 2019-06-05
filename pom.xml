@@ -11,7 +11,7 @@
 
   <groupId>org.folio</groupId>
   <artifactId>mod-marccat</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.0</version>
   <packaging>jar</packaging>
 
   <description>Module to handle Bibliographic and Authority MARC record</description>
