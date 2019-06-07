@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Jul 2, 2004
- *
- * DataAccessException.java
- */
 package org.folio.marccat.exception;
 
 import java.sql.SQLException;
