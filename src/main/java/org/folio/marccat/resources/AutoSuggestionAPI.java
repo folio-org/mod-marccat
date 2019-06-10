@@ -36,7 +36,7 @@ public class AutoSuggestionAPI extends BaseResource {
   @GetMapping("/filteredTag")
   public ResponseEntity getFilteredTag(
     @RequestParam final String tagNumber,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME)  final String tenant) {
     return doGet((storageService, configuration) -> {
       final FilteredTag container = storageService.getFilteredTag(tagNumber);
       return new ResponseEntity(container, HttpStatus.OK);

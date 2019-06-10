@@ -73,7 +73,7 @@ public class ClassificationDescriptorDAO extends DAODescriptor {
       new Type[]{
         Hibernate.STRING,
         Hibernate.INTEGER,
-        Hibernate.SHORT,
+        Hibernate.INTEGER,
         Hibernate.STRING});
     return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }

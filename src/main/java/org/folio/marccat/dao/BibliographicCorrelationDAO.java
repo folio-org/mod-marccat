@@ -1,5 +1,6 @@
 package org.folio.marccat.dao;
 
+import com.google.common.base.Optional;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
@@ -464,7 +465,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
    * @param session   the session of hibernate
    * @param tagNumber the tag number used as filter criterion.
    * @return
-   * @throws DataAccessException
+   * @throws HibernateException
    */
   public List <CorrelationKey> getFilteredTag (final String tagNumber, final Session session) throws HibernateException {
     final StringBuilder sqlFilter = new StringBuilder(" select bc.key from BibliographicCorrelation as bc, BibliographicValidation as v  ")
@@ -477,5 +478,22 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
       new Object[]{tagNumber},
       new Type[]{Hibernate.STRING});
    }
+
+  /**
+   * Loads the indicators and the subfields of a tag.
+   *
+   * @param session   the session of hibernate
+   * @param tagNumber the tag number used as filter criterion.
+    * @return
+    * @throws HibernateException
+   */
+  public String getSubfieldsTag (final String tagNumber, final Session session) throws HibernateException {
+    final StringBuilder sqlFilter = new StringBuilder(" select distinct v.marcValidSubfieldStringCode  from BibliographicValidation as v ")
+      .append(" where v.key.marcTag = ?");
+      java.util.Optional optional  = session.find(sqlFilter.toString(),
+      new Object[]{tagNumber},
+      new Type[]{Hibernate.STRING}).stream().findFirst();
+      return optional.isPresent() ?  optional.get().toString() :  "a";
+    }
 
 }

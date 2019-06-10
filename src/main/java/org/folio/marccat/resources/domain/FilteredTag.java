@@ -1,13 +1,13 @@
 package org.folio.marccat.resources.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import javax.annotation.Generated;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Heading
@@ -15,19 +15,20 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"tag", "ind1", "ind2"})
+@JsonPropertyOrder({"tag", "ind1", "ind2", "subfields"})
 public class FilteredTag {
 
   @JsonProperty("tag")
   private String tag;
 
   @JsonProperty("ind1")
-  @Size(min = 1, max = 1)
-  private List<String> ind1 = new ArrayList<>();
+  private List <String> ind1 = new ArrayList <>();
 
   @JsonProperty("ind2")
-  @Size(min = 1, max = 1)
-  private List<String> ind2 = new ArrayList<>();
+  private List <String> ind2 = new ArrayList <>();
+
+  @JsonProperty("subfields")
+  private String subfields;
 
   /**
    * @return The tag
@@ -62,7 +63,7 @@ public class FilteredTag {
    * @param ind1 The ind1
    */
   @JsonProperty("ind1")
-  public void setInd1(List<String> ind1) {
+  public void setInd1( List<String> ind1) {
     this.ind1 = ind1;
   }
 
@@ -83,14 +84,33 @@ public class FilteredTag {
    * @param ind2 The ind2
    */
   @JsonProperty("ind2")
-  public void setInd2(List<String> ind2) {
+  public void setInd2(List <String> ind2) {
     this.ind2 = ind2;
   }
 
-  public FilteredTag withInd2(List<String> ind2) {
+  public FilteredTag withInd2(List <String> ind2) {
     this.ind2 = ind2;
     return this;
   }
 
+  /**
+   * @return The subfields
+   */
+  @JsonProperty("subfields")
+  public String getSubfields() {
+    return subfields;
+  }
 
+  /**
+   * @param tag The subfields
+   */
+  @JsonProperty("subfields")
+  public void setSubfields(String subfields) {
+    this.subfields = subfields;
+  }
+
+  public FilteredTag withSubfields(String subfields) {
+    this.subfields = subfields;
+    return this;
+  }
 }

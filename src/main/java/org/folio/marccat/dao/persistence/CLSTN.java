@@ -166,13 +166,13 @@ public class CLSTN extends Descriptor {
 
   @Override
   public void calculateAndSetSortForm() {
-    if (ClassificationType.isLC((short) getTypeCode())) {
+    if (ClassificationType.isLC(getTypeCode())) {
       setSortForm(calculateLcSortForm());
-    } else if (ClassificationType.isDewey((short) getTypeCode())) {
+    } else if (ClassificationType.isDewey(getTypeCode())) {
       setSortForm(calculateDeweySortForm());
-    } else if (ClassificationType.isNLM((short) getTypeCode())) {
+    } else if (ClassificationType.isNLM(getTypeCode())) {
       setSortForm(calculateLcSortForm());
-    } else if (ClassificationType.isNAL((short) getTypeCode())) {
+    } else if (ClassificationType.isNAL(getTypeCode())) {
       setSortForm(calculateNalSortForm());
     } else {
       setSortForm(calculateDefaultClassSortForm());
