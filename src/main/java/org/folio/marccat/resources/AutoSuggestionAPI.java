@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 
+
 /**
  * Utility RESTful APIs.
  */
@@ -27,6 +28,7 @@ public class AutoSuggestionAPI extends BaseResource{
     }, tenant, configurator);
   }
 
+  
   @ResponseStatus
   @GetMapping("/filteredTag")
   public ResponseEntity getFilteredTag(
