@@ -3,6 +3,7 @@ package org.folio.marccat.resources.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -20,7 +21,7 @@ public class FilteredTagsCollection {
   @JsonProperty("tags")
   @Valid
   @NotNull
-  private List<String> tags = new ArrayList <>();
+  private List<String> tags = new ArrayList<>();
 
   @JsonProperty("tags")
   public List<String> getTags() {
@@ -29,9 +30,8 @@ public class FilteredTagsCollection {
 
   @JsonProperty("tags")
   public void setTags(List<String> tags) {
-  this.tags = tags;
+    this.tags = tags;
   }
-
 
 
 }

@@ -2,7 +2,6 @@ package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
@@ -22,15 +21,6 @@ import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 import static org.folio.marccat.resources.shared.MappingUtils.toRecordTemplate;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
-/**
- * BIB / AUT Record templates API.
- *
- * @author agazzarini
- * @author carment
- * @since 1.0
- */
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class RecordTemplateAPI extends BaseResource {
 
   @GetMapping("/record-templates")

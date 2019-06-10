@@ -16,14 +16,6 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class ModMarccat {
 
-
-  public static final String BASE_URI = "marccat";
-
-  /**
-   * Module entry point.
-   *
-   * @param args the command line arguments.
-   */
   public static void main(final String[] args) {
     SpringApplication.run(ModMarccat.class, args);
   }

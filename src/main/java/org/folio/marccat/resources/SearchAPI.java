@@ -1,6 +1,5 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.integration.StorageService;
@@ -9,7 +8,9 @@ import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.engine.SearchEngine;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +19,6 @@ import java.util.Map;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.util.F.locale;
 
-/**
- * Search Engine RESTful APIs.
- *
- * @author cchiama
- * @author carment
- * @since 1.0
- */
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class SearchAPI extends BaseResource {
 
   @GetMapping("/search")

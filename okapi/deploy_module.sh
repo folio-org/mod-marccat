@@ -1,42 +1,68 @@
-#!/usr/bin/env bash
-########################################################
-# Declare the module to Okapi
-# Deploying the module
-# Enable the module for our tenant
+#!/bin/bash
 #
-# Author : Christian Chiama - christian.chiama@atcult.it
-# Version: 1.0
-# Date   : 10/04/2019
-#########################################################
+# A simple script to set up the hello-vertx module in Okapi.
+# Assumes you have compiled the module, and started Okapi in another
+# terminal window.
 
-OKAPI_URL=${1:-localhost}
-OKAPI_PORT=${2:-9130}
-MOD_MARCCAT_JAR=${3:-mod-marccat-1.4-SNAPSHOT}
+OKAPI=${1:-"http://localhost:9130"} # The usual place it runs on a single-machine setup
+SLEEP=${2:-"1"} # Time to sleep between requests
+CURLOPTS="-w\n -D - " # -w to output a newline after, -D - to show headers
 
-curl -i -w '\n' -X GET http://${OKAPI_URL}:${OKAPI_PORT}/_/proxy/tenants
+echo "Compiling the hello module"
+mvn install || exit 1
+echo OK
 
-#************* Declare the MARCcat module to Okapi as external module *********************
+echo
+echo "Dockerizing it"
+docker build -t mod-marccat . || exit 1
+echo OK
 
-curl -w '\n' -X POST -D -   \
-    -H "Content-type: application/json"   \
-    -d @../target/ModuleDescriptor.json \
-    http://${OKAPI_URL}:${OKAPI_PORT}/_/proxy/modules
+echo
+echo "Check that Okapi is running ..."
+curl $CURLOPTS $OKAPI/_/discovery/nodes || exit 1
+echo "OK"
+sleep $SLEEP
 
-curl -i -w '\n' -X GET http://${OKAPI_URL}:${OKAPI_PORT}/_/proxy/modules
-curl -i -w '\n' -X GET http://${OKAPI_URL}:${OKAPI_PORT}/_/proxy/modules/${MOD_MARCCAT_JAR}
+echo
+echo "Creating a tenant"
 
-#*************** Deploying the module *******************
+curl $CURLOPTS -X POST  \
+  -H "Content-type: application/json" \
+  -d @target/TenantDescriptor.json  \
+  $OKAPI/_/proxy/tenants || exit 1
+echo OK
+sleep $SLEEP
 
-curl -w '\n' -D - -s \
-   -X POST \
-   -H "Content-type: application/json" \
-   -d @../target/DeploymentDescriptor.json  \
-   http://${OKAPI_URL}:${OKAPI_PORT}/_/discovery/modules
+echo
+echo "Declaring the module"
 
-#**************** Enable the module for our tenant n******************
+curl $CURLOPTS -X POST  \
+  -H "Content-type: application/json" \
+  -d @target/ModuleDescriptor.json \
+  $OKAPI/_/proxy/modules || exit 1
+echo OK
+sleep $SLEEP
 
-curl -i -w '\n' \
-   -X POST \
-   -H "Content-type: application/json" \
-   -d @module_id.json \
-   http://${OKAPI_URL}:${OKAPI_PORT}/_/proxy/tenants/diku/modules
+echo
+echo "Deploying it on localhost"
+curl $CURLOPTS -X POST  \
+  -H "Content-type: application/json" \
+  -d @target/DeploymentDescriptor.json  \
+  $OKAPI/_/discovery/modules || exit 1
+echo OK
+sleep $SLEEP
+
+
+echo
+echo "Enabling it for our tenant"
+curl $CURLOPTS -X POST \
+  -H "Content-type: application/json" \
+  -d @target/TenantModuleDescriptor.json \
+  $OKAPI/_/proxy/tenants/tnx/modules || exit 1
+echo OK
+sleep $SLEEP
+
+echo
+echo "Checking that it works"
+curl $CURLOPTS -H "X-Okapi-Tenant: tnx" $OKAPI/hello || exit 1
+echo OK
