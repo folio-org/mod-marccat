@@ -19,6 +19,7 @@ public class ModMarccat {
 
   public static final String BASE_URI = "marccat";
 
+
   /**
    * Module entry point.
    *
