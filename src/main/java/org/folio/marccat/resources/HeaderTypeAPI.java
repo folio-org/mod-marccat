@@ -1,22 +1,15 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.HeadingTypeCollection;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.MappingUtils.mapToHeading;
 
-/**
- * Header type code RESTful APIs.
- *
- * @author cchiama
- * @since 1.0
- */
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
 public class HeaderTypeAPI extends BaseResource {
 
 

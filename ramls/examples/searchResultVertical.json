@@ -1,79 +1,83 @@
 {
-  "searchingView": 1,
-  "displayQuery": "na \"manzoni\"",
-  "from": 1,
-  "to": 10,
-  "numFound": 1271,
-  "docs": [
+  "results": [
     {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006570036\n005 20170216093555.0\n008 170216s19uu    gw     e      000 0 ger c\n040   $aIT-TrCB$bita\n300   $a440 p.$c20 cm\n082 0 $a853.7$222\n997   $aCBT-1-dv-ath-ma\n700 1 $aLangen, Adolf$trl. \n700 1 $aBülow, Eduard von$trl. \n100 1 $aManzoni, Alessandro$aut. \n245 04$aDie Verlobten :$beine mailänder Geschichte /$cvon Alessandro Manzoni ; nach Eduard von Bülows uebersetzung neu bearbeitet von Adolf Langen\n260   $aBerlin :$bSchreitersche Verlagshandlung,$c[19--?]\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006566570\n005 20170201093512.0\n008 170201s1921    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $aXXXVI, 248 p., II p. di tav.$c18 cm\n997   $aCBT-1-dv-ath-ad\n082 0 $a852.7$222\n700 1 $aEgidi, Pietro$edt. \n100 1 $aManzoni, Alessandro$aut. \n245 00$aTragedie /$cAlessandro Manzoni ; introduzione e note di Pietro Egidi\n440  0$aCollezione di classici italiani con note$v38\n260   $aTorino :$bUTET,$c1921.\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006566436\n005 20170131144441.0\n008 170131s1921    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $aXXX, 202 p., III p. di tav.$c18 cm\n997   $aCBT-1-dv-ath-ad\n082 0 $a851.7$222\n100 1 $aManzoni, Alessandro$aut. \n700 1 $aMomigliano, Attilio$edt. \n245 00$aLiriche /$cAlessandro Manzoni ; introduzione e note di Attilio Momigliano.\n440  0$aCollezione di classici italiani con note$v37\n260   $aTorino :$bUTET,$c1921.\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006562130\n005 20170111185039.0\n008 170111s2009    it     j      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a144 p.$bill.$c21 cm\n521   $aOPERA PER BAMBINI\n250   $aRist.\n500   $aNome del cur. dalla p. contro il front.\n505 2 $aCon apparato didattico\n082 1 $a853.7$214\n997   $aCBT-2-bct-mg\n020   $a9788883971747\n100 1 $aManzoni, Alessandro$aut. \n700 1 $aDattolico, Rosa$edt. \n700 1 $ill. $aDa Rold, Andrea\n245 02$aI promessi sposi /$cAlessandro Manzoni ; [a cura di Rosa Dattolico] ; illustrazioni di Andrea Da Rold\n440  2$aI supermangialibri.$pI classici\n260   $aCasoria (NA) :$bArdea Editrice,$c2009.\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006561957\n005 20170111115931.0\n008 170111s2006    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a2 v.$c18 cm\n505 0 $a1 : I promessi sposi (1827). - CIII, 989 p.\n505 0 $a2 : I promessi sposi (1840) ; Storia della colonna infame. - XLIV, 1253 p. : ill. - Ripr. facs. dell'ed.: Milano : Guglielmini e Redaelli, 1840; seguono Commento e indici\n250   $a2. ed.\n500   $aIn contenitore\n500   $aISBN dal contenitore\n997   $aCBT-2-bct-mg\n082 1 $a853.7$214\n020   $a880450417X\n700 1 $aPaccagnini, Ermanno$edt. \n700 1 $aNigro, Salvatore Silvano$edt. \n100 1 $aManzoni, Alessandro$aut. \n740 02$aStoria della colonna infame\n440  2$aI meridiani / [Mondadori]\n245 02$aI promessi sposi /$cAlessandro Manzoni ; saggio introduttivo, revisione del testo critico e commento a cura di Salvatore Silvano Nigro ; collaborazione di Ermanno Paccagnini per la Storia della colonna infame\n260   $aMilano :$bMondadori,$c2006.\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006561869\n005 20170111100126.0\n008 170111s1877    fr     e      000 0 fre c\n040   $aIT-TrCB$bita\n300   $a747 p., [1] c. di tav.$c19 cm\n250   $aNouvelle éd. revue et complétée par les professeurs Martin et Pizzigoni\n082 0 $a853.7$222\n997   $aCBT-1-dv-ath-gp\n700 1 $aPizzigoni, Carlo$edt. \n700 1 $aRey Dusseuil, Antoine F.M.$trl. \n700 1 $aMartin, ...,$d19. sec.$edt. \n700 1 $aMontgrand, Jean-Baptiste-Jacques-Guy-Therese, marquis de$trl. \n100 1 $aManzoni, Alessandro$aut. \n245 04$aLes fiancés /$cA. Manzoni ; d'après les traductions de MM. de Montgrand et Rey-Dussueil\n246 0 $aI promessi sposi\n260   $aMilan :$bCarrara, Paul(IS),$c1877$aMilano :$bCarrara, Paolo\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006561680\n005 20170110142137.0\n008 170110s1888    fr     e      000 0 fre c\n040   $aIT-TrCB$bita\n300   $a2 v. (XX, 404 ; 423 p.)$bill.$c19 cm\n250   $aNouvelle éd.\n082 0 $a853.7$222\n997   $aCBT-1-dv-ath-gp\n700 1 $ill. $aStaal, Gustave\n700 1 $aMontgrand, Jean-Baptiste-Jacques-Guy-Therese, marquis de$trl. \n100 1 $aManzoni, Alessandro$aut. \n246 0 $aI promessi sposi\n245 04$aLes fiancés :$bhistoire milanaise du XVIIme siècle /$cManzoni ; traduction nouvelle ... par le marquis de Montgrand ; avec des notes historiques et fac-similé de lettres de Manzoni à son traducteur ; nouvelles illustrations de Staal\n260   $aParis :$bGarnier frères,$c1888.\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006561646\n005 20170110132920.0\n008 170110s1869    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a123 p.$c20 cm\n082 0 $a450.$222\n997   $aCBT-1-dv-ath-gp\n100 1 $aManzoni, Alessandro$aut. \n245 00$aAppendice alla relazione intorno all'unità della lingua e ai mezzi di diffonderla /$cAlessandro Manzoni\n260   $aMilano :$bRechiedei,$c1869.\n650  4$aLingua italiana - Opere del 19. sec.\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006561627\n005 20170110125437.0\n008 170110s1885    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a306 p.$c20 cm\n082 0 $a858.702$222\n997   $aCBT-1-dv-ath-gp\n100 1 $aManzoni, Alessandro$aut. \n700 1 $aBindoni, Giuseppe$com. \n245 00$aSentenze e pensieri /$cdi Alessandro Manzoni ; raccolti da' suoi scritti e ordinati dal prof. Giuseppe Bindoni.\n260   $aTreviso :$bTurazza,$c1885.\n"
-    },
-    {
-      "recordView": 1,
-      "countDoc": 0,
-      "queryForAssociatedDoc": null,
-      "tagHighlighted": null,
-      "data": "LEADER 00000nam  2200000 i 4500\n001 000006561568\n005 20170110114215.0\n008 170110s1925    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a2 v. (544; 570, [1] p.), [2] ritr.$c16 cm\n997   $aCBT-1-dv-ath-gp\n082 0 $a854.7$222\n100 1 $aManzoni, Alessandro$aut. \n440  0$aCollezione Salani.$pI classici$v16-17\n245 00$aProse /$cAlessandro Manzoni\n260   $aFirenze :$bSalani,$c1925.\n"
+      "searchingView": 1,
+      "displayQuery": "na \"manzoni\"",
+      "from": 1,
+      "to": 10,
+      "numFound": 1271,
+      "docs": [
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006570036\n005 20170216093555.0\n008 170216s19uu    gw     e      000 0 ger c\n040   $aIT-TrCB$bita\n300   $a440 p.$c20 cm\n082 0 $a853.7$222\n997   $aCBT-1-dv-ath-ma\n700 1 $aLangen, Adolf$trl. \n700 1 $aBülow, Eduard von$trl. \n100 1 $aManzoni, Alessandro$aut. \n245 04$aDie Verlobten :$beine mailänder Geschichte /$cvon Alessandro Manzoni ; nach Eduard von Bülows uebersetzung neu bearbeitet von Adolf Langen\n260   $aBerlin :$bSchreitersche Verlagshandlung,$c[19--?]\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006566570\n005 20170201093512.0\n008 170201s1921    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $aXXXVI, 248 p., II p. di tav.$c18 cm\n997   $aCBT-1-dv-ath-ad\n082 0 $a852.7$222\n700 1 $aEgidi, Pietro$edt. \n100 1 $aManzoni, Alessandro$aut. \n245 00$aTragedie /$cAlessandro Manzoni ; introduzione e note di Pietro Egidi\n440  0$aCollezione di classici italiani con note$v38\n260   $aTorino :$bUTET,$c1921.\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006566436\n005 20170131144441.0\n008 170131s1921    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $aXXX, 202 p., III p. di tav.$c18 cm\n997   $aCBT-1-dv-ath-ad\n082 0 $a851.7$222\n100 1 $aManzoni, Alessandro$aut. \n700 1 $aMomigliano, Attilio$edt. \n245 00$aLiriche /$cAlessandro Manzoni ; introduzione e note di Attilio Momigliano.\n440  0$aCollezione di classici italiani con note$v37\n260   $aTorino :$bUTET,$c1921.\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006562130\n005 20170111185039.0\n008 170111s2009    it     j      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a144 p.$bill.$c21 cm\n521   $aOPERA PER BAMBINI\n250   $aRist.\n500   $aNome del cur. dalla p. contro il front.\n505 2 $aCon apparato didattico\n082 1 $a853.7$214\n997   $aCBT-2-bct-mg\n020   $a9788883971747\n100 1 $aManzoni, Alessandro$aut. \n700 1 $aDattolico, Rosa$edt. \n700 1 $ill. $aDa Rold, Andrea\n245 02$aI promessi sposi /$cAlessandro Manzoni ; [a cura di Rosa Dattolico] ; illustrazioni di Andrea Da Rold\n440  2$aI supermangialibri.$pI classici\n260   $aCasoria (NA) :$bArdea Editrice,$c2009.\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006561957\n005 20170111115931.0\n008 170111s2006    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a2 v.$c18 cm\n505 0 $a1 : I promessi sposi (1827). - CIII, 989 p.\n505 0 $a2 : I promessi sposi (1840) ; Storia della colonna infame. - XLIV, 1253 p. : ill. - Ripr. facs. dell'ed.: Milano : Guglielmini e Redaelli, 1840; seguono Commento e indici\n250   $a2. ed.\n500   $aIn contenitore\n500   $aISBN dal contenitore\n997   $aCBT-2-bct-mg\n082 1 $a853.7$214\n020   $a880450417X\n700 1 $aPaccagnini, Ermanno$edt. \n700 1 $aNigro, Salvatore Silvano$edt. \n100 1 $aManzoni, Alessandro$aut. \n740 02$aStoria della colonna infame\n440  2$aI meridiani / [Mondadori]\n245 02$aI promessi sposi /$cAlessandro Manzoni ; saggio introduttivo, revisione del testo critico e commento a cura di Salvatore Silvano Nigro ; collaborazione di Ermanno Paccagnini per la Storia della colonna infame\n260   $aMilano :$bMondadori,$c2006.\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006561869\n005 20170111100126.0\n008 170111s1877    fr     e      000 0 fre c\n040   $aIT-TrCB$bita\n300   $a747 p., [1] c. di tav.$c19 cm\n250   $aNouvelle éd. revue et complétée par les professeurs Martin et Pizzigoni\n082 0 $a853.7$222\n997   $aCBT-1-dv-ath-gp\n700 1 $aPizzigoni, Carlo$edt. \n700 1 $aRey Dusseuil, Antoine F.M.$trl. \n700 1 $aMartin, ...,$d19. sec.$edt. \n700 1 $aMontgrand, Jean-Baptiste-Jacques-Guy-Therese, marquis de$trl. \n100 1 $aManzoni, Alessandro$aut. \n245 04$aLes fiancés /$cA. Manzoni ; d'après les traductions de MM. de Montgrand et Rey-Dussueil\n246 0 $aI promessi sposi\n260   $aMilan :$bCarrara, Paul(IS),$c1877$aMilano :$bCarrara, Paolo\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006561680\n005 20170110142137.0\n008 170110s1888    fr     e      000 0 fre c\n040   $aIT-TrCB$bita\n300   $a2 v. (XX, 404 ; 423 p.)$bill.$c19 cm\n250   $aNouvelle éd.\n082 0 $a853.7$222\n997   $aCBT-1-dv-ath-gp\n700 1 $ill. $aStaal, Gustave\n700 1 $aMontgrand, Jean-Baptiste-Jacques-Guy-Therese, marquis de$trl. \n100 1 $aManzoni, Alessandro$aut. \n246 0 $aI promessi sposi\n245 04$aLes fiancés :$bhistoire milanaise du XVIIme siècle /$cManzoni ; traduction nouvelle ... par le marquis de Montgrand ; avec des notes historiques et fac-similé de lettres de Manzoni à son traducteur ; nouvelles illustrations de Staal\n260   $aParis :$bGarnier frères,$c1888.\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006561646\n005 20170110132920.0\n008 170110s1869    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a123 p.$c20 cm\n082 0 $a450.$222\n997   $aCBT-1-dv-ath-gp\n100 1 $aManzoni, Alessandro$aut. \n245 00$aAppendice alla relazione intorno all'unità della lingua e ai mezzi di diffonderla /$cAlessandro Manzoni\n260   $aMilano :$bRechiedei,$c1869.\n650  4$aLingua italiana - Opere del 19. sec.\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006561627\n005 20170110125437.0\n008 170110s1885    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a306 p.$c20 cm\n082 0 $a858.702$222\n997   $aCBT-1-dv-ath-gp\n100 1 $aManzoni, Alessandro$aut. \n700 1 $aBindoni, Giuseppe$com. \n245 00$aSentenze e pensieri /$cdi Alessandro Manzoni ; raccolti da' suoi scritti e ordinati dal prof. Giuseppe Bindoni.\n260   $aTreviso :$bTurazza,$c1885.\n"
+        },
+        {
+          "recordView": 1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": null,
+          "tagHighlighted": null,
+          "data": "LEADER 00000nam  2200000 i 4500\n001 000006561568\n005 20170110114215.0\n008 170110s1925    it     e      000 0 ita c\n040   $aIT-TrCB$bita\n300   $a2 v. (544; 570, [1] p.), [2] ritr.$c16 cm\n997   $aCBT-1-dv-ath-gp\n082 0 $a854.7$222\n100 1 $aManzoni, Alessandro$aut. \n440  0$aCollezione Salani.$pI classici$v16-17\n245 00$aProse /$cAlessandro Manzoni\n260   $aFirenze :$bSalani,$c1925.\n"
+        }
+      ]
     }
   ]
 }

@@ -8,6 +8,6 @@ buildMvn {
     buildJavaDocker {
       publishMaster = 'yes'
       healthChk = 'no'
+    }
   }
- }
 }

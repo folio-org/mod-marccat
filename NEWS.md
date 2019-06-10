@@ -1,19 +1,10 @@
-## 1.3.0 in progress
- * Fix issue in CRUD Cataloging.
- * Add SortForm function.
- * Handling tag 245 in cataloging, after insert sortform.
- * Handling tag 100 in cataloging, after insert sortform.
- * Integrate SortForm in existing DAO.
- * Improve Search API.
- * Configuration of new postgres database.
- * Duplicate record (duplication of a record from an existing one).
- * Fix insert record in new postgres db.
- * Fix update full_cache in new postgres database.
- * Many fix in search, browse anch cataloging API.
- * Update microservices for db customization.
- * Add permission to descriptor.
- * Update interface for okapi.
- * Cleaning project and remove unused class.
+## 1.5.0 2019-05-06
+* Fix "No update" of full cache after edit bibliographic record and add new tag
+* Add Creation of Name-Title heading behind the scene
+* Add autosuggestion service tags in cataloguing workflow
+* Bug fix save record in full_cache, edit and delete tags
+* Bug fix in configuration properties for tags 006-007-008
+* Bug fix in services for tags 006-007-008
 
  
 ## 1.2.0 2019-01-08

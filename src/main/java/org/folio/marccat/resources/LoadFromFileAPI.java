@@ -1,12 +1,14 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.ResultLoaderCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
@@ -14,18 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.integration.MarccatHelper.doPost;
 import static org.folio.marccat.resources.shared.MappingUtils.setMapToResult;
 
-/**
- * Loads bibliographic records contents in a binary marc21 file.
- *
- * @author nbianchini
- * @since 1.0
- */
-
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI)
+@RequestMapping(value = BASE_URI)
 public class LoadFromFileAPI extends BaseResource {
 
 

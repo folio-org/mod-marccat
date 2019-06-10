@@ -30,6 +30,6 @@ public class TagsCollection {
 
   @JsonProperty("tags")
   public void setTags(Map<String, String> tags) {
-  this.tags = tags;
+    this.tags = tags;
   }
 }

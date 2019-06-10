@@ -1,6 +1,5 @@
 package org.folio.marccat.resources;
 
-import org.folio.marccat.ModMarccat;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
@@ -13,15 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
-/**
- * Headings RESTful APIs.
- *
- * @author cchiama
- * @author carment
- * @since 1.0
- */
-@RestController
-@RequestMapping(value = ModMarccat.BASE_URI, produces = "application/json")
+
 public class HeadingAPI extends BaseResource {
 
 

@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class ModMarccat {
 
-
   public static final String BASE_URI = "marccat";
 
 
