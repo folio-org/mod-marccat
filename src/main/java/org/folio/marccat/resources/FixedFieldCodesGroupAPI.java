@@ -3,9 +3,7 @@ package org.folio.marccat.resources;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
 import org.folio.marccat.shared.CatalogingInformation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +14,8 @@ import static org.folio.marccat.config.log.Message.MOD_MARCCAT_00017_CODES_GROUP
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.FixedFieldUtils.*;
 
-
+@RestController
+@RequestMapping(value = BASE_URI, produces = "application/json")
 public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingInformation {
 
   @GetMapping("/fixed-fields-code-groups-by-leader")

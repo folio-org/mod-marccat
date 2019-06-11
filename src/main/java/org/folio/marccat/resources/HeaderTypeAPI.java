@@ -2,14 +2,15 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.HeadingTypeCollection;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import static java.util.Optional.ofNullable;
+import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.resources.shared.MappingUtils.mapToHeading;
 
+@RestController
+@RequestMapping(value = BASE_URI, produces = "application/json")
 public class HeaderTypeAPI extends BaseResource {
 
 

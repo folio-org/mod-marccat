@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
+import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.domain.ConversionFieldUtils.getDisplayValueOfMaterial;
 import static org.folio.marccat.domain.ConversionFieldUtils.getDisplayValueOfPhysicalInformation;
 import static org.folio.marccat.integration.MarccatHelper.*;
@@ -23,7 +24,8 @@ import static org.folio.marccat.resources.shared.RecordUtils.*;
 import static org.folio.marccat.resources.shared.ValidationUtils.validate;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
-
+@RestController
+@RequestMapping(value = BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
 

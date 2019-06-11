@@ -7,11 +7,9 @@ import org.folio.marccat.resources.domain.FilteredTag;
 import org.folio.marccat.resources.domain.FilteredTagsCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
+import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.enumaration.CodeListsType.DATE_TYPE;
 import static org.folio.marccat.enumaration.RequestMapping.AUTOSUGGESTION;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
@@ -19,6 +17,8 @@ import static org.folio.marccat.integration.MarccatHelper.doGet;
 /**
  *
  */
+@RestController
+@RequestMapping(value = BASE_URI, produces = "application/json")
 public class AutoSuggestionAPI extends BaseResource {
 
   @GetMapping("/filteredTagsList")
