@@ -1,7 +1,7 @@
 configuration:
-  endpoint: http://127.0.0.1:9166/configurations/entries
-  port: 9166
-  local: 127.0.0.1
+  endpoint: http://151.1.165.20:8085/configurations/entries
+  port: 8085
+  local: 151.1.165.20
   baseUrl: marccat
 
 logging:
@@ -10,10 +10,10 @@ logging:
     org.springframework: ERROR
     net.sf.hibernate: ERROR
     net.sf.hibernate.SQL: DEBUG
+    #net.sf.hibernate.type: INFO
     org.folio.marccat.integration.search: DEBUG
     ru.yandex: ERROR
     org.folio.marccat: INFO
 
 server:
-  port: 9166
-
+  port: 8080
