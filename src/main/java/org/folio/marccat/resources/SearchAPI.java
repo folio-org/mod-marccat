@@ -8,17 +8,18 @@ import org.folio.marccat.search.SearchResponse;
 import org.folio.marccat.search.engine.SearchEngine;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.util.F.locale;
 
+@RestController
+@RequestMapping(value = BASE_URI, produces = "application/json")
 public class SearchAPI extends BaseResource {
 
   @GetMapping("/search")

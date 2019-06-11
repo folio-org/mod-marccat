@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
-
+@RestController
+@RequestMapping(value = BASE_URI, produces = "application/json")
 public class HeadingAPI extends BaseResource {
 
 

@@ -14,8 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import static org.folio.marccat.config.constants.Global.BASE_URI;
 
 @CrossOrigin(origins = {"*"})
-@RestController
-@RequestMapping(value = BASE_URI, produces = "application/json")
 public abstract class BaseResource {
   protected Log logger = new Log(getClass());
 

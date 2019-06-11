@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.enumaration.CatalogingEntityType.A;
 import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 import static org.folio.marccat.resources.shared.MappingUtils.toRecordTemplate;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
 
+@RestController
+@RequestMapping(value = BASE_URI, produces = "application/json")
 public class RecordTemplateAPI extends BaseResource {
 
   @GetMapping("/record-templates")
