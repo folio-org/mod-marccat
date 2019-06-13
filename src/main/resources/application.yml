@@ -1,7 +1,7 @@
 configuration:
-  endpoint: http://151.1.165.20:8085/configurations/entries
+  endpoint: http://folio.frontside.atcult.it:8085/configurations/entries
   port: 8085
-  local: 151.1.165.20
+  local: folio.frontside.atcult.it
   baseUrl: marccat
 
 logging:
