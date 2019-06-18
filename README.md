@@ -126,12 +126,13 @@ to configure postgres database run:
 ```
 where options are:
 * database (required);
-* username;à
+* username;
 * password;
 * host;
 * port;
 * admin user;
 * admin password;
+
 for instance:
 
 ```
