@@ -101,7 +101,7 @@ mod-data-import provides the ability to uplaod a file of any size. The only limi
 MARCcat needed some configuration to setup and confugure all table and relation of db. After installing all you needed is run:
 
 ```
-   sh setupr/setup-conf.sh [options]
+   sh setup/setup-conf.sh [options]
 ```
 where options are:
 * host;
@@ -111,7 +111,12 @@ where options are:
   * username;
   * passord;
 
-                                                           
+
+## Storage Architecture
+mod-marccat has its own pre-existing storage, it results in a single cohesive module, where the data and logic tiers are logically divided within the same artifact.
+It uses Hibernate for dealing with the persistence logic.
+Tenants are isolated at database level, so multi-tenancy is managed by mod-marccat addressing all the requests from different tenants to the proper database.
+                                                     
 ## Initialize Postgres Database        
 
 to configure postgres database run:
@@ -131,7 +136,7 @@ for instance:
 
 ```
   sh setup-test-db biblio marccat admin localhost 5432 postgres postgres
-``
+```
 
 
 ## Issue tracker
