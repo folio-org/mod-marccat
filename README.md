@@ -88,7 +88,7 @@ curl -w '\n' -X POST -D -   \
     http://localhost:9130/_/proxy/tenants/<tenant_name>/modules
 ```
 ## Maximum upload file size and java heap memory setups
-mod-data-import provides the ability to uplaod a file of any size. The only limitation is related to the current implementation of the RMB and the size of the heap in the java process. Currently, before saving the file, it is read into memory, respectively, it is necessary to have the size of the java heap equal to the file size plus 10 percent.
+mod-data-import provides the ability to upload a file of any size. The only limitation is related to the current implementation of the RMB and the size of the heap in the java process. Currently, before saving the file, it is read into memory, respectively, it is necessary to have the size of the java heap equal to the file size plus 10 percent.
 
 ### Example
 | File Size | Java Heap size |
@@ -98,7 +98,7 @@ mod-data-import provides the ability to uplaod a file of any size. The only limi
 |    1GB    |     1.1+ GB    |
 
 ## Setup Mod-configuration
-MARCcat needed some configuration to setup and confugure all table and relation of db. After installing all you needed is run:
+MARCcat needed some configuration to setup and configure all table and relation of database. After installing all you needed is run:
 
 ```
    sh setup/setup-conf.sh [options]
