@@ -107,9 +107,9 @@ where options are:
 * host;
 * port;
 * database parameter;
-  * name;
-  * username;
-  * passord;
+* name;
+* username;
+* password;
 
 
 ## Storage Architecture
