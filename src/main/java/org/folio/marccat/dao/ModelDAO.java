@@ -22,6 +22,8 @@ import static java.util.stream.Collectors.toList;
  */
 public abstract class ModelDAO extends AbstractDAO {
 
+  public static final String AS_M_ORDER_BY_M_LABEL = " as m order by m.label";
+
   /**
    * Retrieves a list of booleans representing whether a model in the list of all
    * models is currently in use by a bib item.  Used in Models page to prompt for
@@ -78,7 +80,7 @@ public abstract class ModelDAO extends AbstractDAO {
         + " as itm where itm.id = ? ",
       new Object[]{id},
       new Type[]{Hibernate.INTEGER});
-    return list.size() > 0 ? list.get(0) : null;
+    return !list.isEmpty() ? list.get(0) : null;
   }
 
 
@@ -87,7 +89,7 @@ public abstract class ModelDAO extends AbstractDAO {
    *
    * @return the persistent class
    */
-  abstract protected Class getPersistentClass();
+ protected abstract Class getPersistentClass();
 
   /**
    * Delete a model and a model item.
@@ -143,7 +145,7 @@ public abstract class ModelDAO extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   private List<Avp<Integer>> getModelList(final Session session) throws HibernateException {
-    return session.find("select new Avp(m.id, m.label) from " + getPersistentClass().getName() + " as m order by m.label");
+    return session.find("select new Avp(m.id, m.label) from " + getPersistentClass().getName() + AS_M_ORDER_BY_M_LABEL);
   }
 
   /**
@@ -158,7 +160,7 @@ public abstract class ModelDAO extends AbstractDAO {
     return session.find(
       " select new org.folio.marccat.business.codetable.Avp(m.id, m.label) from "
         + " org.folio.marccat.dao.persistence.BibliographicModel "
-        + " as m order by m.label");
+        + AS_M_ORDER_BY_M_LABEL);
   }
 
   /**
@@ -173,6 +175,6 @@ public abstract class ModelDAO extends AbstractDAO {
     return session.find(
       " select new org.folio.marccat.business.codetable.Avp(m.id, m.label) from "
         + " org.folio.marccat.dao.persistence.AuthorityModel "
-        + " as m order by m.label");
+        + AS_M_ORDER_BY_M_LABEL);
   }
 }

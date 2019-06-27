@@ -24,7 +24,7 @@ import java.util.List;
  * @author janick
  */
 public class BibliographicNote extends VariableField implements PersistentObjectWithView, OrderedTag {
-  private static final short bibliographicNoteCategory = 7;
+  private static final short NOTE_CATEGORY= 7;
   public List<BibliographicNoteOverflow> overflowList = new ArrayList<>();
   /**
    * The content is all or a part of the stringText.toString() result.
@@ -117,16 +117,14 @@ public class BibliographicNote extends VariableField implements PersistentObject
   }
 
   public int getCategory() {
-    return bibliographicNoteCategory;
+    return NOTE_CATEGORY;
   }
 
   @Override
-  @Deprecated
   public CorrelationValues getCorrelationValues() {
     return null;
   }
 
-  @Deprecated
   public void setCorrelationValues(final CorrelationValues v) {
     setNoteType(v.getValue(1));
   }
@@ -179,10 +177,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
     overflowList = list;
   }
 
-  /**
-   * @deprecated
-   */
-  @Deprecated
+
   @Override
   public boolean correlationChangeAffectsKey(CorrelationValues v) {
     if (v.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
