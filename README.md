@@ -88,7 +88,7 @@ curl -w '\n' -X POST -D -   \
     http://localhost:9130/_/proxy/tenants/<tenant_name>/modules
 ```
 ## Maximum upload file size and java heap memory setups
-mod-data-import provides the ability to uplaod a file of any size. The only limitation is related to the current implementation of the RMB and the size of the heap in the java process. Currently, before saving the file, it is read into memory, respectively, it is necessary to have the size of the java heap equal to the file size plus 10 percent.
+mod-data-import provides the ability to upload a file of any size. The only limitation is related to the current implementation of the RMB and the size of the heap in the java process. Currently, before saving the file, it is read into memory, respectively, it is necessary to have the size of the java heap equal to the file size plus 10 percent.
 
 ### Example
 | File Size | Java Heap size |
@@ -98,20 +98,25 @@ mod-data-import provides the ability to uplaod a file of any size. The only limi
 |    1GB    |     1.1+ GB    |
 
 ## Setup Mod-configuration
-MARCcat needed some configuration to setup and confugure all table and relation of db. After installing all you needed is run:
+MARCcat needed some configuration to setup and configure all table and relation of database. After installing all you needed is run:
 
 ```
-   sh setupr/setup-conf.sh [options]
+   sh setup/setup-conf.sh [options]
 ```
 where options are:
 * host;
 * port;
 * database parameter;
-  * name;
-  * username;
-  * passord;
+* name;
+* username;
+* password;
 
-                                                           
+
+## Storage Architecture
+mod-marccat has its own pre-existing storage, it results in a single cohesive module, where the data and logic tiers are logically divided within the same artifact.
+It uses Hibernate for dealing with the persistence logic.
+Tenants are isolated at database level, so multi-tenancy is managed by mod-marccat addressing all the requests from different tenants to the proper database.
+                                                     
 ## Initialize Postgres Database        
 
 to configure postgres database run:
@@ -121,17 +126,18 @@ to configure postgres database run:
 ```
 where options are:
 * database (required);
-* username;à
+* username;
 * password;
 * host;
 * port;
 * admin user;
 * admin password;
+
 for instance:
 
 ```
   sh setup-test-db biblio marccat admin localhost 5432 postgres postgres
-``
+```
 
 
 ## Issue tracker
