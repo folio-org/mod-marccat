@@ -217,6 +217,12 @@ public class BibliographicCatalog extends Catalog {
       correlationValues);
   }
 
+  public BibliographicRelationshipTag createBibliographicRelationshipTag(final CatalogItem item, final CorrelationValues correlationValues) {
+    return (BibliographicRelationshipTag) getNewTag(item,
+      Global.RELATION_CATEGORY,
+      correlationValues);
+  }
+
   /**
    * Put leader content into persistent hibernate object.
    *

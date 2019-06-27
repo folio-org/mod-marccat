@@ -192,7 +192,7 @@ public class StorageService implements Closeable {
       return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
     else
       return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
-    }
+  }
 
   /**
    * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
@@ -1016,12 +1016,11 @@ public class StorageService implements Closeable {
    * @param view        the view used here as filter criterion
    * @param mainLibrary the main library used here as filter criterion
    * @param pageSize    the page size used here as filter criterion
-   * @param lang        the lang used here as filter criterion
    * @return a list of headings
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List<MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2, final String stringText, final int view, final int mainLibrary, final int pageSize, final String lang) {
+  public List<MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2, final String stringText, final int view, final int mainLibrary, final int pageSize) {
     try {
       String key;
       String browseTerm;
@@ -1132,7 +1131,7 @@ public class StorageService implements Closeable {
       }
 
       if (!aTag.isFixedField() && aTag instanceof PublisherManager && !((PublisherManager) aTag).getPublisherTagUnits().isEmpty()) {
-          keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
+        keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
       }
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
@@ -1593,7 +1592,7 @@ public class StorageService implements Closeable {
       final boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
       final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), heading.getCategoryCode(), session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
-       if (newTag != null) {
+      if (newTag != null) {
         final StringText st = new StringText(heading.getDisplayValue());
         ((VariableField) newTag).setStringText(st);
         if (newTag instanceof Browsable) {
@@ -1607,7 +1606,7 @@ public class StorageService implements Closeable {
           final int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
           heading.setKeyNumber(headingNumber);
         } else if (newTag.isPublisher()) {
-           createPublisherDescriptor(heading, view, configuration, newTag);
+          createPublisherDescriptor(heading, view, configuration, newTag);
         }
       }
     } catch (HibernateException | SQLException exception) {
@@ -1831,7 +1830,7 @@ public class StorageService implements Closeable {
    *
    * @param indicators the list of the indicators used as filter criterion.
    * @return
-    */
+   */
   public List <String> getDistinctIndicators(List <String> indicators) {
     return indicators
       .stream()
@@ -1854,7 +1853,7 @@ public class StorageService implements Closeable {
     if (BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC != key.getMarcFirstIndicator())
       firtIndicators.add(valueOf(key.getMarcFirstIndicator()));
     else
-     firtIndicators.addAll(Global.SKIP_IN_FILING_CODES);
+      firtIndicators.addAll(Global.SKIP_IN_FILING_CODES);
     if(BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC != key.getMarcSecondIndicator()) {
       secondIndicators.add(valueOf(key.getMarcSecondIndicator()));
     } else {

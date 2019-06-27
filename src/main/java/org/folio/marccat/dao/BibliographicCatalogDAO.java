@@ -376,15 +376,20 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   @SuppressWarnings("unchecked")
-  private List<BibliographicRelationshipTag> getBibliographicRelationships(final int amicusNumber, final int userView, final Session session) throws HibernateException {
-    List<BibliographicRelationship> multiView = session.find("from BibliographicRelationship t "
+  private List <BibliographicRelationshipTag> getBibliographicRelationships(final int amicusNumber, final int userView, final Session session) throws HibernateException {
+    List <BibliographicRelationship> multiView = session.find("from BibliographicRelationship t "
         + "where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1'",
       new Object[]{amicusNumber, userView},
       new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
 
-    List<? extends PersistentObjectWithView> singleView = isolateViewForList(multiView, userView, session);
+    List <? extends PersistentObjectWithView> singleView = isolateViewForList(multiView, userView, session);
     return singleView.stream().map(current -> {
-      final BibliographicRelationshipTag bibliographicRelationshipTag = new BibliographicRelationshipTag((BibliographicRelationship) current, userView, session);
+      BibliographicRelationshipTag bibliographicRelationshipTag = null;
+      try {
+        bibliographicRelationshipTag = new BibliographicRelationshipTag((BibliographicRelationship) current, userView, session);
+      } catch (HibernateException e) {
+        e.printStackTrace();
+      }
       bibliographicRelationshipTag.markUnchanged();
       return bibliographicRelationshipTag;
     }).collect(Collectors.toList());

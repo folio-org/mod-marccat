@@ -337,7 +337,7 @@ public class RecordParser {
         }
       });
     } else if (field.getVariableField().getKeyNumber() != null && field.getFieldStatus() == Field.FieldStatus.NEW) {
-        insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, configuration, session, view);
+      insertNewVariableField(item, field.getVariableField(), bibItemNumber, correlationValues, configuration, session, view);
     }
   }
 
@@ -413,7 +413,11 @@ public class RecordParser {
     }  else if (variableField.getCategoryCode() == Global.NAME_TITLE_CATEGORY) {
       if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, NameTitleAccessPoint.class))
         addNameTitleToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
-    }    else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
+    }  else if (variableField.getCategoryCode() == Global.RELATION_CATEGORY) {
+      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, BibliographicRelationshipTag.class))
+        addRelationToCatalog(item, correlationValues, variableField, bibItemNumber);
+    }
+    else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
       if (!checkIfAlreadyExistNote(variableField.getKeyNumber(), item, BibliographicNoteTag.class))
         addNoteToCatalog(item, correlationValues, variableField, bibItemNumber);
     } else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
@@ -538,6 +542,26 @@ public class RecordParser {
   }
 
   /**
+   * Creates and add to catalog a new persistent {@link BibliographicRelationshipTag} object for saving record.
+   *
+   * @param item              -- the item to add tags.
+   * @param correlationValues -- the selection of correlation values.
+   * @param variableField     -- the variable field containing data.
+   * @param bibItemNumber     -- the bibliographic item number.
+   */
+  private void addRelationToCatalog(final CatalogItem item,
+                                    final CorrelationValues correlationValues,
+                                    final org.folio.marccat.resources.domain.VariableField variableField,
+                                    final int bibItemNumber) {
+    final BibliographicRelationshipTag nTag = catalog.createBibliographicRelationshipTag(item, correlationValues);
+    nTag.setReciprocalOption((short) 3);
+    nTag.setStringText(new StringText(variableField.getValue()));
+    nTag.setItemNumber(bibItemNumber);
+    nTag.markNew();
+    item.addTag(nTag);
+  }
+
+  /**
    * Creates and add to catalog a new persistent {@link SubjectAccessPoint} object for saving record.
    *
    * @param item              -- the item to add tags.
@@ -569,11 +593,11 @@ public class RecordParser {
    * @param view              -- the view.
    */
   private void addNameTitleToCatalog(final CatalogItem item,
-                                   final CorrelationValues correlationValues,
-                                   final org.folio.marccat.resources.domain.VariableField variableField,
-                                   final int bibItemNumber,
-                                   final Session session,
-                                   final int view) throws HibernateException {
+                                     final CorrelationValues correlationValues,
+                                     final org.folio.marccat.resources.domain.VariableField variableField,
+                                     final int bibItemNumber,
+                                     final Session session,
+                                     final int view) throws HibernateException {
     final NameTitleAccessPoint ntp = catalog.createNameTitleAccessPointTag(item, correlationValues);
     createTag(item, variableField, bibItemNumber,ntp, session, view);
   }

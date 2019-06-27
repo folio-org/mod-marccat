@@ -35,7 +35,7 @@ public abstract class MarccatHelper {
   static {
     try {
       DEFAULT_VALUES.load(MarccatHelper.class.getResourceAsStream("/defaults.properties"));
-    } catch (Exception exception) {
+     } catch (Exception exception) {
       throw new ExceptionInInitializerError(exception);
     }
   }

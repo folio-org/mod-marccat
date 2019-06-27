@@ -6,7 +6,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOBibliographicRelationship;
+import org.folio.marccat.dao.BibliographicRelationshipDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
@@ -30,7 +30,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
   /**
    * The Constant bibliographicRelationshipCategory.
    */
-  private static final short bibliographicRelationshipCategory = 8;
+  private static final short RELATION_CATEGORY= 8;
 
   /**
    * The target bib item number.
@@ -85,7 +85,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
     super();
     StringText s = new StringText("");
     setStringText(s);
-    setReciprocalType((short) -1);
+    setReciprocalType(-1);
   }
 
   /**
@@ -103,9 +103,9 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @param userView the user view
    * @return the string text
    */
-  public StringText buildStringText(int userView) {
-    StringText s = new StringText();
-    DAOBibliographicRelationship b = new DAOBibliographicRelationship();
+  public StringText buildStringText(int userView) throws HibernateException {
+    StringText s;
+    BibliographicRelationshipDAO b = new BibliographicRelationshipDAO();
     try {
       s = b.buildRelationStringText(this.getTargetBibItemNumber(), userView, b.currentSession());
       s.add(getRelationshipStringText());
@@ -171,7 +171,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @see librisuite.business.cataloguing.bibliographic.Tag#getCategory()
    */
   public int getCategory() {
-    return bibliographicRelationshipCategory;
+    return RELATION_CATEGORY;
   }
 
   /**
@@ -223,7 +223,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @return the dao
    */
   public AbstractDAO getDAO() {
-    return new DAOBibliographicRelationship();
+    return new BibliographicRelationshipDAO();
   }
 
   /**
@@ -306,14 +306,14 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @return the reciprocal option
    * @throws DataAccessException the data access exception
    */
-  public int getReciprocalOption(Session session) {
+  public int getReciprocalOption(final Session session) throws HibernateException {
     if (getReciprocalType() == -1) {
-      DAOBibliographicRelationship b = new DAOBibliographicRelationship();
+      final BibliographicRelationshipDAO relationshipDAO = new BibliographicRelationshipDAO();
       if (this.getTargetBibItemNumber() < 0) {
         return 3;
       } else {
         try {
-          return b.getReciprocalBibItem(this.getTargetBibItemNumber(), this.getItemNumber(), 1, session);
+          return relationshipDAO.getReciprocalBibItem(this.getTargetBibItemNumber(), this.getItemNumber(), 1, session);
         } catch (DataAccessException ex) {
           return -1;
         }
@@ -374,7 +374,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @return the relationship string text
    */
   public StringText getRelationshipStringText() {
-    StringText text = new StringText();
+   final StringText text = new StringText();
     text.parse(getMaterialSpecificText());
     text.parse(getQualifyingDescription());
 

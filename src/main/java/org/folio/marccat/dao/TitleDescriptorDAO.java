@@ -23,6 +23,8 @@ import java.util.List;
  */
 public class TitleDescriptorDAO extends DAODescriptor {
 
+  public static final String TH = "'TH'";
+
   /**
    * Gets the persistent class.
    *
@@ -60,7 +62,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
       session.find(
         "select count(*) from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
-          + " and ref.sourceHeadingType = 'TH' "
+          + " and ref.sourceHeadingType = " + TH + " "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
@@ -71,7 +73,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
       session.find(
         "select count(*) from NME_TO_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
-          + " and ref.sourceHeadingType = 'TH' "
+          + " and ref.sourceHeadingType = " + TH + " "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
@@ -102,7 +104,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
       session.find(
         "from TTL_NME_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
-          + " and ref.sourceHeadingType = 'TH' "
+          + " and ref.sourceHeadingType = " + TH + " "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
@@ -112,7 +114,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
       session.find(
         "from NME_TO_TTL_REF as ref "
           + " where ref.titleHeadingNumber = ? "
-          + " and ref.sourceHeadingType = 'TH' "
+          + " and ref.sourceHeadingType = " + TH + " "
           + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
@@ -143,7 +145,7 @@ public class TitleDescriptorDAO extends DAODescriptor {
       final String query = "from TTL_NME_TTL_REF as ref "
         + " where ref.titleHeadingNumber = ? AND "
         + " ref.nameTitleHeadingNumber = ? AND "
-        + " ref.sourceHeadingType = 'TH' AND "
+        + " ref.sourceHeadingType = " + TH + " AND "
         + " ref.key.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' AND "
         + " ref.key.type = ?";
       return loadReferenceByQuery(source, target, referenceType, cataloguingView, query, session);
