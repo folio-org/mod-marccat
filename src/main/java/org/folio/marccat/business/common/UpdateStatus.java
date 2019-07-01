@@ -5,7 +5,7 @@ package org.folio.marccat.business.common;
  */
 public class UpdateStatus {
 
-  /**
+   /**
    * The Constant NEW.
    */
   public static final int NEW = 0;

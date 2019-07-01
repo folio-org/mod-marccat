@@ -3,10 +3,8 @@ package org.folio.marccat.dao.persistence;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.folio.marccat.exception.DataAccessException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
@@ -21,18 +19,19 @@ public class Unspecified extends PhysicalDescription {
     setHeaderType(45);
   }
 
-
+@Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
       + getSpecificMaterialDesignationCode();
   }
-
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+ @Override
+  public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("XD", session));
   }
 
+  @Override
   public boolean isUnspecified() {
     return true;
   }
