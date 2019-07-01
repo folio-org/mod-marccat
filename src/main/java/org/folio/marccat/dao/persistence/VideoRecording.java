@@ -28,6 +28,7 @@ public class VideoRecording extends PhysicalDescription {
     setHeaderType(30);
   }
 
+  @Override
   public String getDisplayString() {
     return EMPTY_STRING
       + getGeneralMaterialDesignationCode()
@@ -41,11 +42,13 @@ public class VideoRecording extends PhysicalDescription {
       + getConfigurationCode();
   }
 
+  @Override
   public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setKeyNumber(dao.getNextNumber("X9", session));
   }
 
+  @Override
   public boolean isVideoRecording() {
     return true;
   }

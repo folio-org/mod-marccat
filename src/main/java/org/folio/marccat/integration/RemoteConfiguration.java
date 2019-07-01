@@ -3,6 +3,8 @@ package org.folio.marccat.integration;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.vertx.core.json.Json;
 import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.DeploymentDescriptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -30,6 +32,7 @@ public class RemoteConfiguration implements Configuration {
   private static final String BASE_CQUERY = "module==MARCCAT and configName == ";
   private static final String MODULE_CONFIGURATION = "mod-configuration";
   private static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
+  private static final Log logger = new Log(RemoteConfiguration.class);
   private static final int LIMIT = 100;
   private final RestTemplate client;
 
@@ -73,12 +76,15 @@ public class RemoteConfiguration implements Configuration {
       final ResponseEntity <String> response = client.getForEntity(Global.OKAPI_URL_DISCOVERY_MODULES, String.class);
       final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
       for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
-        if (deployDescriptor.getSrvcId().contains(MODULE_CONFIGURATION))
+        if (deployDescriptor.getSrvcId().contains(MODULE_CONFIGURATION)) {
+          logger.info("REMOTE CONFIGURATION URL: " + deployDescriptor.getUrl() + SUB_PATH_CONFIGURATION);
           return (deployDescriptor.getUrl() + SUB_PATH_CONFIGURATION);
+
+        }
       }
-    }
-    catch (RestClientException exception){
-         return endpoint;
+    } catch (RestClientException exception) {
+      logger.info("LOCAL CONFIGURATION URL : " + endpoint);
+      return endpoint;
     }
     return null;
   }

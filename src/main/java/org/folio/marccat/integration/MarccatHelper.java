@@ -1,6 +1,7 @@
 package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
 import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
@@ -31,6 +32,7 @@ import static org.folio.marccat.config.constants.Global.HCONFIGURATION;
 public abstract class MarccatHelper {
   private final static Properties DEFAULT_VALUES = new Properties();
   private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
+  private static final Log logger = new Log(MarccatHelper.class);
 
   static {
     try {
@@ -188,6 +190,9 @@ public abstract class MarccatHelper {
       .filter(node -> "datasource".equals(node.get("configName").asText()))
       .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+    logger.info("DATABASE USER: " + config.get("user"));
+    logger.info("DATABASE PASSWORD: " + config.get("password"));
+    logger.info("DATABASE URL: " + config.get("url"));
     return DataSourceBuilder
       .create()
       .username(config.get("user"))
