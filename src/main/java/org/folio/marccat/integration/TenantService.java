@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * TenantService  the class for Tenants management.
  *
- * @author cctrazza
+ * @author ctrazza
  * @since 1.0
  */
 @Service("TenantService")
@@ -77,21 +77,27 @@ public class TenantService {
    */
   private void initializeConfiguration(final String tenant) {
     final String configurationUrl = remoteConfiguration.getConfigurationUrl();
-    final List <String> args = new ArrayList <String>();
-    args.add("sh setup-conf.sh");
+    int index = configurationUrl.lastIndexOf(':') + 1;
+    final String confPort = configurationUrl.substring(index, index + 4);
+    final String confHost = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
+    final List <String> args = new ArrayList <>();
+    args.add("sh");
+    args.add("setup-conf.sh");
+    args.add(confPort);
     args.add(tenant);
-    args.add(configurationUrl);
-    args.add("5433");//DB
-    args.add("folio_marccat_test1");//DB
-    args.add("amicus");//DB
-    args.add("oracle");//DB
-    ProcessBuilder pb = new ProcessBuilder(args);
-    if (pb.directory() != null)
-      logger.info("DIRECTORY FILE: " + pb.directory());
+    args.add(confHost);
+    args.add("5433");
+    args.add("folio_marccat_test1");
+    args.add("amicus");
+    args.add("oracle");
+    ProcessBuilder builder = new ProcessBuilder(args);
+    if (builder.directory() != null)
+      logger.info("DIRECTORY FILE: " + builder.directory());
     Process process = null;
     try {
-      process = pb.start();
-
+      logger.info("START INIZIALIZE CONFIGURATION");
+      process = builder.start();
+      logger.info("END INIZIALIZE CONFIGURATION");
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
