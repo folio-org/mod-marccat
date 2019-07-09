@@ -67,7 +67,7 @@ public class TenantService {
    * @throws SQLException the SQL exception
    */
   public void deleteTenant(String tenant) throws SQLException {
-
+    // Do nothing because it removes the database
   }
 
   /**
@@ -77,21 +77,18 @@ public class TenantService {
    */
   private void initializeConfiguration(final String tenant) {
     final String configurationUrl = remoteConfiguration.getConfigurationUrl();
-    final List <String> args = new ArrayList <>();
-    args.add("sh setup-conf.sh");
-    args.add(tenant);
-    args.add(configurationUrl);
-    args.add("5433");
-    args.add("folio_marccat_test1");
-    args.add("amicus");
-    args.add("oracle");
-    ProcessBuilder pb = new ProcessBuilder(args);
-    if (pb.directory() != null)
-      logger.info("DIRECTORY FILE: " + pb.directory());
+    int index = configurationUrl.lastIndexOf(':') + 1;
+    final String confPort = configurationUrl.substring(index, index + 4);
+    final String confHost = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
+    final List <String> commands = getCommands(tenant, confPort, confHost);
+    ProcessBuilder builder = new ProcessBuilder(commands);
+    if (builder.directory() != null)
+      logger.info("DIRECTORY FILE: " + builder.directory());
     Process process = null;
     try {
-      process = pb.start();
-
+      logger.info("START INIZIALIZE CONFIGURATION");
+      process = builder.start();
+      logger.info("END INIZIALIZE CONFIGURATION");
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
@@ -99,6 +96,20 @@ public class TenantService {
       process.destroy();
     }
 
+  }
+
+  private List <String> getCommands(String tenant, String confPort, String confHost) {
+    final List <String> commands = new ArrayList<>();
+    commands.add("sh");
+    commands.add("setup-conf.sh");
+    commands.add(confPort);
+    commands.add(tenant);
+    commands.add(confHost);
+    commands.add("5433");
+    commands.add("folio_marccat_test1");
+    commands.add("amicus");
+    commands.add("oracle");
+    return commands;
   }
 
 
