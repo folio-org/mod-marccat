@@ -71,7 +71,7 @@ public class RemoteConfiguration implements Configuration {
    *
    * @return the url of the configuration module.
    */
-  private String getConfigurationUrl() {
+  public String getConfigurationUrl() {
     try {
       final ResponseEntity <String> response = client.getForEntity(Global.OKAPI_URL_DISCOVERY_MODULES, String.class);
       final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
