@@ -14,6 +14,14 @@ logging:
     ru.yandex: ERROR
     org.folio.marccat: INFO
 
+spring:
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
 server:
   port: 9166
 

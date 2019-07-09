@@ -1,7 +1,5 @@
 package org.folio.marccat.enumaration;
 
-import java.lang.reflect.Field;
-
 public enum RequestMapping {
   MARC_RECORD,
   SEARCH,
