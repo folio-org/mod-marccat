@@ -18,7 +18,7 @@ public class TenantAPI {
 
   @PostMapping
   public ResponseEntity<String> create(
-    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx") String tenant,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME)  String tenant,
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
     tenantService.createTenant(tenant);
@@ -27,7 +27,7 @@ public class TenantAPI {
 
   @DeleteMapping
   public ResponseEntity<Void> delete(
-    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx") String tenant
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant
   ) throws SQLException {
     tenantService.deleteTenant(tenant);
     return new ResponseEntity<Void>(NO_CONTENT);
