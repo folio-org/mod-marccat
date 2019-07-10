@@ -91,13 +91,33 @@ public class TenantService {
     args.add("amicus");
     args.add("oracle");
     ProcessBuilder builder = new ProcessBuilder(args);
-    if (builder.directory() != null)
-      logger.info("DIRECTORY FILE: " + builder.directory());
+    String commands = null;
+    for (String arg : builder.command()) {
+      commands = commands + " " + arg;
+    }
+    logger.info("COMMAND: " + commands);
+
     Process process = null;
     try {
       logger.info("START INIZIALIZE CONFIGURATION");
       process = builder.start();
+      logger.info("EXIT CODE FROM THE PROCESS: " + process.exitValue());
+
+      BufferedReader reader = null;
+      if (process != null) {
+        reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      }
+      String line;
+      StringBuilder stringBuilder = new StringBuilder();
+      if (reader != null) {
+        while ((line = reader.readLine()) != null)
+          stringBuilder.append(line).append("\n");
+      }
+      if (stringBuilder.length() > 0)
+        logger.info("SETUP FILE CONTENT: " + stringBuilder.toString());
+
       logger.info("END INIZIALIZE CONFIGURATION");
+      
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
