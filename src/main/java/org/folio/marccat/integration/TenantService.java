@@ -95,7 +95,7 @@ public class TenantService {
 
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : builder.command()) {
-      commadsSB.append(arg);
+      commadsSB.append(arg + " ");
     }
     logger.info("COMMAND: " + commadsSB.toString());
 
