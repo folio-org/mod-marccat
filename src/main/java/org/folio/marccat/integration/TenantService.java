@@ -82,7 +82,7 @@ public class TenantService {
     final String confHost = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
     final List <String> args = new ArrayList <>();
     args.add("/bin/sh");
-    args.add("setup-conf.sh");
+    args.add("/Users/mirkofonzo/WORK/FFSYNC/LOCAL/Projects/Folio/mod-marccat/setup-conf.sh");
     args.add(confHost);
     args.add(confPort);
     args.add(tenant);
@@ -92,6 +92,7 @@ public class TenantService {
     args.add("amicus");
     args.add("oracle");
     ProcessBuilder builder = new ProcessBuilder(args);
+    logger.info(" ENVIRONMENT: " + builder.environment());
 
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : builder.command()) {
