@@ -67,7 +67,7 @@ public class TenantService {
    * @throws SQLException the SQL exception
    */
   public void deleteTenant(String tenant) throws SQLException {
-
+    // Do nothing because deleted a database
   }
 
   /**
@@ -83,25 +83,27 @@ public class TenantService {
     final List <String> args = new ArrayList <>();
     args.add("sh");
     args.add("setup-conf.sh");
+    args.add(confHost);
     args.add(confPort);
     args.add(tenant);
-    args.add(confHost);
+    args.add("folio.frontside.atcult.it");
     args.add("5433");
     args.add("folio_marccat_test1");
     args.add("amicus");
     args.add("oracle");
     ProcessBuilder builder = new ProcessBuilder(args);
-    String commands = null;
+
+    StringBuilder commadsSB = new StringBuilder();
     for (String arg : builder.command()) {
-      commands = commands + " " + arg;
+      commadsSB.append(arg);
     }
-    logger.info("COMMAND: " + commands);
+    logger.info("COMMAND: " + commadsSB.toString());
 
     Process process = null;
     try {
       logger.info("START INIZIALIZE CONFIGURATION");
       process = builder.start();
-      logger.info("EXIT CODE FROM THE PROCESS: " + process.exitValue());
+
 
       BufferedReader reader = null;
       if (process != null) {
@@ -113,11 +115,20 @@ public class TenantService {
         while ((line = reader.readLine()) != null)
           stringBuilder.append(line).append("\n");
       }
+
+      if (process != null)
+        try {
+          process.waitFor();
+        } catch (InterruptedException e) {
+          logger.error("ERROR IN waitFor(): ", e);
+        }
+      if(process != null)
+        logger.info("EXIT CODE FROM THE PROCESS: " + process.exitValue());
+
       if (stringBuilder.length() > 0)
         logger.info("SETUP FILE CONTENT: " + stringBuilder.toString());
-
       logger.info("END INIZIALIZE CONFIGURATION");
-      
+
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
