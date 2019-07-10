@@ -81,7 +81,7 @@ public class TenantService {
     final String confPort = configurationUrl.substring(index, index + 4);
     final String confHost = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
     final List <String> args = new ArrayList <>();
-    args.add("sh");
+    args.add("/bin/sh");
     args.add("setup-conf.sh");
     args.add(confHost);
     args.add(confPort);
@@ -97,11 +97,11 @@ public class TenantService {
     for (String arg : builder.command()) {
       commadsSB.append(arg + " ");
     }
-    logger.info("COMMAND: " + commadsSB.toString());
+    logger.info(" COMMAND: " + commadsSB.toString());
 
     Process process = null;
     try {
-      logger.info("START INIZIALIZE CONFIGURATION");
+      logger.info(" START INIZIALIZE CONFIGURATION");
       process = builder.start();
 
 
@@ -120,14 +120,15 @@ public class TenantService {
         try {
           process.waitFor();
         } catch (InterruptedException e) {
-          logger.error("ERROR IN waitFor(): ", e);
+          logger.error(" ERROR IN waitFor(): ", e);
         }
+
       if(process != null)
-        logger.info("EXIT CODE FROM THE PROCESS: " + process.exitValue());
+        logger.info(" EXIT CODE FROM THE PROCESS: " + process.exitValue());
 
       if (stringBuilder.length() > 0)
-        logger.info("SETUP FILE CONTENT: " + stringBuilder.toString());
-      logger.info("END INIZIALIZE CONFIGURATION");
+        logger.info(" SETUP FILE CONTENT: " + stringBuilder.toString());
+      logger.info(" END INIZIALIZE CONFIGURATION");
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
