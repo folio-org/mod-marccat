@@ -80,18 +80,12 @@ public class TenantService {
     int index = configurationUrl.lastIndexOf(':') + 1;
     final String confPort = configurationUrl.substring(index, index + 4);
     final String confHost = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
-    final List <String> args = new ArrayList <>();
-    args.add("/bin/sh");
-    args.add("setup-conf.sh");
-    args.add(confHost);
-    args.add(confPort);
-    args.add(tenant);
-    args.add("folio.frontside.atcult.it");
-    args.add("5433");
-    args.add("folio_marccat_test1");
-    args.add("amicus");
-    args.add("oracle");
-    ProcessBuilder builder = new ProcessBuilder(args);
+
+    String pathSetupConfig  = getClass().getResource("/resources/setup-conf.sh").getPath();
+    logger.info(" PATH SETUP CONF: " + pathSetupConfig);
+
+    final List <String> commands = getCommands(tenant, confPort, confHost, pathSetupConfig);
+    ProcessBuilder builder = new ProcessBuilder(commands);
     logger.info(" ENVIRONMENT: " + builder.environment());
 
     StringBuilder commadsSB = new StringBuilder();
@@ -138,6 +132,21 @@ public class TenantService {
       process.destroy();
     }
 
+  }
+
+  private List <String> getCommands(String tenant, String confPort, String confHost, String pathSetupConfig) {
+    final List <String> commands = new ArrayList<>();
+    commands.add("/bin/sh");
+    commands.add(pathSetupConfig);
+    commands.add(confHost);
+    commands.add(confPort);
+    commands.add(tenant);
+    commands.add("folio.frontside.atcult.it");
+    commands.add("5433");
+    commands.add("folio_marccat_test1");
+    commands.add("amicus");
+    commands.add("oracle");
+    return commands;
   }
 
 
