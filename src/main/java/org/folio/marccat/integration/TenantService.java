@@ -81,8 +81,8 @@ public class TenantService {
     final String confPort = configurationUrl.substring(index, index + 4);
     final String confHost = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
 
-    String pathSetupConfig  = getClass().getResource("/resources/setup-conf.bat").getPath();
-    logger.info(pathSetupConfig);
+    String pathSetupConfig  = getClass().getResource("/resources/setup-conf.sh").getPath();
+    logger.info(" PATH SETUP CONF: " + pathSetupConfig);
 
     final List <String> commands = getCommands(tenant, confPort, confHost, pathSetupConfig);
     ProcessBuilder builder = new ProcessBuilder(commands);
