@@ -22,7 +22,7 @@ public class TenantAPI {
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
     tenantService.createTenant(tenant);
-    return new ResponseEntity<String>("Success", CREATED);
+    return new ResponseEntity("Success", CREATED);
   }
 
   @DeleteMapping
@@ -30,6 +30,6 @@ public class TenantAPI {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant
   ) throws SQLException {
     tenantService.deleteTenant(tenant);
-    return new ResponseEntity<Void>(NO_CONTENT);
+    return new ResponseEntity(NO_CONTENT);
   }
 }
