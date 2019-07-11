@@ -16,13 +16,14 @@ logging:
     org.folio.marccat: INFO
 
 spring:
-   datasource:
-     platform: postgres
+    datasource:
+     platform: folio_marccat_test1
      driverClassName: org.postgresql.Driver
-     url: jdbc:postgresql://localhost:5432/postgres
-     username: postgres
-     password: postgres
-
+     url: jdbc:postgresql://folio.frontside.atcult.it:5433/folio_marccat_test1
+     port: 5433
+     host: folio.frontside.atcult.it
+     username: amicus
+     password: oracle
 
 server:
   port: 8080

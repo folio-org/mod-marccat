@@ -1,6 +1,7 @@
 package org.folio.marccat.integration;
 
 
+import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -25,9 +28,6 @@ public class TenantService {
   /** The Constant logger. */
   private static final Log logger = new Log(TenantService.class);
 
-  /** The url. */
-  @Value("${spring.datasource.url}")
-  private String url;
 
   /** The username. */
   @Value("${spring.datasource.username}")
@@ -37,10 +37,18 @@ public class TenantService {
   @Value("${spring.datasource.password}")
   private String password;
 
-  /** The driver. */
-  @Value("${spring.datasource.driverClassName}")
-  private String driver;
+  /** The platform. */
+  @Value("${spring.datasource.platform}")
+  private String platform;
 
+  /** The port. */
+  @Value("${spring.datasource.port}")
+  private String port;
+
+  /** The host. */
+  @Value("${spring.datasource.host}")
+
+  private String host;
   /** The resource loader. */
   @Autowired
   private ResourceLoader resourceLoader;
@@ -76,56 +84,19 @@ public class TenantService {
    * @param tenant the tenant
    */
   private void initializeConfiguration(final String tenant) {
+    String pathSetupConfig = null;
     final String configurationUrl = remoteConfiguration.getConfigurationUrl();
-    int index = configurationUrl.lastIndexOf(':') + 1;
-    final String confPort = configurationUrl.substring(index, index + 4);
-    final String confHost = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
-
-    //String pathSetupConfig  = getClass().getResource("/resources/setup-conf.sh").getPath();
-    File file =  getResourceAsFile("/setup-conf.sh");
-    String pathSetupConfig = file.getAbsolutePath();
-    logger.info(" PATH SETUP CONF: " + pathSetupConfig);
-
-    final List <String> commands = getCommands(tenant, confPort, confHost, pathSetupConfig);
-    ProcessBuilder builder = new ProcessBuilder(commands);
-    logger.info(" ENVIRONMENT: " + builder.environment());
-
-    StringBuilder commadsSB = new StringBuilder();
-    for (String arg : builder.command()) {
-      commadsSB.append(arg + " ");
-    }
-    logger.info(" COMMAND: " + commadsSB.toString());
-
+    final Map<String, String>  mapConfigurations  = getConfigurations(configurationUrl);
+    final File file = getResourceAsFile("/setup-conf.sh");
+    if (file != null)
+      pathSetupConfig = file.getAbsolutePath();
+    final List <String> commands = getCommands(tenant, mapConfigurations, pathSetupConfig);
+    final ProcessBuilder builder = new ProcessBuilder(commands);
     Process process = null;
     try {
-      logger.info(" START INIZIALIZE CONFIGURATION");
+      logger.info(" ENABLE TENANT - START");
       process = builder.start();
-
-
-      BufferedReader reader = null;
-      if (process != null) {
-        reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-      }
-      String line;
-      StringBuilder stringBuilder = new StringBuilder();
-      if (reader != null) {
-        while ((line = reader.readLine()) != null)
-          stringBuilder.append(line).append("\n");
-      }
-
-      if (process != null)
-        try {
-          process.waitFor();
-        } catch (InterruptedException e) {
-          logger.error(" ERROR IN waitFor(): ", e);
-        }
-
-      if(process != null)
-        logger.info(" EXIT CODE FROM THE PROCESS: " + process.exitValue());
-
-      if (stringBuilder.length() > 0)
-        logger.info(" SETUP FILE CONTENT: " + stringBuilder.toString());
-      logger.info(" END INIZIALIZE CONFIGURATION");
+      logger.info(" ENABLE TENANT - END");
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
@@ -133,48 +104,67 @@ public class TenantService {
     if (process != null) {
       process.destroy();
     }
-
   }
 
-  private List <String> getCommands(String tenant, String confPort, String confHost, String pathSetupConfig) {
+  /**
+   * Gets the commands.
+   *
+   * @param tenant the tenant
+   * @param mapConfigurations the map configurations
+   * @param pathSetupConfig the path setup config
+   * @return the commands
+   */
+  private List <String> getCommands(final String tenant, final Map<String, String> mapConfigurations, final String pathSetupConfig) {
     final List <String> commands = new ArrayList<>();
     commands.add("/bin/sh");
     commands.add(pathSetupConfig);
-    commands.add(confHost);
-    commands.add(confPort);
+    commands.add(mapConfigurations.get("hostConf"));
+    commands.add(mapConfigurations.get("portConf"));
     commands.add(tenant);
-    commands.add("folio.frontside.atcult.it");
-    commands.add("5433");
-    commands.add("folio_marccat_test1");
-    commands.add("amicus");
-    commands.add("oracle");
+    commands.add(host);
+    commands.add(port);
+    commands.add(platform);
+    commands.add(username);
+    commands.add(password);
     return commands;
   }
 
-
-  public  File getResourceAsFile(String resourcePath) {
+  /**
+   * Gets the resource as file.
+   *
+   * @param resourcePath the resource path
+   * @return the resource as file
+   */
+  private File getResourceAsFile(final String resourcePath) {
     try {
-      InputStream in = getClass().getResourceAsStream(resourcePath);
-      if (in == null) {
+      final InputStream inputStream = getClass().getResourceAsStream(resourcePath);
+      if (inputStream == null) {
         return null;
       }
-
-      File tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");
+      final File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
       tempFile.deleteOnExit();
-
-      try (FileOutputStream out = new FileOutputStream(tempFile)) {
-        //copy stream
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = in.read(buffer)) != -1) {
-          out.write(buffer, 0, bytesRead);
-        }
-      }
+      IOUtils.copy(inputStream, new FileOutputStream(tempFile));
       return tempFile;
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException exception) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       return null;
     }
+  }
+
+  /**
+   * Gets the configurations.
+   *
+   * @param configurationUrl the configuration url
+   * @return the configurations
+   */
+  private Map<String, String> getConfigurations(final String configurationUrl){
+    final Map<String, String> configurations = new HashMap<>();
+    final int index = configurationUrl.lastIndexOf(':') + 1;
+    final String hostConf = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
+    final String portConf= configurationUrl.substring(index, index + 4);
+    configurations.put("hostConf",hostConf);
+    configurations.put("portConf",portConf);
+    return configurations;
   }
 
 }
