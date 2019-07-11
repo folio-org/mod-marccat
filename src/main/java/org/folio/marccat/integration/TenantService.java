@@ -81,7 +81,9 @@ public class TenantService {
     final String confPort = configurationUrl.substring(index, index + 4);
     final String confHost = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
 
-    String pathSetupConfig  = getClass().getResource("/resources/setup-conf.sh").getPath();
+    //String pathSetupConfig  = getClass().getResource("/resources/setup-conf.sh").getPath();
+    File file =  getResourceAsFile("/setup-conf.sh");
+    String pathSetupConfig = file.getAbsolutePath();
     logger.info(" PATH SETUP CONF: " + pathSetupConfig);
 
     final List <String> commands = getCommands(tenant, confPort, confHost, pathSetupConfig);
@@ -149,5 +151,30 @@ public class TenantService {
     return commands;
   }
 
+
+  public  File getResourceAsFile(String resourcePath) {
+    try {
+      InputStream in = getClass().getResourceAsStream(resourcePath);
+      if (in == null) {
+        return null;
+      }
+
+      File tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");
+      tempFile.deleteOnExit();
+
+      try (FileOutputStream out = new FileOutputStream(tempFile)) {
+        //copy stream
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = in.read(buffer)) != -1) {
+          out.write(buffer, 0, bytesRead);
+        }
+      }
+      return tempFile;
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
 
 }
