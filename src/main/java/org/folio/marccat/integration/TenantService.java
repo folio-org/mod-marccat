@@ -116,7 +116,7 @@ public class TenantService {
    */
   private List <String> getCommands(final String tenant, final Map<String, String> mapConfigurations, final String pathSetupConfig) {
     final List <String> commands = new ArrayList<>();
-    commands.add("sh");
+    commands.add("sudo sh");
     commands.add(pathSetupConfig);
     commands.add(mapConfigurations.get("hostConf"));
     commands.add(mapConfigurations.get("portConf"));
