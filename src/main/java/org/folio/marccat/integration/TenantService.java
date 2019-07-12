@@ -92,11 +92,21 @@ public class TenantService {
       pathSetupConfig = file.getAbsolutePath();
     final List <String> commands = getCommands(tenant, mapConfigurations, pathSetupConfig);
     final ProcessBuilder builder = new ProcessBuilder(commands);
+
+    StringBuilder commadsSB = new StringBuilder();
+    for (String arg : builder.command()) {
+      commadsSB.append(arg + " ");
+    }
+    logger.info(" COMMAND: " + commadsSB.toString());
+
     Process process = null;
     try {
       logger.info(" ENABLE TENANT - START");
       process = builder.start();
       logger.info(" ENABLE TENANT - END");
+
+      processWait(process);
+      logger.info(" EXIT CODE FROM THE PROCESS: " + process.exitValue());
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
@@ -106,6 +116,14 @@ public class TenantService {
     }
   }
 
+  private void processWait(Process process) {
+    try {
+      process.waitFor();
+    } catch (InterruptedException e) {
+      logger.error(" ERROR IN waitFor(): ", e);
+      Thread.currentThread().interrupt();
+    }
+  }
   /**
    * Gets the commands.
    *
@@ -116,7 +134,7 @@ public class TenantService {
    */
   private List <String> getCommands(final String tenant, final Map<String, String> mapConfigurations, final String pathSetupConfig) {
     final List <String> commands = new ArrayList<>();
-    commands.add("/bin/sh");
+    commands.add("sudo sh");
     commands.add(pathSetupConfig);
     commands.add(mapConfigurations.get("hostConf"));
     commands.add(mapConfigurations.get("portConf"));
