@@ -23,7 +23,7 @@ spring:
      port: 5433
      host: folio.frontside.atcult.it
      username: amicus
-     password: oracle
+     password: admin
 
 server:
   port: 8080
