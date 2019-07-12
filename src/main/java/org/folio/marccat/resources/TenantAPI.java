@@ -14,15 +14,15 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RequestMapping("/_/tenant")
 public class TenantAPI {
   @Autowired
- private TenantService tenantService;
+  private TenantService tenantService;
 
   @PostMapping
   public ResponseEntity<String> create(
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME)  String tenant,
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
     tenantService.createTenant(tenant);
-    return new ResponseEntity("Success", CREATED);
+    return new ResponseEntity<String>("Success", CREATED);
   }
 
   @DeleteMapping
@@ -30,6 +30,6 @@ public class TenantAPI {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant
   ) throws SQLException {
     tenantService.deleteTenant(tenant);
-    return new ResponseEntity(NO_CONTENT);
+    return new ResponseEntity<Void>(NO_CONTENT);
   }
 }

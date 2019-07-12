@@ -86,19 +86,17 @@ public class TenantService {
   private void initializeConfiguration(final String tenant) {
     String pathSetupConfig = null;
     final String configurationUrl = remoteConfiguration.getConfigurationUrl();
-    final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
+    final Map<String, String>  mapConfigurations  = getConfigurations(configurationUrl);
     final File file = getResourceAsFile("/setup-conf.sh");
     if (file != null)
       pathSetupConfig = file.getAbsolutePath();
     final List <String> commands = getCommands(tenant, mapConfigurations, pathSetupConfig);
     final ProcessBuilder builder = new ProcessBuilder(commands);
-
     Process process = null;
     try {
       logger.info(" ENABLE TENANT - START");
       process = builder.start();
       logger.info(" ENABLE TENANT - END");
-
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
@@ -107,8 +105,6 @@ public class TenantService {
       process.destroy();
     }
   }
-
-
 
   /**
    * Gets the commands.
