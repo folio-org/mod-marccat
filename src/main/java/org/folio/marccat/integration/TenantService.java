@@ -97,6 +97,7 @@ public class TenantService {
     try {
       logger.info(" ENABLE TENANT - START");
       process = builder.start();
+      processWait(process);
       logger.info(" ENABLE TENANT - END");
 
     } catch (IOException exception) {
@@ -107,6 +108,20 @@ public class TenantService {
     }
   }
 
+  /**
+   * Causes the current thread to wait
+   * until the end of the process.
+   *
+   * @param process the process
+   */
+  private void processWait(Process process) {
+    try {
+      process.waitFor();
+    } catch (InterruptedException e) {
+      logger.error(Message.MOD_MARCCAT_00033_PROCESS_FAILURE, e);
+      Thread.currentThread().interrupt();
+    }
+  }
 
   /**
    * Gets the commands.
