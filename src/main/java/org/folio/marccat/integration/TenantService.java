@@ -86,7 +86,7 @@ public class TenantService {
   private void initializeConfiguration(final String tenant) {
     String pathSetupConfig = null;
     final String configurationUrl = remoteConfiguration.getConfigurationUrl();
-    final Map<String, String>  mapConfigurations  = getConfigurations(configurationUrl);
+    final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
     final File file = getResourceAsFile("/setup-conf.sh");
     if (file != null)
       pathSetupConfig = file.getAbsolutePath();
@@ -105,22 +105,24 @@ public class TenantService {
       process = builder.start();
       logger.info(" ENABLE TENANT - END");
 
-      if (process != null)
-        try {
-          process.waitFor();
-        } catch (InterruptedException e) {
-          logger.error(" ERROR IN waitFor(): ", e);
 
-        }
-
-      if(process != null)
-        logger.info(" EXIT CODE FROM THE PROCESS: " + process.exitValue());
+      processWait(process);
+      logger.info(" EXIT CODE FROM THE PROCESS: " + process.exitValue());
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
     if (process != null) {
       process.destroy();
+    }
+  }
+
+  private void processWait(Process process) {
+    try {
+      process.waitFor();
+    } catch (InterruptedException e) {
+      logger.error(" ERROR IN waitFor(): ", e);
+      Thread.currentThread().interrupt();
     }
   }
 
