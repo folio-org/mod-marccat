@@ -1,7 +1,7 @@
 configuration:
-  endpoint: http://151.1.165.20:8085/configurations/entries
-  port: 8085
-  local: 151.1.165.20
+  endpoint: http://127.0.0.1:9166/configurations/entries
+  port: 9166
+  local: 127.0.0.1
   baseUrl: marccat
 
 logging:
@@ -10,14 +10,18 @@ logging:
     org.springframework: ERROR
     net.sf.hibernate: ERROR
     net.sf.hibernate.SQL: DEBUG
-    #net.sf.hibernate.type: INFO
     org.folio.marccat.integration.search: DEBUG
     ru.yandex: ERROR
     org.folio.marccat: INFO
 
-server:
-  port: 8080
+spring:
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
 
-#spring:
-#  profiles:
-#    active: dev
+server:
+  port: 9166
+

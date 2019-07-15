@@ -1,4 +1,10 @@
-
+## 1.5.0 2019-05-06
+* Fix "No update" of full cache after edit bibliographic record and add new tag
+* Add Creation of Name-Title heading behind the scene
+* Add autosuggestion service tags in cataloguing workflow
+* Bug fix save record in full_cache, edit and delete tags
+* Bug fix in configuration properties for tags 006-007-008
+* Bug fix in services for tags 006-007-008
 
  
 ## 1.2.0 2019-01-08

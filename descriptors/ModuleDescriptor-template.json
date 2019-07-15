@@ -1,154 +1,139 @@
 {
-  "id": "${artifactId}-${version}",
+  "id": "@artifactId@-@version@",
   "name": "MARCcat",
   "requires": [
+    {
+      "id": "configuration",
+      "version": "2.0"
+    }
+
   ],
   "provides": [
     {
       "id": "marccat",
-      "version": "1.4",
+      "version": "1.5",
       "handlers": [
         {
           "methods": ["GET"],
-          "pathPattern": "/search",
+          "pathPattern": "/marccat/search",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },{
           "methods": ["GET"],
-          "pathPattern": "/mergedSearch",
+          "pathPattern": "/marccat/mergedSearch",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         }, {
           "methods": ["GET"],
-          "pathPattern": "/searchVertical",
+          "pathPattern": "/marccat/searchVertical",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/countSearch",
+          "pathPattern": "/marccat/countSearch",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/document-count-by-id",
+          "pathPattern": "/marccat/document-count-by-id",
           "permissionsRequired": ["marccat.record.count.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/browse",
+          "pathPattern": "/marccat/browse",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/headings-by-tag",
+          "pathPattern": "/marccat/headings-by-tag",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/filteredTagsList",
+          "pathPattern": "/marccat/filteredTagsList",
           "permissionsRequired": ["marccat.tag.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/filteredTag",
+          "pathPattern": "/marccat/filteredTag",
           "permissionsRequired": ["marccat.tag.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/record-templates",
+          "pathPattern": "/marccat/record-templates",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["POST"],
-          "pathPattern": "/bibliographic-record",
+          "pathPattern": "/marccat/bibliographic-record",
           "permissionsRequired": ["marccat.record.insert.post"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/bibliographic-record/from-template",
+          "pathPattern": "/marccat/bibliographic-record/from-template",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/bibliographic-record/duplicate",
+          "pathPattern": "/marccat/bibliographic-record/duplicate",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["POST"],
-          "pathPattern": "/bibliographic-record/fixed-field-display-value",
+          "pathPattern": "/marccat/bibliographic-record/fixed-field-display-value",
           "permissionsRequired": ["marccat.tag.value.post"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/fixed-fields-code-groups-by-leader",
+          "pathPattern": "/marccat/fixed-fields-code-groups-by-leader",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/fixed-fields-code-groups",
+          "pathPattern": "/marccat/fixed-fields-code-groups",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
-          "pathPattern": "/header-types",
+          "pathPattern": "/marccat/header-types",
           "permissionsRequired": ["marccat.records.collection.get"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["POST"],
-          "pathPattern": "/create-heading",
+          "pathPattern": "/marccat/create-heading",
           "permissionsRequired": ["marccat.tag.heading.post"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["PUT"],
-          "pathPattern": "/bibliographic-record/lock",
+          "pathPattern": "/marccat/bibliographic-record/lock",
           "permissionsRequired": ["marccat.record.lock.put"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["DELETE"],
-          "pathPattern": "/bibliographic-record/unlock",
+          "pathPattern": "/marccat/bibliographic-record/unlock",
           "permissionsRequired": ["marccat.record.unlock.delete"],
-          "modulePermissions": []
+          "modulePermissions": ["configuration.all"]
         }
       ]
     },
     {
-      "id": "_jsonSchemas",
-      "version": "1.0",
-      "interfaceType" : "multiple",
-      "handlers" : [
-        {
-          "methods" : [ "GET" ],
-          "pathPattern" : "/_/jsonSchemas"
-        }
-      ]
-    }, {
-      "id": "_ramls",
-      "version": "1.0",
-      "interfaceType" : "multiple",
-      "handlers" : [
-        {
-          "methods" : [ "GET" ],
-          "pathPattern" : "/_/ramls"
-        }
-      ]
-    }, {
       "id": "_tenant",
       "version": "1.0",
       "interfaceType": "system",
@@ -211,7 +196,7 @@
     }
   ],
   "launchDescriptor": {
-    "dockerImage": "${artifactId}:${version}",
+    "dockerImage": "@artifactId@:@version@",
     "dockerArgs": {
       "HostConfig": {
         "PortBindings": {
