@@ -1,3 +1,7 @@
+## 1.7.0 2019-07-15
+* Add tenants interface to ModuleDescriptor.json
+
+
 ## 1.5.0 2019-05-06
 * Fix "No update" of full cache after edit bibliographic record and add new tag
 * Add Creation of Name-Title heading behind the scene
