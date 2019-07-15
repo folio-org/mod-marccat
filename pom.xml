@@ -41,7 +41,7 @@
     <raml-module-builder.version>24.0.0</raml-module-builder.version>
     <ramlfiles_path>${basedir}/ramls</ramlfiles_path>
     <descriptors_path>${basedir}/descriptors</descriptors_path>
-    <mod-configuration-version>5.0.2-SNAPSHOT</mod-configuration-version>
+    <mod-configuration-version>5.1.0</mod-configuration-version>
     <postgres-embedded-version>2.9</postgres-embedded-version>
     <postgresrunner-port>5434</postgresrunner-port>
     <vertx.version>3.5.4</vertx.version>
