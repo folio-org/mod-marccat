@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -9,7 +11,7 @@
 
   <groupId>org.folio</groupId>
   <artifactId>mod-marccat</artifactId>
-  <version>1.6.0</version>
+  <version>1.6.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <description>Module to handle Bibliographic and Authority MARC record</description>
@@ -405,17 +407,22 @@
             </goals>
             <configuration>
               <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                   <resource>META-INF/spring.handlers</resource>
                 </transformer>
-                <transformer implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+                <transformer
+                  implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
                   <resource>META-INF/spring.factories</resource>
                 </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                   <resource>META-INF/spring.schemas</resource>
                 </transformer>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>${luncher-class}</mainClass>
                 </transformer>
               </transformers>
@@ -458,9 +465,9 @@
   </build>
 
   <scm>
-    <url>https://github.com/folio-org/${artifactId}</url>
-    <connection>scm:git:git://github.com/folio-org/${artifactId}.git</connection>
-    <developerConnection>scm:git:git@github.com:folio-org/${artifactId}.git</developerConnection>
+    <url>https://github.com/folio-org/mod-marccat</url>
+    <connection>scm:git:git://github.com/folio-org/mod-marccat</connection>
+    <developerConnection>scm:git:git@github.com:folio-org/mod-data-import.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
