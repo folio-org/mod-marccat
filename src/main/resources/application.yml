@@ -10,20 +10,17 @@ logging:
     org.springframework: ERROR
     net.sf.hibernate: ERROR
     net.sf.hibernate.SQL: DEBUG
-    #net.sf.hibernate.type: INFO
     org.folio.marccat.integration.search: DEBUG
     ru.yandex: ERROR
     org.folio.marccat: INFO
 
 spring:
-    datasource:
-     platform: folio_marccat_test1
+   datasource:
+     platform: postgres
      driverClassName: org.postgresql.Driver
-     url: jdbc:postgresql://folio.frontside.atcult.it:5433/folio_marccat_test1
-     port: 5433
-     host: folio.frontside.atcult.it
-     username: amicus
-     password: admin
+     url: jdbc:postgresql://localhost:5432/postgres
+     username: postgres
+     password: postgres
 
 server:
   port: 8080

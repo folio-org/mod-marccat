@@ -97,7 +97,7 @@ public class BibliographicRecordAPI extends BaseResource {
       field.setFieldStatus(Field.FieldStatus.NEW);
       bibliographicRecord.getFields().add(1, field);
 
-      bibliographicRecord.setVerificationLevel(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
+      bibliographicRecord.setVerificationLevel(configuration.get("bibliographicItem.verificationLevel"));
       bibliographicRecord.setCanadianContentIndicator("0");
       resetStatus(bibliographicRecord);
       return bibliographicRecord;

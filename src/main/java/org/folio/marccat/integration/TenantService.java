@@ -2,19 +2,15 @@ package org.folio.marccat.integration;
 
 
 import org.apache.commons.io.IOUtils;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import java.io.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 /**
  * TenantService  the class for Tenants management.
@@ -25,47 +21,38 @@ import java.util.Map;
 @Service("TenantService")
 public class TenantService {
 
-  /** The Constant logger. */
+  /**
+   * The Constant logger.
+   */
   private static final Log logger = new Log(TenantService.class);
 
+  /**
+   * The Constant BIN_SH.
+   */
+  public static final String BIN_SH = "/bin/sh";
 
-  /** The username. */
-  @Value("${spring.datasource.username}")
+  /**
+   * The remote configuration.
+   */
+  @Autowired
+  private RemoteConfiguration configuration;
+
+  /**
+   * The username.
+   */
+  @Value("${spring.username}")
   private String username;
-
-  /** The password. */
-  @Value("${spring.datasource.password}")
-  private String password;
-
-  /** The platform. */
-  @Value("${spring.datasource.platform}")
-  private String platform;
-
-  /** The port. */
-  @Value("${spring.datasource.port}")
-  private String port;
-
-  /** The host. */
-  @Value("${spring.datasource.host}")
-
-  private String host;
-  /** The resource loader. */
-  @Autowired
-  private ResourceLoader resourceLoader;
-
-  /** The remote configuration. */
-  @Autowired
-  private RemoteConfiguration remoteConfiguration;
 
   /**
    * Creates the tenant.
    *
    * @param tenant the tenant
    * @throws SQLException the SQL exception
-   * @throws IOException Signals that an I/O exception has occurred.
+   * @throws IOException  Signals that an I/O exception has occurred.
    */
-  public void createTenant(String tenant) throws SQLException, IOException {
-    initializeConfiguration(tenant);
+  public void createTenant(final String tenant) throws SQLException, IOException {
+    initializeDatabase(tenant, username);
+    initializeConfiguration(tenant, username);
   }
 
   /**
@@ -74,31 +61,91 @@ public class TenantService {
    * @param tenant the tenant
    * @throws SQLException the SQL exception
    */
-  public void deleteTenant(String tenant) throws SQLException {
+  public void deleteTenant(final String tenant) throws SQLException {
     // Do nothing because deleted a database
   }
+
 
   /**
    * Initialize configuration.
    *
    * @param tenant the tenant
+   * @param user   the user
    */
-  private void initializeConfiguration(final String tenant) {
-    String pathSetupConfig = null;
-    final String configurationUrl = remoteConfiguration.getConfigurationUrl();
+  private void initializeConfiguration(final String tenant, final String user) {
+    final String configurationUrl = configuration.getConfigurationUrl();
     final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
-    final File file = getResourceAsFile("/setup-conf.sh");
-    if (file != null)
-      pathSetupConfig = file.getAbsolutePath();
-    final List <String> commands = getCommands(tenant, mapConfigurations, pathSetupConfig);
-    final ProcessBuilder builder = new ProcessBuilder(commands);
+    final String pathScript = getPathScript("/database-setup/setup-conf.sh");
+    final List <String> commands = Arrays.asList(BIN_SH, pathScript, mapConfigurations.get("host"),
+      mapConfigurations.get("port"), tenant, "", "", "", user, "");
+    executeScript(commands, " ENABLE TENANT ");
+  }
 
+  /**
+   * Initialize database.
+   *
+   * @param tenant the tenant
+   * @param user   the user
+   */
+  private void initializeDatabase(final String tenant, final String user) {
+    final String databaseName = tenant + "_" + Global.BASE_URI;
+    final String userApp = Global.BASE_URI;
+    createRole(user);
+    createDatabase(databaseName, user, userApp);
+    createObjects(databaseName, userApp);
+
+  }
+
+  /**
+   * Creates the role.
+   *
+   * @param user the user
+   */
+  private void createRole(final String user) {
+    final String pathScript = getPathScript("/database-setup/create-marccat-role.sh");
+    final List <String> commands = Arrays.asList(BIN_SH, pathScript, "", "", "", "", user, "");
+    executeScript(commands, " CREATE ROLE");
+  }
+
+  /**
+   * Creates the database.
+   *
+   * @param databaseName the database name
+   * @param user         the user
+   * @param userApp      the user app
+   */
+  private void createDatabase(final String databaseName, final String user, final String userApp) {
+    final String pathScript = getPathScript("/database-setup/create-db.sh");
+    final List <String> commands = Arrays.asList(BIN_SH, pathScript, databaseName, userApp, "", "", user, "");
+    executeScript(commands, " CREATE DATABASE");
+  }
+
+  /**
+   * Creates the objects.
+   *
+   * @param databaseName the database name
+   * @param userApp      the user app
+   */
+  private void createObjects(final String databaseName, final String userApp) {
+    final String pathScript = getPathScript("/database-setup/create-objects.sh");
+    final List <String> commands = Arrays.asList(BIN_SH, pathScript, "", databaseName, userApp);
+    executeScript(commands, " CREATE OBJECTS");
+  }
+
+  /**
+   * Execute script.
+   *
+   * @param commands   the commands
+   * @param messageLog the message log
+   */
+  private void executeScript(final List <String> commands, final String messageLog) {
+    final ProcessBuilder builder = new ProcessBuilder(commands);
     Process process = null;
     try {
-      logger.info(" ENABLE TENANT - START");
+      logger.info(messageLog + " - START");
       process = builder.start();
       processWait(process);
-      logger.info(" ENABLE TENANT - END");
+      logger.info(messageLog + " - END");
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
@@ -114,9 +161,10 @@ public class TenantService {
    *
    * @param process the process
    */
-  private void processWait(Process process) {
+  private void processWait(final Process process) {
     try {
-      process.waitFor();
+      final int exitCode = process.waitFor();
+      logger.info(" EXIT CODE %d", exitCode);
     } catch (InterruptedException e) {
       logger.error(Message.MOD_MARCCAT_00033_PROCESS_FAILURE, e);
       Thread.currentThread().interrupt();
@@ -124,30 +172,19 @@ public class TenantService {
   }
 
   /**
-   * Gets the commands.
+   * Gets the path script.
    *
-   * @param tenant the tenant
-   * @param mapConfigurations the map configurations
-   * @param pathSetupConfig the path setup config
-   * @return the commands
+   * @param fileName the file name
+   * @return the path script
    */
-  private List <String> getCommands(final String tenant, final Map<String, String> mapConfigurations, final String pathSetupConfig) {
-    final List <String> commands = new ArrayList<>();
-    commands.add("/bin/sh");
-    commands.add(pathSetupConfig);
-    commands.add(mapConfigurations.get("hostConf"));
-    commands.add(mapConfigurations.get("portConf"));
-    commands.add(tenant);
-    commands.add(host);
-    commands.add(port);
-    commands.add(platform);
-    commands.add(username);
-    commands.add(password);
-    return commands;
+  private String getPathScript(final String fileName) {
+    final File file = getResourceAsFile(fileName);
+    return (file != null) ? file.getAbsolutePath() : null;
   }
 
+
   /**
-   * Gets the resource as file.
+   * Gets the resource as a temporary file.
    *
    * @param resourcePath the resource path
    * @return the resource as file
@@ -174,14 +211,15 @@ public class TenantService {
    * @param configurationUrl the configuration url
    * @return the configurations
    */
-  private Map<String, String> getConfigurations(final String configurationUrl){
-    final Map<String, String> configurations = new HashMap<>();
+  private Map <String, String> getConfigurations(final String configurationUrl) {
+    final Map <String, String> configurations = new HashMap <>();
     final int index = configurationUrl.lastIndexOf(':') + 1;
-    final String hostConf = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
-    final String portConf= configurationUrl.substring(index, index + 4);
-    configurations.put("hostConf",hostConf);
-    configurations.put("portConf",portConf);
+    final String host = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
+    final String port = configurationUrl.substring(index, index + 4);
+    configurations.put("host", host);
+    configurations.put("port", port);
     return configurations;
   }
+
 
 }
