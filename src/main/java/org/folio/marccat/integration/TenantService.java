@@ -51,8 +51,10 @@ public class TenantService {
    * @throws IOException  Signals that an I/O exception has occurred.
    */
   public void createTenant(final String tenant) throws SQLException, IOException {
+    logger.info(" ENABLE TENANT"+  " - START");
     initializeDatabase(tenant, username);
     initializeConfiguration(tenant, username);
+    logger.info(" ENABLE TENANT"+  " - END");
   }
 
   /**
@@ -76,9 +78,10 @@ public class TenantService {
     final String configurationUrl = configuration.getConfigurationUrl();
     final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
     final String pathScript = getPathScript("/database-setup/setup-conf.sh");
+    logger.info(pathScript);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, mapConfigurations.get("host"),
       mapConfigurations.get("port"), tenant, "", "", "", user, "");
-    executeScript(commands, " ENABLE TENANT ");
+    executeScript(commands, "");
   }
 
   /**
@@ -103,7 +106,15 @@ public class TenantService {
    */
   private void createRole(final String user) {
     final String pathScript = getPathScript("/database-setup/create-marccat-role.sh");
+    logger.info(" ROLE PATH:" + pathScript);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, "", "", "", "", user, "");
+
+    StringBuilder commadsSB = new StringBuilder();
+    for (String arg : commands) {
+      commadsSB.append(arg + " ");
+    }
+    logger.info(" ROLE COMMANDS: " + commadsSB.toString());
+
     executeScript(commands, " CREATE ROLE");
   }
 
@@ -116,7 +127,15 @@ public class TenantService {
    */
   private void createDatabase(final String databaseName, final String user, final String userApp) {
     final String pathScript = getPathScript("/database-setup/create-db.sh");
+    logger.info(" DATABASE PATH:" +  pathScript);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, databaseName, userApp, "", "", user, "");
+
+    StringBuilder commadsSB = new StringBuilder();
+    for (String arg : commands) {
+      commadsSB.append(arg + " ");
+    }
+    logger.info(" DATABASE COMMANDS: " + commadsSB.toString());
+
     executeScript(commands, " CREATE DATABASE");
   }
 
@@ -128,7 +147,15 @@ public class TenantService {
    */
   private void createObjects(final String databaseName, final String userApp) {
     final String pathScript = getPathScript("/database-setup/create-objects.sh");
+    logger.info(" OBJECTS PATH:" + pathScript);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, "", databaseName, userApp);
+
+    StringBuilder commadsSB = new StringBuilder();
+    for (String arg : commands) {
+      commadsSB.append(arg + " ");
+    }
+    logger.info(" OBJECTS COMMANDS: " + commadsSB.toString());
+
     executeScript(commands, " CREATE OBJECTS");
   }
 
