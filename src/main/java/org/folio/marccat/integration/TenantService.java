@@ -40,7 +40,7 @@ public class TenantService {
   /**
    * The username.
    */
-  @Value("${spring.username}")
+  @Value("${spring.datasource.username}")
   private String username;
 
   /**
