@@ -599,7 +599,10 @@ public class StorageService implements Closeable {
         filter += HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
 
-      browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+     // browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+      Descriptor descriptor = ((Descriptor)dao.getPersistentClass().newInstance());
+      descriptor.calculateAndSetSortForm();
+      browseTerm = descriptor.getSortForm();
 
       descriptorsList = dao.getHeadingsBySortform("<", "desc", browseTerm, filter, view, 1, session);
       if (!(dao instanceof PublisherDescriptorDAO) && descriptorsList.isEmpty()) {
@@ -609,7 +612,7 @@ public class StorageService implements Closeable {
       descriptorsList.addAll(dao.getHeadingsBySortform(">=", EMPTY_STRING, browseTerm, filter, view, pageSize, session));
       return getMapHeadings(view, descriptorsList, dao);
 
-    } catch (final SQLException | HibernateException exception) {
+    } catch (HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final IllegalAccessException | InstantiationException exception) {
@@ -634,7 +637,7 @@ public class StorageService implements Closeable {
     String key = null;
     try {
       String index = null;
-      String browseTerm = null;
+      String browseTerm;
       final List<Descriptor> descriptorsList;
       final DAOIndexList daoIndex = new DAOIndexList();
       String operator = ">";
@@ -655,14 +658,17 @@ public class StorageService implements Closeable {
       if (dao instanceof ShelfListDAO) {
         filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
-      browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+     // browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+      Descriptor descriptor = ((Descriptor)dao.getPersistentClass().newInstance());
+      descriptor.calculateAndSetSortForm();
+      browseTerm = descriptor.getSortForm();
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
         operator = ">=";
       descriptorsList = dao.getHeadingsBySortform(operator, EMPTY_STRING, browseTerm, filter, view, pageSize, session);
       return getMapHeadings(view, descriptorsList, dao);
 
 
-    } catch (final HibernateException | SQLException exception) {
+    } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final IllegalAccessException | InstantiationException exception) {
@@ -687,7 +693,7 @@ public class StorageService implements Closeable {
     String key = null;
     try {
       String index = null;
-      String browseTerm = null;
+      String browseTerm;
       final List<Descriptor> descriptorsList;
       final DAOIndexList daoIndex = new DAOIndexList();
       String operator = "<";
@@ -708,7 +714,10 @@ public class StorageService implements Closeable {
       if (dao instanceof ShelfListDAO) {
         filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
-      browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+      //browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+      Descriptor descriptor = ((Descriptor)dao.getPersistentClass().newInstance());
+      descriptor.calculateAndSetSortForm();
+      browseTerm = descriptor.getSortForm();
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
         operator = "<=";
       descriptorsList = dao.getHeadingsBySortform(operator, "desc", browseTerm, filter, view, pageSize, session);
@@ -716,7 +725,7 @@ public class StorageService implements Closeable {
       Collections.reverse(mapHeading);
       return mapHeading;
 
-    } catch (final SQLException | HibernateException exception) {
+    } catch (HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     } catch (final IllegalAccessException | InstantiationException exception) {
@@ -1044,14 +1053,15 @@ public class StorageService implements Closeable {
             filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
           }
           browseTerm = descriptor.getDisplayText();
-          browseTerm = dao.calculateSearchTerm(browseTerm, key, session);
+          browseTerm = descriptor.getSortForm();/*dao.calculateSearchTerm(browseTerm, key, session);*/
+
           if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
             operator = ">=";
           descriptorsList = dao.getHeadingsBySortform(operator, EMPTY_STRING, browseTerm, filter, view, pageSize, session);
           return getMapHeadings(view, descriptorsList, dao);
         }
       }
-    } catch (final HibernateException | SQLException exception) {
+    } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
