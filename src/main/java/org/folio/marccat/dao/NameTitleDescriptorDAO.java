@@ -287,7 +287,7 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
    * @return the string
    * @throws DataAccessException the data access exception
    */
-  @Override
+/*  @Override
   public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
     throws HibernateException, SQLException {
 
@@ -300,7 +300,7 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
         + calculateSearchTerm(title, "7P0", session);
     }
     return searchTerm;
-  }
+  }*/
 
   /**
    * Load headings.

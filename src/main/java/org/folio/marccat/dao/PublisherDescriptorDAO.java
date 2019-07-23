@@ -121,7 +121,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
    * @return the string
    * @throws DataAccessException the data access exception
    */
-  @Override
+ /* @Override
   public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
     throws HibernateException, SQLException {
     String searchTerm = super.calculateSearchTerm(term, browseIndex, session);
@@ -134,7 +134,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
         .append(calculateSearchTerm(name, browseIndex, session)).toString();
     }
     return searchTerm;
-  }
+  }*/
 
   /**
    * Gets the document count.

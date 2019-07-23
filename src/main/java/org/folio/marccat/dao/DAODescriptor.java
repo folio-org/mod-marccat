@@ -124,7 +124,7 @@ public abstract class DAODescriptor extends AbstractDAO {
    * @throws SQLException       the SQL exception
    * @since 1.0
    */
-  private String calculateSortForm(final String s, final String browseIndexKey, final Session session)
+  /*private String calculateSortForm(final String s, final String browseIndexKey, final Session session)
     throws HibernateException, SQLException {
     if ("".equals(s)) {
       return " ";
@@ -132,7 +132,7 @@ public abstract class DAODescriptor extends AbstractDAO {
     final SortFormParameters parms = new DAOIndexList()
       .getSortFormParametersByKey(browseIndexKey, session);
     return calculateSortForm(s, parms, session);
-  }
+  }*/
 
   /**
    * Calculate sort form of a String.
@@ -145,7 +145,7 @@ public abstract class DAODescriptor extends AbstractDAO {
    * @throws SortFormException  the sort form exception
    * @throws SQLException       the SQL exception
    */
-  public String calculateSortForm(final String text, final SortFormParameters parms, final Session session)
+ /* public String calculateSortForm(final String text, final SortFormParameters parms, final Session session)
     throws HibernateException, SQLException {
     String result;
     CallableStatement proc = null;
@@ -199,7 +199,7 @@ public abstract class DAODescriptor extends AbstractDAO {
     }
 
     return result;
-  }
+  }*/
 
   /**
    * Load a heading by heading number and cataloguing view.
@@ -723,7 +723,7 @@ public abstract class DAODescriptor extends AbstractDAO {
    * @throws HibernateException the hibernate exception
    * @throws SQLException       the SQL exception
    */
-  public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
+ /* public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
     throws HibernateException, SQLException {
     String searchTerm;
     try {
@@ -739,7 +739,7 @@ public abstract class DAODescriptor extends AbstractDAO {
       }
     }
     return searchTerm;
-  }
+  }*/
 
   /**
    * Gets the cross references with language.
