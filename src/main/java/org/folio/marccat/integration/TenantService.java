@@ -68,16 +68,23 @@ public class TenantService {
   private String adminPassword;
 
   /**
-   * The admin user.
+   * The marccat user.
    */
   @Value("${marccat.username}")
   private String marccatUser;
 
   /**
-   * The admin user.
+   * The marccat password .
+   */
+  @Value("${marccat.database.suffix}")
+  private String marccatSuffix;
+
+  /**
+   * The marccat password .
    */
   @Value("${marccat.password}")
   private String marccatPassword;
+
   /**
    * Creates the tenant.
    *
@@ -87,7 +94,7 @@ public class TenantService {
    */
   public void createTenant(final String tenant) throws SQLException, IOException {
     logger.info(" ENABLE TENANT"+  " - START");
-    initializeDatabase(tenant, username);
+    initializeDatabase(tenant);
     initializeConfiguration(tenant, username);
     logger.info(" ENABLE TENANT"+  " - END");
   }
@@ -112,7 +119,7 @@ public class TenantService {
   private void initializeConfiguration(final String tenant, final String user) {
     final String configurationUrl = configuration.getConfigurationUrl();
     final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
-    final String pathScript = getPathScript("/database-setup/setup-conf.sh");
+    final String pathScript = getPathScript("/database-setup/setup-conf.sh", tenant);
     logger.info(pathScript);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, mapConfigurations.get("host"),
       mapConfigurations.get("port"), tenant, "", "", "", user, "");
@@ -123,24 +130,22 @@ public class TenantService {
    * Initialize database.
    *
    * @param tenant the tenant
-   * @param user   the user
    */
-  private void initializeDatabase(final String tenant, final String user) {
-    final String databaseName = tenant + "_" + Global.BASE_URI;
-    final String userApp = Global.BASE_URI;
-    createRole(user);
-   // createDatabase(databaseName, user, userApp);
-    //createObjects(databaseName, userApp);
+  private void initializeDatabase(final String tenant) {
+    final String databaseName =  tenant + marccatSuffix;
+    createRole(databaseName);
+    createDatabase(databaseName);
+    createObjects(databaseName);
 
   }
 
   /**
    * Creates the role.
    *
-   * @param user the user
+   * @param databaseName the database name
    */
-  private void createRole(final String user) {
-    final String pathScript = getPathScript("/database-setup/create-marccat-role.sql");
+  private void createRole(final String databaseName) {
+    final String pathScript = getPathScript("/database-setup/create-marccat-role.sql", databaseName);
     logger.info(" ROLE PATH:" + pathScript);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
@@ -149,7 +154,6 @@ public class TenantService {
       commadsSB.append(arg + " ");
     }
     logger.info(" ROLE COMMANDS: " + commadsSB.toString());
-
     executeScript(commands, " CREATE ROLE");
   }
 
@@ -157,15 +161,12 @@ public class TenantService {
    * Creates the database.
    *
    * @param databaseName the database name
-   * @param user         the user
-   * @param userApp      the user app
    */
-  private void createDatabase(final String databaseName, final String user, final String userApp) {
-    final String pathScript = getPathScript("/database-setup/create-db.sql");
+  private void createDatabase(final String databaseName) {
+    final String pathScript = getPathScript("/database-setup/create-db.sql", databaseName);
     logger.info(" DATABASE PATH:" +  pathScript);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : commands) {
       commadsSB.append(arg + " ");
@@ -179,10 +180,9 @@ public class TenantService {
    * Creates the objects.
    *
    * @param databaseName the database name
-   * @param userApp      the user app
    */
-  private void createObjects(final String databaseName, final String userApp) {
-    final String pathScript = getPathScript("/database-setup/create-objects.sql");
+  private void createObjects(final String databaseName) {
+    final String pathScript = getPathScript("/database-setup/create-objects.sql", databaseName);
     logger.info(" OBJECTS PATH:" + pathScript);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
@@ -243,8 +243,8 @@ public class TenantService {
    * @param fileName the file name
    * @return the path script
    */
-  private String getPathScript(final String fileName) {
-    final File file = getResourceAsFile(fileName);
+  private String getPathScript(final String fileName, final String databaseName) {
+    final File file = getResourceAsFile(fileName, databaseName);
     return (file != null) ? file.getAbsolutePath() : null;
   }
 
@@ -255,7 +255,7 @@ public class TenantService {
    * @param resourcePath the resource path
    * @return the resource as file
    */
-  private File getResourceAsFile(final String resourcePath) {
+  private File getResourceAsFile(final String resourcePath, final String databaseName) {
     try {
       final InputStream inputStream = getClass().getResourceAsStream(resourcePath);
       if (inputStream == null) {
@@ -266,6 +266,7 @@ public class TenantService {
       String stringInputStream = IOUtils.toString(inputStream, "UTF-8");
       stringInputStream = stringInputStream.replaceAll("user_name", marccatUser);
       stringInputStream = stringInputStream.replaceAll("password", marccatPassword);
+      stringInputStream = stringInputStream.replaceAll("database_name", databaseName);
       InputStream toInputStream = IOUtils.toInputStream(stringInputStream, "UTF-8");
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
       return tempFile;
