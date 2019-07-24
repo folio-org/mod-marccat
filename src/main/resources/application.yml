@@ -29,6 +29,8 @@ spring:
 marccat:
   username: marccat
   password: admin
+  database:
+    suffix: _marccat
 
 admin:
   username: postgres
