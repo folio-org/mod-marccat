@@ -44,6 +44,35 @@ public class TenantService {
   private String username;
 
   /**
+   * The port.
+   */
+  @Value("${spring.datasource.port}")
+  private String port;
+
+  /**
+   * The host.
+   */
+  @Value("${spring.datasource.host}")
+  private String host;
+
+  /**
+   * The admin user.
+   */
+  @Value("${admin.username}")
+  private String adminUser;
+
+  /**
+   * The admin user.
+   */
+  @Value("${marccat.username}")
+  private String marccatUser;
+
+  /**
+   * The admin user.
+   */
+  @Value("${marccat.password}")
+  private String marccatPassword;
+  /**
    * Creates the tenant.
    *
    * @param tenant the tenant
@@ -94,8 +123,8 @@ public class TenantService {
     final String databaseName = tenant + "_" + Global.BASE_URI;
     final String userApp = Global.BASE_URI;
     createRole(user);
-    createDatabase(databaseName, user, userApp);
-    createObjects(databaseName, userApp);
+   // createDatabase(databaseName, user, userApp);
+    //createObjects(databaseName, userApp);
 
   }
 
@@ -105,10 +134,10 @@ public class TenantService {
    * @param user the user
    */
   private void createRole(final String user) {
-    final String pathScript = getPathScript("/database-setup/create-marccat-role.sh");
+    final String pathScript = getPathScript("/database-setup/create-marccat-role.sql");
     logger.info(" ROLE PATH:" + pathScript);
-    final List <String> commands = Arrays.asList(BIN_SH, pathScript, "", "", "", "", user, "");
-
+    final String command =  String.format("psql -h %s -p %s -U %s -file %s", host, port, adminUser, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : commands) {
       commadsSB.append(arg + " ");
@@ -224,7 +253,11 @@ public class TenantService {
       }
       final File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
       tempFile.deleteOnExit();
-      IOUtils.copy(inputStream, new FileOutputStream(tempFile));
+      String stringInputStream = IOUtils.toString(inputStream, "UTF-8");
+      stringInputStream = stringInputStream.replaceAll("user_name", marccatUser);
+      stringInputStream = stringInputStream.replaceAll("password", marccatPassword);
+      InputStream toInputStream = IOUtils.toInputStream(stringInputStream, "UTF-8");
+      IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
       return tempFile;
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);

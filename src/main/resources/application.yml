@@ -26,5 +26,13 @@ spring:
 
   profiles: default
 
+marccat:
+  username: marccat
+  password: admin
+
+admin:
+  username: postgres
+  password: postgres
+
 server:
   port: 8080
