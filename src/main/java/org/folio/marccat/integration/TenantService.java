@@ -62,6 +62,12 @@ public class TenantService {
   private String adminUser;
 
   /**
+   * The admin password.
+   */
+  @Value("${admin.password}")
+  private String adminPassword;
+
+  /**
    * The admin user.
    */
   @Value("${marccat.username}")
@@ -136,7 +142,7 @@ public class TenantService {
   private void createRole(final String user) {
     final String pathScript = getPathScript("/database-setup/create-marccat-role.sql");
     logger.info(" ROLE PATH:" + pathScript);
-    final String command =  String.format("psql -h %s -p %s -U %s -file %s", host, port, adminUser, pathScript);
+    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : commands) {
@@ -155,9 +161,10 @@ public class TenantService {
    * @param userApp      the user app
    */
   private void createDatabase(final String databaseName, final String user, final String userApp) {
-    final String pathScript = getPathScript("/database-setup/create-db.sh");
+    final String pathScript = getPathScript("/database-setup/create-db.sql");
     logger.info(" DATABASE PATH:" +  pathScript);
-    final List <String> commands = Arrays.asList(BIN_SH, pathScript, databaseName, userApp, "", "", user, "");
+    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
 
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : commands) {
@@ -175,9 +182,10 @@ public class TenantService {
    * @param userApp      the user app
    */
   private void createObjects(final String databaseName, final String userApp) {
-    final String pathScript = getPathScript("/database-setup/create-objects.sh");
+    final String pathScript = getPathScript("/database-setup/create-objects.sql");
     logger.info(" OBJECTS PATH:" + pathScript);
-    final List <String> commands = Arrays.asList(BIN_SH, pathScript, "", databaseName, userApp);
+    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
 
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : commands) {
@@ -196,6 +204,8 @@ public class TenantService {
    */
   private void executeScript(final List <String> commands, final String messageLog) {
     final ProcessBuilder builder = new ProcessBuilder(commands);
+    Map<String, String> mp = builder.environment();
+    mp.put("PGPASSWORD", adminPassword);
     Process process = null;
     try {
       logger.info(messageLog + " - START");
