@@ -23,7 +23,7 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int mainLibrary,
     @RequestParam final int pageSize,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx") final String tenant) {
     return doGet((storageService, configuration) -> {
       final HeadingDecoratorCollection container = new HeadingDecoratorCollection();
       container.setHeadings(

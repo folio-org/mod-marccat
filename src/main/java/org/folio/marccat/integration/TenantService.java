@@ -2,14 +2,14 @@ package org.folio.marccat.integration;
 
 
 import org.apache.commons.io.IOUtils;
-import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
+import org.folio.marccat.exception.TenantAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.*;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 /**
@@ -93,10 +93,12 @@ public class TenantService {
    * @throws IOException  Signals that an I/O exception has occurred.
    */
   public void createTenant(final String tenant) throws SQLException, IOException {
-    logger.info(" ENABLE TENANT"+  " - START");
-    initializeDatabase(tenant);
-    initializeConfiguration(tenant, username);
-    logger.info(" ENABLE TENANT"+  " - END");
+    logger.debug("Enable tenant" + " - Start");
+    boolean schemaExists = initializeDatabase(tenant);
+    logger.debug("Schema Exists: " + schemaExists);
+    if(!schemaExists)
+      initializeConfiguration(tenant, username);
+    logger.info("Enable tenant" + " - End");
   }
 
   /**
@@ -131,12 +133,20 @@ public class TenantService {
    *
    * @param tenant the tenant
    */
-  private void initializeDatabase(final String tenant) {
+  private boolean initializeDatabase(final String tenant) throws SQLException {
     final String databaseName =  tenant + marccatSuffix;
+    final Connection connection = getConnection(databaseName);
     createRole(databaseName);
     createDatabase(databaseName);
-    createObjects(databaseName);
-
+    boolean schemaExists = schemaExists(connection);
+    if (schemaExists) {
+      throw new TenantAlreadyExistsException("Tenant already exists: " + tenant);
+    }
+    else {
+      createObjects(databaseName);
+      createTemplate(databaseName);
+    }
+    return schemaExists;
   }
 
   /**
@@ -146,15 +156,9 @@ public class TenantService {
    */
   private void createRole(final String databaseName) {
     final String pathScript = getPathScript("/database-setup/create-marccat-role.sql", databaseName);
-    logger.info(" ROLE PATH:" + pathScript);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-    StringBuilder commadsSB = new StringBuilder();
-    for (String arg : commands) {
-      commadsSB.append(arg + " ");
-    }
-    logger.info(" ROLE COMMANDS: " + commadsSB.toString());
-    executeScript(commands, " CREATE ROLE");
+    executeScript(commands, " Create role");
   }
 
   /**
@@ -164,16 +168,9 @@ public class TenantService {
    */
   private void createDatabase(final String databaseName) {
     final String pathScript = getPathScript("/database-setup/create-db.sql", databaseName);
-    logger.info(" DATABASE PATH:" +  pathScript);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-    StringBuilder commadsSB = new StringBuilder();
-    for (String arg : commands) {
-      commadsSB.append(arg + " ");
-    }
-    logger.info(" DATABASE COMMANDS: " + commadsSB.toString());
-
-    executeScript(commands, " CREATE DATABASE");
+    executeScript(commands, " Create database");
   }
 
   /**
@@ -183,17 +180,35 @@ public class TenantService {
    */
   private void createObjects(final String databaseName) {
     final String pathScript = getPathScript("/database-setup/create-objects.sql", databaseName);
-    logger.info(" OBJECTS PATH:" + pathScript);
-    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+    final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name= %s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
 
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : commands) {
       commadsSB.append(arg + " ");
     }
-    logger.info(" OBJECTS COMMANDS: " + commadsSB.toString());
+    logger.info(" Objects commands: " + commadsSB.toString());
 
-    executeScript(commands, " CREATE OBJECTS");
+    executeScript(commands, " Create objects");
+  }
+
+  /**
+   * Creates the template.
+   *
+   * @param databaseName the database name
+   */
+  private void createTemplate(final String databaseName) {
+    final String pathScript = getPathScript("/database-setup/init_template.sql", databaseName);
+    final String command =  String.format("psql -h %s -p %s -U %s -d %s -f %s", host, port, marccatUser, databaseName, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
+
+    StringBuilder commadsSB = new StringBuilder();
+    for (String arg : commands) {
+      commadsSB.append(arg + " ");
+    }
+    logger.info(" Template commands: " + commadsSB.toString());
+
+    executeScript(commands, " Create template");
   }
 
   /**
@@ -208,10 +223,10 @@ public class TenantService {
     mp.put("PGPASSWORD", adminPassword);
     Process process = null;
     try {
-      logger.info(messageLog + " - START");
+      logger.info(messageLog + " - Start");
       process = builder.start();
       processWait(process);
-      logger.info(messageLog + " - END");
+      logger.info(messageLog + " - End");
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
@@ -230,7 +245,7 @@ public class TenantService {
   private void processWait(final Process process) {
     try {
       final int exitCode = process.waitFor();
-      logger.info(" EXIT CODE %d", exitCode);
+      logger.info(" Exit code %d", exitCode);
     } catch (InterruptedException e) {
       logger.error(Message.MOD_MARCCAT_00033_PROCESS_FAILURE, e);
       Thread.currentThread().interrupt();
@@ -285,12 +300,55 @@ public class TenantService {
   private Map <String, String> getConfigurations(final String configurationUrl) {
     final Map <String, String> configurations = new HashMap <>();
     final int index = configurationUrl.lastIndexOf(':') + 1;
-    final String host = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
-    final String port = configurationUrl.substring(index, index + 4);
-    configurations.put("host", host);
-    configurations.put("port", port);
+    final String hostConf = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
+    final String portConf = configurationUrl.substring(index, index + 4);
+    configurations.put("host", hostConf);
+    configurations.put("port", portConf);
     return configurations;
   }
 
+  /**
+   * Return true if schema exists.
+   *
+   * @param connection the connection of the database
+   * @return true if schema exists
+   */
+  private boolean schemaExists(final Connection connection) throws SQLException {
+    Statement statement = null;
+    ResultSet resultSet = null;
+    final boolean exists;
+    try {
+      statement = connection.createStatement();
+      String querySchema = "select count(*) from pg_catalog.pg_namespace where nspname in ('amicus', 'olisuite')";
+      resultSet = statement.executeQuery(querySchema);
+      resultSet.next();
+      exists = resultSet.getBoolean(1);
+    } catch (SQLException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw exception;
+    } finally {
+      try {
+        if (statement != null)
+          statement.close();
+        if (resultSet != null)
+          resultSet.close();
+      } catch (SQLException exception) {
+        logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      }
+    }
+    return exists;
+  }
+
+  /**
+   * Return connection.
+   *
+   * @param databaseName the database name
+   * @return the connection
+   */
+  private Connection getConnection(final String databaseName) throws SQLException {
+    final StringBuilder jdbcUrl = new StringBuilder();
+    jdbcUrl.append("jdbc:postgresql://").append(host).append(":").append(port).append("/").append(databaseName);
+    return DriverManager.getConnection(jdbcUrl.toString(), marccatUser, marccatPassword);
+  }
 
 }
