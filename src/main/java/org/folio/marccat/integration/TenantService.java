@@ -121,10 +121,9 @@ public class TenantService {
     final String configurationUrl = configuration.getConfigurationUrl();
     final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
-    logger.info(pathScript);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, mapConfigurations.get("host"),
       mapConfigurations.get("port"), tenant, "", "", "", user, "");
-    executeScript(commands, "");
+    executeScript(commands, "", adminPassword);
   }
 
   /**
@@ -153,7 +152,7 @@ public class TenantService {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, "Create role");
+    executeScript(commands, "Create role", adminPassword);
   }
 
   /**
@@ -165,7 +164,7 @@ public class TenantService {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-db.sql", databaseName, true);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, "Create database");
+    executeScript(commands, "Create database", adminPassword);
   }
 
   /**
@@ -177,14 +176,7 @@ public class TenantService {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
     final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-
-    StringBuilder commadsSB = new StringBuilder();
-    for (String arg : commands) {
-      commadsSB.append(arg + " ");
-    }
-    logger.info("Objects commands: " + commadsSB.toString());
-
-    executeScript(commands, "Create objects");
+    executeScript(commands, "Create objects", adminPassword);
   }
 
   /**
@@ -196,14 +188,7 @@ public class TenantService {
     final String pathScript = getPathScript(DATABASE_SETUP + "init_template.sql", databaseName, false);
     final String command =  String.format("psql -h %s -p %s -U %s -d %s -f %s", host, port, marccatUser, databaseName, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-
-    StringBuilder commadsSB = new StringBuilder();
-    for (String arg : commands) {
-      commadsSB.append(arg + " ");
-    }
-    logger.info("Template commands: " + commadsSB.toString());
-
-    executeScript(commands, "Create template");
+    executeScript(commands, "Create template", marccatUser);
   }
 
   /**
@@ -212,10 +197,10 @@ public class TenantService {
    * @param commands   the commands
    * @param messageLog the message log
    */
-  private void executeScript(final List <String> commands, final String messageLog) {
+  private void executeScript(final List <String> commands, final String messageLog, final String pgPassword) {
     final ProcessBuilder builder = new ProcessBuilder(commands);
-    Map<String, String> mp = builder.environment();
-    mp.put("PGPASSWORD", adminPassword);
+    final Map<String, String> mp = builder.environment();
+    mp.put("PGPASSWORD", pgPassword);
     Process process = null;
     try {
       logger.info(messageLog + " - Start");
