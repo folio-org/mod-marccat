@@ -188,6 +188,13 @@ public class TenantService {
     final String pathScript = getPathScript(DATABASE_SETUP + "init_template.sql", databaseName, false);
     final String command =  String.format("psql -h %s -p %s -U %s -d %s -f %s", host, port, marccatUser, databaseName, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
+
+    StringBuilder commadsSB = new StringBuilder();
+    for (String arg : commands) {
+      commadsSB.append(arg + " ");
+    }
+    logger.info(" Template commands: " + commadsSB.toString());
+
     executeScript(commands, "Create template", marccatUser);
   }
 
@@ -201,6 +208,7 @@ public class TenantService {
     final ProcessBuilder builder = new ProcessBuilder(commands);
     final Map<String, String> mp = builder.environment();
     mp.put("PGPASSWORD", pgPassword);
+    logger.info("PGPASSWORD: "+ pgPassword);
     Process process = null;
     try {
       logger.info(messageLog + " - Start");
