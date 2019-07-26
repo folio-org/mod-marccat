@@ -4,7 +4,6 @@ package org.folio.marccat.integration;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
-import org.folio.marccat.exception.TenantAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -135,14 +134,10 @@ public class TenantService {
    */
   private boolean initializeDatabase(final String tenant) throws SQLException {
     final String databaseName =  tenant + marccatSuffix;
-    final Connection connection = getConnection(databaseName);
     createRole(databaseName);
     createDatabase(databaseName);
-    boolean schemaExists = schemaExists(connection);
-    if (schemaExists) {
-      throw new TenantAlreadyExistsException("Tenant already exists: " + tenant);
-    }
-    else {
+    boolean schemaExists = schemaExists(databaseName);
+    if (!schemaExists) {
       createObjects(databaseName);
       createTemplate(databaseName);
     }
@@ -310,33 +305,21 @@ public class TenantService {
   /**
    * Return true if schema exists.
    *
-   * @param connection the connection of the database
+   * @param databaseName the database name
    * @return true if schema exists
    */
-  private boolean schemaExists(final Connection connection) throws SQLException {
-    Statement statement = null;
-    ResultSet resultSet = null;
-    final boolean exists;
-    try {
-      statement = connection.createStatement();
-      String querySchema = "select count(*) from pg_catalog.pg_namespace where nspname in ('amicus', 'olisuite')";
-      resultSet = statement.executeQuery(querySchema);
+  private boolean schemaExists(final String databaseName) throws SQLException {
+    final String querySchema = "select count(*) from pg_catalog.pg_namespace where nspname in ('amicus', 'olisuite')";
+    try (Connection connection = getConnection(databaseName);
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(querySchema);) {
       resultSet.next();
-      exists = resultSet.getBoolean(1);
+      int count  = resultSet.getInt(1);
+      return count == 0;
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw exception;
-    } finally {
-      try {
-        if (statement != null)
-          statement.close();
-        if (resultSet != null)
-          resultSet.close();
-      } catch (SQLException exception) {
-        logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      }
     }
-    return exists;
   }
 
   /**
