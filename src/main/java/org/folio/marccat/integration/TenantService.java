@@ -29,6 +29,7 @@ public class TenantService {
    * The Constant BIN_SH.
    */
   public static final String BIN_SH = "/bin/sh";
+  public static final String DATABASE_SETUP = "/database-setup/";
 
   /**
    * The remote configuration.
@@ -119,7 +120,7 @@ public class TenantService {
   private void initializeConfiguration(final String tenant, final String user) {
     final String configurationUrl = configuration.getConfigurationUrl();
     final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
-    final String pathScript = getPathScript("/database-setup/setup-conf.sh", tenant, false);
+    final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
     logger.info(pathScript);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, mapConfigurations.get("host"),
       mapConfigurations.get("port"), tenant, "", "", "", user, "");
@@ -149,7 +150,7 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-    final String pathScript = getPathScript("/database-setup/create-marccat-role.sql", databaseName, true);
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create role");
@@ -161,7 +162,7 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createDatabase(final String databaseName) {
-    final String pathScript = getPathScript("/database-setup/create-db.sql", databaseName, true);
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-db.sql", databaseName, true);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create database");
@@ -173,7 +174,7 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createObjects(final String databaseName) {
-    final String pathScript = getPathScript("/database-setup/create-objects.sql", databaseName, false);
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
     final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
 
@@ -192,7 +193,7 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createTemplate(final String databaseName) {
-    final String pathScript = getPathScript("/database-setup/init_template.sql", databaseName, false);
+    final String pathScript = getPathScript(DATABASE_SETUP + "init_template.sql", databaseName, false);
     final String command =  String.format("psql -h %s -p %s -U %s -d %s -f %s", host, port, marccatUser, databaseName, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
 
@@ -274,10 +275,11 @@ public class TenantService {
       tempFile.deleteOnExit();
       String stringInputStream = IOUtils.toString(inputStream, "UTF-8");
       if(isReplaceVariables) {
+        stringInputStream = stringInputStream.replaceAll("user_name", marccatUser);
         stringInputStream = stringInputStream.replaceAll("password", marccatPassword);
         stringInputStream = stringInputStream.replaceAll("database_name", databaseName);
       }
-      InputStream toInputStream = IOUtils.toInputStream(stringInputStream, "UTF-8");
+      final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, "UTF-8");
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
       return tempFile;
     } catch (IOException exception) {
