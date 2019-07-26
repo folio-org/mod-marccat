@@ -93,9 +93,8 @@ public class TenantService {
    */
   public void createTenant(final String tenant) throws SQLException, IOException {
     logger.debug("Enable tenant" + " - Start");
-    boolean schemaExists = initializeDatabase(tenant);
-    logger.debug("Schema Exists: " + schemaExists);
-    if(!schemaExists)
+    boolean schemaNotExist = initializeDatabase(tenant);
+    if(schemaNotExist)
       initializeConfiguration(tenant, username);
     logger.info("Enable tenant" + " - End");
   }
@@ -136,12 +135,12 @@ public class TenantService {
     final String databaseName =  tenant + marccatSuffix;
     createRole(databaseName);
     createDatabase(databaseName);
-    boolean schemaExists = schemaExists(databaseName);
-    if (!schemaExists) {
+    boolean schemaNotExist = schemaExists(databaseName);
+    if (schemaNotExist) {
       createObjects(databaseName);
       createTemplate(databaseName);
     }
-    return schemaExists;
+    return schemaNotExist;
   }
 
   /**
@@ -153,7 +152,7 @@ public class TenantService {
     final String pathScript = getPathScript("/database-setup/create-marccat-role.sql", databaseName);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, " Create role");
+    executeScript(commands, "Create role");
   }
 
   /**
@@ -314,7 +313,9 @@ public class TenantService {
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(querySchema);) {
       resultSet.next();
-      int count  = resultSet.getInt(1);
+      final int count  = resultSet.getInt(1);
+      if(count != 0)
+        logger.info("Database found: " + databaseName);
       return count == 0;
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
