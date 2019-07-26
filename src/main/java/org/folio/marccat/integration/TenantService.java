@@ -119,7 +119,7 @@ public class TenantService {
   private void initializeConfiguration(final String tenant, final String user) {
     final String configurationUrl = configuration.getConfigurationUrl();
     final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
-    final String pathScript = getPathScript("/database-setup/setup-conf.sh", tenant);
+    final String pathScript = getPathScript("/database-setup/setup-conf.sh", tenant, false);
     logger.info(pathScript);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, mapConfigurations.get("host"),
       mapConfigurations.get("port"), tenant, "", "", "", user, "");
@@ -149,7 +149,7 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-    final String pathScript = getPathScript("/database-setup/create-marccat-role.sql", databaseName);
+    final String pathScript = getPathScript("/database-setup/create-marccat-role.sql", databaseName, true);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create role");
@@ -161,10 +161,10 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createDatabase(final String databaseName) {
-    final String pathScript = getPathScript("/database-setup/create-db.sql", databaseName);
+    final String pathScript = getPathScript("/database-setup/create-db.sql", databaseName, true);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, " Create database");
+    executeScript(commands, "Create database");
   }
 
   /**
@@ -173,17 +173,17 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createObjects(final String databaseName) {
-    final String pathScript = getPathScript("/database-setup/create-objects.sql", databaseName);
-    final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name= %s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
+    final String pathScript = getPathScript("/database-setup/create-objects.sql", databaseName, false);
+    final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
 
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : commands) {
       commadsSB.append(arg + " ");
     }
-    logger.info(" Objects commands: " + commadsSB.toString());
+    logger.info("Objects commands: " + commadsSB.toString());
 
-    executeScript(commands, " Create objects");
+    executeScript(commands, "Create objects");
   }
 
   /**
@@ -192,7 +192,7 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createTemplate(final String databaseName) {
-    final String pathScript = getPathScript("/database-setup/init_template.sql", databaseName);
+    final String pathScript = getPathScript("/database-setup/init_template.sql", databaseName, false);
     final String command =  String.format("psql -h %s -p %s -U %s -d %s -f %s", host, port, marccatUser, databaseName, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
 
@@ -200,9 +200,9 @@ public class TenantService {
     for (String arg : commands) {
       commadsSB.append(arg + " ");
     }
-    logger.info(" Template commands: " + commadsSB.toString());
+    logger.info("Template commands: " + commadsSB.toString());
 
-    executeScript(commands, " Create template");
+    executeScript(commands, "Create template");
   }
 
   /**
@@ -239,7 +239,7 @@ public class TenantService {
   private void processWait(final Process process) {
     try {
       final int exitCode = process.waitFor();
-      logger.info(" Exit code %d", exitCode);
+      logger.info("Exit code %d", exitCode);
     } catch (InterruptedException e) {
       logger.error(Message.MOD_MARCCAT_00033_PROCESS_FAILURE, e);
       Thread.currentThread().interrupt();
@@ -252,8 +252,8 @@ public class TenantService {
    * @param fileName the file name
    * @return the path script
    */
-  private String getPathScript(final String fileName, final String databaseName) {
-    final File file = getResourceAsFile(fileName, databaseName);
+  private String getPathScript(final String fileName, final String databaseName, final boolean isReplace) {
+    final File file = getResourceAsFile(fileName, databaseName, isReplace);
     return (file != null) ? file.getAbsolutePath() : null;
   }
 
@@ -264,7 +264,7 @@ public class TenantService {
    * @param resourcePath the resource path
    * @return the resource as file
    */
-  private File getResourceAsFile(final String resourcePath, final String databaseName) {
+  private File getResourceAsFile(final String resourcePath, final String databaseName, final boolean isReplaceVariables) {
     try {
       final InputStream inputStream = getClass().getResourceAsStream(resourcePath);
       if (inputStream == null) {
@@ -273,9 +273,10 @@ public class TenantService {
       final File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
       tempFile.deleteOnExit();
       String stringInputStream = IOUtils.toString(inputStream, "UTF-8");
-      stringInputStream = stringInputStream.replaceAll("user_name", marccatUser);
-      stringInputStream = stringInputStream.replaceAll("password", marccatPassword);
-      stringInputStream = stringInputStream.replaceAll("database_name", databaseName);
+      if(isReplaceVariables) {
+        stringInputStream = stringInputStream.replaceAll("password", marccatPassword);
+        stringInputStream = stringInputStream.replaceAll("database_name", databaseName);
+      }
       InputStream toInputStream = IOUtils.toInputStream(stringInputStream, "UTF-8");
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
       return tempFile;
