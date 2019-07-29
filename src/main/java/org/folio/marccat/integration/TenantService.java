@@ -207,7 +207,7 @@ public class TenantService {
       final String patchRel = ls.get(1).substring(ls.get(1).indexOf("patch_rel_nbr="));
       final String patchSp = ls.get(2).substring(ls.get(2).indexOf("patch_sp_nbr="));
       final String patchComp = ls.get(3).substring(ls.get(3).indexOf("patch_comp_typ="));
-      final File file = getResourceAsFileWithChild(patchDatabase, "/install-patch.sql", databaseName);
+      final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
       String pathScript = null;
       if(file != null) {
         pathScript = file.getAbsolutePath();
@@ -332,10 +332,10 @@ public class TenantService {
       for (String line : ls) {
         if (line.startsWith("\\ir ")) {
           final String fileNameChild = line.substring(4);
-          final File tempChildFile = getResourceAsFile(resourcePath +"/"+ fileNameChild, databaseName, false);
-            if(tempChildFile != null) {
-              stringInputStream = stringInputStream.replaceAll(fileNameChild, tempChildFile.getName());
-            }
+          final File tempChildFile = getResourceAsFile(resourcePath + "/" + fileNameChild, databaseName, false);
+          if (tempChildFile != null) {
+            stringInputStream = stringInputStream.replaceAll(fileNameChild, tempChildFile.getName());
+          }
         }
       }
       final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
