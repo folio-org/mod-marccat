@@ -195,7 +195,7 @@ public class TenantService {
     }
     logger.info(" Template commands: " + commadsSB.toString());
 
-    executeScript(commands, "Create template", marccatUser);
+    executeScript(commands, "Create template", marccatPassword);
   }
 
   /**
@@ -208,7 +208,7 @@ public class TenantService {
     final ProcessBuilder builder = new ProcessBuilder(commands);
     final Map<String, String> mp = builder.environment();
     mp.put("PGPASSWORD", pgPassword);
-    logger.info("PGPASSWORD: "+ pgPassword);
+    logger.info("PGPASSWORD : "+ pgPassword);
     Process process = null;
     try {
       logger.info(messageLog + " - Start");
@@ -233,7 +233,7 @@ public class TenantService {
   private void processWait(final Process process) {
     try {
       final int exitCode = process.waitFor();
-      logger.info("Exit code %d", exitCode);
+      logger.info("Exit code %d :", exitCode);
     } catch (InterruptedException e) {
       logger.error(Message.MOD_MARCCAT_00033_PROCESS_FAILURE, e);
       Thread.currentThread().interrupt();
@@ -311,7 +311,7 @@ public class TenantService {
       resultSet.next();
       final int count  = resultSet.getInt(1);
       if(count != 0)
-        logger.info("Database found: " + databaseName);
+        logger.info("Database found : " + databaseName);
       return count == 0;
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
