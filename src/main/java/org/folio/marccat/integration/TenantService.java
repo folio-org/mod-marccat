@@ -153,8 +153,8 @@ public class TenantService {
     if (schemaNotExist) {
       createObjects(databaseName);
     }
-    executePatch(databaseName, patchDatabase, "MARCCAT DB 1.2 found (Exit code 3)");
-    executePatch(databaseName, patchProcedure, "MARCCAT_DB_PLPGSQL 3.3 found (Exit code 3)");
+    executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
+    executePatch(databaseName, patchProcedure, "Install patch MARCCAT_DB_PLPGSQL 3.3", "MARCCAT_DB_PLPGSQL 3.3 found (Exit code 3)");
     return schemaNotExist;
   }
 
@@ -199,7 +199,7 @@ public class TenantService {
    *
    * @param databaseName the database name
    */
-  private void executePatch(final String databaseName, final String patch, final String message) {
+  private void executePatch(final String databaseName, final String patch, final String message, final String errorMessage) {
 
     try {
       final InputStream inputStream = getClass().getResourceAsStream(patch + "/env.conf");
@@ -214,9 +214,9 @@ public class TenantService {
       }
       final String command = String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -v %s -v %s -v %s -f %s", host, port, marccatUser, databaseName, marccatUser, patchRel, patchSp, patchComp, pathScript);
       final List <String> commands = Arrays.asList(command.split("\\s+"));
-      final int exitCode = executeScript(commands, "Execute patch", marccatPassword);
+      final int exitCode = executeScript(commands, message, marccatPassword);
       if(exitCode == 3)
-        logger.info(message);
+        logger.info(errorMessage);
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
@@ -235,13 +235,14 @@ public class TenantService {
     final Map<String, String> mp = builder.environment();
     int exitCode = 0;
     mp.put("PGPASSWORD", pgPassword);
-    logger.info("PGPASSWORD : "+ pgPassword);
     Process process = null;
     try {
       logger.info(messageLog + " - Start");
+      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
       process = builder.start();
       exitCode =  processWait(process);
       logger.info(messageLog + " - End");
+
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
