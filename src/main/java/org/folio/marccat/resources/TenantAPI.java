@@ -18,7 +18,7 @@ public class TenantAPI {
 
   @PostMapping
   public ResponseEntity<String> create(
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
     tenantService.createTenant(tenant);
