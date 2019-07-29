@@ -152,9 +152,9 @@ public class TenantService {
     boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist) {
       createObjects(databaseName);
-      createTemplate(databaseName);
     }
-    executePatch(databaseName);
+    executePatch(databaseName, patchDatabase, "MARCCAT DB 1.2 found (Exit code 3)");
+    executePatch(databaseName, patchProcedure, "MARCCAT_DB_PLPGSQL 3.3 found (Exit code 3)");
     return schemaNotExist;
   }
 
@@ -194,34 +194,15 @@ public class TenantService {
     executeScript(commands, "Create objects", adminPassword);
   }
 
-  /**
-   * Creates the template.
-   *
-   * @param databaseName the database name
-   */
-  private void createTemplate(final String databaseName) {
-    final String pathScript = getPathScript(DATABASE_SETUP + "init_template.sql", databaseName, false);
-    final String command =  String.format("psql -h %s -p %s -U %s -d %s -f %s", host, port, marccatUser, databaseName, pathScript);
-    final List<String> commands = Arrays.asList(command.split("\\s+"));
-
-    StringBuilder commadsSB = new StringBuilder();
-    for (String arg : commands) {
-      commadsSB.append(arg + " ");
-    }
-    logger.info(" Template commands: " + commadsSB.toString());
-
-    executeScript(commands, "Create template", marccatPassword);
-  }
-
-  /**
+    /**
    * Executes the patch.
    *
    * @param databaseName the database name
    */
-  private void executePatch(final String databaseName) {
+  private void executePatch(final String databaseName, final String patch, final String message) {
 
     try {
-      final InputStream inputStream = getClass().getResourceAsStream(patchDatabase + "/env.conf");
+      final InputStream inputStream = getClass().getResourceAsStream(patch + "/env.conf");
       final List <String> ls = IOUtils.readLines(inputStream, "utf-8");
       final String patchRel = ls.get(1).substring(ls.get(1).indexOf("patch_rel_nbr="));
       final String patchSp = ls.get(2).substring(ls.get(2).indexOf("patch_sp_nbr="));
@@ -230,17 +211,12 @@ public class TenantService {
       String pathScript = null;
       if(file != null) {
         pathScript = file.getAbsolutePath();
-        logger.info("Path patch: " + pathScript);
       }
       final String command = String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -v %s -v %s -v %s -f %s", host, port, marccatUser, databaseName, marccatUser, patchRel, patchSp, patchComp, pathScript);
       final List <String> commands = Arrays.asList(command.split("\\s+"));
-      StringBuilder commadsSB = new StringBuilder();
-      for (String arg : commands) {
-        commadsSB.append(arg + " ");
-      }
-      logger.info("Patch commands: " + commadsSB.toString());
-
-      executeScript(commands, "Execute patch", marccatPassword);
+      final int exitCode = executeScript(commands, "Execute patch", marccatPassword);
+      if(exitCode == 3)
+        logger.info(message);
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
@@ -252,17 +228,19 @@ public class TenantService {
    *
    * @param commands   the commands
    * @param messageLog the message log
+   * @return the exit code
    */
-  private void executeScript(final List <String> commands, final String messageLog, final String pgPassword) {
+  private int executeScript(final List <String> commands, final String messageLog, final String pgPassword) {
     final ProcessBuilder builder = new ProcessBuilder(commands);
     final Map<String, String> mp = builder.environment();
+    int exitCode = 0;
     mp.put("PGPASSWORD", pgPassword);
     logger.info("PGPASSWORD : "+ pgPassword);
     Process process = null;
     try {
       logger.info(messageLog + " - Start");
       process = builder.start();
-      processWait(process);
+      exitCode =  processWait(process);
       logger.info(messageLog + " - End");
 
     } catch (IOException exception) {
@@ -271,6 +249,7 @@ public class TenantService {
     if (process != null) {
       process.destroy();
     }
+    return exitCode;
   }
 
   /**
@@ -278,15 +257,18 @@ public class TenantService {
    * until the end of the process.
    *
    * @param process the process
+   * @return the exit code
    */
-  private void processWait(final Process process) {
+  private int processWait(final Process process) {
+    int exitCode = 0;
     try {
-      final int exitCode = process.waitFor();
+      exitCode = process.waitFor();
       logger.info("Exit code %d :", exitCode);
     } catch (InterruptedException e) {
       logger.error(Message.MOD_MARCCAT_00033_PROCESS_FAILURE, e);
       Thread.currentThread().interrupt();
     }
+    return exitCode;
   }
 
   /**
