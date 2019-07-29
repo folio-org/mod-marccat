@@ -36,5 +36,10 @@ admin:
   username: postgres
   password: postgres
 
+patch:
+    database: /database-setup/patches/MARCCAT_DB/1.2
+    procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
+
+
 server:
   port: 8080

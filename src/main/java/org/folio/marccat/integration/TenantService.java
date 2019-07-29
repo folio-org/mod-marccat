@@ -30,6 +30,8 @@ public class TenantService {
    */
   public static final String BIN_SH = "/bin/sh";
   public static final String DATABASE_SETUP = "/database-setup/";
+  public static final String UTF_8 = "UTF-8";
+
 
   /**
    * The remote configuration.
@@ -86,6 +88,18 @@ public class TenantService {
   private String marccatPassword;
 
   /**
+   * The database patch.
+   */
+  @Value("${patch.database}")
+  private String patchDatabase;
+
+  /**
+   * The database procedure.
+   */
+  @Value("${patch.procedure}")
+  private String patchProcedure;
+
+   /**
    * Creates the tenant.
    *
    * @param tenant the tenant
@@ -140,6 +154,7 @@ public class TenantService {
       createObjects(databaseName);
       createTemplate(databaseName);
     }
+    executePatch(databaseName);
     return schemaNotExist;
   }
 
@@ -196,6 +211,40 @@ public class TenantService {
     logger.info(" Template commands: " + commadsSB.toString());
 
     executeScript(commands, "Create template", marccatPassword);
+  }
+
+  /**
+   * Executes the patch.
+   *
+   * @param databaseName the database name
+   */
+  private void executePatch(final String databaseName) {
+
+    try {
+      final InputStream inputStream = getClass().getResourceAsStream(patchDatabase + "/env.conf");
+      final List <String> ls = IOUtils.readLines(inputStream, "utf-8");
+      final String patchRel = ls.get(1).substring(ls.get(1).indexOf("patch_rel_nbr="));
+      final String patchSp = ls.get(2).substring(ls.get(2).indexOf("patch_sp_nbr="));
+      final String patchComp = ls.get(3).substring(ls.get(3).indexOf("patch_comp_typ="));
+      final File file = getResourceAsFileWithChild(patchDatabase, "/install-patch.sql", databaseName);
+      String pathScript = null;
+      if(file != null) {
+        pathScript = file.getAbsolutePath();
+        logger.info("Path patch: " + pathScript);
+      }
+      final String command = String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -v %s -v %s -v %s -f %s", host, port, marccatUser, databaseName, marccatUser, patchRel, patchSp, patchComp, pathScript);
+      final List <String> commands = Arrays.asList(command.split("\\s+"));
+      StringBuilder commadsSB = new StringBuilder();
+      for (String arg : commands) {
+        commadsSB.append(arg + " ");
+      }
+      logger.info("Patch commands: " + commadsSB.toString());
+
+      executeScript(commands, "Execute patch", marccatPassword);
+    } catch (IOException exception) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+    }
+
   }
 
   /**
@@ -266,13 +315,48 @@ public class TenantService {
       }
       final File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
       tempFile.deleteOnExit();
-      String stringInputStream = IOUtils.toString(inputStream, "UTF-8");
+      String stringInputStream = IOUtils.toString(inputStream, UTF_8);
       if(isReplaceVariables) {
         stringInputStream = stringInputStream.replaceAll("user_name", marccatUser);
         stringInputStream = stringInputStream.replaceAll("password", marccatPassword);
         stringInputStream = stringInputStream.replaceAll("database_name", databaseName);
       }
-      final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, "UTF-8");
+      final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
+      IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
+      return tempFile;
+    } catch (IOException exception) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+      return null;
+    }
+  }
+
+  /**
+   * Gets the resource as a temporary file that contains multiple child files
+   *
+   * @param resourcePath the resource path
+   * @param fileName the f patile name of the parent
+   * @return the resource as file
+   */
+  private File getResourceAsFileWithChild(final String resourcePath, final String fileName, final String databaseName) {
+    try {
+      final InputStream inputStream = getClass().getResourceAsStream(resourcePath + fileName);
+      if (inputStream == null) {
+        return null;
+      }
+      final File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
+      tempFile.deleteOnExit();
+      String stringInputStream = IOUtils.toString(inputStream, UTF_8);
+      final List <String> ls = IOUtils.readLines(getClass().getResourceAsStream(resourcePath + fileName), "utf-8");
+      for (String line : ls) {
+        if (line.startsWith("\\ir ")) {
+          final String fileNameChild = line.substring(4);
+          final File tempChildFile = getResourceAsFile(resourcePath +"/"+ fileNameChild, databaseName, false);
+            if(tempChildFile != null) {
+              stringInputStream = stringInputStream.replaceAll(fileNameChild, tempChildFile.getName());
+            }
+        }
+      }
+      final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
       return tempFile;
     } catch (IOException exception) {
