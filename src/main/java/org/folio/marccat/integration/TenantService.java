@@ -1,6 +1,7 @@
 package org.folio.marccat.integration;
 
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.*;
+import java.net.URI;
 import java.sql.*;
 import java.util.*;
 
@@ -109,8 +111,11 @@ public class TenantService {
   public void createTenant(final String tenant) throws SQLException, IOException {
     logger.debug("Enable tenant" + " - Start");
     boolean schemaNotExist = initializeDatabase(tenant);
-    if(schemaNotExist)
+    ObjectNode objectNode =  configuration.attributes(tenant, true, "");
+    if(objectNode != null && objectNode.size() == 0) {
       initializeConfiguration(tenant, username);
+      logger.info("objectNode size: "+ objectNode.size());
+    }
     logger.info("Enable tenant" + " - End");
   }
 
@@ -133,10 +138,10 @@ public class TenantService {
    */
   private void initializeConfiguration(final String tenant, final String user) {
     final String configurationUrl = configuration.getConfigurationUrl();
-    final Map <String, String> mapConfigurations = getConfigurations(configurationUrl);
+    final URI uri = URI.create(configurationUrl);
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
-    final List <String> commands = Arrays.asList(BIN_SH, pathScript, mapConfigurations.get("host"),
-      mapConfigurations.get("port"), tenant, "", "", "", user, "");
+    final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
+      String.valueOf(uri.getPort()), tenant, "", "", "", user, "");
     executeScript(commands, "", adminPassword);
   }
 
@@ -154,7 +159,7 @@ public class TenantService {
       createObjects(databaseName);
     }
     executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
-    executePatch(databaseName, patchProcedure, "Install patch MARCCAT_DB_PLPGSQL 3.3", "MARCCAT_DB_PLPGSQL 3.3 found (Exit code 3)");
+    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");
     return schemaNotExist;
   }
 
@@ -199,28 +204,38 @@ public class TenantService {
    *
    * @param databaseName the database name
    */
-  private void executePatch(final String databaseName, final String patch, final String message, final String errorMessage) {
+    private void executePatch(final String databaseName, final String patch, final String message, final String errorMessage) {
 
-    try {
-      final InputStream inputStream = getClass().getResourceAsStream(patch + "/env.conf");
-      final List <String> ls = IOUtils.readLines(inputStream, "utf-8");
-      final String patchRel = ls.get(1).substring(ls.get(1).indexOf("patch_rel_nbr="));
-      final String patchSp = ls.get(2).substring(ls.get(2).indexOf("patch_sp_nbr="));
-      final String patchComp = ls.get(3).substring(ls.get(3).indexOf("patch_comp_typ="));
-      final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
-      String pathScript = null;
-      if(file != null) {
-        pathScript = file.getAbsolutePath();
+      try {
+        final InputStream inputStream = getClass().getResourceAsStream(patch + "/env.conf");
+        final List <String> ls = IOUtils.readLines(inputStream, "utf-8");
+        final String patchRel = getVersionNumber(ls.get(1), "patch_rel_nbr=");
+        final String patchSp = getVersionNumber(ls.get(2), "patch_sp_nbr=");
+        final String patchComp = getVersionNumber(ls.get(3), "patch_comp_typ=");
+        final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
+        String pathScript = null;
+        if (file != null) {
+          pathScript = file.getAbsolutePath();
+        }
+        final String command = String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -v %s -v %s -v %s -f %s", host, port, marccatUser, databaseName, marccatUser, patchRel, patchSp, patchComp, pathScript);
+        final List <String> commands = Arrays.asList(command.split("\\s+"));
+        final int exitCode = executeScript(commands, message, marccatPassword);
+        if (exitCode == 3)
+          logger.info(errorMessage);
+      } catch (IOException exception) {
+        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
       }
-      final String command = String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -v %s -v %s -v %s -f %s", host, port, marccatUser, databaseName, marccatUser, patchRel, patchSp, patchComp, pathScript);
-      final List <String> commands = Arrays.asList(command.split("\\s+"));
-      final int exitCode = executeScript(commands, message, marccatPassword);
-      if(exitCode == 3)
-        logger.info(errorMessage);
-    } catch (IOException exception) {
-      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+
     }
 
+  /**
+   * Return the version of the patch.
+   *
+   * @param line the line
+   * @param variable the variable
+   */
+  private String getVersionNumber(final String line, final String variable) {
+    return line.substring(line.indexOf(variable));
   }
 
   /**
@@ -242,7 +257,6 @@ public class TenantService {
       process = builder.start();
       exitCode =  processWait(process);
       logger.info(messageLog + " - End");
-
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
@@ -299,10 +313,11 @@ public class TenantService {
       final File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
       tempFile.deleteOnExit();
       String stringInputStream = IOUtils.toString(inputStream, UTF_8);
-      if(isReplaceVariables) {
-        stringInputStream = stringInputStream.replaceAll("user_name", marccatUser);
-        stringInputStream = stringInputStream.replaceAll("password", marccatPassword);
-        stringInputStream = stringInputStream.replaceAll("database_name", databaseName);
+      if (isReplaceVariables) {
+        stringInputStream = stringInputStream
+          .replaceAll("user_name", marccatUser)
+          .replaceAll("password", marccatPassword)
+          .replaceAll("database_name", databaseName);
       }
       final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
@@ -348,21 +363,7 @@ public class TenantService {
     }
   }
 
-  /**
-   * Gets the configurations.
-   *
-   * @param configurationUrl the configuration url
-   * @return the configurations
-   */
-  private Map <String, String> getConfigurations(final String configurationUrl) {
-    final Map <String, String> configurations = new HashMap <>();
-    final int index = configurationUrl.lastIndexOf(':') + 1;
-    final String hostConf = configurationUrl.substring(configurationUrl.indexOf("//") + 2, configurationUrl.lastIndexOf(':'));
-    final String portConf = configurationUrl.substring(index, index + 4);
-    configurations.put("host", hostConf);
-    configurations.put("port", portConf);
-    return configurations;
-  }
+
 
   /**
    * Return true if schema exists.
