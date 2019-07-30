@@ -113,21 +113,14 @@ public class TenantService {
    */
   public void createTenant(final String tenant) throws SQLException, IOException {
     logger.debug("Enable tenant" + " - Start");
-    boolean schemaNotExist = initializeDatabase(tenant);
+    initializeDatabase(tenant);
     ObjectNode value =  configuration.attributes(tenant, true, "");
     final Map <String, String> config = getConfigurations(value);
+    logger.info("Size Configuration: " + config.size());
     if(config != null && config.size() == 0) {
       initializeConfiguration(tenant, username);
-      logger.info("objectNode size: "+ config.size());
     }
     logger.info("Enable tenant" + " - End");
-  }
-
-  public Map <String, String> getConfigurations(ObjectNode value) {
-    return StreamSupport.stream(value.withArray("configs").spliterator(), false)
-      .filter(node -> "datasource".equals(node.get("configName").asText()))
-      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
   }
 
   /**
@@ -153,6 +146,11 @@ public class TenantService {
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
       String.valueOf(uri.getPort()), tenant, "", "", "", user, "");
+    StringBuilder commadsSB = new StringBuilder();
+    for (String arg : commands) {
+      commadsSB.append(arg + " ");
+    }
+    logger.info(" ROLE COMMANDS: " + commadsSB.toString());
     executeScript(commands, "", adminPassword);
   }
 
@@ -161,7 +159,7 @@ public class TenantService {
    *
    * @param tenant the tenant
    */
-  private boolean initializeDatabase(final String tenant) throws SQLException {
+  private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName =  tenant + marccatSuffix;
     createRole(databaseName);
     createDatabase(databaseName);
@@ -171,7 +169,6 @@ public class TenantService {
     }
     executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
     executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");
-    return schemaNotExist;
   }
 
   /**
@@ -409,5 +406,19 @@ public class TenantService {
     jdbcUrl.append("jdbc:postgresql://").append(host).append(":").append(port).append("/").append(databaseName);
     return DriverManager.getConnection(jdbcUrl.toString(), marccatUser, marccatPassword);
   }
+
+  /**
+   * Return configurations of the database.
+   *
+   * @param value the value of the object node
+   * @return the map of the configurations
+   */
+  public Map <String, String> getConfigurations(ObjectNode value) {
+    return StreamSupport.stream(value.withArray("configs").spliterator(), false)
+      .filter(node -> "datasource".equals(node.get("configName").asText()))
+      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
+      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+  }
+
 
 }
