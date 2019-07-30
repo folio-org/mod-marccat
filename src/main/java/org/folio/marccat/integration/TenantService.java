@@ -118,7 +118,7 @@ public class TenantService {
     final Map <String, String> config = getConfigurations(value);
     logger.info("Size Configuration: " + config.size());
     if(config != null && config.size() == 0) {
-      initializeConfiguration(tenant, username);
+      initializeConfiguration(tenant);
     }
     logger.info("Enable tenant" + " - End");
   }
@@ -138,19 +138,18 @@ public class TenantService {
    * Initialize configuration.
    *
    * @param tenant the tenant
-   * @param user   the user
    */
-  private void initializeConfiguration(final String tenant, final String user) {
+  private void initializeConfiguration(final String tenant) {
     final String configurationUrl = configuration.getConfigurationUrl();
     final URI uri = URI.create(configurationUrl);
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
-      String.valueOf(uri.getPort()), tenant, "", "", "", user, "");
+      String.valueOf(uri.getPort()), tenant, "", "", "", marccatUser, marccatPassword);
     StringBuilder commadsSB = new StringBuilder();
     for (String arg : commands) {
       commadsSB.append(arg + " ");
     }
-    logger.info(" ROLE COMMANDS: " + commadsSB.toString());
+    logger.info("Configuratins commands: " + commadsSB.toString());
     executeScript(commands, "", adminPassword);
   }
 
