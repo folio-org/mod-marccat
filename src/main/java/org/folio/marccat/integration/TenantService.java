@@ -12,6 +12,9 @@ import java.io.*;
 import java.net.URI;
 import java.sql.*;
 import java.util.*;
+import java.util.stream.StreamSupport;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * TenantService  the class for Tenants management.
@@ -111,12 +114,20 @@ public class TenantService {
   public void createTenant(final String tenant) throws SQLException, IOException {
     logger.debug("Enable tenant" + " - Start");
     boolean schemaNotExist = initializeDatabase(tenant);
-    ObjectNode objectNode =  configuration.attributes(tenant, true, "");
-    if(objectNode != null && objectNode.size() == 0) {
+    ObjectNode value =  configuration.attributes(tenant, true, "");
+    final Map <String, String> config = getConfigurations(value);
+    if(config != null && config.size() == 0) {
       initializeConfiguration(tenant, username);
-      logger.info("objectNode size: "+ objectNode.size());
+      logger.info("objectNode size: "+ config.size());
     }
     logger.info("Enable tenant" + " - End");
+  }
+
+  public Map <String, String> getConfigurations(ObjectNode value) {
+    return StreamSupport.stream(value.withArray("configs").spliterator(), false)
+      .filter(node -> "datasource".equals(node.get("configName").asText()))
+      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
+      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
   }
 
   /**
