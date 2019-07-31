@@ -1,4 +1,13 @@
-## 1.7.0 2019-07-15
+## 1.8.5 2019-07-31
+* Implementation TenantAPI.
+* Database initialization with role, database, user and objects creation.
+* Configurations initialization.
+* Existence check schema and configurations for datasource.
+* Implement new call for pack_sortform database procedure.
+* Fix wrong value in the Json verificationLevel.
+
+
+## 1.8.0 2019-07-15
 * Add tenants interface to ModuleDescriptor.json
 
 
@@ -24,18 +33,20 @@
  * Create microservices for db customization
  * Cleaning project and remove unused class.
 
+
 ## 1.1.0 2018-12-14
  * Improve Search Functionality.
  * Add Browse functionality.
  * Add Browse API.
  * Add Template microservices.
  * Add microservices for Bib records.
- * Add API for merge authority and bibliographic result. [MODMODCAT-93](https://issues.folio.org/browse/MODCAT-93)
+ * Add API for merge authority and bibliographic result. [MODCAT-93](https://issues.folio.org/browse/MODCAT-93)
  * Cleaning project and remove unused class.
  * Add permission to descriptor.
  * Add interface for okapi.
- * Fix Relator code. [MODMODCAT-93](https://issues.folio.org/browse/MODCAT-92)
+ * Fix Relator code. [MODCAT-93](https://issues.folio.org/browse/MODCAT-92)
  * Remove swagger API.
+ 
  
 ## 1.0.0 2018-10-31
  * Initial release
