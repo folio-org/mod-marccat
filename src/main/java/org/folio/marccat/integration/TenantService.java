@@ -116,7 +116,6 @@ public class TenantService {
     initializeDatabase(tenant);
     ObjectNode value =  configuration.attributes(tenant, true, "");
     final Map <String, String> config = getConfigurations(value);
-    logger.info("Size Configuration: " + config.size());
     if(config != null && config.size() == 0) {
       initializeConfiguration(tenant);
     }
@@ -145,11 +144,6 @@ public class TenantService {
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
       String.valueOf(uri.getPort()), tenant, "", "", "", marccatUser, marccatPassword);
-    StringBuilder commadsSB = new StringBuilder();
-    for (String arg : commands) {
-      commadsSB.append(arg + " ");
-    }
-    logger.info("Configuratins commands: " + commadsSB.toString());
     executeScript(commands, "", adminPassword);
   }
 
