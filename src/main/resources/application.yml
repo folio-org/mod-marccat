@@ -18,11 +18,11 @@ spring:
   datasource:
     platform: postgres
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://10.36.1.236:5432/postgres
     port: 5432
-    host: localhost
-    username: postgres
-    password: postgres
+    host: 10.36.1.236
+    username: folio_admin
+    password: folio_admin5757
 
   profiles: default
 
@@ -33,12 +33,12 @@ marccat:
     suffix: _marccat
 
 admin:
-  username: postgres
-  password: postgres
+  username: folio_admin
+  password: folio_admin5757
 
 patch:
-    database: /database-setup/patches/MARCCAT_DB/1.2
-    procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
+  database: /database-setup/patches/MARCCAT_DB/1.2
+  procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
 
 
 server:
