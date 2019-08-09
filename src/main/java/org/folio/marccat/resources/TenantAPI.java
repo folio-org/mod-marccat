@@ -1,5 +1,6 @@
 package org.folio.marccat.resources;
 import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.integration.TenantService;
 import org.folio.marccat.resources.domain.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RestController
 @RequestMapping("/_/tenant")
 public class TenantAPI {
+
+  private static final Log logger = new Log(TenantAPI.class);
+
   @Autowired
   private TenantService tenantService;
 
@@ -21,6 +25,7 @@ public class TenantAPI {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
+    logger.debug("init TenantAPI" + " - OK");
     tenantService.createTenant(tenant);
     return new ResponseEntity<String>("Success", CREATED);
   }
