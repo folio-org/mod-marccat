@@ -1,5 +1,7 @@
 package org.folio.marccat;
 
+import org.folio.marccat.config.log.Log;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -11,7 +13,9 @@ import org.springframework.web.client.RestTemplate;
  *
  */
 @SpringBootApplication
+
 public class ModMarccat {
+  private static final Log logger = new Log(ModMarccat.class);
 
   public static final String BASE_URI = "marccat";
 
@@ -23,6 +27,7 @@ public class ModMarccat {
    */
   public static void main(final String[] args) {
     SpringApplication.run(ModMarccat.class, args);
+    logger.debug("Print args for check correct port", args);
   }
 
   @Bean
