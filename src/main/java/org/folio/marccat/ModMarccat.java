@@ -25,8 +25,7 @@ public class ModMarccat {
    * @param args the command line arguments.
    */
   public static void main(final String[] args) {
-    logger.info("PRINT_INFO_SYSTEM_PORT: "+ System.getProperty("port"));
-    logger.info("PRINT_INFO_SYSTEM_HTTP_PORT: "+ System.getProperty("http.port"));
+    logger.info("PRINT_INFO_SYSTEM_SERVER_PORT: "+ System.getProperty("server.port"));
     logger.info("PRINT_INFO_SYSTEM_PROPS: "+ System.getProperties());
     SpringApplication.run(ModMarccat.class, args);
   }
