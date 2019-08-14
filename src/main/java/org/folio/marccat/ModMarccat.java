@@ -23,7 +23,7 @@ public class ModMarccat {
    * @param args the command line arguments.
    */
   public static void main(final String[] args) {
-    logger.info("PRINT_INFO_SERVER_PORT: ", System.getProperty("port"));
+    logger.info("PRINT_INFO_SERVER_PORT: ", System.getProperties());
     SpringApplication.run(ModMarccat.class, args);
   }
 
