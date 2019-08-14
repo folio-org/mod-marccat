@@ -15,12 +15,10 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 
 public class ModMarccat {
-
   private static final Log logger = new Log(ModMarccat.class);
+
   public static final String BASE_URI = "marccat";
 
-  @Value("${server.port}")
-  private static String port;
 
   /**
    * Module entry point.
@@ -29,7 +27,7 @@ public class ModMarccat {
    */
   public static void main(final String[] args) {
     SpringApplication.run(ModMarccat.class, args);
-    logger.info("PRINT_INFO_SERVER_PORT: ", port);
+    logger.info("PRINT_INFO_SERVER_PORT: ", System.getProperty("server.port"));
   }
 
   @Bean
