@@ -15,18 +15,19 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 
 public class ModMarccat {
+
   private static final Log logger = new Log(ModMarccat.class);
   public static final String BASE_URI = "marccat";
-  @Value("${port}")
-  private static String port;
+
   /**
    * Module entry point.
    *
    * @param args the command line arguments.
    */
   public static void main(final String[] args) {
-    logger.info("PRINT_INFO_SERVER_PORT: "+ port);
-      logger.info("PRINT_INFO_SYSTEM_PROPS: "+ System.getProperties());
+    logger.info("PRINT_INFO_SYSTEM_PORT: "+ System.getProperty("port"));
+    logger.info("PRINT_INFO_SYSTEM_HTTP_PORT: "+ System.getProperty("http.port"));
+    logger.info("PRINT_INFO_SYSTEM_PROPS: "+ System.getProperties());
     SpringApplication.run(ModMarccat.class, args);
   }
 
