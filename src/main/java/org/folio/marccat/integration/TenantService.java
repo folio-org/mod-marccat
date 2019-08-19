@@ -113,12 +113,12 @@ public class TenantService {
    */
   public void createTenant(final String tenant) throws SQLException, IOException {
     logger.debug("Enable tenant" + " - Start");
-    initializeDatabase(tenant);
-    ObjectNode value =  configuration.attributes(tenant, true, "");
-    final Map <String, String> config = getConfigurations(value);
-    if(config != null && config.size() == 0) {
-      initializeConfiguration(tenant);
-    }
+//    initializeDatabase(tenant);
+//    ObjectNode value =  configuration.attributes(tenant, true, "");
+//    final Map <String, String> config = getConfigurations(value);
+//    if(config != null && config.size() == 0) {
+//      initializeConfiguration(tenant);
+//    }
     logger.info("Enable tenant" + " - End");
   }
 
