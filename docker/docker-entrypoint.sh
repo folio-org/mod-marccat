@@ -15,5 +15,5 @@ set -e
 if [ -n "$JAVA_OPTS" ]; then
    exec java "$JAVA_OPTS" -Dserver.port=8081 -jar ${VERTICLE_HOME}/module.jar "$@"
 else
-   exec java -jar ${VERTICLE_HOME}/module.jar "$@"
+   exec java -Dserver.port=8081 -jar ${VERTICLE_HOME}/module.jar "$@"
 fi
