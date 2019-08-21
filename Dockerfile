@@ -14,5 +14,4 @@ EXPOSE 8081
 
 FROM postgres
 ENV POSTGRES_DB ${POSTGRES_DB}
-COPY database-setup/create-db.sql /docker/docker-entrypoint.sh
 EXPOSE 5432
