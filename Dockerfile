@@ -16,8 +16,8 @@ FROM postgres
 
 ENV VERTICLE_HOME /usr/verticles \
  DB_USERNAME=folio_admin \
- DB_PASSWORD=folio_admin \
- DB_HOST=172.17.0.1 \
+ DB_PASSWORD=folio_admin5757 \
+ DB_HOST=127.0.0.1 \
  DB_PORT=5432 \
  DB_DATABASE=okapi_modules
 
