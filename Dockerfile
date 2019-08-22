@@ -11,11 +11,6 @@ COPY target/${VERTICLE_FILE} ${VERTICLE_HOME}/${VERTICLE_FILE}
 # Expose this port locally in the container.
 EXPOSE 8081
 
-FROM postgres
-ENV POSTGRES_DB ${POSTGRES_DB}
-COPY create-db.sql /docker-entrypoint.sh
-EXPOSE 5432
-
 FROM library/postgres
 COPY init.sql /docker-entrypoint-initdb.d/
 EXPOSE 5432
