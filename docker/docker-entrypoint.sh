@@ -10,8 +10,6 @@
 #  'docker run -d -e JAVA_OPTS="-Xmx256M" folio-module embed_mongo=true'
 #
 
-docker run --name ${DB_DATABASE} -e POSTGRES_PASSWORD=${DB_DATABASE} -d postgres
-
 set -e
 
 if [ -n "$JAVA_OPTS" ]; then

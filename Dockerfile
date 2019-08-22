@@ -12,6 +12,5 @@ COPY target/${VERTICLE_FILE} ${VERTICLE_HOME}/${VERTICLE_FILE}
 EXPOSE 8081
 
 FROM postgres
-RUN su postgres -c "initdb -D /var/lib/pgsql/data"
-
+RUN --name ${DB_DATABASE} -e POSTGRES_PASSWORD=${DB_DATABASE} -d postgres
 EXPOSE 5432
