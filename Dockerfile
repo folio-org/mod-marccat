@@ -11,5 +11,6 @@ COPY target/${VERTICLE_FILE} ${VERTICLE_HOME}/${VERTICLE_FILE}
 # Expose this port locally in the container.
 EXPOSE 8081
 
+
 FROM library/postgres
 EXPOSE 5432
