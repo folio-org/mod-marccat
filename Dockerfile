@@ -12,5 +12,4 @@ COPY target/${VERTICLE_FILE} ${VERTICLE_HOME}/${VERTICLE_FILE}
 EXPOSE 8081
 
 FROM library/postgres
-RUN init.sql
 EXPOSE 5432
