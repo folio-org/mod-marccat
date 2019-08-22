@@ -9,7 +9,6 @@
 #
 #  'docker run -d -e JAVA_OPTS="-Xmx256M" folio-module embed_mongo=true'
 #
-
 set -e
 
 if [ -n "$JAVA_OPTS" ]; then
