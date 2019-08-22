@@ -12,5 +12,5 @@ COPY target/${VERTICLE_FILE} ${VERTICLE_HOME}/${VERTICLE_FILE}
 EXPOSE 8081
 
 FROM library/postgres
-ADD init.sql /docker-entrypoint-initdb.d/
+COPY init.sql docker/docker-entrypoint.sh
 EXPOSE 5432
