@@ -11,3 +11,7 @@ COPY target/${VERTICLE_FILE} ${VERTICLE_HOME}/${VERTICLE_FILE}
 # Expose this port locally in the container.
 EXPOSE 8081
 
+RUN yum install postgresql-server -y
+RUN su postgres -c "initdb -D /var/lib/pgsql/data"
+
+EXPOSE 5432
