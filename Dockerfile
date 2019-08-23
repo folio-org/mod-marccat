@@ -1,4 +1,4 @@
-FROM alinous/docker-java-postgresql
+FROM folioci/openjdk8-jre:latest
 
 ENV VERTICLE_FILE mod-marccat-fat.jar
 
