@@ -2,7 +2,6 @@ package org.folio.marccat.integration;
 
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sun.media.jfxmedia.logging.Logger;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
