@@ -172,7 +172,7 @@ public class TenantService {
    */
   private void createRole(final String databaseName) {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
-    final String command =  String.format("usr/bin/psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+    final String command =  String.format("/usr/bin/psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create role", adminPassword);
   }
