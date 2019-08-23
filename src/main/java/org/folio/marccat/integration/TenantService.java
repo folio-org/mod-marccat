@@ -33,6 +33,7 @@ public class TenantService {
   /**
    * The Constant BIN_SH.
    */
+
   public static final String BIN_SH = "/bin/sh";
   public static final String DATABASE_SETUP = "/database-setup/";
   public static final String UTF_8 = "UTF-8";
@@ -155,13 +156,13 @@ public class TenantService {
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName =  tenant + marccatSuffix;
     createRole(databaseName);
-    createDatabase(databaseName);
-    boolean schemaNotExist = schemaExists(databaseName);
-    if (schemaNotExist) {
-      createObjects(databaseName);
-    }
-    executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
-    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");
+//    createDatabase(databaseName);
+//    boolean schemaNotExist = schemaExists(databaseName);
+//    if (schemaNotExist) {
+//      createObjects(databaseName);
+//    }
+//    executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
+//    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");
   }
 
   /**
@@ -171,7 +172,7 @@ public class TenantService {
    */
   private void createRole(final String databaseName) {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
-    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+    final String command =  String.format("usr/bin/psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create role", adminPassword);
   }
