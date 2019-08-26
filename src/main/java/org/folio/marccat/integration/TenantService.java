@@ -171,7 +171,7 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-    final String cmdHostname = "/usr/bin/psql";
+    final String cmdHostname = "/usr/lib/postgresql/10/bin/psql";
 
     final ProcessBuilder builder = new ProcessBuilder(cmdHostname);
     final Map<String, String> mp = builder.environment();
