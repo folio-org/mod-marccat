@@ -174,7 +174,6 @@ public class TenantService {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
 
 
-
     /* TEST */
     final ProcessBuilder builder = new ProcessBuilder("/usr/bin/psql", "-h", host, "-p", port, "-U", adminUser, "-f", pathScript);
     final Map<String, String> mp = builder.environment();
@@ -197,6 +196,28 @@ public class TenantService {
     /* TEST */
 
 
+    try {
+      exitCode = process.waitFor();
+      System.out.println(" Start proc");
+      BufferedReader br=new BufferedReader(
+        new InputStreamReader(
+          process.getInputStream()));
+      String line;
+      while((line=br.readLine())!=null){
+        System.out.println(line);
+      }
+      System.out.println("Exit code :"+ exitCode);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+      //Thread.currentThread().interrupt();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println(" End Hostname");
+
+  
+    System.out.println("Hostname exitCode --: " + exitCode);
 
     final String command =  String.format("/usr/bin/psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     logger.info("COMMAND_PSQL: "+command);
