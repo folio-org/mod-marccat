@@ -185,7 +185,7 @@ public class TenantService {
     try {
       process = Runtime.getRuntime().exec("/bin/hostname");
       //process = builder.start();
-      exitCode = process.exitValue();
+      exitCode = process.waitFor();
       System.out.println(" Start hostname");
       BufferedReader br=new BufferedReader(
         new InputStreamReader(
@@ -195,6 +195,9 @@ public class TenantService {
         System.out.println(line);
       }
       System.out.println("Exit code hostname:"+ exitCode);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+      //Thread.currentThread().interrupt();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -207,8 +210,8 @@ public class TenantService {
     //builderPs.redirectOutput((ProcessBuilder.Redirect.INHERIT));
     try {
      // processPs = builder.start();
-      processPs = Runtime.getRuntime().exec("/bin/hostname");
-      exitCode = processPs.exitValue();
+      processPs = Runtime.getRuntime().exec("/tmp/psq.sh");
+      exitCode = processPs.waitFor();
       System.out.println(" Start PsqlGG");
       BufferedReader br=new BufferedReader(
         new InputStreamReader(
@@ -218,6 +221,9 @@ public class TenantService {
         System.out.println(line);
       }
       System.out.println("Exit code PSQLGG:"+ exitCode);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+      //Thread.currentThread().interrupt();
     } catch (IOException e) {
       e.printStackTrace();
     }
