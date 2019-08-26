@@ -185,6 +185,7 @@ public class TenantService {
 
 
     try {
+      process = builder.start();
       exitCode = process.waitFor();
       System.out.println(" Start hostname");
       BufferedReader br=new BufferedReader(
@@ -209,6 +210,7 @@ public class TenantService {
     Process processPs = null;
     builderPs.redirectOutput((ProcessBuilder.Redirect.INHERIT));
     try {
+      processPs = builder.start();
       exitCode = processPs.waitFor();
       System.out.println(" Start PsqlGG");
       BufferedReader br=new BufferedReader(
