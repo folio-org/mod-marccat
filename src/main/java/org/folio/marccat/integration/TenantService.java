@@ -171,26 +171,26 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-//    final String cmdHostname = "/bin/hostname";
-//
-//    final ProcessBuilder builder = new ProcessBuilder(cmdHostname);
-//    final Map<String, String> mp = builder.environment();
-//    int exitCode = 0;
-//    Process process = null;
-//    try {
-//      logger.info(" Start Hostname");
-//      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
-//      process = builder.start();
-//      exitCode =  processWait(process);
-//      logger.info(" End Hostname");
-//
-//    } catch (IOException exception) {
-//      logger.error("Hostname exc", exception);
-//    }
-//    if (process != null) {
-//      process.destroy();
-//    }
-//    logger.info("Hostname exitCode --: " + exitCode);
+    final String cmdHostname = "/usr/bin/psql";
+
+    final ProcessBuilder builder = new ProcessBuilder(cmdHostname);
+    final Map<String, String> mp = builder.environment();
+    int exitCode = 0;
+    Process process = null;
+    try {
+      logger.info(" Start Hostname");
+      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
+      process = builder.start();
+      exitCode =  processWait(process);
+      logger.info(" End Hostname");
+
+    } catch (IOException exception) {
+      logger.error("Hostname exc", exception);
+    }
+    if (process != null) {
+      process.destroy();
+    }
+    logger.info("Hostname exitCode --: " + exitCode);
 
     final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
     final String command =  String.format("/usr/bin/psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
