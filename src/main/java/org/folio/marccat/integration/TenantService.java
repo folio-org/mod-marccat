@@ -171,9 +171,12 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-    final String cmdHostname = "/usr/lib/postgresql/10/bin/psql";
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
 
-    final ProcessBuilder builder = new ProcessBuilder(cmdHostname);
+
+
+    /* TEST */
+    final ProcessBuilder builder = new ProcessBuilder("/usr/bin/psql", "-h", host, "-p", port, "-U", adminUser, "-f", pathScript);
     final Map<String, String> mp = builder.environment();
     int exitCode = 0;
     Process process = null;
@@ -191,10 +194,11 @@ public class TenantService {
       process.destroy();
     }
     logger.info("Hostname exitCode --: " + exitCode);
+    /* TEST */
 
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
+
+
     final String command =  String.format("/usr/bin/psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
-//    final String command =  "/usr/bin/psql -h %s -p %s -U %s -f %s " + host + " " + port + " " + adminUser + " " + pathScript;
     logger.info("COMMAND_PSQL: "+command);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create role", adminPassword);
