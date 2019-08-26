@@ -179,8 +179,6 @@ public class TenantService {
     final ProcessBuilder builder = new ProcessBuilder("/bin/hostname");
     int exitCode = 0;
     Process process = null;
-    builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
-
     /* TEST */
 
 
