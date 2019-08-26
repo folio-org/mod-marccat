@@ -176,15 +176,16 @@ public class TenantService {
 
     /* TEST */
 //    final ProcessBuilder builder = new ProcessBuilder("/usr/bin/psql", "-h", host, "-p", port, "-U", adminUser, "-f", pathScript);
-    final ProcessBuilder builder = new ProcessBuilder("/bin/hostname");
+//  final ProcessBuilder builder = new ProcessBuilder("/bin/hostname");
     int exitCode = 0;
     Process process = null;
     /* TEST */
 
 
     try {
-      process = builder.start();
-      exitCode = process.waitFor();
+      process = Runtime.getRuntime().exec("/bin/hostname");
+      //process = builder.start();
+      exitCode = process.exitValue();
       System.out.println(" Start hostname");
       BufferedReader br=new BufferedReader(
         new InputStreamReader(
@@ -194,22 +195,20 @@ public class TenantService {
         System.out.println(line);
       }
       System.out.println("Exit code hostname:"+ exitCode);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-      //Thread.currentThread().interrupt();
     } catch (IOException e) {
       e.printStackTrace();
     }
 
 
-    final ProcessBuilder builderPs = new ProcessBuilder("/tmp/psq.sh");
+   // final ProcessBuilder builderPs = new ProcessBuilder("/tmp/psq.sh");
 
     exitCode = 0;
     Process processPs = null;
-    builderPs.redirectOutput((ProcessBuilder.Redirect.INHERIT));
+    //builderPs.redirectOutput((ProcessBuilder.Redirect.INHERIT));
     try {
-      processPs = builder.start();
-      exitCode = processPs.waitFor();
+     // processPs = builder.start();
+      processPs = Runtime.getRuntime().exec("/bin/hostname");
+      exitCode = processPs.exitValue();
       System.out.println(" Start PsqlGG");
       BufferedReader br=new BufferedReader(
         new InputStreamReader(
@@ -219,9 +218,6 @@ public class TenantService {
         System.out.println(line);
       }
       System.out.println("Exit code PSQLGG:"+ exitCode);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-      //Thread.currentThread().interrupt();
     } catch (IOException e) {
       e.printStackTrace();
     }
