@@ -177,29 +177,16 @@ public class TenantService {
     /* TEST */
 //    final ProcessBuilder builder = new ProcessBuilder("/usr/bin/psql", "-h", host, "-p", port, "-U", adminUser, "-f", pathScript);
     final ProcessBuilder builder = new ProcessBuilder("/bin/hostname");
-    final Map<String, String> mp = builder.environment();
     int exitCode = 0;
     Process process = null;
-    try {
-      logger.info(" Start Hostname");
-      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
-      process = builder.start();
-      exitCode =  processWait(process);
-      logger.info(" End Hostname");
+    builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
 
-    } catch (IOException exception) {
-      logger.error("Hostname exc", exception);
-    }
-    if (process != null) {
-      process.destroy();
-    }
-    logger.info("Hostname exitCode --: " + exitCode);
     /* TEST */
 
 
     try {
       exitCode = process.waitFor();
-      System.out.println(" Start proc");
+      System.out.println(" Start hostname");
       BufferedReader br=new BufferedReader(
         new InputStreamReader(
           process.getInputStream()));
@@ -207,7 +194,7 @@ public class TenantService {
       while((line=br.readLine())!=null){
         System.out.println(line);
       }
-      System.out.println("Exit code :"+ exitCode);
+      System.out.println("Exit code hostname:"+ exitCode);
     } catch (InterruptedException e) {
       e.printStackTrace();
       //Thread.currentThread().interrupt();
@@ -215,44 +202,23 @@ public class TenantService {
       e.printStackTrace();
     }
 
-    System.out.println(" End Hostname");
 
+    final ProcessBuilder builderPs = new ProcessBuilder("/tmp/psq.sh");
 
-    System.out.println("Hostname exitCode --: " + exitCode);
-
-
-    final ProcessBuilder builderWho = new ProcessBuilder("/usr/bin/whoami");
-    final Map<String, String> mpWho = builder.environment();
-    int exit = 0;
-    Process processWho = null;
+    exitCode = 0;
+    Process processPs = null;
+    builderPs.redirectOutput((ProcessBuilder.Redirect.INHERIT));
     try {
-      logger.info(" Start Whoami");
-      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
-      processWho = builder.start();
-      exit =  processWait(processWho);
-      logger.info(" End Whoami");
-
-    } catch (IOException exception) {
-      logger.error("Whoami exc", exception);
-    }
-    if (processWho != null) {
-      processWho.destroy();
-    }
-    logger.info("Whoami exitCode --: " + exit);
-    /* TEST */
-
-
-    try {
-      exit = processWho.waitFor();
-      System.out.println(" Start proc whoami");
+      exitCode = processPs.waitFor();
+      System.out.println(" Start PsqlGG");
       BufferedReader br=new BufferedReader(
         new InputStreamReader(
-          processWho.getInputStream()));
+          processPs.getInputStream()));
       String line;
       while((line=br.readLine())!=null){
         System.out.println(line);
       }
-      System.out.println("Exit code :"+ exit);
+      System.out.println("Exit code PSQLGG:"+ exitCode);
     } catch (InterruptedException e) {
       e.printStackTrace();
       //Thread.currentThread().interrupt();
@@ -260,10 +226,7 @@ public class TenantService {
       e.printStackTrace();
     }
 
-    System.out.println(" End Whoami");
 
-
-    System.out.println("Whoami exitCode --: " + exit);
 
 
 
