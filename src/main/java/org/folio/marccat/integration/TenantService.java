@@ -33,7 +33,6 @@ public class TenantService {
   /**
    * The Constant BIN_SH.
    */
-
   public static final String BIN_SH = "/bin/sh";
   public static final String DATABASE_SETUP = "/database-setup/";
   public static final String UTF_8 = "UTF-8";
@@ -105,7 +104,7 @@ public class TenantService {
   @Value("${patch.procedure}")
   private String patchProcedure;
 
-   /**
+  /**
    * Creates the tenant.
    *
    * @param tenant the tenant
@@ -171,31 +170,8 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-    final String cmdHostname = "/usr/bin/psql";
-
-    final ProcessBuilder builder = new ProcessBuilder(cmdHostname);
-    final Map<String, String> mp = builder.environment();
-    int exitCode = 0;
-    Process process = null;
-    try {
-      logger.info(" Start Hostname");
-      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
-      process = builder.start();
-      exitCode =  processWait(process);
-      logger.info(" End Hostname");
-
-    } catch (IOException exception) {
-      logger.error("Hostname exc", exception);
-    }
-    if (process != null) {
-      process.destroy();
-    }
-    logger.info("Hostname exitCode --: " + exitCode);
-
     final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
-    final String command =  String.format("/usr/bin/psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
-//    final String command =  "/usr/bin/psql -h %s -p %s -U %s -f %s " + host + " " + port + " " + adminUser + " " + pathScript;
-    logger.info("COMMAND_PSQL: "+command);
+    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create role", adminPassword);
   }
@@ -224,34 +200,34 @@ public class TenantService {
     executeScript(commands, "Create objects", adminPassword);
   }
 
-    /**
+  /**
    * Executes the patch.
    *
    * @param databaseName the database name
    */
-    private void executePatch(final String databaseName, final String patch, final String message, final String errorMessage) {
+  private void executePatch(final String databaseName, final String patch, final String message, final String errorMessage) {
 
-      try {
-        final InputStream inputStream = getClass().getResourceAsStream(patch + "/env.conf");
-        final List <String> ls = IOUtils.readLines(inputStream, "utf-8");
-        final String patchRel = getVersionNumber(ls.get(1), "patch_rel_nbr=");
-        final String patchSp = getVersionNumber(ls.get(2), "patch_sp_nbr=");
-        final String patchComp = getVersionNumber(ls.get(3), "patch_comp_typ=");
-        final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
-        String pathScript = null;
-        if (file != null) {
-          pathScript = file.getAbsolutePath();
-        }
-        final String command = String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -v %s -v %s -v %s -f %s", host, port, marccatUser, databaseName, marccatUser, patchRel, patchSp, patchComp, pathScript);
-        final List <String> commands = Arrays.asList(command.split("\\s+"));
-        final int exitCode = executeScript(commands, message, marccatPassword);
-        if (exitCode == 3)
-          logger.info(errorMessage);
-      } catch (IOException exception) {
-        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+    try {
+      final InputStream inputStream = getClass().getResourceAsStream(patch + "/env.conf");
+      final List <String> ls = IOUtils.readLines(inputStream, "utf-8");
+      final String patchRel = getVersionNumber(ls.get(1), "patch_rel_nbr=");
+      final String patchSp = getVersionNumber(ls.get(2), "patch_sp_nbr=");
+      final String patchComp = getVersionNumber(ls.get(3), "patch_comp_typ=");
+      final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
+      String pathScript = null;
+      if (file != null) {
+        pathScript = file.getAbsolutePath();
       }
-
+      final String command = String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -v %s -v %s -v %s -f %s", host, port, marccatUser, databaseName, marccatUser, patchRel, patchSp, patchComp, pathScript);
+      final List <String> commands = Arrays.asList(command.split("\\s+"));
+      final int exitCode = executeScript(commands, message, marccatPassword);
+      if (exitCode == 3)
+        logger.info(errorMessage);
+    } catch (IOException exception) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
+
+  }
 
   /**
    * Return the version of the patch.
