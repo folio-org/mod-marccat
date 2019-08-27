@@ -3,16 +3,14 @@ package org.folio.marccat.integration;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.vertx.core.json.Json;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.DeploymentDescriptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import java.util.Objects;
 import static java.util.Arrays.stream;
@@ -32,12 +30,13 @@ public class RemoteConfiguration implements Configuration {
   private static final String BASE_CQUERY = "module==MARCCAT and configName == ";
   private static final String MODULE_CONFIGURATION = "mod-configuration";
   private static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
-  private static final Log logger = new Log(RemoteConfiguration.class);
   private static final int LIMIT = 100;
   private final RestTemplate client;
 
   @Value("${configuration.endpoint}")
   private String endpoint;
+  @Autowired
+  private OkapiService okapiService;
 
 
   /**
@@ -51,8 +50,8 @@ public class RemoteConfiguration implements Configuration {
 
   @Override
   public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
-    if(getConfigurationUrl() != null)
-      endpoint = getConfigurationUrl();
+    if(okapiService.getModuleUrl(MODULE_CONFIGURATION, SUB_PATH_CONFIGURATION) != null)
+      endpoint = okapiService.getModuleUrl(MODULE_CONFIGURATION, SUB_PATH_CONFIGURATION);
     final HttpHeaders headers = new HttpHeaders();
     headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     return client.exchange(
@@ -66,28 +65,6 @@ public class RemoteConfiguration implements Configuration {
       .getBody();
   }
 
-  /**
-   * Builds the url of the configuration module from Okapi.
-   *
-   * @return the url of the configuration module.
-   */
-  public String getConfigurationUrl() {
-    try {
-      final ResponseEntity <String> response = client.getForEntity(Global.OKAPI_URL_DISCOVERY_MODULES, String.class);
-      final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
-      for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
-        if (deployDescriptor.getSrvcId().contains(MODULE_CONFIGURATION)) {
-          logger.info("REMOTE CONFIGURATION URL: " + deployDescriptor.getUrl() + SUB_PATH_CONFIGURATION);
-          return (deployDescriptor.getUrl() + SUB_PATH_CONFIGURATION);
-
-        }
-      }
-    } catch (RestClientException exception) {
-      logger.info("LOCAL CONFIGURATION URL : " + endpoint);
-      return endpoint;
-    }
-    return null;
-  }
 
 
   /**
