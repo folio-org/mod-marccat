@@ -139,7 +139,7 @@ public class TenantService {
    * @param tenant the tenant
    */
   private void initializeConfiguration(final String tenant) {
-    final String configurationUrl = configuration.getConfigurationUrl();
+    final String configurationUrl = "";
     final URI uri = URI.create(configurationUrl);
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
