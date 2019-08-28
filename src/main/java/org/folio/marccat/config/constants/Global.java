@@ -174,6 +174,8 @@ public abstract class Global {
   private static final String UNASSIGNED = "unassigned";
   private static final String TAG_9XX = "9XX";
   public static final List<String> SKIP_IN_FILING_CODES = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
+  public static final String MODULE_CONFIGURATION = "mod-configuration";
+  public static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
 
   static {
     TAGS.put("001", "Control Number  (NR)");

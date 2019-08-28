@@ -1,15 +1,13 @@
 package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.vertx.core.json.Json;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.resources.domain.DeploymentDescriptor;
+import org.folio.marccat.config.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import java.util.Objects;
@@ -26,17 +24,19 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
  */
 @Component
 public class RemoteConfiguration implements Configuration {
-
+  /**
+   * The Constant logger.
+   */
+  private static final Log logger = new Log(RemoteConfiguration.class);
   private static final String BASE_CQUERY = "module==MARCCAT and configName == ";
-  private static final String MODULE_CONFIGURATION = "mod-configuration";
-  private static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
   private static final int LIMIT = 100;
   private final RestTemplate client;
 
   @Value("${configuration.endpoint}")
   private String endpoint;
+
   @Autowired
-  private OkapiService okapiService;
+  private OkapiClient okapiClient;
 
 
   /**
@@ -50,8 +50,9 @@ public class RemoteConfiguration implements Configuration {
 
   @Override
   public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
-    if(okapiService.getModuleUrl(MODULE_CONFIGURATION, SUB_PATH_CONFIGURATION) != null)
-      endpoint = okapiService.getModuleUrl(MODULE_CONFIGURATION, SUB_PATH_CONFIGURATION);
+    if(okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
+      endpoint = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
+    logger.info("Configuration URL : " + endpoint);
     final HttpHeaders headers = new HttpHeaders();
     headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     return client.exchange(

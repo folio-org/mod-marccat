@@ -3,6 +3,7 @@ package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.io.IOUtils;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,28 @@ public class TenantService {
    * The Constant BIN_SH.
    */
   public static final String BIN_SH = "/bin/sh";
-  public static final String DATABASE_SETUP = "/database-setup/";
-  public static final String UTF_8 = "UTF-8";
+  /**
+    * The Constant DATABASE_SETUP.
+   */
 
+  public static final String DATABASE_SETUP = "/database-setup/";
+
+  /**
+    * The Constant UTF_8.
+   */
+  public static final String UTF_8 = "UTF-8";
 
   /**
    * The remote configuration.
    */
   @Autowired
   private RemoteConfiguration configuration;
+
+  /**
+   * The okapi client.
+   */
+  @Autowired
+  private OkapiClient okapiClient;
 
   /**
    * The username.
@@ -139,7 +153,7 @@ public class TenantService {
    * @param tenant the tenant
    */
   private void initializeConfiguration(final String tenant) {
-    final String configurationUrl = "";
+    final String configurationUrl = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     final URI uri = URI.create(configurationUrl);
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
@@ -154,6 +168,13 @@ public class TenantService {
    */
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName =  tenant + marccatSuffix;
+    final Map<String, String> env = okapiClient.getEnvironments();
+    if(!env.isEmpty()){
+      host = env.get("DB_HOST");
+      port = env.get("DB_PORT");
+      adminUser = env.get("DB_USERNAME");
+      adminPassword = env.get("DB_PASSWORD");
+    }
     createRole(databaseName);
     createDatabase(databaseName);
     boolean schemaNotExist = schemaExists(databaseName);
