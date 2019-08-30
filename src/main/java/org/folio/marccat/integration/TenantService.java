@@ -247,8 +247,8 @@ public class TenantService {
     Process processWho = null;
     try {
       logger.info(" Start Whoami");
-      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
-      processWho = builder.start();
+      builderWho.redirectOutput((ProcessBuilder.Redirect.INHERIT));
+      processWho = builderWho.start();
       exit =  processWait(processWho);
       logger.info(" End Whoami");
 
