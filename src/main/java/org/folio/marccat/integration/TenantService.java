@@ -6,11 +6,13 @@ import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
+import java.net.InetAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.StreamSupport;
@@ -191,113 +193,18 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
-
-
-    /* TEST */
-//    final ProcessBuilder builder = new ProcessBuilder("/usr/bin/psql", "-h", host, "-p", port, "-U", adminUser, "-f", pathScript);
-    final ProcessBuilder builder = new ProcessBuilder("/bin/hostname");
-    final Map<String, String> mp = builder.environment();
-    int exitCode = 0;
-    Process process = null;
+    InetAddress inetAddress = null;
     try {
-      logger.info(" Start Hostname");
-      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
-      process = builder.start();
-      exitCode =  processWait(process);
-      logger.info(" End Hostname");
-
-    } catch (IOException exception) {
-      logger.error("Hostname exc", exception);
-    }
-    if (process != null) {
-      process.destroy();
-    }
-    logger.info("Hostname exitCode --: " + exitCode);
-    /* TEST */
-
-
-    try {
-      exitCode = process.waitFor();
-      System.out.println(" Start proc");
-      BufferedReader br=new BufferedReader(
-        new InputStreamReader(
-          process.getInputStream()));
-      String line;
-      while((line=br.readLine())!=null){
-        System.out.println(line);
-      }
-      System.out.println("Exit code :"+ exitCode);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-      //Thread.currentThread().interrupt();
-    } catch (IOException e) {
+      inetAddress = InetAddress.getLocalHost();
+    } catch (UnknownHostException e) {
       e.printStackTrace();
     }
-
-    System.out.println(" End Hostname");
-
-
-    System.out.println("Hostname exitCode --: " + exitCode);
-
-
-    final ProcessBuilder builderWho = new ProcessBuilder("/sbin/ifconfig");
-    final Map<String, String> mpWho = builder.environment();
-    int exit = 0;
-    Process processWho = null;
-    try {
-      logger.info(" Start Whoami");
-      builderWho.redirectOutput((ProcessBuilder.Redirect.INHERIT));
-      processWho = builderWho.start();
-      exit =  processWait(processWho);
-      logger.info(" End Whoami");
-
-    } catch (IOException exception) {
-      logger.error("Whoami exc", exception);
-    }
-    if (processWho != null) {
-      processWho.destroy();
-    }
-    logger.info("Whoami exitCode --: " + exit);
-    /* TEST */
-
-
-    try {
-      exit = processWho.waitFor();
-      System.out.println(" Start proc whoami");
-      BufferedReader br=new BufferedReader(
-        new InputStreamReader(
-          processWho.getInputStream()));
-      String line;
-      while((line=br.readLine())!=null){
-        System.out.println(line);
-      }
-      System.out.println("Exit code :"+ exit);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-      //Thread.currentThread().interrupt();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    System.out.println(" End Whoami");
-
-
-    System.out.println("Whoami exitCode --: " + exit);
-
-
-
-    final String command =  String.format("/usr/bin/psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
-    logger.info("COMMAND_PSQL: "+command);
-    final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, "Create role", adminPassword);
-  }
-//  private void createRole(final String databaseName) {
+    System.out.println("IP Address:- " + inetAddress.getHostAddress());
 //    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
 //    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
 //    final List<String> commands = Arrays.asList(command.split("\\s+"));
 //    executeScript(commands, "Create role", adminPassword);
-//  }
+  }
 
   /**
    * Creates the database.
