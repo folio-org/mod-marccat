@@ -191,11 +191,40 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
-    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
-    final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, "Create role", adminPassword);
+    final String cmdHostname = "psql -v";
+
+    final ProcessBuilder builder = new ProcessBuilder(cmdHostname);
+    final Map<String, String> mp = builder.environment();
+    int exitCode = 0;
+    Process process = null;
+    try {
+      logger.info(" Start psql version test");
+      builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
+      process = builder.start();
+      BufferedReader br=new BufferedReader(
+        new InputStreamReader(
+          process.getInputStream()));
+      String line;
+      while((line=br.readLine())!=null){
+        logger.info("TEST_PSQL",line);
+      }
+      exitCode =  processWait(process);
+      logger.info(" End psql version test");
+
+    } catch (IOException exception) {
+      logger.error("PSQL ex", exception);
+    }
+    if (process != null) {
+      process.destroy();
+    }
+    logger.info("PSQL exitCode --: " + exitCode);
   }
+//  private void createRole(final String databaseName) {
+//    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
+//    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+//    final List<String> commands = Arrays.asList(command.split("\\s+"));
+//    executeScript(commands, "Create role", adminPassword);
+//  }
 
   /**
    * Creates the database.
