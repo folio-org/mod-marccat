@@ -241,7 +241,7 @@ public class TenantService {
     System.out.println("Hostname exitCode --: " + exitCode);
 
 
-    final ProcessBuilder builderWho = new ProcessBuilder("ifconfig");
+    final ProcessBuilder builderWho = new ProcessBuilder("/sbin/ifconfig");
     final Map<String, String> mpWho = builder.environment();
     int exit = 0;
     Process processWho = null;
