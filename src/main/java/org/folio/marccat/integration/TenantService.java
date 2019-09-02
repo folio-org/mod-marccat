@@ -193,17 +193,10 @@ public class TenantService {
    * @param databaseName the database name
    */
   private void createRole(final String databaseName) {
-    InetAddress inetAddress = null;
-    try {
-      inetAddress = InetAddress.getLocalHost();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
-    }
-    System.out.println("IP Address:- " + inetAddress.getHostAddress());
-//    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
-//    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
-//    final List<String> commands = Arrays.asList(command.split("\\s+"));
-//    executeScript(commands, "Create role", adminPassword);
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
+    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
+    executeScript(commands, "Create role", adminPassword);
   }
 
   /**
