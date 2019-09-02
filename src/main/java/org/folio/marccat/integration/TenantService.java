@@ -449,7 +449,7 @@ public class TenantService {
   private Connection getConnection(final String databaseName) throws SQLException {
     final StringBuilder jdbcUrl = new StringBuilder();
     jdbcUrl.append("jdbc:postgresql://").append(host).append(":").append(port).append("/").append(databaseName);
-    return DriverManager.getConnection(jdbcUrl.toString(), marccatUser, marccatPassword);
+    return DriverManager.getConnection(jdbcUrl.toString(), adminUser, adminPassword);
   }
 
   /**
