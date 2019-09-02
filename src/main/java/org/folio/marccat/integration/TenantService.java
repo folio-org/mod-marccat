@@ -209,7 +209,7 @@ public class TenantService {
 
   private void createRole() throws SQLException {
     final String queryRole = "CREATE ROLE marccat PASSWORD 'password' SUPERUSER CREATEDB INHERIT LOGIN";
-    final String queryAlterRole = "ALTER ROLE user_name SET search_path TO amicus,olisuite,public";
+    final String queryAlterRole = "ALTER ROLE marccat SET search_path TO amicus,olisuite,public";
     logger.debug("Start role");
     try (Connection connection = getConnection("postgres");
          Statement stmRole = connection.createStatement();
