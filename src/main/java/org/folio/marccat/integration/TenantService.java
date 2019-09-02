@@ -6,17 +6,14 @@ import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
-import java.net.InetAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.URI;
-import java.net.UnknownHostException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.StreamSupport;
-
 import static java.util.stream.Collectors.toMap;
 
 /**
@@ -177,14 +174,14 @@ public class TenantService {
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
     }
-    createRole(databaseName);
+    createRole();
     createDatabase(databaseName);
-    boolean schemaNotExist = schemaExists(databaseName);
+   /* boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist) {
       createObjects(databaseName);
     }
     executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
-    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");
+    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");*/
   }
 
   /**
@@ -192,24 +189,56 @@ public class TenantService {
    *
    * @param databaseName the database name
    */
-  private void createRole(final String databaseName) {
+ /* private void createRole(final String databaseName) {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create role", adminPassword);
-  }
+  }*/
 
   /**
    * Creates the database.
    *
-   * @param databaseName the database name
    */
-  private void createDatabase(final String databaseName) {
+ /* private void createDatabase(final String databaseName) {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-db.sql", databaseName, true);
     final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
     final List<String> commands = Arrays.asList(command.split("\\s+"));
     executeScript(commands, "Create database", adminPassword);
+  }*/
+
+  private void createRole() throws SQLException {
+    final String queryRole = "CREATE ROLE marccat PASSWORD 'password' SUPERUSER CREATEDB INHERIT LOGIN";
+    final String queryAlterRole = "ALTER ROLE user_name SET search_path TO amicus,olisuite,public";
+    logger.debug("Start role");
+    try (Connection connection = getConnection("postgres");
+         Statement stmRole = connection.createStatement();
+         Statement stmAlterRole = connection.createStatement();)
+    {
+      stmRole.execute(queryRole);
+      stmAlterRole.execute(queryAlterRole);
+      logger.debug("End role");
+    } catch (SQLException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw exception;
+    }
   }
+  private void createDatabase(final String databaseName) throws SQLException {
+    final String queryDatabase = "create database " + databaseName;
+    logger.debug("Start database" + databaseName);
+    try (Connection connection = getConnection("postgres");
+         Statement statement = connection.createStatement();)
+    {
+      statement.execute(queryDatabase);
+      logger.debug("End database" + databaseName);
+    } catch (SQLException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw exception;
+    }
+  }
+
+
+
 
   /**
    * Creates the objects.
