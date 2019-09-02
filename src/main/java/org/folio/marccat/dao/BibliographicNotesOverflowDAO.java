@@ -13,7 +13,7 @@ import java.util.List;
  * @author nbianchini
  * @since 1.0
  */
-public class DAOBibliographicNotesOverflow extends AbstractDAO {
+public class BibliographicNotesOverflowDAO extends AbstractDAO {
 
   @SuppressWarnings("unchecked")
   public List<BibliographicNoteOverflow> getBibNotesOverflowList(final int bibItemNumber, final int userView, final int noteNumber, final Session session) throws HibernateException {
