@@ -11,7 +11,6 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 
@@ -21,7 +20,7 @@ import java.util.List;
  * @author paulm
  * @author carment
  */
-public class NameTitleDescriptorDAO extends DAODescriptor {
+public class NameTitleDescriptorDAO extends DescriptorDAO {
 
   /**
    * Gets the persistent class.

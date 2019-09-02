@@ -14,7 +14,7 @@ import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.PublisherDescriptorDAO;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.PUBL_HDG;
@@ -599,7 +599,7 @@ public class PublisherTag extends VariableField implements PersistentObjectWithV
   }
 
   public List replaceEquivalentDescriptor(short indexingLanguage, int cataloguingView) throws DataAccessException {
-    final DAODescriptor dao = new PublisherDescriptorDAO();
+    final DescriptorDAO dao = new PublisherDescriptorDAO();
     List newTags = new ArrayList();
     PublisherAccessPoint anApf = null;
     List accessPointsApp = new ArrayList();

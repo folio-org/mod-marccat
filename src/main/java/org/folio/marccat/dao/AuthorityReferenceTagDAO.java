@@ -18,7 +18,7 @@ import org.folio.marccat.dao.persistence.T_DUAL_REF;
  * @version $Revision: 1.4 $, $Date: 2006/01/11 13:36:22 $
  * @since 1.0
  */
-public class DAOAuthorityReferenceTag extends AbstractDAO {
+public class AuthorityReferenceTagDAO extends AbstractDAO {
 
   /* (non-Javadoc)
    * @see HibernateUtil#delete(librisuite.business.common.Persistence)

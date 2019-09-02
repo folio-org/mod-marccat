@@ -9,7 +9,7 @@ import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOBibliographicNoteTag;
+import org.folio.marccat.dao.BibliographicNoteTagDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
@@ -352,7 +352,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return the dao associated.
    */
   public AbstractDAO getDAO() {
-    return new DAOBibliographicNoteTag();
+    return new BibliographicNoteTagDAO();
   }
 
   /**

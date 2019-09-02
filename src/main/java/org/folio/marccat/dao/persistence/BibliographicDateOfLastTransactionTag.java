@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Nov 18, 2005
- *
- * BibliographicDateOfLastTransactionTag.java
- */
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;

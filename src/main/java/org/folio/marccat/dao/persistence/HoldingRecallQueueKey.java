@@ -1,10 +1,4 @@
-/*
- * (c) LibriCore
- *
- * Created on 27-abr-2005
- *
- * HoldingRecallQueueKey.java
- */
+
 package org.folio.marccat.dao.persistence;
 
 import java.io.Serializable;

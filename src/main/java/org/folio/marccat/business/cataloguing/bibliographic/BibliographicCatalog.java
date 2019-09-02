@@ -55,7 +55,7 @@ public class BibliographicCatalog extends Catalog {
 
   @Override
   public List getTagCategories(final Locale locale) {
-    return DAO_CODE_TABLE.getOptionListOrderAlphab(T_BIB_TAG_CAT.class, locale);
+    return CODE_TABLE_DAO.getOptionListOrderAlphab(T_BIB_TAG_CAT.class, locale);
   }
 
   /**

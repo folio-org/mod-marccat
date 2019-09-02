@@ -4,7 +4,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOBibItem;
+import org.folio.marccat.dao.BibItemDAO;
 
 import java.io.Serializable;
 
@@ -87,7 +87,7 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
   }
 
   public AbstractDAO getDAO() {
-    return new DAOBibItem();
+    return new BibItemDAO();
   }
 
   public char getDescriptiveCataloguingCode() {

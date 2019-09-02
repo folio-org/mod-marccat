@@ -1,16 +1,10 @@
-/*
- * (c) LibriCore
- *
- * Created on Jul 20, 2004
- *
- * IndexList.java
- */
 package org.folio.marccat.dao.persistence;
 
+
 /**
+ * Persistent class for IDX_LIST table
+ *
  * @author paulm
- * @version %I%, %Global%
- * @since 1.0
  */
 public class IndexList {
   private IndexListKey key;

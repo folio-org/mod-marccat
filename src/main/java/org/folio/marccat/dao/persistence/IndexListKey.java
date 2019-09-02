@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Jul 20, 2004
- *
- * IndexListKey.java
- */
 package org.folio.marccat.dao.persistence;
 
 import java.io.Serializable;
@@ -16,8 +9,6 @@ import java.util.regex.Pattern;
  * Hibernate key class for IDX_LIST table
  *
  * @author paulm
- * @version %I%, %Global%
- * @since 1.0
  */
 public class IndexListKey implements Serializable {
   private static final Pattern p = Pattern.compile("(\\d+)(.+)");  //digits then the rest

@@ -7,7 +7,7 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.CrossReferencesDAO;
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 
@@ -116,7 +116,7 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    *
    * @return the target DAO
    */
-  public abstract DAODescriptor getTargetDAO();
+  public abstract DescriptorDAO getTargetDAO();
 
   /**
    * Inits the cross reference and add the default values.

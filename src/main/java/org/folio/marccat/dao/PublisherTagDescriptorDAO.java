@@ -22,7 +22,7 @@ import java.util.List;
  */
 
 @SuppressWarnings("unchecked")
-public class PublisherTagDescriptorDAO extends DAODescriptor {
+public class PublisherTagDescriptorDAO extends DescriptorDAO {
 
 
   /**

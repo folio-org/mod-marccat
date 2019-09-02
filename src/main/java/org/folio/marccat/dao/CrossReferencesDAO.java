@@ -111,7 +111,7 @@ public class CrossReferencesDAO extends AbstractDAO {
     final Session session)
     throws HibernateException {
 
-    return ((DAODescriptor) source.getDAO()).loadReference(
+    return ((DescriptorDAO) source.getDAO()).loadReference(
       source,
       target,
       referenceType,

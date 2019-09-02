@@ -23,7 +23,7 @@ import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
  * @author paulm
  * @author carment
  */
-public class ControlNumberDescriptorDAO extends DAODescriptor {
+public class ControlNumberDescriptorDAO extends DescriptorDAO {
 
   /**
    * Gets the persistent class.

@@ -21,9 +21,9 @@ import java.util.List;
  * @version $Revision: 1.2 $, $Date: 2005/12/01 13:50:05 $
  * @since 1.0
  */
-public class DAOAuthorityValidation extends DAOValidation {
+public class AuthorityValidationDAO extends DAOValidation {
 
-  private static final Log logger = LogFactory.getLog(DAOAuthorityValidation.class);
+  private static final Log logger = LogFactory.getLog(AuthorityValidationDAO.class);
 
   public Validation load(String tag, String headingType, int category) {
     List l = find("from AuthorityValidation as v, " +

@@ -18,8 +18,8 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.descriptor.DescriptorFactory;
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOAuthorityCorrelation;
-import org.folio.marccat.dao.DAOAuthorityReferenceTag;
+import org.folio.marccat.dao.AuthorityCorrelationDAO;
+import org.folio.marccat.dao.AuthorityReferenceTagDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NoHeadingSetException;
@@ -164,7 +164,7 @@ public abstract class AuthorityReferenceTag
   }
 
   public AbstractDAO getDAO() {
-    return new DAOAuthorityReferenceTag();
+    return new AuthorityReferenceTagDAO();
   }
 
 
@@ -352,7 +352,7 @@ public abstract class AuthorityReferenceTag
         }
       }
     } else if (getRefTypeCorrelationPosition() == 2) {
-      return new DAOAuthorityCorrelation().getValidReferenceTypeList(this);
+      return new AuthorityCorrelationDAO().getValidReferenceTypeList(this);
     } else {
       return new ArrayList<>();
     }
@@ -426,7 +426,7 @@ public abstract class AuthorityReferenceTag
     logger.debug("getThirdCorrelationList(" + value1 + ", " + value2 + ")");
     if (getRefTypeCorrelationPosition() == 3) {
       logger.debug("refType is in pos 3");
-      return new DAOAuthorityCorrelation().getValidReferenceTypeList(this);
+      return new AuthorityCorrelationDAO().getValidReferenceTypeList(this);
     } else {
       return Collections.emptyList();
     }

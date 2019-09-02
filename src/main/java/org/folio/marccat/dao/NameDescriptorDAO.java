@@ -18,7 +18,7 @@ import java.util.List;
  * @author paulm
  * @author carment
  */
-public class NameDescriptorDAO extends DAODescriptor {
+public class NameDescriptorDAO extends DescriptorDAO {
 
   /**
    * Gets the persistent class.

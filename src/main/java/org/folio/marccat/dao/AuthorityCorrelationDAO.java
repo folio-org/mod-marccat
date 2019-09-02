@@ -29,9 +29,9 @@ import java.util.List;
  * @author paulm
  * @version $Revision: 1.4 $, $Date: 2006/01/11 13:36:22 $
  */
-public class DAOAuthorityCorrelation extends DAOCorrelation {
+public class AuthorityCorrelationDAO extends CorrelationDAO {
   private static final Log logger = LogFactory
-    .getLog(DAOAuthorityCorrelation.class);
+    .getLog(AuthorityCorrelationDAO.class);
 
   private static final String ALPHABETICAL_ORDER = " order by ct.longText ";
   private static final String SEQUENCE_ORDER = " order by ct.sequence ";

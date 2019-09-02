@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Oct 25, 2004
- *
- * CataloguingSourceTag.java
- */
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
@@ -12,6 +5,11 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
 
+/**
+ * Class comment
+ *
+ * @author paulm
+ */
 public class CountryOfPublicationTag extends VariableHeaderUsingItemEntity {
 
   public CountryOfPublicationTag() {
@@ -34,7 +32,7 @@ public class CountryOfPublicationTag extends VariableHeaderUsingItemEntity {
 
   @Override
   public void setStringText(StringText st) {
-//need a more definitive way to set to null		
+//need a more definitive way to set to null
     if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       ((BIB_ITM) getItemEntity()).setCountryStringText(null);
     } else {

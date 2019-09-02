@@ -10,7 +10,6 @@ import org.folio.marccat.business.cataloguing.authority.*;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.business.controller.UserProfile;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
@@ -59,7 +58,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
   @Override
   public void updateFullRecordCacheTable(Session session, CatalogItem item) {
     FULL_CACHE cache;
-    DAOFullCache dao = new DAOFullCache();
+    FullCacheDAO dao = new FullCacheDAO();
     try {
       cache = dao.load(session, item.getAmicusNumber(), View.AUTHORITY);
     } catch (RecordNotFoundException e) {
@@ -137,7 +136,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     AuthorityHeadingTag heading) {
     List<Tag> result = new ArrayList<>();
     Descriptor d = heading.getDescriptor();
-    DAODescriptor dao = (DAODescriptor) d.getDAO();
+    DescriptorDAO dao = (DescriptorDAO) d.getDAO();
     List refs =
       dao.getCrossReferences(
         heading.getDescriptor(),

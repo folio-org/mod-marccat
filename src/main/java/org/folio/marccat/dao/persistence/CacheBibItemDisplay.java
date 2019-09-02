@@ -12,9 +12,7 @@ import java.io.Serializable;
 /**
  * Represents composite key for S_CACHE_BIB_ITM_DSPLY class
  *
- * @author elena
- * @version $Revision: 1.1 $, $Date: 2005/07/25 13:09:24 $
- * @since 1.0
+ * @author paulm
  */
 
 public class CacheBibItemDisplay implements Serializable {

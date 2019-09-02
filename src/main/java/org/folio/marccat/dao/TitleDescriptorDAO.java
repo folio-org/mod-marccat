@@ -21,7 +21,7 @@ import java.util.List;
  * @author paulm
  * @author carment
  */
-public class TitleDescriptorDAO extends DAODescriptor {
+public class TitleDescriptorDAO extends DescriptorDAO {
 
   public static final String TH = "'TH'";
 

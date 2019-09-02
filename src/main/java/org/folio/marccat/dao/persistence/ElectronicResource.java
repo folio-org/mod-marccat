@@ -9,6 +9,8 @@ import org.w3c.dom.Element;
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
+ * Class comment
+ *
  * @author paulm
  * @author nbianchini
  * @since 1.0

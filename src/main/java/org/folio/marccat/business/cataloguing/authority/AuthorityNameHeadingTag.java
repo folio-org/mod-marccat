@@ -1,6 +1,6 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import org.folio.marccat.dao.DAOAuthorityCorrelation;
+import org.folio.marccat.dao.AuthorityCorrelationDAO;
 import org.folio.marccat.dao.persistence.NME_HDG;
 import org.folio.marccat.dao.persistence.NameSubType;
 import org.folio.marccat.shared.CorrelationValues;
@@ -28,7 +28,7 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
    * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short, java.util.Locale)
    */
   public List getSecondCorrelationList(short value1) {
-    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
+    AuthorityCorrelationDAO dao = new AuthorityCorrelationDAO();
     return dao.getSecondCorrelationList(
       getCategory(),
       getHeadingType(),

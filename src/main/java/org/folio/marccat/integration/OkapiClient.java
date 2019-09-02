@@ -4,6 +4,7 @@ import io.vertx.core.json.Json;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.resources.domain.DeploymentDescriptor;
 import org.folio.marccat.resources.domain.EnvEntry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -30,6 +31,8 @@ public class OkapiClient {
   /**
    * The Client.
    */
+
+  @Autowired
   private final RestTemplate client;
 
   /**

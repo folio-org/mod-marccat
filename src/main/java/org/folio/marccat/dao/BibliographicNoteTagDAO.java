@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 22, 2004
- *
- * DAOPublisherTag.java
- */
 package org.folio.marccat.dao;
 
 import net.sf.hibernate.HibernateException;
@@ -25,10 +18,10 @@ import java.util.Iterator;
  * @since 1.0
  */
 
-public class DAOBibliographicNoteTag extends AbstractDAO {
+public class BibliographicNoteTagDAO extends AbstractDAO {
 
   @Override
-  public void delete(Persistence po, final Session session) throws HibernateException {
+  public void delete(final Persistence po, final Session session) throws HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
       throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
     }
@@ -89,7 +82,6 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
       noteStandard.setBibItemNumber(note.getItemNumber());
       noteStandard.setUserViewString(note.getUserViewString());
       noteStandard.setNoteNbr(note.getNoteNbr());
-      /* Testo variabile RIMOZIONE CODICE SOTTOCAMPO 03/04/2009*/
       persistByStatus(noteStandard, session);
     }
 

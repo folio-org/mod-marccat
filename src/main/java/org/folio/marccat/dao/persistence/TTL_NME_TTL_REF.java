@@ -82,7 +82,7 @@ public class TTL_NME_TTL_REF extends REF {
   /* (non-Javadoc)
    * @see REF#getTargetDAO()
    */
-  public DAODescriptor getTargetDAO() {
+  public DescriptorDAO getTargetDAO() {
     if (isSourceTitle()) {
       return new NameTitleDescriptorDAO();
     } else {

@@ -26,8 +26,8 @@ import static java.util.stream.Collectors.toList;
  * @since 1.0
  */
 
-public class DAOCodeTable extends AbstractDAO {
-  private Log logger = new Log(DAOCodeTable.class);
+public class CodeTableDAO extends AbstractDAO {
+  private Log logger = new Log(CodeTableDAO.class);
   private String noSessionMessege = "don't use it: session missing";
   private String unableCreateMessage = "unable to create code table object";
 

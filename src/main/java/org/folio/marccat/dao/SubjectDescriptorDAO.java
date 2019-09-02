@@ -15,7 +15,7 @@ import java.util.List;
  * @author paulm
  * @author carment
  */
-public class SubjectDescriptorDAO extends DAODescriptor {
+public class SubjectDescriptorDAO extends DescriptorDAO {
 
 
   /**

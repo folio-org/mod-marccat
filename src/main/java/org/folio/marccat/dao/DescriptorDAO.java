@@ -35,7 +35,7 @@ import static org.folio.marccat.util.F.deepCopy;
  * @author natasciab
  * @author carment
  */
-public abstract class DAODescriptor extends AbstractDAO {
+public abstract class DescriptorDAO extends AbstractDAO {
   /**
    * The blank sortform.
    */

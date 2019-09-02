@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * The Class BibliographicRelationship.
  */
-@SuppressWarnings("unused")
 public class BibliographicRelationship extends VariableField implements PersistentObjectWithView {
 
   /**

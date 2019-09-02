@@ -4,10 +4,13 @@ import org.folio.marccat.shared.CorrelationValues;
 
 import java.io.Serializable;
 
+
 /**
- * @author elena
- * @since 1.0
+ * Class comment
+ *
+ * @author paulm
  */
+
 
 public class Correlation implements Serializable {
 

@@ -3,6 +3,8 @@ package org.folio.marccat.dao.persistence;
 import java.io.Serializable;
 
 /**
+ *
+ *
  * @author Carment
  * @since 1.0
  */

@@ -8,7 +8,7 @@ import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.util.StringText;
 import org.w3c.dom.Element;
 
@@ -90,7 +90,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   public void generateNewKey(final Session session) throws HibernateException, SQLException {
 
     if (getDescriptor().isNew()) {
-      Descriptor d = ((DAODescriptor) getDescriptor().getDAO()).getMatchingHeading(getDescriptor(), session);
+      Descriptor d = ((DescriptorDAO) getDescriptor().getDAO()).getMatchingHeading(getDescriptor(), session);
       if (d == null) {
         getDescriptor().generateNewKey(session);
       } else {
@@ -140,8 +140,8 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
     functionCode = i;
   }
 
-  public DAODescriptor getDAODescriptor() {
-    return (DAODescriptor) getDescriptor().getDAO();
+  public DescriptorDAO getDAODescriptor() {
+    return (DescriptorDAO) getDescriptor().getDAO();
   }
 
 

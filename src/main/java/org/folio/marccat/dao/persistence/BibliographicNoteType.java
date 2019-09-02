@@ -1,8 +1,9 @@
 package org.folio.marccat.dao.persistence;
 
 /**
+ * Class comment
+ *
  * @author paulm
- * @version %I%, %Global%
  */
 public class BibliographicNoteType extends T_SINGLE {
   /**

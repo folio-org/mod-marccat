@@ -2,7 +2,7 @@ package org.folio.marccat.business.cataloguing.authority;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.dao.DAOAuthorityCorrelation;
+import org.folio.marccat.dao.AuthorityCorrelationDAO;
 import org.folio.marccat.dao.persistence.CLSTN;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.T_AUT_CLSTN_FNCTN;
@@ -92,7 +92,7 @@ public class AuthorityClassificationAccessPoint extends AuthorityAccessPoint {
    * @see librisuite.business.cataloguing.bibliographic.Tag#getSecondCorrelationList(short)
    */
   public List getSecondCorrelationList(short value1) {
-    DAOAuthorityCorrelation dao = new DAOAuthorityCorrelation();
+    AuthorityCorrelationDAO dao = new AuthorityCorrelationDAO();
     List l = dao.getSecondCorrelationList(
       getCategory(),
       getHeadingType(),

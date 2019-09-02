@@ -24,7 +24,7 @@ import java.util.Optional;
  * @author carment
  * @since 1.0
  */
-public class ShelfListDAO extends DAODescriptor {
+public class ShelfListDAO extends DescriptorDAO {
 
   /**
    * Gets the persistent class.

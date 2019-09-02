@@ -3,7 +3,7 @@ package org.folio.marccat.dao;
 import org.folio.marccat.business.common.Persistence;
 
 
-public class DAOBibliographicNote extends AbstractDAO {
+public class BibliographicNoteDAO extends AbstractDAO {
 
   @Override
   public void delete(Persistence p) {

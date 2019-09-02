@@ -6,7 +6,7 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOBibliographicNotesOverflow;
+import org.folio.marccat.dao.BibliographicNotesOverflowDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * Class comment
  *
- * @author hansv
+ * @author paulm
  */
 public class BibliographicNoteOverflow implements PersistentObjectWithView, Serializable {
 
@@ -259,7 +259,7 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
   }
 
   public AbstractDAO getDAO() {
-    return new DAOBibliographicNotesOverflow();
+    return new BibliographicNotesOverflowDAO();
   }
 
 }

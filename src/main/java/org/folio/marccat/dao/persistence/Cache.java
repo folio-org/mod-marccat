@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 6, 2004
- *
- * S_CACHE_BIB_ITM_DSPLY.java
- */
 package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
@@ -15,11 +8,13 @@ import org.folio.marccat.dao.AbstractDAO;
 
 import java.io.Serializable;
 
+
 /**
+ * Persistent class for S_CACHE_BIB_ITM_DSPLY table
+ *
  * @author paulm
- * @version $Revision: 1.2 $, $Date: 2005/12/21 13:33:34 $
- * @since 1.0
  */
+
 public class Cache implements Persistence {
   private int bibItemNumber;
   private short cataloguingView;

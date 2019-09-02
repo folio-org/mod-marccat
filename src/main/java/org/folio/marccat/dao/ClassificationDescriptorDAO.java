@@ -22,7 +22,7 @@ import java.util.Objects;
  * @author carment
  * @since 1.0
  */
-public class ClassificationDescriptorDAO extends DAODescriptor {
+public class ClassificationDescriptorDAO extends DescriptorDAO {
 
 
   /**

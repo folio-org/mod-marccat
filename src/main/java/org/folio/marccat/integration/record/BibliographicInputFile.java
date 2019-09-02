@@ -14,7 +14,7 @@ import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.BibliographicCatalogDAO;
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.*;
@@ -212,7 +212,7 @@ public class BibliographicInputFile {
           d.setUserViewString(View.makeSingleViewString(view));
           Descriptor dup;
           try {
-            dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
+            dup = ((DescriptorDAO) (d.getDAO())).getMatchingHeading(d, session);
             if (dup == null) {
               d.setConfigValues(configuration);
               d.generateNewKey(session);

@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.exception.ChronologyConfigurationException;
 import org.folio.marccat.exception.DataAccessException;
 
@@ -543,7 +543,7 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
 
   public String getPartTypeText(final Session session, final Locale locale) {
     try {
-      return new DAOCodeTable().load(session, T_SRL_PRT_TYP.class, getPartType(), locale).getLongText();
+      return new CodeTableDAO().load(session, T_SRL_PRT_TYP.class, getPartType(), locale).getLongText();
     } catch (DataAccessException e) {
       return "";
     }

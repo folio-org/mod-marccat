@@ -7,7 +7,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog
 import org.folio.marccat.business.cataloguing.bibliographic.MarcCommandLibrary;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
@@ -471,7 +471,7 @@ public class RecordParser {
       Descriptor descriptor = ptag.getDescriptor();
       descriptor.setUserViewString(View.makeSingleViewString(view));
       descriptor.setConfigValues(configuration);
-      final Descriptor descriptorNew = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+      final Descriptor descriptorNew = ((DescriptorDAO) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
       if (descriptorNew != null) {
         ptag.setDescriptor((PUBL_HDG) descriptorNew);
         ptag.setPublisherHeadingNumber(ptag.getDescriptor().getKey().getHeadingNumber());
@@ -506,7 +506,7 @@ public class RecordParser {
       final Descriptor descriptor = ptag.getDescriptor();
       descriptor.setUserViewString(View.makeSingleViewString(view));
       descriptor.setConfigValues(configuration);
-      final Descriptor descriptorNew = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+      final Descriptor descriptorNew = ((DescriptorDAO) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
       if (descriptorNew != null) {
         ptag.setDescriptor((PUBL_HDG) descriptorNew);
         ptag.setUserViewString(View.makeSingleViewString(view));

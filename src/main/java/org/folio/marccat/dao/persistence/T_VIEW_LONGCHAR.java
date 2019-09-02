@@ -9,7 +9,7 @@ package org.folio.marccat.dao.persistence;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.exception.DataAccessException;
 
 import java.util.Locale;
@@ -21,7 +21,7 @@ import java.util.Locale;
  */
 public class T_VIEW_LONGCHAR extends CodeTable {
   private static final Log logger = LogFactory.getLog(T_VIEW_LONGCHAR.class);
-  private static final DAOCodeTable daoCodeTable = new DAOCodeTable();
+  private static final CodeTableDAO daoCodeTable = new CodeTableDAO();
   private String code;
   private long translationKey;
 

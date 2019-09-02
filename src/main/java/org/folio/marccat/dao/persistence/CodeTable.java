@@ -5,7 +5,7 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.CodeTableDAO;
 
 import java.io.Serializable;
 
@@ -76,7 +76,7 @@ public abstract class CodeTable implements Persistence {
   }
 
   public AbstractDAO getDAO() {
-    return new DAOCodeTable();
+    return new CodeTableDAO();
   }
 
   public int getUpdateStatus() {

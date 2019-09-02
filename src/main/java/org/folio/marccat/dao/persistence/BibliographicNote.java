@@ -1,7 +1,3 @@
-/*
- * Created on 20-jul-2004
- *
- */
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
@@ -11,7 +7,7 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOBibliographicNote;
+import org.folio.marccat.dao.BibliographicNoteDAO;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -21,7 +17,7 @@ import java.util.List;
 /**
  * Class comment
  *
- * @author janick
+ * @author paulm
  */
 public class BibliographicNote extends VariableField implements PersistentObjectWithView, OrderedTag {
   private static final short NOTE_CATEGORY= 7;
@@ -159,7 +155,7 @@ public class BibliographicNote extends VariableField implements PersistentObject
 
   @Override
   public AbstractDAO getDAO() {
-    return new DAOBibliographicNote();
+    return new BibliographicNoteDAO();
   }
 
   /**

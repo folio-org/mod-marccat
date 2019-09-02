@@ -80,11 +80,11 @@ public class AuthorityCatalog extends Catalog {
     return result;
   }
 
-  public static DAODescriptor getDaoByType(String type) {
-    DAODescriptor result = null;
+  public static DescriptorDAO getDaoByType(String type) {
+    DescriptorDAO result = null;
     try {
       result =
-        (DAODescriptor) ((Class) daoByAutType.get(type)).newInstance();
+        (DescriptorDAO) ((Class) daoByAutType.get(type)).newInstance();
     } catch (InstantiationException | IllegalAccessException ex) {
       throw new ModMarccatException(modMarccatExMessage);
     }
@@ -174,7 +174,7 @@ public class AuthorityCatalog extends Catalog {
    * @see Catalog#getTagCategories(java.util.Locale)
    */
   public List getTagCategories(Locale l) {
-    return DAO_CODE_TABLE.getOptionList(T_AUT_TAG_CAT.class, l);
+    return CODE_TABLE_DAO.getOptionList(T_AUT_TAG_CAT.class, l);
   }
 
   /* (non-Javadoc)

@@ -18,7 +18,7 @@ import java.util.List;
  * @author paulm
  * @author carment
  */
-public class PublisherDescriptorDAO extends DAODescriptor {
+public class PublisherDescriptorDAO extends DescriptorDAO {
 
   /**
    * Gets the persistent class.

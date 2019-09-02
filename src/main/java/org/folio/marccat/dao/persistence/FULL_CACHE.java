@@ -5,12 +5,13 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOFullCache;
+import org.folio.marccat.dao.FullCacheDAO;
 
 import java.io.Serializable;
 
 /**
- * 2018 Paul Search Engine Java
+ *
+ * Persistent class for FULL_CACHE table
  *
  * @author paulm
  * @version $Revision: 1.3 $, $Date: 2017/02/25 14:07:37 $
@@ -89,7 +90,7 @@ public class FULL_CACHE implements Persistence {
 
 
   public AbstractDAO getDAO() {
-    return new DAOFullCache();
+    return new FullCacheDAO();
   }
 
 

@@ -77,7 +77,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    */
   private void updateFullRecordCacheTable(final Session session, final CatalogItem item, final boolean updateRelatedRecs) throws HibernateException {
     FULL_CACHE cache;
-    DAOFullCache dao = new DAOFullCache();
+    FullCacheDAO dao = new FullCacheDAO();
     try {
       cache = dao.load(session, item.getAmicusNumber(), item.getUserView());
     } catch (RecordNotFoundException e) {
@@ -323,7 +323,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
     return singleView.stream().map(current -> {
       try {
         final BibliographicNote note = (BibliographicNote) current;
-        final DAOBibliographicNotesOverflow daoOverflow = new DAOBibliographicNotesOverflow();
+        final BibliographicNotesOverflowDAO daoOverflow = new BibliographicNotesOverflowDAO();
         note.setOverflowList(daoOverflow.getBibNotesOverflowList(note.getBibItemNumber(), userView, note.getNoteNbr(), session));
         final BibliographicNoteTag bibliographicNoteTag = new BibliographicNoteTag(note);
         final BibliographicStandardNoteDAO dao = new BibliographicStandardNoteDAO();
@@ -488,7 +488,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
 
     final BibliographicItem item = new BibliographicItem();
 
-    final BIB_ITM bibItm = new DAOBibItem().load(amicusNumber, userView, session);
+    final BIB_ITM bibItm = new BibItemDAO().load(amicusNumber, userView, session);
     item.setBibItmData(bibItm);
     item.setUserView(userView);
 

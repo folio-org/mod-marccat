@@ -16,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.Cache;
-import org.folio.marccat.exception.CacheUpdateException;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
 
@@ -30,9 +29,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version $Revision: 1.1 $, $Date: 2005/02/02 14:09:42 $
  * @since 1.0
  */
-public class DAOCache extends HibernateUtil {
+public class CacheDAO extends HibernateUtil {
 
-  private static final Log logger = LogFactory.getLog(DAOCache.class);
+  private static final Log logger = LogFactory.getLog(CacheDAO.class);
 
   public Cache load(int bibItemNumber, int cataloguingView) {
     List l =
@@ -49,40 +48,6 @@ public class DAOCache extends HibernateUtil {
     return (Cache) l.get(0);
   }
 
-  public void updateMadesCacheTable(final int madItemNumber, final int cataloguingView) {
-    new TransactionalHibernateOperation() {
-      public void doInHibernateTransaction(Session s) throws HibernateException, SQLException {
-        int result;
-        CallableStatement proc = null;
-        try {
-          Connection connection = s.connection();
-          logger.info("CFN_PR_CACHE_UPDATE_MADES parameters nbr:" + madItemNumber + ", view:" + cataloguingView + ", -1");
-          proc = connection.prepareCall("{call AMICUS.CFN_PR_CACHE_UPDATE_MADES(?, ?, ?, ?) }");
-          proc.setInt(1, madItemNumber);
-          proc.setInt(2, cataloguingView);
-          proc.setInt(3, -1); // this parameter no longer used
-          proc.registerOutParameter(4, Types.INTEGER);
-          proc.execute();
-          result = proc.getInt(4);
-          // MIKE: store the return code as message
-          if (result == 1) {
-            throw new CacheUpdateException("No record inserted or updated");
-          } else if (result == 2) {
-            throw new CacheUpdateException("Duplicated stringValue on index");
-          } else if (result > 2) {
-            throw new CacheUpdateException("SQL_CODE: " + result);
-          }
-        } finally {
-          try {
-            if (proc != null) proc.close();
-          } catch (SQLException ex) {
-            // do nothing
-            logger.error(ex.getMessage());
-          }
-        }
-      }
-    }.execute();
-  }
 
 
   /**

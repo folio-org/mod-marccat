@@ -1,6 +1,5 @@
 package org.folio.marccat.dao;
 
-import com.google.common.base.Optional;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
@@ -25,7 +24,7 @@ import static java.util.stream.Collectors.toList;
  * @author natasciab
  * @since 1.0
  */
-public class BibliographicCorrelationDAO extends DAOCorrelation {
+public class BibliographicCorrelationDAO extends CorrelationDAO {
 
 
   private final Log logger = new Log(BibliographicCorrelationDAO.class);
@@ -281,7 +280,7 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
 
     if (l.size() == 1) {
       String s = l.stream().findFirst().map(Correlation::getSearchIndexTypeCode).toString();
-      return new DAOIndexList().getIndexByEnglishAbreviation(s);
+      return new IndexListDAO().getIndexByEnglishAbreviation(s);
     } else {
       return null;
     }

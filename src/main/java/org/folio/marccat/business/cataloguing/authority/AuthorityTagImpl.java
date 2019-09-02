@@ -6,8 +6,8 @@ import org.folio.marccat.business.cataloguing.common.Catalog;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.business.common.SubfieldCodeComparator;
-import org.folio.marccat.dao.DAOAuthorityCorrelation;
-import org.folio.marccat.dao.DAOAuthorityValidation;
+import org.folio.marccat.dao.AuthorityCorrelationDAO;
+import org.folio.marccat.dao.AuthorityValidationDAO;
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
@@ -20,8 +20,8 @@ import java.util.TreeSet;
 
 public class AuthorityTagImpl extends TagImpl {
 
-  private static final DAOAuthorityCorrelation daoCorrelation = new DAOAuthorityCorrelation();
-  private static final DAOAuthorityValidation daoValidation = new DAOAuthorityValidation();
+  private static final AuthorityCorrelationDAO daoCorrelation = new AuthorityCorrelationDAO();
+  private static final AuthorityValidationDAO daoValidation = new AuthorityValidationDAO();
   private int authorityNumber;
 
   public int getItemNumber() {
