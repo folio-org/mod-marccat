@@ -125,13 +125,13 @@ public class TenantService {
    * @throws IOException  Signals that an I/O exception has occurred.
    */
   public void createTenant(final String tenant) throws SQLException, IOException {
-    logger.debug("Enable tenant" + " - Start");
+    logger.info("Enable tenant" + " - Start");
     initializeDatabase(tenant);
-    ObjectNode value =  configuration.attributes(tenant, true, "");
-    final Map <String, String> config = getConfigurations(value);
-    if(config != null && config.size() == 0) {
-      initializeConfiguration(tenant);
-    }
+//    ObjectNode value =  configuration.attributes(tenant, true, "");
+//    final Map <String, String> config = getConfigurations(value);
+//    if(config != null && config.size() == 0) {
+//      initializeConfiguration(tenant);
+//    }
     logger.info("Enable tenant" + " - End");
   }
 
@@ -210,14 +210,14 @@ public class TenantService {
   private void createRole() throws SQLException {
     final String queryRole = "CREATE ROLE marccat PASSWORD 'password' SUPERUSER CREATEDB INHERIT LOGIN";
     final String queryAlterRole = "ALTER ROLE marccat SET search_path TO amicus,olisuite,public";
-    logger.debug("Start role");
+    logger.info("Start role");
     try (Connection connection = getConnection("postgres");
          Statement stmRole = connection.createStatement();
          Statement stmAlterRole = connection.createStatement();)
     {
       stmRole.execute(queryRole);
       stmAlterRole.execute(queryAlterRole);
-      logger.debug("End role");
+      logger.info("End role");
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw exception;
@@ -225,12 +225,12 @@ public class TenantService {
   }
   private void createDatabase(final String databaseName) throws SQLException {
     final String queryDatabase = "create database " + databaseName;
-    logger.debug("Start database" + databaseName);
+    logger.info("Start database" + databaseName);
     try (Connection connection = getConnection("postgres");
          Statement statement = connection.createStatement();)
     {
       statement.execute(queryDatabase);
-      logger.debug("End database" + databaseName);
+      logger.info("End database" + databaseName);
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw exception;
