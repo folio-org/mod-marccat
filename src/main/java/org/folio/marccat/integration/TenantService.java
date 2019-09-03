@@ -125,13 +125,13 @@ public class TenantService {
    * @throws IOException  Signals that an I/O exception has occurred.
    */
   public void createTenant(final String tenant) throws SQLException, IOException {
-    logger.debug("Enable tenant" + " - Start");
+    logger.info("Enable tenant" + " - Start");
     initializeDatabase(tenant);
-    ObjectNode value =  configuration.attributes(tenant, true, "");
-    final Map <String, String> config = getConfigurations(value);
-    if(config != null && config.size() == 0) {
-      initializeConfiguration(tenant);
-    }
+//    ObjectNode value =  configuration.attributes(tenant, true, "");
+//    final Map <String, String> config = getConfigurations(value);
+//    if(config != null && config.size() == 0) {
+//      initializeConfiguration(tenant);
+//    }
     logger.info("Enable tenant" + " - End");
   }
 
@@ -229,7 +229,7 @@ public class TenantService {
     {
       stmRole.execute(queryRole);
       stmAlterRole.execute(queryAlterRole);
-      logger.debug("End role");
+      logger.info("End role");
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw exception;
@@ -237,12 +237,14 @@ public class TenantService {
   }
   private void createDatabase(final String databaseName) throws SQLException {
     final String queryDatabase = "create database " + databaseName;
+
     logger.debug("Start database " + databaseName);
     try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement statement = connection.createStatement();)
     {
       statement.execute(queryDatabase);
       logger.debug("End database " + databaseName);
+
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw exception;
