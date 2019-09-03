@@ -176,6 +176,7 @@ public class TenantService {
     }
     createRole();
     createDatabase(databaseName);
+    createObjects(databaseName);
    /* boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist) {
       createObjects(databaseName);
@@ -207,11 +208,22 @@ public class TenantService {
     executeScript(commands, "Create database", adminPassword);
   }*/
 
+  /**
+   * Creates the objects.
+   *
+   */
+ /* private void createObjects(final String databaseName) {
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
+    final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
+    executeScript(commands, "Create objects", adminPassword);
+  }*/
+
   private void createRole() throws SQLException {
     final String queryRole = "CREATE ROLE marccat PASSWORD 'password' SUPERUSER CREATEDB INHERIT LOGIN";
     final String queryAlterRole = "ALTER ROLE marccat SET search_path TO amicus,olisuite,public";
     logger.debug("Start role");
-    try (Connection connection = getConnection("postgres");
+    try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement stmRole = connection.createStatement();
          Statement stmAlterRole = connection.createStatement();)
     {
@@ -225,12 +237,12 @@ public class TenantService {
   }
   private void createDatabase(final String databaseName) throws SQLException {
     final String queryDatabase = "create database " + databaseName;
-    logger.debug("Start database" + databaseName);
-    try (Connection connection = getConnection("postgres");
+    logger.debug("Start database " + databaseName);
+    try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement statement = connection.createStatement();)
     {
       statement.execute(queryDatabase);
-      logger.debug("End database" + databaseName);
+      logger.debug("End database " + databaseName);
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw exception;
@@ -238,18 +250,15 @@ public class TenantService {
   }
 
 
-
-
-  /**
-   * Creates the objects.
-   *
-   * @param databaseName the database name
-   */
-  private void createObjects(final String databaseName) {
+  private void createObjects(final String databaseName) throws SQLException {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
-    final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
-    final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, "Create objects", adminPassword);
+    Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
+    ScriptRunner runner = new ScriptRunner(connection, false, false);
+    try {
+      runner.runScript(new BufferedReader(new FileReader(pathScript)));
+    } catch (IOException exception) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+    }
   }
 
   /**
@@ -426,7 +435,7 @@ public class TenantService {
    */
   private boolean schemaExists(final String databaseName) throws SQLException {
     final String querySchema = "select count(*) from pg_catalog.pg_namespace where nspname in ('amicus', 'olisuite')";
-    try (Connection connection = getConnection(databaseName);
+    try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(querySchema);) {
       resultSet.next();
@@ -446,10 +455,10 @@ public class TenantService {
    * @param databaseName the database name
    * @return the connection
    */
-  private Connection getConnection(final String databaseName) throws SQLException {
+  private Connection getConnection(final String databaseName, final String username, final String password) throws SQLException {
     final StringBuilder jdbcUrl = new StringBuilder();
     jdbcUrl.append("jdbc:postgresql://").append(host).append(":").append(port).append("/").append(databaseName);
-    return DriverManager.getConnection(jdbcUrl.toString(), adminUser, adminPassword);
+    return DriverManager.getConnection(jdbcUrl.toString(), username, username);
   }
 
   /**
