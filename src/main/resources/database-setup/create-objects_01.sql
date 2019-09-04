@@ -98,7 +98,7 @@ ALTER TYPE pack_bib_cache_punctuation.subfield_rec OWNER TO marccat;
 
 CREATE FUNCTION amicus.aw_aut_index(rec_id bigint, ft_zones text[], ignore_xref boolean DEFAULT false, nme_ignore_lang boolean DEFAULT NULL::boolean, ttl_ignore_lang boolean DEFAULT NULL::boolean) RETURNS void
     LANGUAGE plpgsql
-    $$
+    AS $$
 
 DECLARE
   FT_ZONE_ALL text := 'ALL';
