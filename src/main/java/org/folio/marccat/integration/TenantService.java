@@ -3,6 +3,7 @@ package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.io.IOUtils;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
@@ -255,7 +256,7 @@ public class TenantService {
   private void createObjects(final String databaseName) throws SQLException {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
     Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
-    ScriptRunner runner = new ScriptRunner(connection, false, false);
+    ScriptRunner runner = new ScriptRunner(connection);
     try {
       runner.runScript(new BufferedReader(new FileReader(pathScript)));
     } catch (IOException exception) {
