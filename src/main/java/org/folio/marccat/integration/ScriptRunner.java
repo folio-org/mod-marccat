@@ -1,5 +1,4 @@
 package org.folio.marccat.integration;
-
 /**
  * Tool to run database scripts
  */
@@ -124,9 +123,7 @@ public class ScriptRunner {
       } finally {
         connection.setAutoCommit(originalAutoCommit);
       }
-    } catch (IOException | SQLException e) {
-      throw e;
-    } catch (Exception e) {
+    }  catch (Exception e) {
       throw new RuntimeException("Error running script.  Cause: " + e, e);
     }
   }
@@ -146,10 +143,12 @@ public class ScriptRunner {
     try {
       LineNumberReader lineReader = new LineNumberReader(reader);
       String line;
+      boolean isFinalFunction = false;
       while ((line = lineReader.readLine()) != null) {
         if (command == null) {
           command = new StringBuffer();
         }
+        isFinalFunction = line.contains("$$;");//linea finale di una funzione
         String trimmedLine = line.trim();
         final Matcher delimMatch = delimP.matcher(trimmedLine);
         if (trimmedLine.length() < 1
@@ -169,8 +168,13 @@ public class ScriptRunner {
           command.append(line.substring(0, line
             .lastIndexOf(getDelimiter())));
           command.append(" ");
-          this.execCommand(conn, command, lineReader);
-          command = null;
+
+          if(isFinalFunction || command.indexOf("$$") ==-1){
+            this.execCommand(conn, command, lineReader);
+            System.out.println("Command :"+command);
+            command = null;
+            isFinalFunction = false;
+          }
         } else {
           command.append(line);
           command.append("\n");
