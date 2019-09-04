@@ -35,13 +35,13 @@ public class TenantService {
    */
   public static final String BIN_SH = "/bin/sh";
   /**
-    * The Constant DATABASE_SETUP.
+   * The Constant DATABASE_SETUP.
    */
 
   public static final String DATABASE_SETUP = "/database-setup/";
 
   /**
-    * The Constant UTF_8.
+   * The Constant UTF_8.
    */
   public static final String UTF_8 = "UTF-8";
 
@@ -236,13 +236,15 @@ public class TenantService {
     }
   }
   private void createDatabase(final String databaseName) throws SQLException {
-    final String queryDatabase = "Create database: " + databaseName;
-    logger.info("Start database: " + databaseName);
-    try (Connection connection = getConnection("postgres");
+    final String queryDatabase = "create database " + databaseName;
+
+    logger.debug("Start database " + databaseName);
+    try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement statement = connection.createStatement();)
     {
       statement.execute(queryDatabase);
-      logger.info("End database: " + databaseName);
+      logger.debug("End database " + databaseName);
+
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw exception;
