@@ -35,13 +35,13 @@ public class TenantService {
    */
   public static final String BIN_SH = "/bin/sh";
   /**
-    * The Constant DATABASE_SETUP.
+   * The Constant DATABASE_SETUP.
    */
 
   public static final String DATABASE_SETUP = "/database-setup/";
 
   /**
-    * The Constant UTF_8.
+   * The Constant UTF_8.
    */
   public static final String UTF_8 = "UTF-8";
 
@@ -253,7 +253,7 @@ public class TenantService {
 
 
   private void createObjects(final String databaseName) throws SQLException {
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects_01.sql", databaseName, false);
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
     Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
     ScriptRunner runner = new ScriptRunner(connection, false, false);
     try {
