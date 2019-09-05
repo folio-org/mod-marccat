@@ -1,7 +1,9 @@
 package org.folio.marccat;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.folio.marccat.config.log.Log;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -25,8 +27,15 @@ public class ModMarccat {
    * @param args the command line arguments.
    */
   public static void main(final String[] args) {
-    logger.info("PRINT_INFO_SYSTEM_SERVER_PORT: "+ System.getProperty("server.port"));
-    logger.info("PRINT_INFO_SYSTEM_PROPS: "+ System.getProperties());
+    InetAddress inetAddress = null;
+	try {
+		inetAddress = InetAddress.getLocalHost();
+		logger.info("OKAPI_URL: "+ System.getProperty("okapiurl"));
+		logger.info("IP Address-localhost:- " + inetAddress);
+		logger.info("IP Address-host:- " + inetAddress.getHostAddress());
+	} catch (UnknownHostException e) {
+		e.printStackTrace();
+	}
     SpringApplication.run(ModMarccat.class, args);
   }
 
