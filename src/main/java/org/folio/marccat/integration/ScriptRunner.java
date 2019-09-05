@@ -1,5 +1,6 @@
 package org.folio.marccat.integration;
 /**
+/**
  * Tool to run database scripts
  */
 
@@ -8,6 +9,10 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.postgresql.copy.CopyManager;
+import org.postgresql.core.BaseConnection;
+
 public class ScriptRunner {
 
   private static final String DEFAULT_DELIMITER = ";";
@@ -50,7 +55,7 @@ public class ScriptRunner {
       } else {
         logWriter = new PrintWriter(new FileWriter(logFile, false));
       }
-    } catch(IOException e){
+    } catch (IOException e) {
       System.err.println("Unable to access or create the db_create log");
     }
     try {
@@ -59,7 +64,7 @@ public class ScriptRunner {
       } else {
         errorLogWriter = new PrintWriter(new FileWriter(errorLogFile, false));
       }
-    } catch(IOException e){
+    } catch (IOException e) {
       System.err.println("Unable to access or create the db_create error log");
     }
     String timeStamp = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss").format(new java.util.Date());
@@ -123,7 +128,7 @@ public class ScriptRunner {
       } finally {
         connection.setAutoCommit(originalAutoCommit);
       }
-    }  catch (Exception e) {
+    } catch (Exception e) {
       throw new RuntimeException("Error running script.  Cause: " + e, e);
     }
   }
@@ -132,10 +137,10 @@ public class ScriptRunner {
    * Runs an SQL script (read in using the Reader parameter) using the
    * connection passed in
    *
-   * @param conn - the connection to use for the script
+   * @param conn   - the connection to use for the script
    * @param reader - the source of the script
    * @throws SQLException if any SQL errors occur
-   * @throws IOException if there is an error reading from the Reader
+   * @throws IOException  if there is an error reading from the Reader
    */
   private void runScript(Connection conn, Reader reader) throws IOException,
     SQLException {
@@ -143,56 +148,62 @@ public class ScriptRunner {
     try {
       LineNumberReader lineReader = new LineNumberReader(reader);
       String line;
-      boolean isFinalFunction = false;
+      boolean isFinalFunctionDelimiter = false;
       while ((line = lineReader.readLine()) != null) {
         if (command == null) {
           command = new StringBuffer();
         }
-        isFinalFunction = line.contains("$$;");//linea finale di una funzione
+        isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") || line.contains("\\."));
         String trimmedLine = line.trim();
         final Matcher delimMatch = delimP.matcher(trimmedLine);
-        if (trimmedLine.length() < 1
-          || trimmedLine.startsWith("//")) {
+        if (trimmedLine.length() < 1 || trimmedLine.startsWith("//")) {
           // Do nothing
         } else if (delimMatch.matches()) {
           setDelimiter(delimMatch.group(2), false);
         } else if (trimmedLine.startsWith("--")) {
           println(trimmedLine);
-        } else if (trimmedLine.length() < 1
-          || trimmedLine.startsWith("--")) {
+        } else if (trimmedLine.length() < 1 || trimmedLine.startsWith("--")) {
           // Do nothing
-        } else if (!fullLineDelimiter
-          && trimmedLine.endsWith(getDelimiter())
-          || fullLineDelimiter
-          && trimmedLine.equals(getDelimiter())) {
-          command.append(line.substring(0, line
-            .lastIndexOf(getDelimiter())));
+        } else if (isFinalLineDelimiter(trimmedLine) && trimmedLine.indexOf("COPY") == -1) {
+          command.append(line.substring(0, line.lastIndexOf(getDelimiter())));
           command.append(" ");
-
-          if(isFinalFunction || command.indexOf("$$") ==-1){
+          if (isNotFunction(command) || isFinalFunctionDelimiter) {
             this.execCommand(conn, command, lineReader);
-            System.out.println("Command :"+command);
+            System.out.println("Command :" + command);
             command = null;
-            isFinalFunction = false;
+            isFinalFunctionDelimiter = false;
           }
         } else {
+          if (line.contains("\\."))
+            line = line.substring(0, line.length() - 2);
           command.append(line);
           command.append("\n");
         }
       }
       if (command != null) {
-        this.execCommand(conn, command, lineReader);
+        if(command.toString().contains("COPY"))
+          executePgCopy(conn, command.toString());
+        else
+          this.execCommand(conn, command, lineReader);
       }
       if (!autoCommit) {
         conn.commit();
       }
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       throw new IOException(String.format("Error executing '%s': %s", command, e.getMessage()), e);
     } finally {
       conn.rollback();
       flush();
     }
+  }
+
+  private boolean isFinalLineDelimiter(String trimmedLine) {
+    return !fullLineDelimiter && trimmedLine.endsWith(getDelimiter()) || fullLineDelimiter && trimmedLine.equals(getDelimiter());
+  }
+
+  private boolean isNotFunction(StringBuffer command) {
+    boolean isNotFunction = (command.indexOf("$$") == -1 && command.indexOf("$_$") == -1 && command.indexOf("COPY") == -1);
+    return isNotFunction;
   }
 
   private void execCommand(Connection conn, StringBuffer command,
@@ -295,6 +306,18 @@ public class ScriptRunner {
     }
     if (errorLogWriter != null) {
       errorLogWriter.flush();
+    }
+  }
+
+  public void executePgCopy(Connection connection, String sql) throws SQLException {
+    int split = sql.indexOf(";");
+    String statement = sql.substring(0, split);
+    String data = sql.substring(split + 1).trim();
+    CopyManager copyManager = new CopyManager(connection.unwrap(BaseConnection.class));
+    try {
+      copyManager.copyIn(statement, new StringReader(data));
+    } catch (IOException e) {
+      throw new SQLException("Unable to execute COPY operation", e);
     }
   }
 }
