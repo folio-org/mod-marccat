@@ -1,5 +1,6 @@
 package org.folio.marccat;
 
+import org.folio.marccat.config.log.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
