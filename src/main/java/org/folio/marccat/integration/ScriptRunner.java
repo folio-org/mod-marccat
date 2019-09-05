@@ -181,7 +181,7 @@ public class ScriptRunner {
         }
       }
       if (command != null) {
-        if (command.indexOf("COPY") != 0)
+        if(command.toString().contains("COPY"))
           executePgCopy(conn, command.toString());
         else
           this.execCommand(conn, command, lineReader);
