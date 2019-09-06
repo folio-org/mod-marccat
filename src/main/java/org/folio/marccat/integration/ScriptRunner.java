@@ -157,6 +157,7 @@ public class ScriptRunner {
             line = line.substring(0, line.length() - 2);
             logger.info("Command Copy: "+command);
             executePgCopy(conn, command.toString());
+            command = null;
           }
           command.append(line);
           command.append("\n");
