@@ -134,7 +134,9 @@ public class ScriptRunner {
         if (command == null) {
           command = new StringBuffer();
         }
-        isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") ||line.contains("\\."));
+        isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") || line.contains("\\."));
+        if(isFinalFunctionDelimiter)
+          System.out.println("Command : " + command.toString());
         String trimmedLine = line.trim();
         final Matcher delimMatch = delimP.matcher(trimmedLine);
         if (trimmedLine.length() < 1 || trimmedLine.startsWith("//")) {
@@ -146,30 +148,29 @@ public class ScriptRunner {
         } else if (trimmedLine.length() < 1 || trimmedLine.startsWith("--")) {
           // Do nothing
         } else if (isFinalLineDelimiter(trimmedLine) && trimmedLine.indexOf("COPY") == -1) {
-          command.append(line.substring(0, line.lastIndexOf(getDelimiter())));
+          command.append(line.substring(0, line.lastIndexOf(";")));
           command.append(" ");
+          //Function
           if (isNotFunction(command) || isFinalFunctionDelimiter) {
+            System.out.println("Command : " + command.toString());
             this.execCommand(conn, command, lineReader);
-              command = null;
-          }
-        } else {
-          if (line.contains("\\.") && command.toString().contains("COPY")){
-            line = line.substring(0, line.length() - 2);
-            logger.info("Command Copy: "+command);
-            executePgCopy(conn, command.toString());
             command = null;
           }
-          command.append(line);
-          command.append("\n");
+        }
+        //Copy
+        else if (line.contains("\\.") && command.toString().contains("COPY")) {
+          String sql = command.toString().substring(0, command.toString().length() - 2);
+          System.out.println("Command Copy: " + sql);
+          executePgCopy(conn, sql);
+          command = null;
+
+        } else {
+          if (command != null) {
+            command.append(line);
+            command.append("\n");
+          }
         }
       }
-      /*if (command != null) {
-        if (command.toString().contains("COPY"))
-          executePgCopy(conn, command.toString());
-        else{
-          this.execCommand(conn, command, lineReader);
-        }
-      }*/
       if (!autoCommit) {
         conn.commit();
       }
@@ -177,10 +178,8 @@ public class ScriptRunner {
       throw new IOException(String.format("Error executing '%s': %s", command, e.getMessage()), e);
     } finally {
       conn.rollback();
-
     }
   }
-
   /**
    * Checks if is final line delimiter.
    *
@@ -188,7 +187,7 @@ public class ScriptRunner {
    * @return true, if is final line delimiter
    */
   private boolean isFinalLineDelimiter(String trimmedLine) {
-    return !fullLineDelimiter && trimmedLine.endsWith(getDelimiter()) || fullLineDelimiter && trimmedLine.equals(getDelimiter());
+    return !fullLineDelimiter && trimmedLine.endsWith(";") /*|| fullLineDelimiter && trimmedLine.equals(";")*/;
   }
 
   /**
