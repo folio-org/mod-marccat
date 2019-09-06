@@ -265,7 +265,8 @@ public class ScriptRunner {
     final String data = sql.substring(split + 1).trim();
     CopyManager copyManager = new CopyManager(connection.unwrap(BaseConnection.class));
     try {
-      copyManager.copyIn(statement, new StringReader(data));
+      if(data != null && !data.isEmpty())
+        copyManager.copyIn(statement, new StringReader(data));
     } catch (IOException e) {
       throw new SQLException("Unable to execute COPY operation", e);
     }
