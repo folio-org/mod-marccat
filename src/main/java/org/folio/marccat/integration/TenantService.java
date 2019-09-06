@@ -218,7 +218,7 @@ public class TenantService {
 
 
   private void createObjects(final String databaseName) throws SQLException {
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects_03.sql", databaseName, false);
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
     Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
     ScriptRunner runner = new ScriptRunner(connection, false);
     try {
