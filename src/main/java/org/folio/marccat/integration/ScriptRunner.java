@@ -153,21 +153,22 @@ public class ScriptRunner {
               command = null;
           }
         } else {
-          if (line.contains("\\.")) {
+          if (line.contains("\\.") && command.toString().contains("COPY")){
             line = line.substring(0, line.length() - 2);
-            logger.debug("Rimozione del carattere fine copy:" + line);
+            logger.info("Command Copy: "+command);
+            executePgCopy(conn, command.toString());
           }
           command.append(line);
           command.append("\n");
         }
       }
-      if (command != null) {
+      /*if (command != null) {
         if (command.toString().contains("COPY"))
           executePgCopy(conn, command.toString());
         else{
           this.execCommand(conn, command, lineReader);
         }
-      }
+      }*/
       if (!autoCommit) {
         conn.commit();
       }
