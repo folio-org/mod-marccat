@@ -134,7 +134,7 @@ public class ScriptRunner {
         if (command == null) {
           command = new StringBuffer();
         }
-        isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") ||line.contains("\\."));
+        isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") || line.contains("\\."));
         String trimmedLine = line.trim();
         final Matcher delimMatch = delimP.matcher(trimmedLine);
         if (trimmedLine.length() < 1 || trimmedLine.startsWith("//")) {
@@ -148,28 +148,30 @@ public class ScriptRunner {
         } else if (isFinalLineDelimiter(trimmedLine) && trimmedLine.indexOf("COPY") == -1) {
           command.append(line.substring(0, line.lastIndexOf(getDelimiter())));
           command.append(" ");
+          //Function
           if (isNotFunction(command) || isFinalFunctionDelimiter) {
             this.execCommand(conn, command, lineReader);
-              command = null;
+            command = null;
           }
-        } else {
-          if (line.contains("\\.") && command.toString().contains("COPY")){
+        }
+        //Copy
+        else if (line.contains("\\.") && command.toString().contains("COPY")) {
+          if (line.contains("\\.") && command.toString().contains("COPY")) {
             line = line.substring(0, line.length() - 2);
-            logger.info("Command Copy: "+command);
+            logger.info("Command Copy: " + command);
             executePgCopy(conn, command.toString());
             command = null;
           }
-          command.append(line);
-          command.append("\n");
+        } else {
+          if (command != null) {
+            command.append(line);
+            command.append("\n");
+          }
+
         }
+
       }
-      /*if (command != null) {
-        if (command.toString().contains("COPY"))
-          executePgCopy(conn, command.toString());
-        else{
-          this.execCommand(conn, command, lineReader);
-        }
-      }*/
+
       if (!autoCommit) {
         conn.commit();
       }
