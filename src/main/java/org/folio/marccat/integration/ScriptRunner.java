@@ -156,22 +156,18 @@ public class ScriptRunner {
         }
         //Copy
         else if (line.contains("\\.") && command.toString().contains("COPY")) {
-          if (line.contains("\\.") && command.toString().contains("COPY")) {
-            line = line.substring(0, line.length() - 2);
-            logger.info("Command Copy: " + command);
-            executePgCopy(conn, command.toString());
+            String sql = command.toString().substring(0, command.toString().length() - 2);
+            logger.info("Command Copy: " + sql);
+            executePgCopy(conn, sql);
             command = null;
-          }
+
         } else {
           if (command != null) {
             command.append(line);
             command.append("\n");
           }
-
         }
-
       }
-
       if (!autoCommit) {
         conn.commit();
       }
@@ -179,7 +175,6 @@ public class ScriptRunner {
       throw new IOException(String.format("Error executing '%s': %s", command, e.getMessage()), e);
     } finally {
       conn.rollback();
-
     }
   }
 
