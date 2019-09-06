@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+import org.folio.marccat.config.log.Log;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
 
@@ -18,6 +19,10 @@ import org.postgresql.core.BaseConnection;
  */
 public class ScriptRunner {
 
+  /**
+   * The Constant logger.
+   */
+  private static final Log logger = new Log(ScriptRunner.class);
 
   /**
    * The Constant DEFAULT_DELIMITER.
@@ -145,12 +150,11 @@ public class ScriptRunner {
           command.append(" ");
           if (isNotFunction(command) || isFinalFunctionDelimiter) {
             this.execCommand(conn, command, lineReader);
-            //System.out.println("Command :" + command);
-            command = null;
+              command = null;
           }
         } else {
           if (line.contains("\\."))
-            line = line.substring(0, line.length() - 2);
+            line = line.substring(0, line.length() - 3);
           command.append(line);
           command.append("\n");
         }
@@ -160,7 +164,6 @@ public class ScriptRunner {
           executePgCopy(conn, command.toString());
         else{
           this.execCommand(conn, command, lineReader);
-          //System.out.println(command);
         }
       }
       if (!autoCommit) {
@@ -230,8 +233,7 @@ public class ScriptRunner {
       statement.execute(command.toString());
     } catch (SQLException exception) {
       final String errText = String.format("Error executing '%s' (line %d): %s", command, lineReader.getLineNumber(), exception.getMessage());
-      System.out.println(errText);
-      //logger.error(errText, exception);
+      logger.error(errText, exception);
     }
     try {
       statement.close();
