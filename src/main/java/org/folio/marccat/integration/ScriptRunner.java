@@ -159,9 +159,8 @@ public class ScriptRunner {
         }
         //Copy
         else if (line.contains("\\.") && command.toString().contains("COPY")) {
-          String sql = command.toString().substring(0, command.toString().length() - 2);
-          System.out.println("Command Copy: " + sql);
-          executePgCopy(conn, sql);
+          System.out.println("Command Copy: " + command.toString());
+          executePgCopy(conn, command.toString());
           command = null;
 
         } else {
