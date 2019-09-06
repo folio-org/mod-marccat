@@ -176,48 +176,13 @@ public class TenantService {
     }
     createRole();
     createDatabase(databaseName);
+    //boolean schemaNotExist = schemaExists(databaseName);
+    //if (schemaNotExist)
     createObjects(databaseName);
-   /* boolean schemaNotExist = schemaExists(databaseName);
-    if (schemaNotExist) {
-      createObjects(databaseName);
-    }
-    executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
-    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");*/
+    //executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
+   // executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");*/
   }
 
-  /**
-   * Creates the role.
-   *
-   * @param databaseName the database name
-   */
- /* private void createRole(final String databaseName) {
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
-    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
-    final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, "Create role", adminPassword);
-  }*/
-
-  /**
-   * Creates the database.
-   *
-   */
- /* private void createDatabase(final String databaseName) {
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-db.sql", databaseName, true);
-    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
-    final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, "Create database", adminPassword);
-  }*/
-
-  /**
-   * Creates the objects.
-   *
-   */
- /* private void createObjects(final String databaseName) {
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
-    final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
-    final List<String> commands = Arrays.asList(command.split("\\s+"));
-    executeScript(commands, "Create objects", adminPassword);
-  }*/
 
   private void createRole() throws SQLException {
     final String queryRole = "CREATE ROLE marccat PASSWORD 'admin' SUPERUSER CREATEDB INHERIT LOGIN";
@@ -254,6 +219,57 @@ public class TenantService {
 
   private void createObjects(final String databaseName) throws SQLException {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
+    Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
+    ScriptRunner runner = new ScriptRunner(connection, false);
+    try {
+      runner.runScript(new BufferedReader(new FileReader(pathScript)));
+    } catch (IOException exception) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+    }
+  }
+
+
+  /**
+   * Creates the role.
+   *
+   * @param databaseName the database name
+   */
+ /* private void createRole(final String databaseName) {
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-marccat-role.sql", databaseName, true);
+    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
+    executeScript(commands, "Create role", adminPassword);
+  }*/
+
+  /**
+   * Creates the database.
+   *
+   */
+ /* private void createDatabase(final String databaseName) {
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-db.sql", databaseName, true);
+    final String command =  String.format("psql -h %s -p %s -U %s -f %s", host, port, adminUser, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
+    executeScript(commands, "Create database", adminPassword);
+  }*/
+
+  /**
+   * Creates the objects.
+   *
+   */
+ /* private void createObjects(final String databaseName) {
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
+    final String command =  String.format("psql -h %s -p %s -U %s -d %s -v user_name=%s -f %s", host, port, adminUser, databaseName, marccatUser, pathScript);
+    final List<String> commands = Arrays.asList(command.split("\\s+"));
+    executeScript(commands, "Create objects", adminPassword);
+  }*/
+
+  private void executePatch(final String databaseName, final String patch) throws SQLException {
+    //final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
+    final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
+    String pathScript = null;
+    if (file != null) {
+      pathScript = file.getAbsolutePath();
+    }
     Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
     ScriptRunner runner = new ScriptRunner(connection, false);
     try {
