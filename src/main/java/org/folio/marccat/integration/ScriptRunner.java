@@ -153,8 +153,10 @@ public class ScriptRunner {
               command = null;
           }
         } else {
-          if (line.contains("\\."))
-            line = line.substring(0, line.length() - 3);
+          if (line.contains("\\.")) {
+            line = line.substring(0, line.length() - 2);
+            logger.debug("Rimozione del carattere fine copy:" + line);
+          }
           command.append(line);
           command.append("\n");
         }
