@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 
 import org.folio.marccat.config.log.Log;
+import org.folio.marccat.exception.ModMarccatException;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
 
@@ -111,7 +112,7 @@ public class ScriptRunner {
         connection.setAutoCommit(originalAutoCommit);
       }
     } catch (Exception e) {
-      throw new RuntimeException("Error running script.  Cause: " + e, e);
+      throw new ModMarccatException("Error running script.  Cause: " + e, e);
     }
   }
 
@@ -125,18 +126,14 @@ public class ScriptRunner {
    * @throws SQLException if any SQL errors occur
    */
   private void runScript(Connection conn, Reader reader) throws IOException, SQLException {
-    StringBuffer command = null;
-    try {
-      LineNumberReader lineReader = new LineNumberReader(reader);
+    StringBuilder command = null;
+    try (LineNumberReader lineReader = new LineNumberReader(reader);) {
       String line;
-      boolean isFinalFunctionDelimiter = false;
       while ((line = lineReader.readLine()) != null) {
         if (command == null) {
-          command = new StringBuffer();
+          command = new StringBuilder();
         }
-        isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") || line.contains("\\."));
-        if(isFinalFunctionDelimiter)
-          System.out.println("Command : " + command.toString());
+        boolean isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;"));
         String trimmedLine = line.trim();
         final Matcher delimMatch = delimP.matcher(trimmedLine);
         if (trimmedLine.length() < 1 || trimmedLine.startsWith("//")) {
@@ -148,19 +145,16 @@ public class ScriptRunner {
         } else if (trimmedLine.length() < 1 || trimmedLine.startsWith("--")) {
           // Do nothing
         } else if (isFinalLineDelimiter(trimmedLine) && trimmedLine.indexOf("COPY") == -1) {
-          command.append(line.substring(0, line.lastIndexOf(";")));
+          command.append(line.substring(0, line.lastIndexOf(';')));
           command.append(" ");
-          //Function
           if (isNotFunction(command) || isFinalFunctionDelimiter) {
-            System.out.println("Command : " + command.toString());
+            logger.info("Command : " + command.toString());
             this.execCommand(conn, command, lineReader);
             command = null;
           }
         }
-        //Copy
         else if (line.contains("\\.") && command.toString().contains("COPY")) {
-          //String sql = command.toString().substring(0, command.toString().length() - 2);
-          System.out.println("Command Copy: " + command.toString());
+          logger.info("Command Copy: " + command.toString());
           executePgCopy(conn, command.toString());
           command = null;
 
@@ -196,10 +190,9 @@ public class ScriptRunner {
    * @param command the command
    * @return true, if is not function
    */
-  private boolean isNotFunction(final StringBuffer command) {
-    boolean isNotFunction = (command.indexOf("$$") == -1 && command.indexOf("$_$") == -1  && command.indexOf("COPY") == -1);
-    return isNotFunction;
-  }
+  private boolean isNotFunction(final StringBuilder command) {
+   return (command.indexOf("$$") == -1 && command.indexOf("$_$") == -1  && command.indexOf("COPY") == -1);
+   }
 
   /**
    * Exec command.
@@ -210,8 +203,8 @@ public class ScriptRunner {
    * @throws IOException  Signals that an I/O exception has occurred.
    * @throws SQLException the SQL exception
    */
-  private void execCommand(final Connection conn, final StringBuffer command,
-                           LineNumberReader lineReader) throws IOException, SQLException {
+  private void execCommand(final Connection conn, final StringBuilder command,
+                           LineNumberReader lineReader) throws  SQLException {
 
     if (command.length() == 0) {
       return;
@@ -228,7 +221,7 @@ public class ScriptRunner {
    * @param lineReader the line reader
    * @throws SQLException the SQL exception
    */
-  private void execSqlCommand(Connection conn, StringBuffer command,
+  private void execSqlCommand(Connection conn, StringBuilder command,
                               LineNumberReader lineReader) throws SQLException {
 
     Statement statement = conn.createStatement();
@@ -243,15 +236,6 @@ public class ScriptRunner {
     } catch (Exception e) {
       // Ignore to workaround a bug in Jakarta DBCP
     }
-  }
-
-  /**
-   * Gets the delimiter.
-   *
-   * @return the delimiter
-   */
-  private String getDelimiter() {
-    return delimiter;
   }
 
 
