@@ -127,11 +127,11 @@ public class TenantService {
   public void createTenant(final String tenant) throws SQLException, IOException {
     logger.info("Enable tenant" + " - Start");
     initializeDatabase(tenant);
-//    ObjectNode value =  configuration.attributes(tenant, true, "");
-//    final Map <String, String> config = getConfigurations(value);
-//    if(config != null && config.size() == 0) {
-//      initializeConfiguration(tenant);
-//    }
+    ObjectNode value =  configuration.attributes(tenant, true, "");
+    final Map <String, String> config = getConfigurations(value);
+    if(config != null && config.size() == 0) {
+      initializeConfiguration(tenant);
+    }
     logger.info("Enable tenant" + " - End");
   }
 
@@ -176,12 +176,10 @@ public class TenantService {
     }
     createRole();
     createDatabase(databaseName);
-    //boolean schemaNotExist = schemaExists(databaseName);
-    //if (schemaNotExist)
-    createObjects(databaseName);
-    //executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found (Exit code 3)");
-   // executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3 found (Exit code 3)");*/
-  }
+    boolean schemaNotExist = schemaExists(databaseName);
+    if (schemaNotExist)
+      createObjects(databaseName);
+     }
 
 
   private void createRole() throws SQLException {
@@ -231,8 +229,7 @@ public class TenantService {
 
 
   private void executePatch(final String databaseName, final String patch) throws SQLException {
-    //final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, false);
-    final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
+     final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
     String pathScript = null;
     if (file != null) {
       pathScript = file.getAbsolutePath();

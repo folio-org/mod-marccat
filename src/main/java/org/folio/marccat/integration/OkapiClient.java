@@ -40,7 +40,7 @@ public class OkapiClient {
   /**
    * The url of the modules.
    */
-  public static final String OKAPI_URL_DISCOVERY_MODULES = "http://localhost:9130/_/discovery/modules";
+  public static final String OKAPI_URL_DISCOVERY_MODULES = "http://10.0.2.15:9130/_/discovery/modules";
 
   /**
    * Client Okapi
