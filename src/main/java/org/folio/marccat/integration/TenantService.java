@@ -362,7 +362,7 @@ public class TenantService {
       String stringInputStream = IOUtils.toString(inputStream, UTF_8);
       if (isReplaceVariables) {
         stringInputStream = stringInputStream
-          .replaceAll("user_name", marccatUser)
+          .replaceAll(":user_name", marccatUser)
           .replaceAll("password", marccatPassword)
           .replaceAll("database_name", databaseName);
       }
