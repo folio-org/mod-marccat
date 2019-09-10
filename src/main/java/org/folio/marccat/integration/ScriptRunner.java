@@ -135,8 +135,6 @@ public class ScriptRunner {
           command = new StringBuffer();
         }
         isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") || line.contains("\\."));
-        if(isFinalFunctionDelimiter)
-          System.out.println("Command : " + command.toString());
         String trimmedLine = line.trim();
         final Matcher delimMatch = delimP.matcher(trimmedLine);
         if (trimmedLine.length() < 1 || trimmedLine.startsWith("//")) {
@@ -150,16 +148,14 @@ public class ScriptRunner {
         } else if (isFinalLineDelimiter(trimmedLine) && trimmedLine.indexOf("COPY") == -1) {
           command.append(line.substring(0, line.lastIndexOf(";")));
           command.append(" ");
-          //Function
           if (isNotFunction(command) || isFinalFunctionDelimiter) {
-            System.out.println("Command : " + command.toString());
+            logger.info("Command : " + command.toString());
             this.execCommand(conn, command, lineReader);
             command = null;
           }
         }
-        //Copy
         else if (line.contains("\\.") && command.toString().contains("COPY")) {
-          System.out.println("Command Copy: " + command.toString());
+          logger.info("Command Copy: " + command.toString());
           executePgCopy(conn, command.toString());
           command = null;
 
@@ -196,8 +192,7 @@ public class ScriptRunner {
    * @return true, if is not function
    */
   private boolean isNotFunction(final StringBuffer command) {
-    boolean isNotFunction = (command.indexOf("$$") == -1 && command.indexOf("$_$") == -1  && command.indexOf("COPY") == -1);
-    return isNotFunction;
+    return (command.indexOf("$$") == -1 && command.indexOf("$_$") == -1  && command.indexOf("COPY") == -1);
   }
 
   /**
@@ -230,18 +225,14 @@ public class ScriptRunner {
   private void execSqlCommand(Connection conn, StringBuffer command,
                               LineNumberReader lineReader) throws SQLException {
 
-    Statement statement = conn.createStatement();
-    try {
+
+    try (Statement statement = conn.createStatement();) {
       statement.execute(command.toString());
     } catch (SQLException exception) {
       final String errText = String.format("Error executing '%s' (line %d): %s", command, lineReader.getLineNumber(), exception.getMessage());
       logger.error(errText, exception);
     }
-    try {
-      statement.close();
-    } catch (Exception e) {
-      // Ignore to workaround a bug in Jakarta DBCP
-    }
+
   }
 
   /**
