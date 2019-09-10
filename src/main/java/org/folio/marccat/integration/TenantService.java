@@ -152,11 +152,12 @@ public class TenantService {
    * @param tenant the tenant
    */
   private void initializeConfiguration(final String tenant) {
+    final String databaseName =  tenant + marccatSuffix;
     final String configurationUrl = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     final URI uri = URI.create(configurationUrl);
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
-      String.valueOf(uri.getPort()), tenant, "", "", "", marccatUser, marccatPassword);
+      String.valueOf(uri.getPort()), tenant, host, port, databaseName, marccatUser, marccatPassword);
     executeScript(commands, "", adminPassword);
   }
 
@@ -183,8 +184,8 @@ public class TenantService {
 
 
   private void createRole() throws SQLException {
-    final String queryRole = "CREATE ROLE marccat PASSWORD 'admin' SUPERUSER CREATEDB INHERIT LOGIN";
-    final String queryAlterRole = "ALTER ROLE marccat SET search_path TO amicus,olisuite,public";
+    final String queryRole = "DO $$ BEGIN  CREATE ROLE " + marccatUser + " PASSWORD '" + marccatPassword + "' SUPERUSER CREATEDB INHERIT LOGIN;  EXCEPTION WHEN duplicate_object THEN  RAISE NOTICE 'Role % already exists', 'marccat'; END $$";
+    final String queryAlterRole = "ALTER ROLE " + marccatUser + " SET search_path TO amicus,olisuite,public";
     logger.debug("Start role");
     try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement stmRole = connection.createStatement();
@@ -217,8 +218,8 @@ public class TenantService {
 
   private void createObjects(final String databaseName) throws SQLException {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-objects_rev2.sql", databaseName, true);
-    Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
-    ScriptRunner runner = new ScriptRunner(connection, false);
+    final Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
+    final ScriptRunner runner = new ScriptRunner(connection, false);
     try {
       runner.runScript(new BufferedReader(new FileReader(pathScript)));
     } catch (IOException exception) {
@@ -229,7 +230,7 @@ public class TenantService {
 
 
   private void executePatch(final String databaseName, final String patch) throws SQLException {
-     final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
+    final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
     String pathScript = null;
     if (file != null) {
       pathScript = file.getAbsolutePath();
@@ -430,6 +431,8 @@ public class TenantService {
       throw exception;
     }
   }
+
+
 
   /**
    * Return connection.
