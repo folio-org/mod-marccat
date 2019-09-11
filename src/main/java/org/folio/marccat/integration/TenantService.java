@@ -170,19 +170,29 @@ public class TenantService {
     final String databaseName =  tenant + marccatSuffix;
     final Map<String, String> env = okapiClient.getEnvironments();
     if(!env.isEmpty()){
-      host = env.get("DB_HOST");
+     /* host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
-      adminPassword = env.get("DB_PASSWORD");
+      adminPassword = env.get("DB_PASSWORD");*/
+      host = "192.168.0.99";
+      port = "5433";
+      adminUser = "postgres";
+      adminPassword = "pes001clt";
      }
     createRole();
-    createDatabase(databaseName);
+    boolean databaseNotExist = databaseExists(databaseName);
+    if(databaseNotExist)
+      createDatabase(databaseName);
     boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist)
       createObjects(databaseName);
      }
 
-
+  /**
+   * Creates the role.
+   *
+   * @throws SQLException the SQL exception
+   */
   private void createRole() throws SQLException {
     final String queryRole = "DO $$ BEGIN  CREATE ROLE " + marccatUser + " PASSWORD '" + marccatPassword + "' SUPERUSER CREATEDB INHERIT LOGIN;  EXCEPTION WHEN duplicate_object THEN  RAISE NOTICE 'Role % already exists', 'marccat'; END $$";
     final String queryAlterRole = "ALTER ROLE " + marccatUser + " SET search_path TO amicus,olisuite,public";
@@ -199,6 +209,13 @@ public class TenantService {
       throw exception;
     }
   }
+
+  /**
+   * Creates the database.
+   *
+   * @param databaseName the database name
+   * @throws SQLException the SQL exception
+   */
   private void createDatabase(final String databaseName) throws SQLException {
     final String queryDatabase = "create database " + databaseName;
 
@@ -215,7 +232,12 @@ public class TenantService {
     }
   }
 
-
+  /**
+   * Creates the objects.
+   *
+   * @param databaseName the database name
+   * @throws SQLException the SQL exception
+   */
   private void createObjects(final String databaseName) throws SQLException {
     final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, true);
     final Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
@@ -228,7 +250,13 @@ public class TenantService {
   }
 
 
-
+  /**
+   * Execute patch.
+   *
+   * @param databaseName the database name
+   * @param patch the patch
+   * @throws SQLException the SQL exception
+   */
   private void executePatch(final String databaseName, final String patch) throws SQLException {
     final File file = getResourceAsFileWithChild(patch, "/install-patch.sql", databaseName);
     String pathScript = null;
@@ -421,6 +449,28 @@ public class TenantService {
     try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(querySchema)) {
+      resultSet.next();
+      final int count  = resultSet.getInt(1);
+      if(count != 0)
+        logger.info("Schema found : " + databaseName);
+      return count == 0;
+    } catch (SQLException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw exception;
+    }
+  }
+
+  /**
+   * Return true if database exists.
+   *
+   * @param databaseName the database name
+   * @return true if database exists
+   */
+  private boolean databaseExists(final String databaseName) throws SQLException {
+    final String queryDatabase = "SELECT count(*) from pg_database WHERE datname='" + databaseName + "'";
+    try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(queryDatabase)) {
       resultSet.next();
       final int count  = resultSet.getInt(1);
       if(count != 0)
