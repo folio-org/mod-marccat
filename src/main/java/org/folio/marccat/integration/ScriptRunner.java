@@ -222,17 +222,21 @@ public class ScriptRunner {
    * @param lineReader the line reader
    * @throws SQLException the SQL exception
    */
-  private void execSqlCommand(Connection conn, StringBuffer command,
+   private void execSqlCommand(Connection conn, StringBuffer command,
                               LineNumberReader lineReader) throws SQLException {
 
-
-    try (Statement statement = conn.createStatement();) {
+    Statement statement = conn.createStatement();
+    try {
       statement.execute(command.toString());
     } catch (SQLException exception) {
       final String errText = String.format("Error executing '%s' (line %d): %s", command, lineReader.getLineNumber(), exception.getMessage());
       logger.error(errText, exception);
     }
-
+    try {
+      statement.close();
+    } catch (Exception e) {
+      // Ignore to workaround a bug in Jakarta DBCP
+    }
   }
 
   /**

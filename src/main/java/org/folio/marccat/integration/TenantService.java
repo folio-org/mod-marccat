@@ -189,7 +189,7 @@ public class TenantService {
     logger.debug("Start role");
     try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement stmRole = connection.createStatement();
-         Statement stmAlterRole = connection.createStatement();)
+         Statement stmAlterRole = connection.createStatement())
     {
       stmRole.execute(queryRole);
       stmAlterRole.execute(queryAlterRole);
@@ -204,7 +204,7 @@ public class TenantService {
 
     logger.debug("Start database " + databaseName);
     try (Connection connection = getConnection("postgres", adminUser, adminPassword);
-         Statement statement = connection.createStatement();)
+         Statement statement = connection.createStatement())
     {
       statement.execute(queryDatabase);
       logger.debug("End database " + databaseName);
@@ -420,7 +420,7 @@ public class TenantService {
     final String querySchema = "select count(*) from pg_catalog.pg_namespace where nspname in ('amicus', 'olisuite')";
     try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
          Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery(querySchema);) {
+         ResultSet resultSet = statement.executeQuery(querySchema)) {
       resultSet.next();
       final int count  = resultSet.getInt(1);
       if(count != 0)
