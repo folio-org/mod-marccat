@@ -1,3 +1,8 @@
+## 1.9.0 2019-09-11
+* Database initialization via JDBC with role, database, user and objects creation.
+* Check role and database existence.
+
+
 ## 1.8.5 2019-07-31
 * Implementation TenantAPI.
 * Database initialization with role, database, user and objects creation.
