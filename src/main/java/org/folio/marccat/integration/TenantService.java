@@ -170,15 +170,11 @@ public class TenantService {
     final String databaseName =  tenant + marccatSuffix;
     final Map<String, String> env = okapiClient.getEnvironments();
     if(!env.isEmpty()){
-      /*host = env.get("DB_HOST");
+      host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
-      adminPassword = env.get("DB_PASSWORD");*/
-      host = "192.168.0.99";
-      port = "5433";
-      adminUser = "postgres";
-      adminPassword = "pes001clt";
-    }
+      adminPassword = env.get("DB_PASSWORD");
+     }
     createRole();
     createDatabase(databaseName);
     boolean schemaNotExist = schemaExists(databaseName);
@@ -221,7 +217,7 @@ public class TenantService {
 
 
   private void createObjects(final String databaseName) throws SQLException {
-    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects_rev2.sql", databaseName, true);
+    final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, true);
     final Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
     final ScriptRunner runner = new ScriptRunner(connection, false);
     try {
