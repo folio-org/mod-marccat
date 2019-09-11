@@ -135,6 +135,8 @@ public class ScriptRunner {
           command = new StringBuffer();
         }
         isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") || line.contains("\\."));
+        if(isFinalFunctionDelimiter)
+          System.out.println("Command : " + command.toString());
         String trimmedLine = line.trim();
         final Matcher delimMatch = delimP.matcher(trimmedLine);
         if (trimmedLine.length() < 1 || trimmedLine.startsWith("//")) {
@@ -148,14 +150,16 @@ public class ScriptRunner {
         } else if (isFinalLineDelimiter(trimmedLine) && trimmedLine.indexOf("COPY") == -1) {
           command.append(line.substring(0, line.lastIndexOf(";")));
           command.append(" ");
+          //Function
           if (isNotFunction(command) || isFinalFunctionDelimiter) {
-            logger.info("Command : " + command.toString());
+            System.out.println("Command : " + command.toString());
             this.execCommand(conn, command, lineReader);
             command = null;
           }
         }
+        //Copy
         else if (line.contains("\\.") && command.toString().contains("COPY")) {
-          logger.info("Command Copy: " + command.toString());
+          System.out.println("Command Copy: " + command.toString());
           executePgCopy(conn, command.toString());
           command = null;
 
@@ -192,7 +196,8 @@ public class ScriptRunner {
    * @return true, if is not function
    */
   private boolean isNotFunction(final StringBuffer command) {
-    return (command.indexOf("$$") == -1 && command.indexOf("$_$") == -1  && command.indexOf("COPY") == -1);
+    boolean isNotFunction = (command.indexOf("$$") == -1 && command.indexOf("$_$") == -1  && command.indexOf("COPY") == -1);
+    return isNotFunction;
   }
 
   /**
@@ -222,7 +227,7 @@ public class ScriptRunner {
    * @param lineReader the line reader
    * @throws SQLException the SQL exception
    */
-   private void execSqlCommand(Connection conn, StringBuffer command,
+  private void execSqlCommand(Connection conn, StringBuffer command,
                               LineNumberReader lineReader) throws SQLException {
 
     Statement statement = conn.createStatement();
