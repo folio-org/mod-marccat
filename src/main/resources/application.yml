@@ -4,6 +4,8 @@ configuration:
   local: folio.frontside.atcult.it
   baseUrl: marccat
 
+okapiurl: http://localhost:9130
+
 logging:
   level:
     root: ERROR
