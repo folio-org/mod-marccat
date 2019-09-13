@@ -175,13 +175,13 @@ public class TenantService {
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
     }
-    createRole();
+  /*  createRole();
     boolean databaseNotExist = databaseExists(databaseName);
     if(databaseNotExist)
       createDatabase(databaseName);
     boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist)
-      createObjects(databaseName);
+      createObjects(databaseName);*/
      }
 
   /**
