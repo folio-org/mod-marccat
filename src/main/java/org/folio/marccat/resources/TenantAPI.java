@@ -23,7 +23,7 @@ public class TenantAPI {
   @PostMapping
   public ResponseEntity<String> create(
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
-    @RequestHeader(Global.OKAPI_TO_URL) String okapiUrl,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl,
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
     logger.info("URL OKAPI:" + okapiUrl);

@@ -87,6 +87,7 @@ public class OkapiClient {
   public String getModuleUrl(final String okapiUrl, final String moduleDescription, final String subdomain ) {
     String moduleUrl = null;
     try {
+      logger.info(okapiUrl + OKAPI_URL_DISCOVERY_MODULES);
       final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_DISCOVERY_MODULES, String.class);
       final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
       for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
