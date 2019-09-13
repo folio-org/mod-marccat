@@ -5,6 +5,7 @@ import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.resources.domain.DeploymentDescriptor;
 import org.folio.marccat.resources.domain.EnvEntry;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class OkapiClient {
   /**
    * The url of the environment.
    */
-  public static final String OKAPI_URL_ENVIRONMENT = "http://localhost:9130/_/env";
+  public static final String OKAPI_URL_ENVIRONMENT = "/_/env";
 
    /**
    * The url of the modules.
@@ -61,9 +62,7 @@ public class OkapiClient {
    * @return environment variables.
    */
   public Map <String, String> getEnvironments() {
-    final HttpHeaders headers = new HttpHeaders();
-    headers.add(Global.OKAPI_URL, "http://localhost:9130");
-    final ResponseEntity <String> response = client.getForEntity(OKAPI_URL_ENVIRONMENT, String.class, headers);
+    final ResponseEntity <String> response = client.getForEntity(OKAPI_URL_ENVIRONMENT, String.class);
     final EnvEntry[] env = Json.decodeValue(response.getBody(), EnvEntry[].class);
     final HashMap <String, String> entries = new HashMap <>();
     if (env != null) {
@@ -80,14 +79,15 @@ public class OkapiClient {
   /**
    * Builds the url of a module from Okapi.
    *
+   * @param okapiUrl the okapi url.
    * @param moduleDescription the module description.
    * @param subdomain         the sub domain.
    * @return the url of a module otherwise it returns a null value
    */
-  public String getModuleUrl(final String moduleDescription, final String subdomain) {
+  public String getModuleUrl(final String okapiUrl, final String moduleDescription, final String subdomain ) {
     String moduleUrl = null;
     try {
-      final ResponseEntity <String> response = client.getForEntity(OKAPI_URL_DISCOVERY_MODULES, String.class);
+      final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_DISCOVERY_MODULES, String.class);
       final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
       for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
         if (deployDescriptor.getSrvcId().contains(moduleDescription)) {

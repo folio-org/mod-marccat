@@ -27,7 +27,7 @@ public class TenantAPI {
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
     logger.info("URL OKAPI:" + okapiUrl);
-    tenantService.createTenant(tenant);
+    tenantService.createTenant(tenant, okapiUrl);
     return new ResponseEntity<String>("Success", CREATED);
   }
 
