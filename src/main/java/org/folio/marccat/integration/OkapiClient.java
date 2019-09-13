@@ -37,7 +37,7 @@ public class OkapiClient {
   /**
    * The url of the environment.
    */
-  public static final String OKAPI_URL_ENVIRONMENT = "/_/env";
+  public static final String OKAPI_URL_ENVIRONMENT = "http://localhost:9130/_/env";
 
    /**
    * The url of the modules.
