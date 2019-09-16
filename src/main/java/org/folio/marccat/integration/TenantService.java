@@ -185,7 +185,7 @@ public class TenantService {
       adminPassword = env.get("DB_PASSWORD");
     }
     createRole();
-    boolean databaseNotExist = databaseExists("postgres");
+    boolean databaseNotExist = databaseExists(databaseName);
     if(databaseNotExist)
       createDatabase(databaseName);
     boolean schemaNotExist = schemaExists(databaseName);
@@ -475,7 +475,7 @@ public class TenantService {
    */
   private boolean databaseExists(final String databaseName) throws SQLException {
     final String queryDatabase = "SELECT count(*) from pg_database WHERE datname='" + databaseName + "'";
-    try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
+    try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(queryDatabase)) {
       resultSet.next();
