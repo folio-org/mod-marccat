@@ -183,13 +183,9 @@ public class TenantService {
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
-      logger.info("DB Host: " + host);
-      logger.info("DB Port: " + port);
-      logger.info("DB User: " + adminUser);
-      logger.info("DB Password: " + adminPassword);
     }
     createRole();
-    boolean databaseNotExist = databaseExists(databaseName);
+    boolean databaseNotExist = databaseExists("postgres");
     if(databaseNotExist)
       createDatabase(databaseName);
     boolean schemaNotExist = schemaExists(databaseName);
