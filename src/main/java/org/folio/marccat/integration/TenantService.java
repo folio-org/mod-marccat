@@ -183,6 +183,10 @@ public class TenantService {
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
+      logger.info("DB Host: " + host);
+      logger.info("DB Port: " + port);
+      logger.info("DB User: " + adminUser);
+      logger.info("DB Password: " + adminPassword);
     }
     createRole();
     boolean databaseNotExist = databaseExists(databaseName);
@@ -201,7 +205,7 @@ public class TenantService {
   private void createRole() throws SQLException {
     final String queryRole = "DO $$ BEGIN  CREATE ROLE " + marccatUser + " PASSWORD '" + marccatPassword + "' SUPERUSER CREATEDB INHERIT LOGIN;  EXCEPTION WHEN duplicate_object THEN  RAISE NOTICE 'Role % already exists', 'marccat'; END $$";
     final String queryAlterRole = "ALTER ROLE " + marccatUser + " SET search_path TO amicus,olisuite,public";
-    logger.debug("Start role");
+    logger.info("Start role");
     try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement stmRole = connection.createStatement();
          Statement stmAlterRole = connection.createStatement())
@@ -224,12 +228,12 @@ public class TenantService {
   private void createDatabase(final String databaseName) throws SQLException {
     final String queryDatabase = "create database " + databaseName;
 
-    logger.debug("Start database " + databaseName);
+    logger.info("Start database " + databaseName);
     try (Connection connection = getConnection("postgres", adminUser, adminPassword);
          Statement statement = connection.createStatement())
     {
       statement.execute(queryDatabase);
-      logger.debug("End database " + databaseName);
+      logger.info("End database " + databaseName);
 
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -244,12 +248,14 @@ public class TenantService {
    * @throws SQLException the SQL exception
    */
   private void createObjects(final String databaseName) throws SQLException {
+    logger.info("Start create objects");
     final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, true);
     final Connection connection = getConnection(databaseName, marccatUser, marccatPassword );
     final ScriptRunner runner = new ScriptRunner(connection, false);
     try {
       runner.runScript(new BufferedReader(new FileReader(pathScript)));
-    } catch (IOException exception) {
+      logger.info("End create objects");
+   } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
   }
@@ -498,6 +504,7 @@ public class TenantService {
   private Connection getConnection(final String databaseName, final String username, final String password) throws SQLException {
     final StringBuilder jdbcUrl = new StringBuilder();
     jdbcUrl.append("jdbc:postgresql://").append(host).append(":").append(port).append("/").append(databaseName);
+    logger.info("URL JDBC: " + jdbcUrl);
     return DriverManager.getConnection(jdbcUrl.toString(), username, password);
   }
 
