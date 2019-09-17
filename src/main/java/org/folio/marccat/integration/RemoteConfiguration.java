@@ -52,7 +52,7 @@ public class RemoteConfiguration implements Configuration {
   }
 
   @Override
-  public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
+  public ObjectNode attributes(final String okapiUrl, final String tenant, final boolean withDatasource, final String... configurationSets) {
     if(okapiClient.getModuleUrl(okapiurl, Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
       endpoint = okapiClient.getModuleUrl(okapiurl, Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     logger.info("Configuration URL : " + endpoint);
