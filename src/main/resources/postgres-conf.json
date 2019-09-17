@@ -1,7 +1,0 @@
-{
-  "host" : "192.168.0.99",
-  "port" : 5433,
-  "database" : "postgres",
-  "username" : "postgres",
-  "password" : "pes001clt"
-}
