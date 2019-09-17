@@ -2,6 +2,6 @@
   "srvcId": "@artifactId@-@version@",
   "nodeId": "localhost",
   "descriptor": {
-    "exec": "java -Dserver.port=%p -jar ../@artifactId@/target/@artifactId@-fat.jar -Dserver.port=%p"
+    "exec": "java -Dserver.port=%p -jar ../@artifactId@/target/@artifactId@-fat.jar -Dserver.port=%p db_connection=/postgres-conf.json"
   }
 }
