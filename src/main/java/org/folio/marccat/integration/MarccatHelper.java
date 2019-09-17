@@ -5,11 +5,12 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
 import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -29,10 +30,15 @@ import static org.folio.marccat.config.constants.Global.HCONFIGURATION;
  * @author agazzarini
  * @since 1.0
  */
+@Component("MarccatHelper")
+
 public abstract class MarccatHelper {
   private final static Properties DEFAULT_VALUES = new Properties();
   private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
+
+  @Value("${okapiurl}")
+  private static String okapiurl;
 
   static {
     try {
@@ -139,7 +145,7 @@ public abstract class MarccatHelper {
     final Configuration configurator,
     final String... configurationSets) {
     try {
-      final ObjectNode settings = configurator.attributes(tenant, true, configurationSets);
+      final ObjectNode settings = configurator.attributes(okapiurl, tenant, true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
       try (final Connection connection = datasource.getConnection();
            final StorageService service =

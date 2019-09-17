@@ -136,7 +136,7 @@ public class TenantService {
     logger.info("Enable tenant" + " - Start");
     okapiurl = okapiUrl;
     initializeDatabase(tenant);
-    ObjectNode value =  configuration.attributes(tenant, true, "");
+    ObjectNode value =  configuration.attributes(okapiurl, tenant, true, "");
     final Map <String, String> config = getConfigurations(value);
     if(config != null && config.size() == 0) {
       initializeConfiguration(tenant);

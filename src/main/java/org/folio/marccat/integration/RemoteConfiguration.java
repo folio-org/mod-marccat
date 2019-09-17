@@ -32,9 +32,6 @@ public class RemoteConfiguration implements Configuration {
   private static final int LIMIT = 100;
   private final RestTemplate client;
 
-  @Value("${okapiurl}")
-  private String okapiurl;
-
   @Value("${configuration.endpoint}")
   private String endpoint;
 
@@ -52,7 +49,7 @@ public class RemoteConfiguration implements Configuration {
   }
 
   @Override
-  public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
+  public ObjectNode attributes(final String okapiurl, final String tenant, final boolean withDatasource, final String... configurationSets) {
     if(okapiClient.getModuleUrl(okapiurl, Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
       endpoint = okapiClient.getModuleUrl(okapiurl, Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     logger.info("Configuration URL : " + endpoint);
