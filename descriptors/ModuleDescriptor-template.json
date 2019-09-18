@@ -16,7 +16,6 @@
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/search",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },{
           "methods": ["GET"],
