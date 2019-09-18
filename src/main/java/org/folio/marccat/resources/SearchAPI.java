@@ -24,13 +24,13 @@ public class SearchAPI extends BaseResource {
 
   @GetMapping("/search")
   public SearchResponse search(
-    @RequestParam final String lang,
+    @RequestParam(name = "lang", defaultValue = "eng") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestParam("q") final String q,
     @RequestParam(name = "from", defaultValue = "1") final int from,
     @RequestParam(name = "to", defaultValue = "10") final int to,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestParam("ml") final int mainLibraryId,
+    @RequestParam(name = "ml", defaultValue = "170") final int mainLibraryId,
     @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
