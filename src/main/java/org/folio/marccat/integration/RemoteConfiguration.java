@@ -39,6 +39,7 @@ public class RemoteConfiguration implements Configuration {
   private OkapiClient okapiClient;
 
 
+
   /**
    * Builds a new configuration with the given http client.
    *
@@ -49,9 +50,9 @@ public class RemoteConfiguration implements Configuration {
   }
 
   @Override
-  public ObjectNode attributes(final String okapiurl, final String tenant, final boolean withDatasource, final String... configurationSets) {
-    if(okapiClient.getModuleUrl(okapiurl, Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
-      endpoint = okapiClient.getModuleUrl(okapiurl, Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
+  public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
+    if(okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
+      endpoint = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     logger.info("Configuration URL : " + endpoint);
     final HttpHeaders headers = new HttpHeaders();
     headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);

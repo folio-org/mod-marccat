@@ -37,8 +37,6 @@ public abstract class MarccatHelper {
   private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
 
-  @Value("${okapiurl}")
-  private static String okapiurl;
 
   static {
     try {
@@ -145,7 +143,7 @@ public abstract class MarccatHelper {
     final Configuration configurator,
     final String... configurationSets) {
     try {
-      final ObjectNode settings = configurator.attributes(okapiurl, tenant, true, configurationSets);
+      final ObjectNode settings = configurator.attributes(tenant, true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
       try (final Connection connection = datasource.getConnection();
            final StorageService service =

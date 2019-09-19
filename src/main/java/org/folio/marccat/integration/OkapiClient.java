@@ -40,7 +40,7 @@ public class OkapiClient {
    */
   public static final String OKAPI_URL_ENVIRONMENT = "/_/env";
 
-   /**
+  /**
    * The url of the modules.
    */
   public static final String OKAPI_URL_DISCOVERY_MODULES = "/_/discovery/modules";
@@ -50,10 +50,33 @@ public class OkapiClient {
    *
    * @param client the HTTP / REST client.
    */
- public OkapiClient(final RestTemplate client) {
+  public OkapiClient(final RestTemplate client) {
     this.client = client;
   }
 
+  /**
+   * X-Okapi-Url. Tells the URL where the modules may contact Okapi
+   */
+  private String okapiUrl;
+
+
+  /**
+   * Sets the okapi url.
+   *
+   * @param url the new okapi url
+   */
+  public void setOkapiUrl(String url) {
+    okapiUrl = url;
+  }
+
+  /**
+   * Gets the okapi url.
+   *
+   * @return the okapi url
+   */
+  public String getOkapiUrl() {
+    return okapiUrl;
+  }
 
 
   /**
@@ -62,7 +85,7 @@ public class OkapiClient {
    * @return environment variables.
    */
   public Map <String, String> getEnvironments() {
-    final ResponseEntity <String> response = client.getForEntity(OKAPI_URL_ENVIRONMENT, String.class);
+    final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_ENVIRONMENT, String.class);
     final EnvEntry[] env = Json.decodeValue(response.getBody(), EnvEntry[].class);
     final HashMap <String, String> entries = new HashMap <>();
     if (env != null) {
@@ -79,12 +102,11 @@ public class OkapiClient {
   /**
    * Builds the url of a module from Okapi.
    *
-   * @param okapiUrl the okapi url.
    * @param moduleDescription the module description.
    * @param subdomain         the sub domain.
    * @return the url of a module otherwise it returns a null value
    */
-  public String getModuleUrl(final String okapiUrl, final String moduleDescription, final String subdomain ) {
+  public String getModuleUrl(final String moduleDescription, final String subdomain) {
     String moduleUrl = null;
     try {
       logger.info(okapiUrl + OKAPI_URL_DISCOVERY_MODULES);
@@ -107,15 +129,15 @@ public class OkapiClient {
    * @param moduleDescription the module description.
    * @return the url of a module otherwise it returns a null value
    */
-  public Map <String, String>  getModuleEnvs(final String moduleDescription, final String okapiUrl) {
-      EnvEntry[] env = null;
-      final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_DISCOVERY_MODULES, String.class);
-      final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
-      for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
-        if (deployDescriptor.getSrvcId().contains(moduleDescription)) {
-           env = deployDescriptor.getDescriptor().getEnv();
-        }
+  public Map <String, String> getModuleEnvs(final String moduleDescription) {
+    EnvEntry[] env = null;
+    final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_DISCOVERY_MODULES, String.class);
+    final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
+    for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
+      if (deployDescriptor.getSrvcId().contains(moduleDescription)) {
+        env = deployDescriptor.getDescriptor().getEnv();
       }
+    }
     final HashMap <String, String> entries = new HashMap <>();
     if (env != null) {
       for (EnvEntry e : env) {
