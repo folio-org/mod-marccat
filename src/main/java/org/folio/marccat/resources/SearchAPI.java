@@ -35,7 +35,7 @@ public class SearchAPI extends BaseResource {
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
     return doGet((StorageService storageService, Map<String, String> configuration) -> {
-      final SearchEngine searchEngine =
+       final SearchEngine searchEngine =
         SearchEngineFactory.create(
           SearchEngineFactory.EngineType.LIGHTWEIGHT,
           mainLibraryId,

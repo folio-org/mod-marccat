@@ -121,9 +121,6 @@ public class TenantService {
   @Value("${configuration.endpoint}")
   private String endpoint;
 
-  @Value("${okapiurl}")
-  private String okapiurl;
-
 
   /**
    * Creates the tenant.
@@ -134,9 +131,9 @@ public class TenantService {
    */
   public void createTenant(final String tenant, final String okapiUrl) throws SQLException, IOException {
     logger.info("Enable tenant" + " - Start");
-    okapiurl = okapiUrl;
+    okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);
-    ObjectNode value =  configuration.attributes(okapiurl, tenant, true, "");
+    ObjectNode value =  configuration.attributes(tenant, true, "");
     final Map <String, String> config = getConfigurations(value);
     if(config != null && config.size() == 0) {
       initializeConfiguration(tenant);
@@ -162,7 +159,7 @@ public class TenantService {
    */
   private void initializeConfiguration(final String tenant) {
     final String databaseName =  tenant + marccatSuffix;
-    final String configurationUrl = okapiClient.getModuleUrl(okapiurl, Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
+    final String configurationUrl = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     final URI uri = URI.create(configurationUrl);
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
     final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
@@ -177,7 +174,7 @@ public class TenantService {
    */
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName =  tenant + marccatSuffix;
-    final Map<String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT, okapiurl);
+    final Map<String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
     if(!env.isEmpty()){
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
