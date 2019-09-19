@@ -118,9 +118,7 @@ public class TenantService {
   private String patchProcedure;
 
 
-  @Value("${configuration.endpoint}")
-  private String endpoint;
-
+  
 
   /**
    * Creates the tenant.
