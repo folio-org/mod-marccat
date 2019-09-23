@@ -6,12 +6,6 @@
 \echo
 \echo MARCCAT DB PLPGSQL 3.3 - Start -----------------------------------------------------
 \echo
-set myvars.patch_comp_typ TO :'patch_comp_typ';
-set myvars.patch_sp_nbr TO :'patch_sp_nbr';
-set myvars.patch_rel_nbr TO :'patch_rel_nbr';
-\set ON_ERROR_STOP on
-\ir patch-check.sql
-\set ON_ERROR_STOP off
 \ir clstn_itm_acs_pnt_d.sql
 \ir clstn_itm_acs_pnt_iu.sql
 \ir trigger_fct_clstn_d_1.3.sql
