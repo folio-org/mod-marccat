@@ -6,12 +6,6 @@
 \echo
 \echo MARCCAT DB 1.2 - Start -------------------------------------------------------------
 \echo
-set myvars.patch_comp_typ TO :'patch_comp_typ';
-set myvars.patch_sp_nbr TO :'patch_sp_nbr';
-set myvars.patch_rel_nbr TO :'patch_rel_nbr';
-\set ON_ERROR_STOP on
-\ir patch-check.sql
-\set ON_ERROR_STOP off
 \ir init_template.sql
 \ir MODCAT-91.sql
 \ir UXPROD-1735.sql

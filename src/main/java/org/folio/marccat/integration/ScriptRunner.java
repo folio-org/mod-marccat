@@ -135,8 +135,6 @@ public class ScriptRunner {
           command = new StringBuffer();
         }
         isFinalFunctionDelimiter = (line.contains("$$;") || line.contains("$_$;") || line.contains("\\."));
-        if(isFinalFunctionDelimiter)
-          System.out.println("Command : " + command.toString());
         String trimmedLine = line.trim();
         final Matcher delimMatch = delimP.matcher(trimmedLine);
         if (trimmedLine.length() < 1 || trimmedLine.startsWith("//")) {
@@ -152,14 +150,12 @@ public class ScriptRunner {
           command.append(" ");
           //Function
           if (isNotFunction(command) || isFinalFunctionDelimiter) {
-            System.out.println("Command : " + command.toString());
             this.execCommand(conn, command, lineReader);
             command = null;
           }
         }
         //Copy
         else if (line.contains("\\.") && command.toString().contains("COPY")) {
-          System.out.println("Command Copy: " + command.toString());
           executePgCopy(conn, command.toString());
           command = null;
 
