@@ -192,8 +192,8 @@ public class TenantService {
     boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist)
       createObjects(databaseName);
-    //executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
-   // executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
+    executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
+    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
   }
 
   /**
