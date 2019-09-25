@@ -192,8 +192,8 @@ public class TenantService {
     boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist)
       createObjects(databaseName);
-    //executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
-   // executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
+    executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
+    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
   }
 
   /**
@@ -476,7 +476,7 @@ public class TenantService {
    * @throws SQLException the SQL exception
    */
   private boolean patchExists(final String databaseName, final String patchRel, final String patchSp, final String patchComp, final String errorMessage) throws SQLException {
-    final String queryPatch = " select count(*) into v_cnt" +
+    final String queryPatch = " select count(*) " +
       " from olisuite.s_patch_history" +
       " where release_number = " + patchRel +
       " and service_pack_number = " + patchSp +
