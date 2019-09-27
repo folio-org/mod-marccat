@@ -91,9 +91,9 @@ public class OkapiClient {
     if (env != null) {
       for (EnvEntry e : env) {
         entries.put(e.getName(), e.getValue());
-        logger.info("Environment variables");
-        logger.info("Name: " + e.getName());
-        logger.info("Value: " + e.getValue());
+        logger.debug("Environment variables");
+        logger.debug("Name: " + e.getName());
+        logger.debug("Value: " + e.getValue());
       }
     }
     return entries;
@@ -109,7 +109,7 @@ public class OkapiClient {
   public String getModuleUrl(final String moduleDescription, final String subdomain) {
     String moduleUrl = null;
     try {
-      logger.info(okapiUrl + OKAPI_URL_DISCOVERY_MODULES);
+      logger.debug(okapiUrl + OKAPI_URL_DISCOVERY_MODULES);
       final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_DISCOVERY_MODULES, String.class);
       final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
       for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
@@ -142,9 +142,9 @@ public class OkapiClient {
     if (env != null) {
       for (EnvEntry e : env) {
         entries.put(e.getName(), e.getValue());
-        logger.info("Environment variables");
-        logger.info("Name: " + e.getName());
-        logger.info("Value: " + e.getValue());
+        logger.debug("Environment variables");
+        logger.debug("Name: " + e.getName());
+        logger.debug("Value: " + e.getValue());
       }
     }
     return entries;
