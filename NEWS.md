@@ -1,3 +1,8 @@
+## 2.0.0 2019-09-27
+* Initialization template for cataloging.
+* Fix log level for tenant.
+
+
 ## 1.9.0 2019-09-11
 * Database initialization via JDBC with role, database, user and objects creation.
 * Check role and database existence.
