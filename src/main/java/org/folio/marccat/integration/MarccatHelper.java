@@ -195,8 +195,6 @@ public abstract class MarccatHelper {
       .filter(node -> "datasource".equals(node.get("configName").asText()))
       .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-    logger.debug("DATABASE USER: " + config.get("user"));
-    logger.debug("DATABASE PASSWORD: " + config.get("password"));
     logger.debug("DATABASE URL: " + config.get("url"));
     return DataSourceBuilder
       .create()
