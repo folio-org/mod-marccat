@@ -169,6 +169,7 @@ public abstract class MarccatHelper {
   private static Map<String, String> configuration(final ObjectNode value) {
     return StreamSupport.stream(value.withArray("configs").spliterator(), false)
       .filter(node -> !"datasource".equals(node.get("configName").asText()))
+      .filter(node -> node.get("code") != null && node.get("value") != null)
       .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
   }
@@ -190,13 +191,13 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    final Map<String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+    final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
       .filter(node -> "datasource".equals(node.get("configName").asText()))
-      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
+      .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-    logger.info("DATABASE USER: " + config.get("user"));
-    logger.info("DATABASE PASSWORD: " + config.get("password"));
-    logger.info("DATABASE URL: " + config.get("url"));
+    logger.debug("DATABASE USER: " + config.get("user"));
+    logger.debug("DATABASE PASSWORD: " + config.get("password"));
+    logger.debug("DATABASE URL: " + config.get("url"));
     return DataSourceBuilder
       .create()
       .username(config.get("user"))
