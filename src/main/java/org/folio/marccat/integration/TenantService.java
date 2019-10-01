@@ -133,15 +133,15 @@ public class TenantService {
    * @throws IOException  Signals that an I/O exception has occurred.
    */
   public void createTenant(final String tenant, final String okapiUrl) throws SQLException, IOException {
-    logger.info("Enable tenant" + " - Start");
+    logger.debug("Enable tenant" + " - Start");
     okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);
-    ObjectNode value = configuration.attributes(tenant, true, "");
+    /*ObjectNode value = configuration.attributes(tenant, true, "");
     final Map <String, String> config = getConfigurations(value);
     if (config != null && config.size() == 0) {
       initializeConfiguration(tenant);
-    }
-    logger.info("Enable tenant" + " - End");
+    }*/
+    logger.debug("Enable tenant" + " - End");
   }
 
   /**
@@ -178,13 +178,18 @@ public class TenantService {
    */
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName = tenant + marccatSuffix;
-    final Map <String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
-    if (!env.isEmpty()) {
-      host = env.get("DB_HOST");
+   // final Map <String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
+    //if (!env.isEmpty()) {
+      /*host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
-      adminPassword = env.get("DB_PASSWORD");
-    }
+      adminPassword = env.get("DB_PASSWORD");*/
+      host = "192.168.0.158";
+      port = "5433";
+      adminUser = "postgres";
+      adminPassword = "pes001clt";
+
+  //  }
     createRole();
     boolean databaseNotExist = databaseExists(databaseName);
     if (databaseNotExist)
@@ -193,7 +198,7 @@ public class TenantService {
     if (schemaNotExist)
       createObjects(databaseName);
     executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
-    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
+   // executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
   }
 
   /**
@@ -204,13 +209,13 @@ public class TenantService {
   private void createRole() throws SQLException {
     final String queryRole = "DO $$ BEGIN  CREATE ROLE " + marccatUser + " PASSWORD '" + marccatPassword + "' SUPERUSER CREATEDB INHERIT LOGIN;  EXCEPTION WHEN duplicate_object THEN  RAISE NOTICE 'Role % already exists', 'marccat'; END $$";
     final String queryAlterRole = "ALTER ROLE " + marccatUser + " SET search_path TO amicus,olisuite,public";
-    logger.info("Start role");
+    logger.debug("Start role");
     try (Connection connection = getConnection(POSTGRES, adminUser, adminPassword);
          Statement stmRole = connection.createStatement();
          Statement stmAlterRole = connection.createStatement()) {
       stmRole.execute(queryRole);
       stmAlterRole.execute(queryAlterRole);
-      logger.info("End role");
+      logger.debug("End role");
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw exception;
@@ -226,11 +231,11 @@ public class TenantService {
   private void createDatabase(final String databaseName) throws SQLException {
     final String queryDatabase = "create database " + databaseName;
 
-    logger.info("Start database " + databaseName);
+    logger.debug("Start database " + databaseName);
     try (Connection connection = getConnection(POSTGRES, adminUser, adminPassword);
          Statement statement = connection.createStatement()) {
       statement.execute(queryDatabase);
-      logger.info("End database " + databaseName);
+      logger.debug("End database " + databaseName);
 
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -245,13 +250,13 @@ public class TenantService {
    * @throws SQLException the SQL exception
    */
   private void createObjects(final String databaseName) throws SQLException {
-    logger.info("Start create objects");
+    logger.debug("Start create objects");
     final String pathScript = getPathScript(DATABASE_SETUP + "create-objects.sql", databaseName, true);
     final Connection connection = getConnection(databaseName, marccatUser, marccatPassword);
     final ScriptRunner runner = new ScriptRunner(connection, false);
     try {
       runner.runScript(new BufferedReader(new FileReader(pathScript)));
-      logger.info("End create objects");
+      logger.debug("End create objects");
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
@@ -269,15 +274,16 @@ public class TenantService {
    */
   private void executePatch(final String databaseName, final String patch, final String message, final String errorMessage) throws SQLException {
     try {
-      logger.info(message);
+      logger.debug(message);
       final InputStream inputStream = getClass().getResourceAsStream(patch + "/env.conf");
       final List <String> ls = IOUtils.readLines(inputStream, "utf-8");
       final String patchRel = getVersionNumber(ls.get(1), "patch_rel_nbr=");
       final String patchSp = getVersionNumber(ls.get(2), "patch_sp_nbr=");
       final String patchComp = getVersionNumber(ls.get(3), "patch_comp_typ=");
-      if (!patchExists(databaseName, patchRel, patchSp, patchComp, errorMessage))
+      final boolean patchNotExist = patchExists(databaseName, patchRel, patchSp, patchComp, errorMessage);
+      if (patchRel != null && patchNotExist)
         executeScript(patch, "/install-patch.sql", databaseName);
-      logger.info("End " + message);
+      logger.debug("End " + message);
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
@@ -292,8 +298,9 @@ public class TenantService {
    * @return the version number
    */
   private String getVersionNumber(final String line, final String variable) {
-    return line.substring(line.indexOf(variable));
+   return  (line.indexOf(variable) != -1) ?  line.substring(line.indexOf("=") + 1) :  null;
   }
+
 
   /**
    * Execute script.
@@ -310,11 +317,11 @@ public class TenantService {
     mp.put("PGPASSWORD", pgPassword);
     Process process = null;
     try {
-      logger.info(messageLog + " - Start");
+      logger.debug(messageLog + " - Start");
       builder.redirectOutput((ProcessBuilder.Redirect.INHERIT));
       process = builder.start();
       exitCode = processWait(process);
-      logger.info(messageLog + " - End");
+      logger.debug(messageLog + " - End");
 
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
@@ -336,7 +343,7 @@ public class TenantService {
     int exitCode = 0;
     try {
       exitCode = process.waitFor();
-      logger.info("Exit code %d :", exitCode);
+      logger.debug("Exit code %d :", exitCode);
     } catch (InterruptedException e) {
       logger.error(Message.MOD_MARCCAT_00033_PROCESS_FAILURE, e);
       Thread.currentThread().interrupt();
@@ -432,7 +439,7 @@ public class TenantService {
       resultSet.next();
       final int count = resultSet.getInt(1);
       if (count != 0)
-        logger.info("Schema found : " + databaseName);
+        logger.debug("Schema found : " + databaseName);
       return count == 0;
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -455,7 +462,7 @@ public class TenantService {
       resultSet.next();
       final int count = resultSet.getInt(1);
       if (count != 0)
-        logger.info("Database found : " + databaseName);
+        logger.debug("Database found : " + databaseName);
       return count == 0;
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -481,13 +488,14 @@ public class TenantService {
       " where release_number = " + patchRel +
       " and service_pack_number = " + patchSp +
       " and component_typ = " + patchComp;
+    System.out.println(queryPatch);
     try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(queryPatch)) {
       resultSet.next();
       final int count = resultSet.getInt(1);
       if (count != 0)
-        logger.info(errorMessage);
+        logger.debug(errorMessage);
       return count == 0;
     } catch (SQLException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -508,7 +516,7 @@ public class TenantService {
   private Connection getConnection(final String databaseName, final String username, final String password) throws SQLException {
     final StringBuilder jdbcUrl = new StringBuilder();
     jdbcUrl.append("jdbc:postgresql://").append(host).append(":").append(port).append("/").append(databaseName);
-    logger.info("URL JDBC: " + jdbcUrl);
+    logger.debug("URL JDBC: " + jdbcUrl);
     return DriverManager.getConnection(jdbcUrl.toString(), username, password);
   }
 
