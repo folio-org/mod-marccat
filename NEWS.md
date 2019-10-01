@@ -1,3 +1,6 @@
+## 2.1.0 2019-10-01
+* Added check on configurations
+
 ## 2.0.0 2019-09-27
 * Initialization template for cataloging.
 * Fix log level for tenant.
