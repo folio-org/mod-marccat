@@ -1,9 +1,11 @@
-CREATE OR REPLACE FUNCTION amicus.trigger_fct_cpy_id_d() RETURNS trigger AS 
-$BODY$
+CREATE OR REPLACE FUNCTION amicus.trigger_fct_cpy_id_d() RETURNS trigger
+ LANGUAGE plpgsql SECURITY DEFINER
+ AS $$
+
 
 /*****************************************************************************************
    NAME: AMICUS.trigger_fct_cpy_id_d
-   PURPOSE: 
+   PURPOSE:
    REVISIONS:
    Ver    Date        Author           Description
    -----  ----------  ---------------  ---------------------------------------------------
@@ -19,12 +21,12 @@ DECLARE
   v_operation text;
   v_bib_itm_nbr bigint;
   v_usr_vw_ind char(16);
-  ft_zones text[];  
+  ft_zones text[];
 BEGIN
   v_bib_itm_nbr := OLD.bib_itm_nbr;
   ft_zones[1] := 'CPYNTE';
-       
-  begin 
+
+  begin
     perform trigger_ft(v_bib_itm_nbr, null, ft_zones);
   exception
   when others
@@ -35,14 +37,13 @@ BEGIN
     v_detail = PG_EXCEPTION_DETAIL,
     v_hint = PG_EXCEPTION_HINT,
     v_context = PG_EXCEPTION_CONTEXT;
-    v_operation := 'trigger_ft - ' || ' [' || coalesce(v_state, '') || '] [' || coalesce(v_msg, '') || '] [' || 
+    v_operation := 'trigger_ft - ' || ' [' || coalesce(v_state, '') || '] [' || coalesce(v_msg, '') || '] [' ||
                    coalesce(v_detail, '') || '] [' || coalesce(v_hint, '') || '] [' || coalesce(v_context, '') || ']';
     insert into FT_DATA_LOG(operation, log_lvl, dte) values(v_operation, 'ERROR', clock_timestamp());
-  end;    
+  end;
 RETURN OLD;
 END
-$BODY$
-LANGUAGE 'plpgsql' SECURITY DEFINER;
+$$;
 
 DROP TRIGGER IF EXISTS cpy_id_d on AMICUS.cpy_id;
 
