@@ -57,7 +57,7 @@ public class OkapiClient {
   /**
    * X-Okapi-Url. Tells the URL where the modules may contact Okapi
    */
-  private String okapiUrl;
+  private String okapiUrl = "http://localhost:9130";
 
 
   /**

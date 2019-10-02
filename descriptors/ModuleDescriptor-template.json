@@ -20,114 +20,95 @@
         },{
           "methods": ["GET"],
           "pathPattern": "/marccat/mergedSearch",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         }, {
           "methods": ["GET"],
           "pathPattern": "/marccat/searchVertical",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/countSearch",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/document-count-by-id",
-          "permissionsRequired": ["marccat.record.count.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/browse",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/headings-by-tag",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/filteredTagsList",
-          "permissionsRequired": ["marccat.tag.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/filteredTag",
-          "permissionsRequired": ["marccat.tag.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/record-templates",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["POST"],
           "pathPattern": "/marccat/bibliographic-record",
-          "permissionsRequired": ["marccat.record.insert.post"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/bibliographic-record/from-template",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/bibliographic-record/duplicate",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["POST"],
           "pathPattern": "/marccat/bibliographic-record/fixed-field-display-value",
-          "permissionsRequired": ["marccat.tag.value.post"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/fixed-fields-code-groups-by-leader",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/fixed-fields-code-groups",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/header-types",
-          "permissionsRequired": ["marccat.records.collection.get"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["POST"],
           "pathPattern": "/marccat/create-heading",
-          "permissionsRequired": ["marccat.tag.heading.post"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["PUT"],
           "pathPattern": "/marccat/bibliographic-record/lock",
-          "permissionsRequired": ["marccat.record.lock.put"],
           "modulePermissions": ["configuration.all"]
         },
         {
           "methods": ["DELETE"],
           "pathPattern": "/marccat/bibliographic-record/unlock",
-          "permissionsRequired": ["marccat.record.unlock.delete"],
           "modulePermissions": ["configuration.all"]
         }
       ]
