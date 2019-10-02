@@ -1,4 +1,7 @@
-## 2.1.0 2019-10-01
+## 2.2.0 2019-10-02
+* Fix permissions
+
+## 2.1.5 2019-10-01
 * Added check on configurations
 
 ## 2.0.0 2019-09-27
