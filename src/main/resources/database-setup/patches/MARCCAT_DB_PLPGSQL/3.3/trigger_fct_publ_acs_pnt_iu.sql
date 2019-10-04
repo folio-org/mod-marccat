@@ -1,5 +1,4 @@
 CREATE OR REPLACE FUNCTION amicus.trigger_fct_publ_acs_pnt_iu() RETURNS trigger
-LANGUAGE plpgsql SECURITY DEFINER
  AS $$
 
 /*****************************************************************************************
@@ -44,7 +43,7 @@ BEGIN
   end;
 RETURN NEW;
 END
-$$;
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS publ_acs_pnt_iu on AMICUS.publ_acs_pnt;
 

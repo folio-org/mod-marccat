@@ -1,5 +1,4 @@
 CREATE or replace FUNCTION amicus.trigger_fct_hldg_nte_d() RETURNS trigger
-LANGUAGE plpgsql SECURITY DEFINER
  AS $$
 
 /*****************************************************************************************
@@ -60,4 +59,4 @@ BEGIN
   end;
 RETURN OLD;
 END
-$$;
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;

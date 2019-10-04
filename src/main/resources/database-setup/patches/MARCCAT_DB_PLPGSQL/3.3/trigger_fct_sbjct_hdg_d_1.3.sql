@@ -1,5 +1,4 @@
 CREATE OR REPLACE FUNCTION amicus.trigger_fct_sbjct_hdg_d() RETURNS trigger
-LANGUAGE plpgsql SECURITY DEFINER
 AS $$
 
 /*****************************************************************************************
@@ -65,7 +64,7 @@ BEGIN
   end;
 RETURN OLD;
 END
-$$;
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS sbjct_hdg_d on AMICUS.sbjct_hdg;
 

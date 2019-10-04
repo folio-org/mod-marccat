@@ -1,7 +1,5 @@
 CREATE OR REPLACE FUNCTION amicus.trigger_fct_cpy_id_d() RETURNS trigger
- LANGUAGE plpgsql SECURITY DEFINER
  AS $$
-
 
 /*****************************************************************************************
    NAME: AMICUS.trigger_fct_cpy_id_d
@@ -43,7 +41,7 @@ BEGIN
   end;
 RETURN OLD;
 END
-$$;
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS cpy_id_d on AMICUS.cpy_id;
 

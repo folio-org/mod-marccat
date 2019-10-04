@@ -1,5 +1,4 @@
 CREATE OR REPLACE FUNCTION amicus.trigger_fct_bib_nte_ovrfw_d() RETURNS trigger AS
- LANGUAGE plpgsql SECURITY DEFINER
   AS $$
 
 /*****************************************************************************************
@@ -49,7 +48,7 @@ BEGIN
   end;
 RETURN OLD;
 END
-$$;
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 
 DROP TRIGGER IF EXISTS bib_nte_ovrfw_d on AMICUS.bib_nte_ovrfw;

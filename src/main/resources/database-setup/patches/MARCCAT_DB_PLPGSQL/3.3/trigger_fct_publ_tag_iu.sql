@@ -1,6 +1,5 @@
 CREATE OR REPLACE FUNCTION amicus.trigger_fct_publ_tag_iu() RETURNS trigger
-LANGUAGE plpgsql SECURITY DEFINER
-AS $$
+S $$
 
 /*****************************************************************************************
    NAME: AMICUS.trigger_fct_publ_tag_iu
@@ -60,7 +59,7 @@ BEGIN
   end;
 RETURN NEW;
 END
-$$;
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS publ_tag_iu on AMICUS.publ_tag;
 
