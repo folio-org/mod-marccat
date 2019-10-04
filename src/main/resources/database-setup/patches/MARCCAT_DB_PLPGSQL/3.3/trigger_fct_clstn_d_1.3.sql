@@ -1,5 +1,4 @@
 CREATE OR REPLACE FUNCTION amicus.trigger_fct_clstn_d() RETURNS trigger
- LANGUAGE plpgsql SECURITY DEFINER
   AS $$
 
 /*****************************************************************************************
@@ -67,7 +66,7 @@ BEGIN
   end;
 RETURN OLD;
 END
-$$;
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS clstn_d on AMICUS.clstn;
 
