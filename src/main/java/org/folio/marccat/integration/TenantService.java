@@ -192,8 +192,8 @@ public class TenantService {
     boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist)
       createObjects(databaseName);
-    //executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
-   // executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
+    executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
+    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
   }
 
   /**
@@ -294,7 +294,7 @@ public class TenantService {
    * @return the version number
    */
   private String getVersionNumber(final String line, final String variable) {
-    return line.substring(line.indexOf(variable));
+    return  (line.indexOf(variable) != -1) ?  line.substring(line.indexOf("=") + 1) :  null;
   }
 
   /**
@@ -483,6 +483,7 @@ public class TenantService {
       " where release_number = " + patchRel +
       " and service_pack_number = " + patchSp +
       " and component_typ = " + patchComp;
+    System.out.println(queryPatch);
     try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(queryPatch)) {

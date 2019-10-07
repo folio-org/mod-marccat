@@ -146,8 +146,8 @@ public class ScriptRunner {
         } else if (trimmedLine.length() < 1 || trimmedLine.startsWith("--")) {
           // Do nothing
         } else if (isFinalLineDelimiter(trimmedLine) && trimmedLine.indexOf("COPY") == -1) {
-          command.append(line.substring(0, line.lastIndexOf(";")));
-          command.append(" ");
+          command.append(line);
+          command.append("\n");
           //Function
           if (isNotFunction(command) || isFinalFunctionDelimiter) {
             this.execCommand(conn, command, lineReader);
@@ -228,7 +228,9 @@ public class ScriptRunner {
 
     Statement statement = conn.createStatement();
     try {
-      statement.execute(command.toString());
+      String commandString =  command.toString();
+      String commandSql = command.toString().substring(0, commandString.lastIndexOf(';'));
+      statement.execute(commandSql);
     } catch (SQLException exception) {
       final String errText = String.format("Error executing '%s' (line %d): %s", command, lineReader.getLineNumber(), exception.getMessage());
       logger.error(errText, exception);
