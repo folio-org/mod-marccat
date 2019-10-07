@@ -192,8 +192,8 @@ public class TenantService {
     boolean schemaNotExist = schemaExists(databaseName);
     if (schemaNotExist)
       createObjects(databaseName);
-    //executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
-   // executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
+    executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
+    executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
   }
 
   /**
@@ -275,13 +275,15 @@ public class TenantService {
       final String patchRel = getVersionNumber(ls.get(1), "patch_rel_nbr=");
       final String patchSp = getVersionNumber(ls.get(2), "patch_sp_nbr=");
       final String patchComp = getVersionNumber(ls.get(3), "patch_comp_typ=");
-      if (!patchExists(databaseName, patchRel, patchSp, patchComp, errorMessage))
+      final boolean patchNotExist = patchExists(databaseName, patchRel, patchSp, patchComp, errorMessage);
+      if (patchRel != null && patchNotExist)
         executeScript(patch, "/install-patch.sql", databaseName);
       logger.debug("End " + message);
     } catch (IOException exception) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
     }
   }
+
 
 
   /**
@@ -292,7 +294,7 @@ public class TenantService {
    * @return the version number
    */
   private String getVersionNumber(final String line, final String variable) {
-    return line.substring(line.indexOf(variable));
+    return  (line.indexOf(variable) != -1) ?  line.substring(line.indexOf("=") + 1) :  null;
   }
 
   /**
@@ -476,11 +478,12 @@ public class TenantService {
    * @throws SQLException the SQL exception
    */
   private boolean patchExists(final String databaseName, final String patchRel, final String patchSp, final String patchComp, final String errorMessage) throws SQLException {
-    final String queryPatch = " select count(*) into v_cnt" +
+    final String queryPatch = " select count(*) " +
       " from olisuite.s_patch_history" +
       " where release_number = " + patchRel +
       " and service_pack_number = " + patchSp +
       " and component_typ = " + patchComp;
+    System.out.println(queryPatch);
     try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(queryPatch)) {
@@ -494,7 +497,6 @@ public class TenantService {
       throw exception;
     }
   }
-
 
   /**
    * Return connection.

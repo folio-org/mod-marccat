@@ -1,13 +1,13 @@
-CREATE OR REPLACE FUNCTION amicus.trigger_fct_publ_acs_pnt_d() RETURNS trigger AS 
-$BODY$
+CREATE OR REPLACE FUNCTION amicus.trigger_fct_publ_acs_pnt_d() RETURNS trigger
+AS $$
 
 /*****************************************************************************************
    NAME: AMICUS.trigger_fct_publ_acs_pnt_d
-   PURPOSE: 
+   PURPOSE:
    REVISIONS:
    Ver    Date        Author           Description
    -----  ----------  ---------------  ---------------------------------------------------
-   1.0    29/03/2019  Mirko Fonzo      Updates Full Text Index on PUBL_ACS_PNT table 
+   1.0    29/03/2019  Mirko Fonzo      Updates Full Text Index on PUBL_ACS_PNT table
                                        delete.
 *****************************************************************************************/
 
@@ -20,13 +20,13 @@ DECLARE
   v_operation text;
   v_bib_itm_nbr bigint;
   v_usr_vw_ind char(16);
-  ft_zones text[];  
+  ft_zones text[];
 BEGIN
   v_bib_itm_nbr := OLD.bib_itm_nbr;
   v_usr_vw_ind := OLD.usr_vw_ind;
   ft_zones[1] := 'PUBL';
-       
-  begin 
+
+  begin
     perform trigger_ft(v_bib_itm_nbr, v_usr_vw_ind, ft_zones);
   exception
   when others
@@ -37,14 +37,13 @@ BEGIN
     v_detail = PG_EXCEPTION_DETAIL,
     v_hint = PG_EXCEPTION_HINT,
     v_context = PG_EXCEPTION_CONTEXT;
-    v_operation := 'trigger_ft - ' || ' [' || coalesce(v_state, '') || '] [' || coalesce(v_msg, '') || '] [' || 
+    v_operation := 'trigger_ft - ' || ' [' || coalesce(v_state, '') || '] [' || coalesce(v_msg, '') || '] [' ||
                    coalesce(v_detail, '') || '] [' || coalesce(v_hint, '') || '] [' || coalesce(v_context, '') || ']';
     insert into FT_DATA_LOG(operation, log_lvl, dte) values(v_operation, 'ERROR', clock_timestamp());
-  end;    
+  end;
 RETURN OLD;
 END
-$BODY$
-LANGUAGE 'plpgsql' SECURITY DEFINER;
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS publ_acs_pnt_d on AMICUS.publ_acs_pnt;
 
