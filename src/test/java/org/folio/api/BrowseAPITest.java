@@ -2,15 +2,25 @@ package org.folio.api;
 
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.BrowseAPI;
-import org.folio.marccat.resources.domain.HeadingDecoratorCollection;
+import org.folio.marccat.shared.MapHeading;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.web.server.setup.MockMvcBuilders;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.server.MockMvcBuilder;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.*;
+
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrowseAPITest {
 
@@ -25,20 +35,20 @@ public class BrowseAPITest {
   @Before
   public void init(){
     MockitoAnnotations.initMocks(this);
-    /*mockMvc = MockMvcBuilders.
-      standaloneSetup(storageService)
+    /*mockMvc = standaloneSetup(storageService)
       .addFilters(new CORSFilter())
       .build();*/
   }
 
   @Test
-  public void test_get_all_success() throws Exception {
+  public void test_get_first_page_success() throws Exception {
     /*List<User> users = Arrays.asList(
       new User(1, "Daenerys Targaryen"),
       new User(2, "John Snow"));*/
-   /* when(storageService.getFirstPage()).thenReturn(list);
-    mockMvc.perform(get("/browse"))
-      .andExpect(status().isOk())
+    List<MapHeading> list = new ArrayList <>();
+    when(storageService.getFirstPage("Ti Storia", 1, 170, 10, "ita")).thenReturn(list);
+    mockMvc.perform(get("/browse"));
+      /*.andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
       .andExpect(jsonPath("$", hasSize(2)))
       .andExpect(jsonPath("$[0].id", is(1)))
