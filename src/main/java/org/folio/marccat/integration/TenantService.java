@@ -483,7 +483,6 @@ public class TenantService {
       " where release_number = " + patchRel +
       " and service_pack_number = " + patchSp +
       " and component_typ = " + patchComp;
-    System.out.println(queryPatch);
     try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(queryPatch)) {
