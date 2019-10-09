@@ -1,3 +1,6 @@
+## 2.2.5 2019-10-09
+* Added sql patches
+
 ## 2.2.0 2019-10-02
 * Fix permissions
 
