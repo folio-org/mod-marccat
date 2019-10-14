@@ -48,13 +48,13 @@ public class BibliographicRecordAPI extends BaseResource {
 
 
   @GetMapping("/bibliographic-record/from-template/{idTemplate}")
-  public ResponseEntity<BibliographicRecord> getEmptyRecord(
+  public BibliographicRecord getEmptyRecord(
     @PathVariable final Integer idTemplate,
     @RequestParam final String lang,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
-    return doGetRSEntity((storageService, configuration) -> {
+    return doGet((storageService, configuration) -> {
 
       BibliographicRecord bibliographicRecord = new BibliographicRecord();
       final RecordTemplate template = storageService.getBibliographicRecordRecordTemplatesById(idTemplate);
