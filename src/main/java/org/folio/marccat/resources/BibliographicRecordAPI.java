@@ -52,7 +52,7 @@ public class BibliographicRecordAPI extends BaseResource {
     @PathVariable final Integer idTemplate,
     @RequestParam final String lang,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(name = Global.OKAPI_TENANT_HEADER_NAME, defaultValue = "tnx") final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
 
     return doGetRSEntity((storageService, configuration) -> {
 
