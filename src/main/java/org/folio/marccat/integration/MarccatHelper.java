@@ -68,9 +68,7 @@ public abstract class MarccatHelper {
     final Configuration configurator,
     final String... configurationSets) {
     final T result = exec(adapter, tenant, configurator, configurationSets);
-    final HttpHeaders headers = new HttpHeaders();
-    headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
-    return new ResponseEntity<>(result, headers, HttpStatus.FOUND);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
   /**
    * Executes a POST request.
