@@ -32,6 +32,8 @@ import org.folio.marccat.shared.MapHeading;
 import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.Closeable;
 import java.io.IOException;
@@ -63,6 +65,7 @@ import static org.folio.marccat.util.F.locale;
  * @author nbianchini
  * @since 1.0
  */
+@Component
 public class StorageService implements Closeable {
 
   public static final String HDG_MAIN_LIBRARY_NUMBER = " and hdg.mainLibraryNumber = ";
@@ -106,6 +109,9 @@ public class StorageService implements Closeable {
 
   private final Session session;
 
+  @Autowired
+  private DAOCodeTable daoCodeTable;
+
   /**
    * Builds a new {@link StorageService} with the given session.
    *
@@ -123,8 +129,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getSkipInFiling(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
-    return dao.getList(session, T_SKP_IN_FLNG_CNT.class, locale(lang));
+    return daoCodeTable.getList(session, T_SKP_IN_FLNG_CNT.class, locale(lang));
   }
 
 

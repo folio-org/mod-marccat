@@ -11,6 +11,7 @@ import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -25,7 +26,7 @@ import static java.util.stream.Collectors.toList;
  * @author cchiama
  * @since 1.0
  */
-
+@Component
 public class DAOCodeTable extends AbstractDAO {
   private Log logger = new Log(DAOCodeTable.class);
   private String noSessionMessege = "don't use it: session missing";
