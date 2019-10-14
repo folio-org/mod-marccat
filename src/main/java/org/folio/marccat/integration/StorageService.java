@@ -112,6 +112,9 @@ public class StorageService implements Closeable {
   @Autowired
   private DAOCodeTable daoCodeTable;
 
+  @Autowired
+  private DAOCache daoCache;
+
   /**
    * Builds a new {@link StorageService} with the given session.
    *
@@ -152,7 +155,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public int getPreferredView(final int itemNumber, final int databasePreferenceOrder) throws DataAccessException {
-    return new DAOCache().getPreferredView(session, itemNumber, databasePreferenceOrder);
+    return daoCache.getPreferredView(session, itemNumber, databasePreferenceOrder);
   }
 
   /**

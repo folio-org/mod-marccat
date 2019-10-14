@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.dao.DAOCache;
 import org.folio.marccat.dao.DAOCodeTable;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +31,11 @@ public class StorageServiceTest {
   @Mock
   private DAOCodeTable daoCodeTable;
 
-	@InjectMocks
+  @Mock
+  private DAOCache daoCache;
+
+
+  @InjectMocks
 	private StorageService storageService;
 
 	@Before
@@ -42,7 +47,6 @@ public class StorageServiceTest {
 
 	@Test
 	public void testGetSkipInFiling() {
-
     List<Avp<String>> list = new ArrayList<>();
     Avp<String> obj1 = new Avp<String>("1", "1");
     Avp<String> obj2 = new Avp<String>("2", "2");
@@ -63,10 +67,22 @@ public class StorageServiceTest {
 //		fail("Not yet implemented");
 //	}
 //
-//	@Test
-//	public void testGetPreferredView() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testGetPreferredView() {
+    List<Avp<String>> list = new ArrayList<>();
+    Avp<String> obj1 = new Avp<String>("1", "1");
+    Avp<String> obj2 = new Avp<String>("2", "2");
+    list.add(obj1);
+    list.add(obj2);
+
+    /*Mockito.when(daoCache.getPreferredView(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
+      .thenReturn(list);*/
+
+    List<Avp<String>> response = storageService.getSkipInFiling("ita");
+    assertEquals("1", response.get(0).getLabel());
+    assertEquals("2", response.get(1).getValue());
+
+  }
 //
 //	@Test
 //	public void testSortResults() {
