@@ -46,7 +46,6 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, configurator);
   }
 
-  @CrossOrigin
   @GetMapping("/bibliographic-record/from-template/{idTemplate}")
   public BibliographicRecord getEmptyRecord(
     @PathVariable final Integer idTemplate,
