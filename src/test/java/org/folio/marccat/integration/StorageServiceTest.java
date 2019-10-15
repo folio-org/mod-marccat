@@ -10,17 +10,21 @@ import java.util.Locale;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.dao.DAOCache;
 import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.DAOFullCache;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.FULL_CACHE;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
+import static org.mockito.ArgumentMatchers.anyInt;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import net.sf.hibernate.Session;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class StorageServiceTest {
@@ -29,11 +33,13 @@ public class StorageServiceTest {
   private Session session;
 
   @Mock
-  private DAOCodeTable daoCodeTable;
+  private DAOCodeTable codeTableDao;
 
   @Mock
-  private DAOCache daoCache;
+  private DAOCache cacheDao;
 
+  @Mock
+  private DAOFullCache fullCacheDao;
 
   @InjectMocks
 	private StorageService storageService;
@@ -53,7 +59,7 @@ public class StorageServiceTest {
     list.add(obj1);
     list.add(obj2);
 
-    Mockito.when(daoCodeTable.getList(any(Session.class), any(Class.class), any(Locale.class)))
+    Mockito.when(codeTableDao.getList(any(Session.class), any(Class.class), any(Locale.class)))
           .thenReturn(list);
 
     List<Avp<String>> response = storageService.getSkipInFiling("ita");
@@ -69,36 +75,48 @@ public class StorageServiceTest {
 //
 	@Test
 	public void testGetPreferredView() {
-    List<Avp<String>> list = new ArrayList<>();
-    Avp<String> obj1 = new Avp<String>("1", "1");
-    Avp<String> obj2 = new Avp<String>("2", "2");
-    list.add(obj1);
-    list.add(obj2);
+   int view = 1;
 
-    /*Mockito.when(daoCache.getPreferredView(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
-      .thenReturn(list);*/
+    Mockito.when(cacheDao.getPreferredView(any(Session.class), anyInt(), anyInt()))
+      .thenReturn(view);
 
-    List<Avp<String>> response = storageService.getSkipInFiling("ita");
-    assertEquals("1", response.get(0).getLabel());
-    assertEquals("2", response.get(1).getValue());
-
+    int response = storageService.getPreferredView(10, 1);
+    assertEquals(1, response);
   }
-//
+
+	/*@Test
+	public void testSortResults() {
+		//fail("Not yet implemented");
+	}*/
+
+
+	@Test
+  public void testGetRecordData() {
+    FULL_CACHE cache = new FULL_CACHE();
+    String recordData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><record><controlfield tag=\"000\">00000nam  2200000 u 4500</controlfield><controlfield tag=\"001\">000000000100</controlfield><controlfield tag=\"005\">20070226104316.0</controlfield><datafield ind1=\" \" ind2=\" \" tag=\"040\"><subfield code=\"a\">BIB</subfield><subfield code=\"b\">ita</subfield></datafield><controlfield tag=\"008\">940920s1949    it           u000 u ita u</controlfield><datafield ind1=\"1\" ind2=\"2\" tag=\"245\"><subfield code=\"a\">I Fioretti di San Francesco e le considerazioni delle stimmate</subfield></datafield></record>";
+    cache.setItemNumber(100);
+    cache.setRecordData(recordData);
+    cache.setUserView(1);
+
+    Mockito.when(fullCacheDao.load(any(Session.class), anyInt(), anyInt()))
+      .thenReturn(cache);
+
+    String response = storageService.getRecordData(100, 1);
+    assertEquals(recordData, response);
+  }
+
 //	@Test
-//	public void testSortResults() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetRecordData() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetCatalogItemByKey() {
-//		fail("Not yet implemented");
-//	}
-//
+public void testGetCatalogItemByKey() {
+ /* CatalogItem catalogItem =
+
+  Mockito.when(fullCacheDao.load(any(Session.class), anyInt(), anyInt()))
+    .thenReturn(cache);
+
+  String response = storageService.getRecordData(100, 1);
+  assertEquals(recordData, response);*/
+
+	}
+
 //	@Test
 //	public void testGetBibliographicRecordTemplates() {
 //		fail("Not yet implemented");

@@ -230,9 +230,9 @@ public class SearchResponse {
     sortCriteria = i;
   }
 
-  public void sort(final String[] attributes, final String[] directions, final SearchEngine searchEngine) throws ModMarccatException {
+/*  public void sort(final String[] attributes, final String[] directions, final SearchEngine searchEngine) throws ModMarccatException {
     searchEngine.sort(this, attributes, directions);
-  }
+  }*/
 
   public T_ITM_DSPLY_FRMT getDisplayFormat(final Session session, final short code, final Locale locale) throws DataAccessException {
     return (isBibliographic())

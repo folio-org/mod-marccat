@@ -8,6 +8,7 @@ import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.search.SearchResponse;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,10 +16,9 @@ import java.sql.SQLException;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2006/07/11 08:01:05 $
- * @since 1.0
  */
-public class DAOSortResultSets extends HibernateUtil {
+@Component
+public class DAOSortResultSets extends AbstractDAO {
   private Log logger = LogFactory.getLog(DAOSortResultSets.class);
 
   public void sort(

@@ -92,10 +92,10 @@ public abstract class ModMarcatSearchEngine implements SearchEngine {
     return response;
   }
 
-  @Override
-  public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) {
+  //@Override
+ /* public SearchResponse sort(final SearchResponse rs, final String[] attributes, final String[] directions) {
     return storageService.sortResults(rs, attributes, directions);
-  }
+  }*/
 
   /**
    * Returns the record data associated with the given item number.

@@ -65,10 +65,10 @@ public interface SearchEngine {
    * @return a search response without any collected records and with docids sorted according with the requested criteria.
    * @throws ModMarccatException in case of a search subsystem failure.
    */
-  SearchResponse sort(
+ /* SearchResponse sort(
     SearchResponse searchResponse,
     String[] attributes,
-    String[] directions);
+    String[] directions);*/
 
   void injectDocCount(SearchResponse response, StorageService storageService);
 

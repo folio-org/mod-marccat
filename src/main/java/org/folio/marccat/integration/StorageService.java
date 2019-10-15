@@ -66,7 +66,7 @@ import static org.folio.marccat.util.F.locale;
  * @since 1.0
  */
 @Component
-public class StorageService implements Closeable {
+public class StorageService implements Closeable, IStorageService {
 
   public static final String HDG_MAIN_LIBRARY_NUMBER = " and hdg.mainLibraryNumber = ";
   private static final Log logger = new Log(StorageService.class);
@@ -110,10 +110,20 @@ public class StorageService implements Closeable {
   private final Session session;
 
   @Autowired
-  private DAOCodeTable daoCodeTable;
+  private DAOCodeTable codeTableDao;
 
   @Autowired
-  private DAOCache daoCache;
+  private DAOCache cacheDao;
+
+  @Autowired
+  private DAOFullCache fullCacheDao;
+
+  @Autowired
+  private AuthorityCatalogDAO authorityCatalogDao;
+  @Autowired
+  private BibliographicCatalogDAO bibliographicCatalogDao;
+
+
 
   /**
    * Builds a new {@link StorageService} with the given session.
@@ -131,8 +141,9 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the skip in filing associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getSkipInFiling(final String lang) throws DataAccessException {
-    return daoCodeTable.getList(session, T_SKP_IN_FLNG_CNT.class, locale(lang));
+    return codeTableDao.getList(session, T_SKP_IN_FLNG_CNT.class, locale(lang));
   }
 
 
@@ -154,8 +165,9 @@ public class StorageService implements Closeable {
    * @return the preferred view associated with the input data.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public int getPreferredView(final int itemNumber, final int databasePreferenceOrder) throws DataAccessException {
-    return daoCache.getPreferredView(session, itemNumber, databasePreferenceOrder);
+    return cacheDao.getPreferredView(session, itemNumber, databasePreferenceOrder);
   }
 
   /**
@@ -169,11 +181,12 @@ public class StorageService implements Closeable {
    * @return a search response wrapping a docid array ordered according with the given criteria.
    * @throws DataAccessException in case of data access failure.
    */
-  public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions) throws DataAccessException {
-    new DAOSortResultSets().sort(session, rs, attributes, directions);
+  //@Override
+ /* public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions) throws DataAccessException {
+    daoSortResult.sort(session, rs, attributes, directions);
     rs.clearRecords();
     return rs;
-  }
+  }*/
 
   /**
    * Returns the content of a record associated with the given data.
@@ -183,8 +196,9 @@ public class StorageService implements Closeable {
    * @return the content of a record associated with the given data.
    * @throws RecordNotFoundException in case nothing is found.
    */
+  @Override
   public String getRecordData(final int itemNumber, final int searchingView) throws RecordNotFoundException {
-    final FULL_CACHE cache = new DAOFullCache().load(session, itemNumber, searchingView);
+    final FULL_CACHE cache = fullCacheDao.load(session, itemNumber, searchingView);
     return cache.getRecordData();
   }
 
@@ -195,11 +209,12 @@ public class StorageService implements Closeable {
    * @param searchingView the search view.
    * @return the {@link CatalogItem} associated with the given data.
    */
+  @Override
   public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
     if(searchingView == View.AUTHORITY)
-      return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
+      return authorityCatalogDao.getCatalogItemByKey(session, itemNumber, searchingView);
     else
-      return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
+      return bibliographicCatalogDao.getCatalogItemByKey(session, itemNumber, searchingView);
   }
 
   /**
@@ -208,6 +223,7 @@ public class StorageService implements Closeable {
    * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<Integer>> getBibliographicRecordTemplates() throws DataAccessException {
     final BibliographicModelDAO dao = new BibliographicModelDAO();
     try {
@@ -224,6 +240,7 @@ public class StorageService implements Closeable {
    * @param id the record template id.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public RecordTemplate getAuthorityRecordRecordTemplatesById(final Integer id) throws DataAccessException {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
@@ -245,6 +262,7 @@ public class StorageService implements Closeable {
    * @param template the record template.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
@@ -269,6 +287,7 @@ public class StorageService implements Closeable {
    * @param id the record template id.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void deleteBibliographicRecordTemplate(final String id) throws DataAccessException {
     try {
       final BibliographicModelDAO dao = new BibliographicModelDAO();
@@ -286,6 +305,7 @@ public class StorageService implements Closeable {
    * @param id the record template id.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void deleteAuthorityRecordTemplate(final String id) throws DataAccessException {
     try {
       final AuthorityModelDAO dao = new AuthorityModelDAO();
@@ -303,6 +323,7 @@ public class StorageService implements Closeable {
    * @param template the record template.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void updateBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
@@ -328,6 +349,7 @@ public class StorageService implements Closeable {
    * @param template the record template.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void updateAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
@@ -353,6 +375,7 @@ public class StorageService implements Closeable {
    * @param template the record template.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void saveBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
@@ -378,6 +401,7 @@ public class StorageService implements Closeable {
    * @return the bibliographic record template associated with the given id.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public RecordTemplate getBibliographicRecordRecordTemplatesById(final Integer id) throws DataAccessException {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
@@ -402,8 +426,9 @@ public class StorageService implements Closeable {
    * @param view            -- the cataloguing view associated.
    * @return map with loading result.
    */
+  @Override
   public Map<String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords,
-                                         final int view, final Map<String, String> configuration) {
+                                         final int view, final Map <String, String> configuration) {
     final Map<String, Object> result = new HashMap<>();
     List<Integer> ids = new ArrayList<>();
     try {
@@ -440,6 +465,7 @@ public class StorageService implements Closeable {
    * @return nextNumber
    * @throws DataAccessException in case of data access exception.
    */
+  @Override
   public Integer generateNewKey(final String keyCodeValue) throws DataAccessException {
     try {
       SystemNextNumberDAO dao = new SystemNextNumberDAO();
@@ -455,6 +481,7 @@ public class StorageService implements Closeable {
    * @param item the catalog item.
    * @param view the related view.
    */
+  @Override
   public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
     if(view == View.AUTHORITY)
       new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
@@ -478,6 +505,7 @@ public class StorageService implements Closeable {
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
+  @Override
   public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView, final int firstRecord, final int lastRecord, final String[] attributes, String[] directions) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (final Statement sql = stmt(connection());
@@ -503,6 +531,7 @@ public class StorageService implements Closeable {
    * @return a valid database connection associated with this service.
    * @throws HibernateException in case of data access failure.
    */
+  @Override
   public Connection connection() throws HibernateException {
     return session.connection();
   }
@@ -513,6 +542,7 @@ public class StorageService implements Closeable {
    * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<Integer>> getAuthorityRecordTemplates() throws DataAccessException {
     final AuthorityModelDAO dao = new AuthorityModelDAO();
     try {
@@ -561,6 +591,7 @@ public class StorageService implements Closeable {
    * @return the count of bibliographic records
    * @throws HibernateException
    */
+  @Override
   public CountDocument getCountDocumentByAutNumber(final int id, final int view) throws HibernateException {
     final CountDocument countDocument = new CountDocument();
     final AutDAO dao = new AutDAO();
@@ -583,6 +614,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
+  @Override
   public List<MapHeading> getFirstPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) throws DataAccessException, InvalidBrowseIndexException {
     String key = null;
     try {
@@ -640,6 +672,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
+  @Override
   public List<MapHeading> getNextPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
     String key = null;
     try {
@@ -697,6 +730,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
+  @Override
   public List<MapHeading> getPreviousPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
     String key = null;
     try {
@@ -750,6 +784,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the date type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getCodesList(final String lang, final CodeListsType codeListType) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, Global.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
@@ -805,6 +840,7 @@ public class StorageService implements Closeable {
    * @return a string representing form of material.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public Map<String, Object> getMaterialTypeInfosByHeaderCode(final int headerCode, final String code) throws DataAccessException {
 
     final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
@@ -833,6 +869,7 @@ public class StorageService implements Closeable {
    * @return correlation values
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public CorrelationValues getCorrelationVariableField(final Integer category,
                                                        final String indicator1,
                                                        final String indicator2,
@@ -859,6 +896,7 @@ public class StorageService implements Closeable {
    * @param code3        the third correlation used here as filter criterion.
    * @return Validation object containing subfield list.
    */
+  @Override
   public Validation getSubfieldsByCorrelations(final int marcCategory,
                                                final int code1,
                                                final int code2,
@@ -880,6 +918,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the record type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getRecordTypes(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_REC_TYP.class, locale(lang));
@@ -892,6 +931,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the encoding level associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getEncodingLevels(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_ENCDG_LVL.class, locale(lang));
@@ -907,6 +947,7 @@ public class StorageService implements Closeable {
    * @return a map with RecordTypeMaterial info.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibliographicLevel, final String code) throws DataAccessException {
 
     final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
@@ -931,6 +972,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the multipart resource level associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getMultipartResourceLevels(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_LNK_REC.class, locale(lang));
@@ -943,6 +985,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the descriptive catalog forms associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getDescriptiveCatalogForms(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_DSCTV_CTLG.class, locale(lang));
@@ -955,6 +998,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the bibliographic level associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getBibliographicLevels(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_BIB_LVL.class, locale(lang));
@@ -967,6 +1011,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the character encoding schema associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getCharacterEncodingSchemas(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_CCS.class, locale(lang));
@@ -979,6 +1024,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the control type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getControlTypes(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_CNTL_TYP.class, locale(lang));
@@ -992,6 +1038,7 @@ public class StorageService implements Closeable {
    * @return a list of code / description tuples representing the record status type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getRecordStatusTypes(final String lang) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getList(session, T_ITM_REC_STUS.class, locale(lang));
@@ -1006,6 +1053,7 @@ public class StorageService implements Closeable {
    * @return the description for index code associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public String getHeadingTypeDescription(final int code, final String lang, final int category) throws DataAccessException {
     final DAOCodeTable dao = new DAOCodeTable();
     return dao.getLongText(session, code, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
@@ -1020,6 +1068,7 @@ public class StorageService implements Closeable {
    * @return the browse index
    * @throws HibernateException
    */
+  @Override
   public String getBrowseKey(final Descriptor descriptor, final Session session) throws HibernateException {
     final DAOIndexList dao = new DAOIndexList();
     final String result = dao.getIndexBySortFormType(descriptor.getSortFormParameters().getSortFormMainType(), descriptor.getCorrelationValues().getValue(1), session);
@@ -1037,6 +1086,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
+  @Override
   public List<MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2, final String stringText, final int view, final int mainLibrary, final int pageSize) {
     try {
       String key;
@@ -1084,6 +1134,7 @@ public class StorageService implements Closeable {
    * @param view       -- the search view.
    * @return the {@link BibliographicRecord} associated with the given data.
    */
+  @Override
   public ContainerRecordTemplate getBibliographicRecordById(final int itemNumber, final int view) {
 
     final ContainerRecordTemplate container = new ContainerRecordTemplate();
@@ -1220,6 +1271,7 @@ public class StorageService implements Closeable {
    * @return category code.
    * @throws DataAccessException -- in case of DataAccessException.
    */
+  @Override
   public int getTagCategory(final String tag,
                             final char firstIndicator,
                             final char secondIndicator,
@@ -1267,7 +1319,8 @@ public class StorageService implements Closeable {
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang, final Map<String, String> configuration) throws DataAccessException {
+  @Override
+  public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang, final Map <String, String> configuration) throws DataAccessException {
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
@@ -1421,6 +1474,7 @@ public class StorageService implements Closeable {
    * @param cataloguingView -- the cataloguing view.
    * @throws DataAccessException in case of data access exception.
    */
+  @Override
   public void setDescriptors(final CatalogItem item, final int recordView, final int cataloguingView) throws DataAccessException {
 
     item.getTags().forEach(aTag -> {
@@ -1526,6 +1580,7 @@ public class StorageService implements Closeable {
    * @param tagNumber    the tag number used here as filter criterion.
    * @return Validation object containing subfield list.
    */
+  @Override
   public Validation getTagValidation(final int marcCategory,
                                      final String tagNumber) throws DataAccessException {
     final BibliographicValidationDAO daoBibliographicValidation = new BibliographicValidationDAO();
@@ -1543,6 +1598,7 @@ public class StorageService implements Closeable {
    *
    * @param itemNumber -- the amicus number associated to record.
    */
+  @Override
   public void deleteBibliographicRecordById(final Integer itemNumber, final int view) throws DataAccessException {
     final BibliographicCatalog catalog = new BibliographicCatalog();
 
@@ -1565,6 +1621,7 @@ public class StorageService implements Closeable {
    * @param id       -- the key number or amicus number.
    * @param userName -- the username who unlock entity.
    */
+  @Override
   public void unlockRecord(final int id, final String userName) throws DataAccessException {
     try {
       final BibliographicCatalog catalog = new BibliographicCatalog();
@@ -1582,6 +1639,7 @@ public class StorageService implements Closeable {
    * @param userName -- the username who unlock entity.
    * @param uuid     -- the uuid associated to lock/unlock session.
    */
+  @Override
   public void lockRecord(final int id, final String userName, final String uuid) throws DataAccessException {
     try {
       final BibliographicCatalog catalog = new BibliographicCatalog();
@@ -1600,8 +1658,9 @@ public class StorageService implements Closeable {
    * @param configuration the configuration.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void saveHeading(final Heading heading, final int view,
-                          final Map<String, String> configuration) throws DataAccessException {
+                          final Map <String, String> configuration) throws DataAccessException {
     try {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = catalog.newCatalogItem(new Object[]{view});
@@ -1642,6 +1701,7 @@ public class StorageService implements Closeable {
    * @param newTag        the new tag.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void createPublisherDescriptor(final Heading heading, final int view, Map <String, String> configuration, final Tag newTag) throws HibernateException, SQLException {
     final List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
     for (PUBL_TAG publisherTag : publisherTagUnits) {
@@ -1659,6 +1719,7 @@ public class StorageService implements Closeable {
    * @param descriptor    the descriptor.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void createNameAndTitleDescriptor(final Map <String, String> configuration, final Descriptor descriptor, int view) throws HibernateException, SQLException {
     final NME_TTL_HDG nameTitleHeading  = (NME_TTL_HDG) descriptor;
     final int nameHeadingNumber = createOrReplaceDescriptor(configuration, nameTitleHeading.getNameHeading(), view);
@@ -1677,6 +1738,7 @@ public class StorageService implements Closeable {
    * @param view          the view.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public int createOrReplaceDescriptor(final Map <String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
     descriptor.setUserViewString(View.makeSingleViewString(view));
     descriptor.setConfigValues(configuration);
@@ -1696,6 +1758,7 @@ public class StorageService implements Closeable {
    * @return a list of heading item types by marc category code associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
     final DAOCodeTable daoCT = new DAOCodeTable();
     return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
@@ -1727,6 +1790,7 @@ public class StorageService implements Closeable {
    * @param view    the view.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void updateHeading(final Heading heading, final int view) throws DataAccessException {
     try {
       final TagImpl impl = new BibliographicTagImpl();
@@ -1764,6 +1828,7 @@ public class StorageService implements Closeable {
    * @param view    the view.
    * @throws DataAccessException in case of data access failure.
    */
+  @Override
   public void deleteHeadingById(final Heading heading, final int view) throws DataAccessException {
     try {
       final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
@@ -1785,6 +1850,7 @@ public class StorageService implements Closeable {
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
+  @Override
   public int getCountDocumentByQuery(final String cclQuery, String[] attributes, String[] directions, final int mainLibraryId, final Locale locale, final int searchingView) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (
@@ -1808,7 +1874,8 @@ public class StorageService implements Closeable {
    * @return
    * @throws DataAccessException
    */
-  public List <String> getFilteredTagsList (final String tagNumber) throws DataAccessException {
+  @Override
+  public List <String> getFilteredTagsList(final String tagNumber) throws DataAccessException {
     try {
       return new BibliographicCorrelationDAO().getFilteredTagsList(tagNumber, session);
     } catch (HibernateException exception) {
@@ -1824,6 +1891,7 @@ public class StorageService implements Closeable {
    * @return
    * @throws DataAccessException
    */
+  @Override
   public FilteredTag getFilteredTag(final String tagNumber) throws DataAccessException {
     try {
       final BibliographicCorrelationDAO correlationDAO = new BibliographicCorrelationDAO();
@@ -1849,6 +1917,7 @@ public class StorageService implements Closeable {
    * @param indicators the list of the indicators used as filter criterion.
    * @return
    */
+  @Override
   public List <String> getDistinctIndicators(List <String> indicators) {
     return indicators
       .stream()
