@@ -253,7 +253,7 @@
     "env": [
       {
         "name": "JAVA_OPTIONS",
-        "value": "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+        "value": "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xmx512m"
       },
       {
         "name": "DB_HOST",
