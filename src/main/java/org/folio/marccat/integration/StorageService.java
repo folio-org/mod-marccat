@@ -120,6 +120,7 @@ public class StorageService implements Closeable, IStorageService {
 
   @Autowired
   private AuthorityCatalogDAO authorityCatalogDao;
+
   @Autowired
   private BibliographicCatalogDAO bibliographicCatalogDao;
 

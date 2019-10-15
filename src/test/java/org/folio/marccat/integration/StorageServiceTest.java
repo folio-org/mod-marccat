@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.codetable.Avp;
-import org.folio.marccat.dao.DAOCache;
-import org.folio.marccat.dao.DAOCodeTable;
-import org.folio.marccat.dao.DAOFullCache;
+import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.FULL_CACHE;
+import org.folio.marccat.dao.persistence.ItemEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +25,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import net.sf.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,6 +42,12 @@ public class StorageServiceTest {
 
   @Mock
   private DAOFullCache fullCacheDao;
+
+  @Mock
+  private AuthorityCatalogDAO authorityCatalogDao;
+
+  @Mock
+  private BibliographicCatalogDAO bibliographicCatalogDao;
 
   @InjectMocks
 	private StorageService storageService;
@@ -105,15 +113,16 @@ public class StorageServiceTest {
     assertEquals(recordData, response);
   }
 
-//	@Test
+  @Test
 public void testGetCatalogItemByKey() {
- /* CatalogItem catalogItem =
+   CatalogItem item = null;
+   int view = 1;
+   if (view == 1) {
+     item = new BibliographicItem(100);
+   }
 
-  Mockito.when(fullCacheDao.load(any(Session.class), anyInt(), anyInt()))
-    .thenReturn(cache);
-
-  String response = storageService.getRecordData(100, 1);
-  assertEquals(recordData, response);*/
+  CatalogItem response = storageService.getCatalogItemByKey(100, 1);
+  assertEquals(item, response);
 
 	}
 
