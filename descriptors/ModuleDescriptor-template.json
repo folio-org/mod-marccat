@@ -240,7 +240,7 @@
     "dockerPull": false,
     "dockerArgs": {
       "HostConfig": {
-        "Memory": 536870912,
+        "Memory": 715827883,
         "PortBindings": {
           "8081/tcp": [
             {
@@ -253,7 +253,7 @@
     "env": [
       {
         "name": "JAVA_OPTIONS",
-        "value": "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xmx512m"
+        "value": "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
       },
       {
         "name": "DB_HOST",
