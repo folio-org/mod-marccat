@@ -124,6 +124,12 @@ public class StorageService implements Closeable, IStorageService {
   @Autowired
   private BibliographicCatalogDAO bibliographicCatalogDao;
 
+  @Autowired
+  private BibliographicModelDAO bibliographicModelDao;
+
+  @Autowired
+  private AuthorityModelDAO authorityModelDao;
+
 
 
   /**
@@ -226,9 +232,8 @@ public class StorageService implements Closeable, IStorageService {
    */
   @Override
   public List<Avp<Integer>> getBibliographicRecordTemplates() throws DataAccessException {
-    final BibliographicModelDAO dao = new BibliographicModelDAO();
     try {
-      return dao.getBibliographicModelList(session);
+      return bibliographicModelDao.getBibliographicModelList(session);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
@@ -246,7 +251,7 @@ public class StorageService implements Closeable, IStorageService {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
       return objectMapper.readValue(
-        new AuthorityModelDAO().load(id, session).getRecordFields(),
+        authorityModelDao.load(id, session).getRecordFields(),
         RecordTemplate.class);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -267,12 +272,11 @@ public class StorageService implements Closeable, IStorageService {
   public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
-      final AuthorityModelDAO dao = new AuthorityModelDAO();
       final AuthorityModel model = new AuthorityModel();
       model.setLabel(template.getName());
       model.setFrbrFirstGroup(template.getGroup());
       model.setRecordFields(mapper.writeValueAsString(template));
-      dao.save(model, session);
+      authorityModelDao.save(model, session);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
@@ -291,9 +295,8 @@ public class StorageService implements Closeable, IStorageService {
   @Override
   public void deleteBibliographicRecordTemplate(final String id) throws DataAccessException {
     try {
-      final BibliographicModelDAO dao = new BibliographicModelDAO();
-      final Model model = dao.load(Integer.valueOf(id), session);
-      dao.delete(model, session);
+      final Model model = bibliographicModelDao.load(Integer.valueOf(id), session);
+      bibliographicModelDao.delete(model, session);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);

@@ -5,11 +5,16 @@ import static org.mockito.ArgumentMatchers.any;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.hibernate.HibernateException;
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.resources.domain.RecordTemplate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +25,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import net.sf.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -43,6 +49,12 @@ public class StorageServiceTest {
   @Mock
   private BibliographicCatalogDAO bibliographicCatalogDao;
 
+  @Mock
+  private BibliographicModelDAO bibliographicModelDao;
+
+  @Mock
+  private AuthorityModelDAO authorityModelDao;
+
   @InjectMocks
 	private StorageService storageService;
 
@@ -51,7 +63,6 @@ public class StorageServiceTest {
     MockitoAnnotations.initMocks(this);
 
 	}
-
 
 	@Test
 	public void testGetSkipInFiling() {
@@ -70,11 +81,6 @@ public class StorageServiceTest {
 	}
 
 
-//	@Test
-//	public void testClose() {
-//		fail("Not yet implemented");
-//	}
-//
 	@Test
 	public void testGetPreferredView() {
    int view = 1;
@@ -85,11 +91,6 @@ public class StorageServiceTest {
     int response = storageService.getPreferredView(10, 1);
     assertEquals(1, response);
   }
-
-	/*@Test
-	public void testSortResults() {
-		//fail("Not yet implemented");
-	}*/
 
 
 	@Test
@@ -137,27 +138,64 @@ public class StorageServiceTest {
   }
 
 
-//	@Test
-//	public void testGetBibliographicRecordTemplates() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetAuthorityRecordRecordTemplatesById() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSaveAuthorityRecordTemplate() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testDeleteBibliographicRecordTemplate() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
+	@Test
+	public void testGetBibliographicRecordTemplates() throws Exception{
+    List<Avp<Integer>> list = new ArrayList<>();
+    Avp<Integer> obj1 = new Avp<Integer>(1, "Monograph");
+    list.add(obj1);
+
+    Mockito.when(bibliographicModelDao.getBibliographicModelList(any(Session.class)))
+      .thenReturn(list);
+
+    List<Avp<Integer>> response = storageService.getBibliographicRecordTemplates();
+    assertEquals("Monograph", response.get(0).getLabel());
+
+  }
+
+ //@Test
+	/*public void testGetAuthorityRecordRecordTemplatesById() throws Exception {
+   Model model = new AuthorityModel();
+   model.setId(1);
+   model.setRecordFields("\"{\"id\":1,\"fields\":[{\"code\":\"001\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"fixedField\":{\"keyNumber\":0,\"categoryCode\":1,\"headerTypeCode\":39,\"code\":\"001\",\"displayValue\":\"00006591069\",\"sequenceNumber\":0,\"attributes\":{}},\"added\":false},{\"code\":\"005\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"fixedField\":{\"categoryCode\":1,\"description\":\"005 Data/ora di transazione\",\"headerTypeCode\":41,\"code\":\"005\",\"displayValue\":\"20190808172710.\",\"sequenceNumber\":0,\"attributes\":{}},\"added\":false},{\"code\":\"008\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"fixedField\":{\"keyNumber\":285348,\"categoryCode\":1,\"headerTypeCode\":31,\"code\":\"008\",\"displayValue\":\"910906s1971    it     e      000 0 ita c\",\"sequenceNumber\":0,\"attributes\":{}},\"added\":false},{\"code\":\"040\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"variableField\":{\"keyNumber\":0,\"categoryCode\":1,\"headingTypeCode\":\"1\",\"itemTypeCode\":\"-1\",\"functionCode\":\"-1\",\"ind1\":\" \",\"ind2\":\" \",\"code\":\"040\",\"displayValue\":\"\\u001FaItFiC\",\"subfields\":[],\"sequenceNumber\":0,\"skipInFiling\":0},\"added\":false}]}\"");
+   ObjectMapper objectMapper = new ObjectMapper();
+   RecordTemplate recordTemplate = objectMapper.readValue(model.getRecordFields(), RecordTemplate.class);
+
+   Mockito.when(authorityModelDao.load(anyInt(), any(Session.class)))
+     .thenReturn(model);
+   //TODO i tipi di ritorno sono diversi, Storage ha template, invece il DAO Model
+   RecordTemplate response = storageService.getAuthorityRecordRecordTemplatesById(1);
+   assertEquals(1, response.toString());
+   }*/
+
+/*	@Test
+	public void testSaveAuthorityRecordTemplate() {
+   Model model = new AuthorityModel();
+   model.setId(1);
+   model.setRecordFields("\"{\"id\":1,\"fields\":[{\"code\":\"001\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"fixedField\":{\"keyNumber\":0,\"categoryCode\":1,\"headerTypeCode\":39,\"code\":\"001\",\"displayValue\":\"00006591069\",\"sequenceNumber\":0,\"attributes\":{}},\"added\":false},{\"code\":\"005\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"fixedField\":{\"categoryCode\":1,\"description\":\"005 Data/ora di transazione\",\"headerTypeCode\":41,\"code\":\"005\",\"displayValue\":\"20190808172710.\",\"sequenceNumber\":0,\"attributes\":{}},\"added\":false},{\"code\":\"008\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"fixedField\":{\"keyNumber\":285348,\"categoryCode\":1,\"headerTypeCode\":31,\"code\":\"008\",\"displayValue\":\"910906s1971    it     e      000 0 ita c\",\"sequenceNumber\":0,\"attributes\":{}},\"added\":false},{\"code\":\"040\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"variableField\":{\"keyNumber\":0,\"categoryCode\":1,\"headingTypeCode\":\"1\",\"itemTypeCode\":\"-1\",\"functionCode\":\"-1\",\"ind1\":\" \",\"ind2\":\" \",\"code\":\"040\",\"displayValue\":\"\\u001FaItFiC\",\"subfields\":[],\"sequenceNumber\":0,\"skipInFiling\":0},\"added\":false}]}\"");
+   ObjectMapper objectMapper = new ObjectMapper();
+   RecordTemplate recordTemplate = objectMapper.readValue(model.getRecordFields(), RecordTemplate.class);
+
+   Mockito.when(authorityModelDao.save(any(Model.class), any(Session.class)))
+     .thenReturn(model);
+    storageService.saveAuthorityRecordTemplate(recordTemplate);
+    //TODO per i void cosa bisogna fare?
+    //TODO La response manca
+    assertEquals(1, response.toString());
+
+	}*/
+
+	@Test
+	public void testDeleteBibliographicRecordTemplate() throws Exception {
+    Model model = new AuthorityModel();
+    model.setId(1);
+
+    Mockito.when(bibliographicModelDao.load(anyInt(), any(Session.class)))
+      .thenReturn(model);
+
+    Mockito.doNothing().when(bibliographicModelDao).delete(any(Model.class), any(Session.class));
+
+    storageService.deleteBibliographicRecordTemplate("1");
+  }
 //	public void testDeleteAuthorityRecordTemplate() {
 //		fail("Not yet implemented");
 //	}
