@@ -2,30 +2,24 @@ package org.folio.marccat.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.dao.*;
-import org.folio.marccat.dao.persistence.CatalogItem;
-import org.folio.marccat.dao.persistence.FULL_CACHE;
-import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.ArgumentMatchers.anyInt;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import net.sf.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -114,17 +108,34 @@ public class StorageServiceTest {
   }
 
   @Test
-public void testGetCatalogItemByKey() {
-   CatalogItem item = null;
-   int view = 1;
-   if (view == 1) {
-     item = new BibliographicItem(100);
-   }
+  public void testGetCatalogItemByKey_bibliographic() {
+    BIB_ITM bibItmData = new BIB_ITM();
+    bibItmData.setAmicusNumber(100);
+    BibliographicItem item = new BibliographicItem();
+    item.setBibItmData(bibItmData);
+    item.setUserView(1);
 
-  CatalogItem response = storageService.getCatalogItemByKey(100, 1);
-  assertEquals(item, response);
+    Mockito.when(bibliographicCatalogDao.getCatalogItemByKey(any(Session.class), anyInt(), anyInt()))
+      .thenReturn(item);
 
-	}
+    CatalogItem response = storageService.getCatalogItemByKey(100, 1);
+    assertEquals(item, response);
+  }
+
+  @Test
+  public void testGetCatalogItemByKey_authority() {
+    AUT autItemData = new AUT();
+    autItemData.setAmicusNumber(100);
+    AuthorityItem item = new AuthorityItem();
+    item.setAutItmData(autItemData);
+
+    Mockito.when(bibliographicCatalogDao.getCatalogItemByKey(any(Session.class), anyInt(), anyInt()))
+      .thenReturn(item);
+
+    CatalogItem response = storageService.getCatalogItemByKey(100, 1);
+    assertEquals(item, response);
+  }
+
 
 //	@Test
 //	public void testGetBibliographicRecordTemplates() {
