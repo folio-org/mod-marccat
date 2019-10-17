@@ -312,9 +312,8 @@ public class StorageService implements Closeable, IStorageService {
   @Override
   public void deleteAuthorityRecordTemplate(final String id) throws DataAccessException {
     try {
-      final AuthorityModelDAO dao = new AuthorityModelDAO();
-      final Model model = dao.load(Integer.valueOf(id), session);
-      dao.delete(model, session);
+      final Model model = authorityModelDao.load(Integer.valueOf(id), session);
+      authorityModelDao.delete(model, session);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
@@ -331,13 +330,12 @@ public class StorageService implements Closeable, IStorageService {
   public void updateBibliographicRecordTemplate(final RecordTemplate template) throws DataAccessException {
     try {
       final ObjectMapper mapper = new ObjectMapper();
-      final BibliographicModelDAO dao = new BibliographicModelDAO();
       final BibliographicModel model = new BibliographicModel();
       model.setId(template.getId());
       model.setLabel(template.getName());
       model.setFrbrFirstGroup(template.getGroup());
       model.setRecordFields(mapper.writeValueAsString(template));
-      dao.update(model, session);
+      bibliographicModelDao.update(model, session);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
