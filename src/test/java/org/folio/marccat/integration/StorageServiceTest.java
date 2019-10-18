@@ -5,11 +5,14 @@ import static org.mockito.ArgumentMatchers.any;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.dao.*;
 import org.folio.marccat.dao.persistence.*;
+import org.folio.marccat.resources.domain.RecordTemplate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +52,9 @@ public class StorageServiceTest {
   @Mock
   private AuthorityModelDAO authorityModelDao;
 
+  @Mock
+  private SystemNextNumberDAO systemNextNumberDao;
+
   @InjectMocks
 	private StorageService storageService;
 
@@ -76,8 +82,8 @@ public class StorageServiceTest {
 
 
 	@Test
-	public void testGetPreferredView() {
-   int view = 1;
+  public void testGetPreferredView() {
+    int view = 1;
 
     Mockito.when(cacheDao.getPreferredView(any(Session.class), anyInt(), anyInt()))
       .thenReturn(view);
@@ -246,27 +252,56 @@ public class StorageServiceTest {
 
 	}*/
 
-//
-//	@Test
-//	public void testGetBibliographicRecordRecordTemplatesById() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testLoadRecords() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGenerateNewKey() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testUpdateFullRecordCacheTable() {
-//		fail("Not yet implemented");
-//	}
-//
+
+	/*@Test
+  public void testGetBibliographicRecordRecordTemplatesById() throws Exception{
+    String recordFields = "\"{\"id\":1,\"fields\":[{\"code\":\"001\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"fixedField\":{\"keyNumber\":0,\"categoryCode\":1,\"headerTypeCode\":39,\"code\":\"001\",\"displayValue\":\"00006591069\",\"sequenceNumber\":0,\"attributes\":{}},\"added\":false},{\"code\":\"005\",\"mandatory\":true,\"fieldStatus\":\"unchanged\",\"fixedField\":{\"categoryCode\":1,\"description\":\"005 Data";
+    Model model = new BibliographicModel();
+    model.setId(1);
+    model.setRecordFields(recordFields);
+    ObjectMapper objectMapper = new ObjectMapper();
+    RecordTemplate recordTemplate = objectMapper.readValue(model.getRecordFields(), RecordTemplate.class);
+
+    Mockito.when(bibliographicModelDao.load(anyInt(), any(Session.class)))
+      .thenReturn(model);
+
+    RecordTemplate response = storageService.getBibliographicRecordRecordTemplatesById(1);
+    assertEquals(new Integer(1), response.getId());
+  }*/
+
+
+
+	/*@Test
+	public void testLoadRecords() {
+  }*/
+
+	@Test
+	public void testGenerateNewKey() throws Exception{
+    int nextNumber = 1;
+
+    Mockito.when(systemNextNumberDao.getNextNumber(any(String.class),any(Session.class)))
+      .thenReturn(nextNumber);
+
+    int response = storageService.generateNewKey("BI");
+    assertEquals(1, response);
+
+	}
+
+/*	@Test
+	public void testUpdateFullRecordCacheTable_Authority() throws Exception{
+
+
+    Mockito.doNothing().when(authorityCatalogDao).updateFullRecordCacheTable(any(CatalogItem.class), any(Session.class));
+
+    storageService.updateFullRecordCacheTable("1");
+
+  }*/
+
+  @Test
+  public void testUpdateFullRecordCacheTable_Bibliographic() {
+
+  }
+
 //	@Test
 //	public void testExecuteQuery() {
 //		fail("Not yet implemented");

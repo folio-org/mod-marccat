@@ -130,6 +130,8 @@ public class StorageService implements Closeable, IStorageService {
   @Autowired
   private AuthorityModelDAO authorityModelDao;
 
+  @Autowired
+  private SystemNextNumberDAO systemNextNumberDao;
 
 
   /**
@@ -439,10 +441,9 @@ public class StorageService implements Closeable, IStorageService {
         final BibliographicInputFile bf = new BibliographicInputFile();
         bf.loadFile(input, file.getOriginalFilename(), view, startRecord, numberOfRecords, session, configuration);
 
-        final DAOCodeTable dao = new DAOCodeTable();
-        final LDG_STATS stats = dao.getStats(session, bf.getLoadingStatisticsNumber());
+        final LDG_STATS stats = codeTableDao.getStats(session, bf.getLoadingStatisticsNumber());
         if (stats.getRecordsAdded() > 0) {
-          final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
+          final List<LOADING_MARC_RECORDS> lmr = (codeTableDao.getResults(session, bf.getLoadingStatisticsNumber()));
           ids = lmr.stream().map(LOADING_MARC_RECORDS :: getBibItemNumber).collect(Collectors.toList());
         }
         result.put(Global.LOADING_FILE_FILENAME, file.getName());
@@ -470,8 +471,7 @@ public class StorageService implements Closeable, IStorageService {
   @Override
   public Integer generateNewKey(final String keyCodeValue) throws DataAccessException {
     try {
-      SystemNextNumberDAO dao = new SystemNextNumberDAO();
-      return dao.getNextNumber(keyCodeValue, session);
+      return systemNextNumberDao.getNextNumber(keyCodeValue, session);
     } catch (HibernateException e) {
       throw new DataAccessException(e);
     }
@@ -485,11 +485,11 @@ public class StorageService implements Closeable, IStorageService {
    */
   @Override
   public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
-    if(view == View.AUTHORITY)
-      new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
+    if (view == View.AUTHORITY)
+      authorityCatalogDao.updateFullRecordCacheTable(session, item);
     else
       try {
-        new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
+        bibliographicCatalogDao.updateFullRecordCacheTable(session, item);
       } catch (final HibernateException exception) {
         throw new DataAccessException(exception);
       }
