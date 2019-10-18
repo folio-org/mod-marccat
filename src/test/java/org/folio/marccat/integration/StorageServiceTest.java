@@ -186,8 +186,8 @@ public class StorageServiceTest {
     Model model = new BibliographicModel();
     model.setId(1);
 
-    Mockito.when(bibliographicModelDao.load(anyInt(), any(Session.class)))
-      .thenReturn(model);
+   /* Mockito.when(bibliographicModelDao.load(anyInt(), any(Session.class)))
+      .thenReturn(model);*/
 
     Mockito.doNothing().when(bibliographicModelDao).delete(any(Model.class), any(Session.class));
 
@@ -199,8 +199,8 @@ public class StorageServiceTest {
     Model model = new AuthorityModel();
     model.setId(1);
 
-    Mockito.when(authorityModelDao.load(anyInt(), any(Session.class)))
-      .thenReturn(model);
+   /* Mockito.when(authorityModelDao.load(anyInt(), any(Session.class)))
+      .thenReturn(model);*/
 
     Mockito.doNothing().when(authorityModelDao).delete(any(Model.class), any(Session.class));
 
