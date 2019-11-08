@@ -32,5 +32,6 @@ public interface Message {
   String MOD_MARCCAT_00031_LOAD_FROM_FILE_FAILURE = "<" + MODULE_NAME + "-00031> : Error during load from file procedure. File %s not loaded.";
   String MOD_MARCCAT_00032_LOAD_REC_BY_REC_FAILURE = "<" + MODULE_NAME + "-00032> : Error during load record from file procedure. Record %s not loaded.";
   String MOD_MARCCAT_00033_PROCESS_FAILURE = "<" + MODULE_NAME + "-00033> : Error during wait process";
+  String MOD_MARCCAT_00034_CLIENT_FAILURE = "<" + MODULE_NAME + "-00034> : Unable to connect to host";
 
 }

@@ -27,7 +27,7 @@ public class AutDAO extends AbstractDAO {
    * @return
    * @throws DataAccessException
    */
-  public AUT load(final Session session, final int id) throws HibernateException {
+  public AUT load(final Session session, final int id) throws HibernateException, RecordNotFoundException {
     AUT itm = (AUT) session.get(AUT.class, id);
     if (itm == null) {
       throw new RecordNotFoundException();
