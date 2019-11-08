@@ -51,8 +51,9 @@ public class BibliographicRecordAPI extends BaseResource {
     @PathVariable final Integer idTemplate,
     @RequestParam final String lang,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
-
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+    logger.info("URL OKAPI FROM TEMPLATE:" + okapiUrl);
     return doGet((storageService, configuration) -> {
 
       BibliographicRecord bibliographicRecord = new BibliographicRecord();
