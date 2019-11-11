@@ -24,22 +24,24 @@ public class AutoSuggestionAPI extends BaseResource {
   @GetMapping("/filteredTagsList")
   public FilteredTagsCollection getFilteredTagsList(
     @RequestParam final String tagNumber,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final FilteredTagsCollection container = new FilteredTagsCollection();
       container.setTags(storageService.getFilteredTagsList(tagNumber));
       return container;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
   @ResponseStatus
   @GetMapping("/filteredTag")
   public ResponseEntity getFilteredTag(
     @RequestParam final String tagNumber,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME)  final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME)  final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final FilteredTag container = storageService.getFilteredTag(tagNumber);
       return new ResponseEntity(container, HttpStatus.OK);
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 }

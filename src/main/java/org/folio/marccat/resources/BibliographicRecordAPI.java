@@ -33,7 +33,8 @@ public class BibliographicRecordAPI extends BaseResource {
   public ResponseEntity<Object> getRecord(
     @PathVariable final Integer id,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final ContainerRecordTemplate container = storageService.getBibliographicRecordById(id, view);
       final BibliographicRecord record = container.getBibliographicRecord();
@@ -43,7 +44,7 @@ public class BibliographicRecordAPI extends BaseResource {
         return new ResponseEntity<>(container, HttpStatus.NOT_FOUND);
       }
       return new ResponseEntity<>(container, HttpStatus.OK);
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
   @GetMapping("/bibliographic-record/from-template/{idTemplate}")
@@ -101,7 +102,7 @@ public class BibliographicRecordAPI extends BaseResource {
       bibliographicRecord.setCanadianContentIndicator("0");
       resetStatus(bibliographicRecord);
       return bibliographicRecord;
-    }, tenant, configurator, "bibliographic");
+    }, tenant, okapiUrl, configurator, "bibliographic");
   }
 
 
@@ -110,7 +111,8 @@ public class BibliographicRecordAPI extends BaseResource {
     @RequestBody final ContainerRecordTemplate container,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     return doPost((storageService, configuration) -> {
       try {
@@ -156,7 +158,7 @@ public class BibliographicRecordAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return new ResponseEntity<>(container, HttpStatus.INTERNAL_SERVER_ERROR);
       }
-    }, tenant, configurator, () -> isNotNullOrEmpty(container.getBibliographicRecord().getId().toString()), "bibliographic", "material");
+    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(container.getBibliographicRecord().getId().toString()), "bibliographic", "material");
   }
 
 
@@ -164,11 +166,12 @@ public class BibliographicRecordAPI extends BaseResource {
   @DeleteMapping("/bibliographic-record/{id}")
   public void delete(@PathVariable final String id,
                      @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-                     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+                     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+                     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doDelete((storageService, configuration) -> {
       storageService.deleteBibliographicRecordById(Integer.parseInt(id), view);
       return id;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -177,14 +180,15 @@ public class BibliographicRecordAPI extends BaseResource {
                      @RequestParam final String uuid,
                      @RequestParam final String userName,
                      @RequestParam final LockEntityType type,
-                     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+                     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+                     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doDelete((storageService, configuration) -> {
       if (isNotNullOrEmpty(id) && isNotNullOrEmpty(uuid) && type == LockEntityType.R) {
         storageService.unlockRecord(Integer.parseInt(id), userName);
         return uuid;
       }
       return null;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
 
@@ -193,14 +197,15 @@ public class BibliographicRecordAPI extends BaseResource {
                    @RequestParam final String uuid,
                    @RequestParam final String userName,
                    @RequestParam final LockEntityType type,
-                   @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+                   @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+                   @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     doPut((storageService, configuration) -> {
 
       storageService.lockRecord(Integer.parseInt(id), userName, uuid);
       return uuid;
 
-    }, tenant, configurator, () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(uuid) && type == LockEntityType.R);
+    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(uuid) && type == LockEntityType.R);
   }
 
 
@@ -209,7 +214,8 @@ public class BibliographicRecordAPI extends BaseResource {
     @RequestParam final Integer id,
     @RequestParam final String lang,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     return doGet((storageService, configuration) -> {
 
@@ -254,13 +260,14 @@ public class BibliographicRecordAPI extends BaseResource {
 
       container.setBibliographicRecord(newRecord);
       return new ResponseEntity<>(container, HttpStatus.OK);
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
   @PostMapping("/bibliographic-record/fixed-field-display-value")
   public ResponseEntity<FixedField> getFixedFieldWithDisplayValue(
     @RequestBody final FixedField fixed,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPost((storageService, configuration) -> {
       final int headerTypeCode = fixed.getHeaderTypeCode();
       final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, fixed.getCode());
@@ -269,6 +276,6 @@ public class BibliographicRecordAPI extends BaseResource {
       } else {
         return getDisplayValueOfPhysicalInformation(fixed);
       }
-    }, tenant, configurator, () -> (isNotNullOrEmpty(fixed.getCode())));
+    }, tenant, okapiUrl, configurator, () -> (isNotNullOrEmpty(fixed.getCode())));
   }
 }

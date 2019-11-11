@@ -51,15 +51,17 @@ public abstract class MarccatHelper {
    *
    * @param adapter           the bridge that carries on the existing logic.
    * @param tenant            the tenant associated with the current request.
+   * @param okapiUrl          the okapi url.
    * @param configurator      the configuration client.
    * @param configurationSets the requested configuration attributes sets.
    */
   public static <T> T doGet(
     final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
+    final String okapiUrl,
     final Configuration configurator,
     final String... configurationSets) {
-    return exec(adapter, tenant, configurator, configurationSets);
+    return exec(adapter, tenant, okapiUrl, configurator, configurationSets);
   }
 
   /**
@@ -67,6 +69,7 @@ public abstract class MarccatHelper {
    *
    * @param adapter           the bridge that carries on the existing logic.
    * @param tenant            the tenant associated with the current request.
+   * @param okapiUrl          the okapi url.
    * @param configurator      the configuration client.
    * @param validator         a validator function for the entity associated with this resource.
    * @param configurationSets the requested configuration attributes sets.
@@ -74,11 +77,12 @@ public abstract class MarccatHelper {
   public static <T> ResponseEntity<T> doPost(
     final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
+    final String okapiUrl,
     final Configuration configurator,
     final BooleanSupplier validator,
     final String... configurationSets) {
     if (validator.getAsBoolean()) {
-      final T result = exec(adapter, tenant, configurator, configurationSets);
+      final T result = exec(adapter, tenant, okapiUrl, configurator, configurationSets);
       final HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
       return new ResponseEntity<>(result, headers, HttpStatus.CREATED);
@@ -93,6 +97,7 @@ public abstract class MarccatHelper {
    *
    * @param adapter           the bridge that carries on the existing logic.
    * @param tenant            the tenant associated with the current request.
+   * @param okapiUrl          the okapi url.
    * @param configurator      the configuration client.
    * @param validator         a validator function for the entity associated with this resource.
    * @param configurationSets the requested configuration attributes sets.
@@ -100,11 +105,12 @@ public abstract class MarccatHelper {
   public static <T> ResponseEntity<T> doPut(
     final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
+    final String okapiUrl,
     final Configuration configurator,
     final BooleanSupplier validator,
     final String... configurationSets) {
     if (validator.getAsBoolean()) {
-      final T result = exec(adapter, tenant, configurator, configurationSets);
+      final T result = exec(adapter, tenant, okapiUrl, configurator, configurationSets);
       final HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
       return new ResponseEntity<>(result, headers, HttpStatus.CREATED);
@@ -120,30 +126,36 @@ public abstract class MarccatHelper {
    *
    * @param adapter           the bridge that carries on the existing logic.
    * @param tenant            the tenant associated with the current request.
+   * @param okapiUrl          the okapi url.
    * @param configurator      the configuration client.
    * @param configurationSets the requested configuration attributes sets.
    */
   public static <T> void doDelete(
     final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
+    final String okapiUrl,
     final Configuration configurator,
     final String... configurationSets) {
-    exec(adapter, tenant, configurator, configurationSets);
+    exec(adapter, tenant, okapiUrl, configurator, configurationSets);
   }
 
   /**
    * Provides a unified approach (within the cataloging module) for wrapping an existing blocking flow.
    *
    * @param adapter           the bridge that carries on the existing logic.
+   * @param tenant            the tenant associated with the current request.
+   * @param okapiUrl          the okapi url.
+   * @param configurator      the configuration client.
    * @param configurationSets the configurationSets required by the current service.
    */
   private static <T> T exec(
     final PieceOfExistingLogicAdapter<T> adapter,
     final String tenant,
+    final String okapiUrl,
     final Configuration configurator,
     final String... configurationSets) {
     try {
-      final ObjectNode settings = configurator.attributes(tenant, true, configurationSets);
+       final ObjectNode settings = configurator.attributes(tenant, okapiUrl,true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
       try (final Connection connection = datasource.getConnection();
            final StorageService service =

@@ -5,6 +5,7 @@ import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,7 +40,6 @@ public class RemoteConfiguration implements Configuration {
   private OkapiClient okapiClient;
 
 
-
   /**
    * Builds a new configuration with the given http client.
    *
@@ -50,7 +50,9 @@ public class RemoteConfiguration implements Configuration {
   }
 
   @Override
-  public ObjectNode attributes(final String tenant, final boolean withDatasource, final String... configurationSets) {
+  public ObjectNode attributes(final String tenant, final String okapiUrl, final boolean withDatasource, final String... configurationSets) {
+    if(okapiUrl != null)
+      okapiClient.setOkapiUrl(okapiUrl);
     if(okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
       endpoint = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     logger.info("Configuration URL : " + endpoint);

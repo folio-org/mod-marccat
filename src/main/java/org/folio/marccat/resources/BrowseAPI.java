@@ -23,7 +23,8 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int mainLibrary,
     @RequestParam final int pageSize,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final HeadingDecoratorCollection container = new HeadingDecoratorCollection();
       container.setHeadings(
@@ -32,7 +33,7 @@ public class BrowseAPI extends BaseResource {
           .map(toHeading)
           .collect(toList()));
       return container;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
 
@@ -43,7 +44,8 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int mainLibrary,
     @RequestParam final int pageSize,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final List<MapHeading> headings = storageService.getNextPage(query, view, mainLibrary, pageSize, lang);
       final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection();
@@ -52,7 +54,7 @@ public class BrowseAPI extends BaseResource {
         .map(toHeading)
         .collect(toList()));
       return headingCollection;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
 
@@ -63,7 +65,8 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int mainLibrary,
     @RequestParam final int pageSize,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final HeadingDecoratorCollection container = new HeadingDecoratorCollection();
       container.setHeadings(
@@ -73,7 +76,7 @@ public class BrowseAPI extends BaseResource {
           .map(toHeading)
           .collect(toList()));
       return container;
-    }, tenant, configurator);
+    }, tenant, okapiUrl,configurator);
   }
 
 
@@ -87,7 +90,8 @@ public class BrowseAPI extends BaseResource {
     @RequestParam final int mainLibrary,
     @RequestParam final int pageSize,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final List<MapHeading> headings = storageService.getHeadingsByTag(tag, indicator1, indicator2, stringText, view, mainLibrary, pageSize);
       final HeadingDecoratorCollection headingCollection = new HeadingDecoratorCollection();
@@ -96,7 +100,7 @@ public class BrowseAPI extends BaseResource {
         .map(toHeading)
         .collect(toList()));
       return headingCollection;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
 }

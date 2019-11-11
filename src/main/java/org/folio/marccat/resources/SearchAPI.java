@@ -26,6 +26,7 @@ public class SearchAPI extends BaseResource {
   public SearchResponse search(
     @RequestParam(name = "lang", defaultValue = "eng") final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl,
     @RequestParam("q") final String q,
     @RequestParam(name = "from", defaultValue = "1") final int from,
     @RequestParam(name = "to", defaultValue = "10") final int to,
@@ -54,7 +55,7 @@ public class SearchAPI extends BaseResource {
         searchEngine.injectDocCount(response, storageService);
       }
       return response;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
 
@@ -62,6 +63,7 @@ public class SearchAPI extends BaseResource {
   public List<SearchResponse> mergedSearch(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl,
     @RequestParam("qbib") final String qbib,
     @RequestParam(name = "qauth", required = false) final String qauth,
     @RequestParam(name = "from", defaultValue = "1") final int from,
@@ -89,7 +91,7 @@ public class SearchAPI extends BaseResource {
         searchEngine.injectDocCount(response, storageService);
         searchEngine.injectTagHighlight(response, storageService, locale(lang));
         return response;
-      }, tenant, configurator);
+      }, tenant, okapiUrl, configurator);
     }
     SearchResponse bibRecords = doGet((storageService, configuration) -> {
       final SearchEngine searchEngine =
@@ -107,7 +109,7 @@ public class SearchAPI extends BaseResource {
 
       searchEngine.injectTagHighlight(response, storageService, locale(lang));
       return response;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
     List<SearchResponse> mergedResult = new ArrayList<>();
     mergedResult.add(authRecords);
     mergedResult.add(bibRecords);
@@ -118,6 +120,7 @@ public class SearchAPI extends BaseResource {
   public SearchResponse searchVertical(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl,
     @RequestParam("q") final String q,
     @RequestParam(name = "from", defaultValue = "1") final int from,
     @RequestParam(name = "to", defaultValue = "10") final int to,
@@ -139,19 +142,20 @@ public class SearchAPI extends BaseResource {
         "F",
         1,
         ((to - from) + 1));
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
   @GetMapping("/countSearch")
   public ResponseEntity<Integer> countSearch(
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl,
     @RequestParam("q") final String q,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestParam("ml") final int mainLibraryId,
     @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
     @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
     return doGet((storageService, configuration) ->
-      new ResponseEntity<>(storageService.getCountDocumentByQuery(q, sortAttributes, sortOrders, mainLibraryId, locale(lang), view), HttpStatus.OK), tenant, configurator);
+      new ResponseEntity<>(storageService.getCountDocumentByQuery(q, sortAttributes, sortOrders, mainLibraryId, locale(lang), view), HttpStatus.OK), tenant, okapiUrl, configurator);
   }
 }

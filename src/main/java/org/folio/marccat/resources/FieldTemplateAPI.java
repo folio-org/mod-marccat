@@ -28,7 +28,8 @@ public class FieldTemplateAPI extends BaseResource implements CatalogingInformat
     @RequestParam final String leader,
     @RequestParam final String valueField,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) ->
         !isFixedField(code)
           ? ofNullable(storageService.getCorrelationVariableField(categoryCode, ind1, ind2, code))
@@ -65,7 +66,7 @@ public class FieldTemplateAPI extends BaseResource implements CatalogingInformat
             logger.error(Message.MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID, categoryCode, code);
             return new FieldTemplate();
           })
-      , tenant, configurator, "bibliographic", "material");
+      , tenant, okapiUrl, configurator, "bibliographic", "material");
 
   }
 }
