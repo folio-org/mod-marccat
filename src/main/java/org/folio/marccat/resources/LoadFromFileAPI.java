@@ -28,7 +28,8 @@ public class LoadFromFileAPI extends BaseResource {
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestParam(name = "startRecord", defaultValue = "0") final int startRecord,
     @RequestParam(name = "numberOfRecords", defaultValue = "50") final int numberOfRecords,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     return doPost((storageService, configuration) -> {
 
@@ -45,7 +46,7 @@ public class LoadFromFileAPI extends BaseResource {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
-    }, tenant, configurator, () -> !uploadfiles.isEmpty(), "title", "name", "subject");
+    }, tenant, okapiUrl, configurator, () -> !uploadfiles.isEmpty(), "title", "name", "subject");
   }
 
 }

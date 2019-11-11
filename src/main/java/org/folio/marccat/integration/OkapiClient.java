@@ -35,10 +35,6 @@ public class OkapiClient {
    */
   private final RestTemplate client;
 
-  /**
-   * The url of the environment.
-   */
-  public static final String OKAPI_URL_ENVIRONMENT = "/_/env";
 
   /**
    * The url of the modules.
@@ -79,27 +75,7 @@ public class OkapiClient {
   }
 
 
-  /**
-   * Returns a HashMap of environment variables.
-   *
-   * @return environment variables.
-   */
-  public Map <String, String> getEnvironments() {
-    final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_ENVIRONMENT, String.class);
-    final EnvEntry[] env = Json.decodeValue(response.getBody(), EnvEntry[].class);
-    final HashMap <String, String> entries = new HashMap <>();
-    if (env != null) {
-      for (EnvEntry e : env) {
-        entries.put(e.getName(), e.getValue());
-        logger.debug("Environment variables");
-        logger.debug("Name: " + e.getName());
-        logger.debug("Value: " + e.getValue());
-      }
-    }
-    return entries;
-  }
-
-  /**
+   /**
    * Builds the url of a module from Okapi.
    *
    * @param moduleDescription the module description.

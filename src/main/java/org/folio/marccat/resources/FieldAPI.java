@@ -21,7 +21,8 @@ public class FieldAPI extends BaseResource {
   @GetMapping("/bibliographic/fields/mandatory")
   public FieldCollection getMandatoryFields(
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       try {
         final FieldCollection container = new FieldCollection();
@@ -35,7 +36,7 @@ public class FieldAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, configurator, "bibliographic", "material");
+    }, tenant, okapiUrl, configurator, "bibliographic", "material");
   }
 
 

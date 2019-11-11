@@ -22,12 +22,13 @@ public class HeadingAPI extends BaseResource {
   public ResponseEntity<Heading> createHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPost((storageService, configuration) -> {
       heading.setCategoryCode(RecordUtils.getTagCategory(heading, storageService));
       storageService.saveHeading(heading, view, configuration);
       return heading;
-    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue())), "title", "subject", "name", "controlNumber", "classification", "publisher", "nameTitle");
+    }, tenant, okapiUrl, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue())), "title", "subject", "name", "controlNumber", "classification", "publisher", "nameTitle");
   }
 
 
@@ -35,7 +36,8 @@ public class HeadingAPI extends BaseResource {
   public ResponseEntity<Heading> updateHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPut((storageService, configuration) -> {
       try {
         storageService.updateHeading(heading, view);
@@ -44,7 +46,7 @@ public class HeadingAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue()) && heading.getKeyNumber() != 0));
+    }, tenant, okapiUrl,configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue()) && heading.getKeyNumber() != 0));
   }
 
 
@@ -53,7 +55,8 @@ public class HeadingAPI extends BaseResource {
   public void deleteHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doDelete((storageService, configuration) -> {
       try {
         storageService.deleteHeadingById(heading, view);
@@ -62,6 +65,6 @@ public class HeadingAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 }

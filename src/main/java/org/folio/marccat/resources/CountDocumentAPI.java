@@ -19,7 +19,8 @@ public class CountDocumentAPI extends BaseResource {
   public CountDocument getDocumentCountById(
     @RequestParam final int id,
     @RequestParam final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       try {
         return storageService.getCountDocumentByAutNumber(id, view);
@@ -27,7 +28,7 @@ public class CountDocumentAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, configurator);
+    }, tenant, okapiUrl,configurator);
   }
 
 

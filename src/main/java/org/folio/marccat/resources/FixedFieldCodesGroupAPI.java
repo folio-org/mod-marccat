@@ -24,7 +24,8 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
     @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE) final String code,
     @RequestParam final String lang,
     @RequestParam(required = false) final String valueField,
-    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
       final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
@@ -39,7 +40,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
       parameter.put("valueField", valueField);
       injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, fixedFieldCodesGroup.getHeaderTypeCode(), lang, configuration);
       return fixedFieldCodesGroup;
-    }, tenant, configurator, "bibliographic", "material");
+    }, tenant, okapiUrl, configurator, "bibliographic", "material");
   }
 
   @GetMapping("/fixed-fields-code-groups")
@@ -49,7 +50,8 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
     @RequestParam final int headerTypeCode,
     @RequestParam final String lang,
     @RequestParam(required = false) final String valueField,
-    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
 
@@ -78,7 +80,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
           injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, headerTypeCode, lang, configuration);
           return fixedFieldCodesGroup;
         }).orElse(null);
-    }, tenant, configurator, "bibliographic", "material");
+    }, tenant, okapiUrl, configurator, "bibliographic", "material");
   }
 
 }

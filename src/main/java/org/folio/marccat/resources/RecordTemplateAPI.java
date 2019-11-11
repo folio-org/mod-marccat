@@ -30,7 +30,8 @@ public class RecordTemplateAPI extends BaseResource {
   public RecordTemplateCollection getRecordTemplates(
     @RequestParam final CatalogingEntityType type,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final List<Avp<Integer>> templates =
         type == A
@@ -40,7 +41,7 @@ public class RecordTemplateAPI extends BaseResource {
       final RecordTemplateCollection collection = new RecordTemplateCollection();
       collection.setRecordTemplates(templates.stream().map(toRecordTemplate).collect(toList()));
       return collection;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
 
@@ -49,12 +50,13 @@ public class RecordTemplateAPI extends BaseResource {
     @PathVariable final Integer id,
     @RequestParam final CatalogingEntityType type,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) ->
         type == A
           ? storageService.getAuthorityRecordRecordTemplatesById(id)
           : storageService.getBibliographicRecordRecordTemplatesById(id)
-      , tenant, configurator);
+      , tenant, okapiUrl, configurator);
   }
 
 
@@ -62,7 +64,8 @@ public class RecordTemplateAPI extends BaseResource {
   public ResponseEntity<RecordTemplate> createNew(
     @RequestBody final RecordTemplate template,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPost((storageService, configuration) -> {
       if ("A".equals(template.getType())) {
         storageService.saveAuthorityRecordTemplate(template);
@@ -70,7 +73,7 @@ public class RecordTemplateAPI extends BaseResource {
         storageService.saveBibliographicRecordTemplate(template);
       }
       return template;
-    }, tenant, configurator, () -> isNotNullOrEmpty(template.getName()));
+    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(template.getName()));
   }
 
 
@@ -80,7 +83,8 @@ public class RecordTemplateAPI extends BaseResource {
     @PathVariable final String id,
     @RequestBody final RecordTemplate template,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doPut((storageService, configuration) -> {
       try {
         final ObjectMapper mapper = new ObjectMapper();
@@ -95,7 +99,7 @@ public class RecordTemplateAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, configurator, () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(template.getName()));
+    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(template.getName()));
   }
 
 
@@ -105,7 +109,8 @@ public class RecordTemplateAPI extends BaseResource {
     @PathVariable final String id,
     @RequestParam final CatalogingEntityType type,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doDelete((storageService, configuration) -> {
       switch (type) {
         case A:
@@ -115,7 +120,7 @@ public class RecordTemplateAPI extends BaseResource {
           storageService.deleteBibliographicRecordTemplate(id);
       }
       return id;
-    }, tenant, configurator);
+    }, tenant, okapiUrl, configurator);
   }
 
 
@@ -124,7 +129,8 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestBody final BibliographicRecord record,
     @RequestParam final String templateName,
     @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPost((storageService, configuration) -> {
       try {
         final RecordTemplate template = new RecordTemplate();
@@ -181,6 +187,6 @@ public class RecordTemplateAPI extends BaseResource {
         return record;
       }
 
-    }, tenant, configurator, () -> isNotNullOrEmpty(record.getId().toString()));
+    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(record.getId().toString()));
   }
 }
