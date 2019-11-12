@@ -1,6 +1,7 @@
 package org.folio.marccat.resources;
 
 import io.restassured.RestAssured;
+import org.folio.marccat.StorageTestSuite;
 import org.folio.marccat.resources.domain.LockEntityType;
 import org.junit.Before;
 import org.junit.Test;
@@ -130,9 +131,9 @@ public class BibliographicRecordTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/duplicate";
 
     given()
-      .param("id", new Integer(1))
+      .param("id", new Integer(1000))
       .param("lang", "ita")
-      .param("view", 1)
+      .param("view", "1")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
       .when()
       .get(url)

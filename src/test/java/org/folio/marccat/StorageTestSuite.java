@@ -1,7 +1,8 @@
-package org.folio.marccat.resources;
+package org.folio.marccat;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.folio.marccat.resources.*;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,7 +30,10 @@ import static io.restassured.RestAssured.given;
 @Suite.SuiteClasses({
   TenantTest.class,
   CountDocumentTest.class,
-  BibliographicRecordTest.class
+  BibliographicRecordTest.class,
+  BrowseTest.class,
+  FieldTest.class,
+  FieldTemplateTest.class
 })
 
 public class StorageTestSuite {
