@@ -3,6 +3,7 @@ package org.folio.marccat.integration;
 import io.vertx.core.json.Json;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.DeploymentDescriptor;
 import org.folio.marccat.resources.domain.EnvEntry;
 import org.springframework.beans.factory.annotation.Value;
@@ -124,7 +125,7 @@ public class OkapiClient {
       }
     }
     catch (RestClientException exception) {
-      logger.error(Message. MOD_MARCCAT_00034_CLIENT_FAILURE, exception);
+      logger.error(Message.MOD_MARCCAT_00034_CLIENT_FAILURE, exception);
     }
     return entries;
   }
