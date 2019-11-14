@@ -30,24 +30,8 @@ public class HeadingTest {
     RestAssured.port = localPort;
   }
 
-
   @Test
-  public void getDocumentCountById() {
-
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
-
-    given()
-      .param("id", "110")
-      .param("view", "-1")
-      .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
-      .when()
-      .get(url)
-      .then()
-      .statusCode(200);
-  }
-
-  @Test
-  public void getDocumentCountById_failed() {
+  public void createHeading() {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
     JSONObject joTitle = new JSONObject();
@@ -58,13 +42,14 @@ public class HeadingTest {
     joTitle.put("displayValue","\u001faStoria");
 
     given()
-      .param("view", "1")
+      .headers("Content-Type", "application/json")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
+      .queryParam("view", "1")
       .body(joTitle)
       .when()
-      .get(url)
+      .post(url)
       .then()
-      .statusCode(201); //expected fail
+      .statusCode(201);
   }
 
 
