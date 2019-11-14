@@ -114,7 +114,7 @@ public class OkapiClient {
       final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
       for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
         if (deployDescriptor.getSrvcId().contains(moduleDescription)) {
-          if(deployDescriptor.getDescriptor().getEnv() != null)
+          if(deployDescriptor.getDescriptor() != null && deployDescriptor.getDescriptor().getEnv() != null)
             env = deployDescriptor.getDescriptor().getEnv();
         }
       }
