@@ -20,9 +20,9 @@ spring:
   datasource:
     platform: postgres
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://192.168.1.15:5432/postgres
     port: 5432
-    host: localhost
+    host: 192.168.1.15
     username: folio_admin
     password: folio_admin
 
