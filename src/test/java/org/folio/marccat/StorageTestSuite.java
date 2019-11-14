@@ -34,7 +34,8 @@ import static io.restassured.RestAssured.given;
   BrowseTest.class,
   FieldTest.class,
   FieldTemplateTest.class,
-  FixedFieldCodesGroupTest.class
+  FixedFieldCodesGroupTest.class,
+  HeaderTypeTest.class
 })
 
 public class StorageTestSuite {

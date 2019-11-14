@@ -186,6 +186,11 @@ public class TenantService {
       adminPassword = env.get("DB_PASSWORD");
     }
 
+    host = "192.168.0.158";
+    port = "5433";
+    adminUser = "postgres";
+    adminPassword = "pes001clt";
+
     createRole();
     boolean databaseNotExist = databaseExists(databaseName);
     if (databaseNotExist)
