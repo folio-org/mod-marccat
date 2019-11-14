@@ -18,7 +18,7 @@ import static io.restassured.RestAssured.given;
 @ActiveProfiles("test")
 
 
-public class FieldTemplateTest {
+public class FixedFieldCodesGroupTest {
 
   @LocalServerPort
   private int localPort;
@@ -31,18 +31,13 @@ public class FieldTemplateTest {
 
 
   @Test
-  public void getFieldTemplate() {
+  public void getFixedFieldCodesGroupsByLeader() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/field-template";
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/fixed-fields-code-groups-by-leader";
 
     given()
-      .param("categoryCode", "7")
-      .param("ind1", " ")
-      .param("ind2", " ")
-      .param("code", "500")
-      .param("headerType", "7")
       .param("leader", "01657nam a22002057i 4500")
-      .param("valueField", "\u001faNota generale")
+      .param("code", "008")
       .param("lang", "ita")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
       .when()
@@ -50,6 +45,23 @@ public class FieldTemplateTest {
       .then()
       .statusCode(200);
   }
+
+  public void getFixedFieldCodesGroups() {
+
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/fixed-fields-code-groups";
+
+    given()
+      .param("leader", "01657nam a22002057i 4500")
+      .param("code", "008")
+      .param("headerTypeCode", "1")
+      .param("lang", "ita")
+      .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
 
 
 

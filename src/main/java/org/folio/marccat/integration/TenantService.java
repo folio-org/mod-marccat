@@ -185,10 +185,6 @@ public class TenantService {
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
     }
-    host = "localhost";
-    port = "5433";
-    adminUser = "folio_admin";
-    adminPassword = "folio_admin";
 
     createRole();
     boolean databaseNotExist = databaseExists(databaseName);
