@@ -35,17 +35,13 @@ public class HeadingTest {
   public void createHeading() {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
-   /* JSONObject joTitle = new JSONObject();
-    joTitle.put("categoryCode","3");
-    joTitle.put("keyNumber","0");
-    joTitle.put("ind1","1");
-    joTitle.put("ind2","0");
-    joTitle.put("displayValue","\u001faStoria");*/
+
     Heading heading = new Heading();
+    heading.setTag("245");
     heading.setCategoryCode(3);
     heading.setKeyNumber(0);
     heading.setInd1("1");
-    heading.setInd1("0");
+    heading.setInd2("0");
     heading.setDisplayValue("\u001faStoria");
 
     given()
@@ -59,5 +55,49 @@ public class HeadingTest {
       .statusCode(201);
   }
 
+  @Test
+  public void updateHeading() {
 
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/update-heading";
+    Heading heading = new Heading();
+    heading.setTag("245");
+    heading.setCategoryCode(3);
+    heading.setKeyNumber(1);
+    heading.setInd1("1");
+    heading.setInd2("0");
+    heading.setDisplayValue("\u001faStoria e filosofia");
+
+    given()
+      .headers("Content-Type", "application/json")
+      .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
+      .queryParam("view", "1")
+      .body(heading)
+      .when()
+      .put(url)
+      .then()
+      .statusCode(201);
+  }
+
+  @Test
+  public void deleteHeading() {
+
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/delete-heading";
+    Heading heading = new Heading();
+    heading.setTag("245");
+    heading.setCategoryCode(3);
+    heading.setKeyNumber(1);
+    heading.setInd1("1");
+    heading.setInd2("0");
+    heading.setDisplayValue("\u001faStoria e filosofia");
+
+    given()
+      .headers("Content-Type", "application/json")
+      .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
+      .queryParam("view", "1")
+      .body(heading)
+      .when()
+      .delete(url)
+      .then()
+      .statusCode(500);
+  }
 }
