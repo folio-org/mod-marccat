@@ -25,9 +25,8 @@ spring:
     host: 192.168.1.15
     username: folio_admin
     password: folio_admin
-    external: false
+    external: true
 
-  profiles: default
 
 marccat:
   username: marccat

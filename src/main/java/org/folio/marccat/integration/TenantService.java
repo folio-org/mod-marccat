@@ -76,6 +76,12 @@ public class TenantService {
   private String port;
 
   /**
+   * The external datasource.
+   */
+  @Value("${spring.datasource.external}")
+  private String external;
+
+  /**
    * The host.
    */
   @Value("${spring.datasource.host}")
@@ -184,12 +190,12 @@ public class TenantService {
     logger.debug("DB username from application.yml : " + adminUser);
     logger.debug("DB password from application.yml : " + adminPassword);
 
-    if (!env.isEmpty()) {
+    if (!env.isEmpty() && external.equals("false")) {
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
-      
+
       logger.debug("Host from okapi env: " + host);
       logger.debug("Port from okapi env: " + port);
       logger.debug("DB username from okapi env: " + adminUser);
