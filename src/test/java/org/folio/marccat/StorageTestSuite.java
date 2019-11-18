@@ -29,15 +29,15 @@ import static io.restassured.RestAssured.given;
 
 @Suite.SuiteClasses({
   TenantTest.class,
-  CountDocumentTest.class,
+  /*CountDocumentTest.class,
   BibliographicRecordTest.class,
   BrowseTest.class,
   FieldTest.class,
   FieldTemplateTest.class,
   FixedFieldCodesGroupTest.class,
   HeaderTypeTest.class,
-  HeadingTest.class,
-  //LoadFromFileTest.class
+  HeadingTest.class,*/
+  LoadFromFileTest.class
 })
 
 public class StorageTestSuite {

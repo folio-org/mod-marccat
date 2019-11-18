@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.InputStream;
 
 import static io.restassured.RestAssured.given;
 
@@ -38,13 +39,14 @@ public class LoadFromFileTest {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/load-from-file";
     String mrc = IOUtils.toString(this.getClass().getResourceAsStream("/record.mrc"), "UTF-8");
+    InputStream inputStream = getClass().getResourceAsStream("/record.mrc");
 
     given()
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
       .queryParam("view", "1")
       .queryParam("startRecord", "1")
       .queryParam("numberOfRecords", "1")
-      .multiPart("files", new File(mrc))
+      .multiPart("files", inputStream)
       .when()
       .post(url)
       .then()
