@@ -10,10 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.apache.commons.io.IOUtils;
-
-import java.io.File;
-import java.io.InputStream;
 
 import static io.restassured.RestAssured.given;
 
@@ -22,7 +18,7 @@ import static io.restassured.RestAssured.given;
 @ActiveProfiles("test")
 
 
-public class LoadFromFileTest {
+public class AutoSuggestionTest {
 
   @LocalServerPort
   private int localPort;
@@ -35,23 +31,32 @@ public class LoadFromFileTest {
 
 
   @Test
-  public void loadRecords() throws Exception {
+  public void getFilteredTagsList() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/load-from-file";
-    String mrc = IOUtils.toString(this.getClass().getResourceAsStream("/record.mrc"), "UTF-8");
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/filteredTagsList";
 
     given()
+      .param("tagNumber", "500")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
-      .queryParam("view", "1")
-      .queryParam("startRecord", "1")
-      .queryParam("numberOfRecords", "1")
-      .multiPart("files", new File("/record.mrc"))
       .when()
-      .post(url)
+      .get(url)
       .then()
       .statusCode(200);
   }
 
+  @Test
+  public void getFilteredTag() {
+
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/filteredTag";
+
+    given()
+      .param("tagNumber", "500")
+      .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
 
 
 }
