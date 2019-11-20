@@ -1,0 +1,46 @@
+configuration:
+  endpoint: http://folio.frontside.atcult.it:8085/configurations/entries
+  port: 8085
+  local: folio.frontside.atcult.it
+  baseUrl: marccat
+
+okapiurl: http://localhost:9130
+
+logging:
+  level:
+    root: ERROR
+    org.springframework: ERROR
+    net.sf.hibernate: ERROR
+    net.sf.hibernate.SQL: DEBUG
+    org.folio.marccat.integration.search: DEBUG
+    ru.yandex: ERROR
+    org.folio.marccat: INFO
+
+spring:
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.1.15:5432/postgres
+    port: 5432
+    host: 192.168.1.15
+    username: folio_admin
+    password: folio_admin
+    external: true
+
+
+marccat:
+  username: marccat
+  password: admin
+  database:
+    suffix: _marccat
+
+admin:
+  username: folio_admin
+  password: folio_admin
+
+patch:
+    database: /database-setup/patches/MARCCAT_DB/1.2
+    procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
+
+server:
+  port: 8081
