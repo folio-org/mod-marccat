@@ -28,12 +28,12 @@ public class RecordTemplateAPI extends BaseResource {
 
   @GetMapping("/record-templates")
   public RecordTemplateCollection getRecordTemplates(
-    @RequestParam final CatalogingEntityType type,
+    @RequestParam final String type,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant) {
     return doGet((storageService, configuration) -> {
       final List<Avp<Integer>> templates =
-        type == A
+        type.equals("A")
           ? storageService.getAuthorityRecordTemplates()
           : storageService.getBibliographicRecordTemplates();
 

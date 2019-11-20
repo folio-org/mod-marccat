@@ -34,10 +34,10 @@ public class RecordTemplateTest {
   @Test
   public void getRecordTemplates() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/document-count-by-id";
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-templates";
 
     given()
-      .param(String.valueOf(CatalogingEntityType.valueOf("A")), "A")
+      .param("type","A")
       .param("lang", "ita")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
       .when()
