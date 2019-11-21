@@ -85,20 +85,6 @@ public class OkapiClient {
     return replaceRemoteHost(okapiUrl);
   }
 
-  public String replaceRemoteHost(String path) {
-    final URL url;
-    try {
-      url = new URL(path);
-      final String remoteHost = url.getHost();
-      if(external.equals("true"))
-        path = path.replace(remoteHost, host);
-      logger.debug("URL:" + path);
-    } catch (MalformedURLException e) {
-      logger.debug("Wrong URL");
-    }
-    return path;
-  }
-
 
   /**
    * Builds the url of a module from Okapi.
@@ -152,6 +138,26 @@ public class OkapiClient {
       logger.error(Message.MOD_MARCCAT_00034_CLIENT_FAILURE, exception);
     }
     return entries;
+  }
+
+  /**
+   * Replace the host in the url.
+   *
+   * @param path the url.
+   * @return the url
+   */
+  public String replaceRemoteHost(String path) {
+    final URL url;
+    try {
+      url = new URL(path);
+      final String remoteHost = url.getHost();
+      if(external.equals("true"))
+        path = path.replace(remoteHost, host);
+      logger.debug("URL:" + path);
+    } catch (MalformedURLException e) {
+      logger.debug("Wrong URL");
+    }
+    return path;
   }
 
 }
