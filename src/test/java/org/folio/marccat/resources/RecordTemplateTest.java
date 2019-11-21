@@ -75,7 +75,7 @@ public class RecordTemplateTest {
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/template.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     RecordTemplate recordTemplate = objectMapper.readValue(templateJson, RecordTemplate.class);
-    System.out.println(recordTemplate.toString());
+    System.out.println(templateJson);
 
     Response response = given()
       .queryParam("type", "B")
@@ -87,13 +87,14 @@ public class RecordTemplateTest {
       .post(url);
 
     assertThat(response.getStatusCode(), is(201));
-    System.out.println("Response : "+response.getBody());
-    JSONObject  responseJson = new JSONObject(response.getBody());
+    System.out.println("Response : " + response.getBody().asString());
+    JSONObject  responseJson = new JSONObject(response.getBody().asString());
     JSONArray fields = responseJson.getJSONArray("fields");
-    for (int i = 0; i< fields.length(); i++){
-      System.out.println(fields.getJSONObject(i) + "contatore" + i);
-    }
-    assertThat(fields.getString(0), is("00000000000"));
+   /* for (int i = 0; i< fields.length(); i++){
+       System.out.println(fields.getJSONObject(i) + "contatore" + i);
+    }*/
+    System.out.println(fields.getJSONObject(0).get("fixedField"));
+    assertThat(fields.getJSONObject(0).get("fixedField"), is("00000000000"));
   }
 
 
