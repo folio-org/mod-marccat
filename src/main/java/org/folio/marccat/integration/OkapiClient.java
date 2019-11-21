@@ -1,18 +1,17 @@
 package org.folio.marccat.integration;
 
 import io.vertx.core.json.Json;
-import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.DeploymentDescriptor;
 import org.folio.marccat.resources.domain.EnvEntry;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +35,17 @@ public class OkapiClient {
    */
   private final RestTemplate client;
 
+  /**
+   * The external database.
+   */
+  @Value("${spring.datasource.external}")
+  private String external;
+
+  /**
+   * The external host of okapi.
+   */
+  @Value("${spring.datasource.host}")
+  private String host;
 
   /**
    * The url of the modules.
@@ -63,7 +73,7 @@ public class OkapiClient {
    * @param url the new okapi url
    */
   public void setOkapiUrl(String url) {
-    okapiUrl = url;
+     okapiUrl = url;
   }
 
   /**
@@ -72,6 +82,16 @@ public class OkapiClient {
    * @return the okapi url
    */
   public String getOkapiUrl() {
+    final URL url;
+    try {
+      url = new URL(okapiUrl);
+      final String okapiHost = url.getHost();
+      if(external.equals("true"))
+        okapiUrl = okapiUrl.replace(okapiHost, host);
+      logger.debug("URL Okapi:" + okapiUrl);
+    } catch (MalformedURLException e) {
+      logger.debug("Wrong URL");
+    }
     return okapiUrl;
   }
 
