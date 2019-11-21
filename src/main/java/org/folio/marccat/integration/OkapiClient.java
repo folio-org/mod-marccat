@@ -82,21 +82,25 @@ public class OkapiClient {
    * @return the okapi url
    */
   public String getOkapiUrl() {
+    return replaceRemoteHost(okapiUrl);
+  }
+
+  public String replaceRemoteHost(String path) {
     final URL url;
     try {
-      url = new URL(okapiUrl);
-      final String okapiHost = url.getHost();
+      url = new URL(path);
+      final String remoteHost = url.getHost();
       if(external.equals("true"))
-        okapiUrl = okapiUrl.replace(okapiHost, host);
-      logger.debug("URL Okapi:" + okapiUrl);
+        path = path.replace(remoteHost, host);
+      logger.debug("URL:" + path);
     } catch (MalformedURLException e) {
       logger.debug("Wrong URL");
     }
-    return okapiUrl;
+    return path;
   }
 
 
-   /**
+  /**
    * Builds the url of a module from Okapi.
    *
    * @param moduleDescription the module description.
@@ -112,6 +116,7 @@ public class OkapiClient {
       for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
         if (deployDescriptor.getSrvcId().contains(moduleDescription)) {
           moduleUrl = (deployDescriptor.getUrl() + subdomain);
+          moduleUrl = replaceRemoteHost(moduleUrl);
         }
       }
     } catch (RestClientException exception) {
