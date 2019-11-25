@@ -36,7 +36,7 @@ public class BrowseTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/browse";
 
     given()
-      .param("query", "TI Storia")
+      .param("query", "TI I promessi sposi")
       .param("view", "1")
       .param("mainLibrary", "172")
       .param("pageSize", "10")
@@ -54,7 +54,7 @@ public class BrowseTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/next-page";
 
     given()
-      .param("query", "TI Storia")
+      .param("query", "TI I promessi sposi")
       .param("view", "1")
       .param("mainLibrary", "172")
       .param("pageSize", "10")
@@ -72,7 +72,7 @@ public class BrowseTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/previous-page";
 
     given()
-      .param("query", "TI Storia")
+      .param("query", "TI I promessi sposi")
       .param("view", "1")
       .param("mainLibrary", "172")
       .param("pageSize", "10")
@@ -92,8 +92,8 @@ public class BrowseTest {
     given()
       .param("tag", "245")
       .param("indicator1", "0")
-      .param("indicator2", "0")
-      .param("stringText", "\u001faStoria")
+      .param("indicator2", "2")
+      .param("stringText", "\u001faI promessi sposi")
       .param("view", "1")
       .param("mainLibrary", "172")
       .param("pageSize", "10")

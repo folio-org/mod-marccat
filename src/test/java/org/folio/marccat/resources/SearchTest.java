@@ -36,7 +36,7 @@ public class SearchTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/mergedSearch";
 
     given()
-      .param("qbib", "TI Storia")
+      .param("qbib", "TI I promessi sposi")
       .param("lang", "ita")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
       .when()
@@ -65,7 +65,7 @@ public class SearchTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/searchVertical";
 
     given()
-      .param("q", "TI Storia")
+      .param("q", "TI I promessi sposi")
       .param("lang", "ita")
       .param("ml", "170")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
@@ -81,7 +81,7 @@ public class SearchTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/countSearch";
 
     given()
-      .param("q", "TI Storia")
+      .param("q", "TI I promessi sposi")
       .param("lang", "ita")
       .param("ml", "170")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)

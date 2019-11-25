@@ -32,7 +32,7 @@ public class HeadingTest {
   }
 
   @Test
-  public void createHeading() {
+  public void createTitleHeading() {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
 
@@ -56,6 +56,31 @@ public class HeadingTest {
   }
 
   @Test
+  public void createNameHeading() {
+
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+
+    Heading heading = new Heading();
+    heading.setTag("100");
+    heading.setCategoryCode(2);
+    heading.setKeyNumber(0);
+    heading.setInd1("1");
+    heading.setInd2(" ");
+    heading.setDisplayValue("\u001faAlessandro Manzoni");
+
+    given()
+      .headers("Content-Type", "application/json")
+      .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
+      .queryParam("view", "1")
+      .body(heading)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
+  }
+
+
+  @Test
   public void updateHeading() {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/update-heading";
@@ -63,9 +88,9 @@ public class HeadingTest {
     heading.setTag("245");
     heading.setCategoryCode(3);
     heading.setKeyNumber(1);
-    heading.setInd1("1");
-    heading.setInd2("0");
-    heading.setDisplayValue("\u001faStoria e filosofia");
+    heading.setInd1("0");
+    heading.setInd2("2");
+    heading.setDisplayValue("\u001faI promessi sposi");
 
     given()
       .headers("Content-Type", "application/json")
@@ -86,8 +111,8 @@ public class HeadingTest {
     heading.setTag("245");
     heading.setCategoryCode(3);
     heading.setKeyNumber(1);
-    heading.setInd1("1");
-    heading.setInd2("0");
+    heading.setInd1("0");
+    heading.setInd2("2");
     heading.setDisplayValue("\u001faStoria e filosofia");
 
     given()

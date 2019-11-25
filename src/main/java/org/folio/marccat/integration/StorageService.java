@@ -265,7 +265,8 @@ public class StorageService implements Closeable {
     try {
       final BibliographicModelDAO dao = new BibliographicModelDAO();
       final Model model = dao.load(Integer.valueOf(id), session);
-      dao.delete(model, session);
+      if(model != null)
+        dao.delete(model, session);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
@@ -282,7 +283,8 @@ public class StorageService implements Closeable {
     try {
       final AuthorityModelDAO dao = new AuthorityModelDAO();
       final Model model = dao.load(Integer.valueOf(id), session);
-      dao.delete(model, session);
+      if(model != null)
+        dao.delete(model, session);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);

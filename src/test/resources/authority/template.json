@@ -1,0 +1,26 @@
+{
+  "id": 1,
+  "fields": [
+    {
+      "code": "100",
+      "mandatory": false,
+      "fieldStatus": "unchanged",
+      "variableField": {
+        "keyNumber": 2,
+        "categoryCode": 2,
+        "headingTypeCode": "2",
+        "itemTypeCode": "3",
+        "functionCode": "2",
+        "ind1": "1",
+        "ind2": " ",
+        "code": "100",
+        "displayValue": "\u001faAlessandro, Manzoni",
+        "subfields": [],
+        "sequenceNumber": 0,
+        "skipInFiling": 0
+      },
+      "added": false
+    }
+
+  ]
+}
