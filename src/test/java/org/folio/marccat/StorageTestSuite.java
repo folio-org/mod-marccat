@@ -29,17 +29,17 @@ import static io.restassured.RestAssured.given;
 
 @Suite.SuiteClasses({
   TenantTest.class,
- /* CountDocumentTest.class,
+  CountDocumentTest.class,
   BibliographicRecordTest.class,
   BrowseTest.class,
   FieldTest.class,
   FieldTemplateTest.class,
+  LoadFromFileTest.class,
   FixedFieldCodesGroupTest.class,
   HeaderTypeTest.class,
   HeadingTest.class,
-  LoadFromFileTest.class,
   SearchTest.class,
-  AutoSuggestionTest.class,*/
+  AutoSuggestionTest.class,
   RecordTemplateTest.class
 })
 

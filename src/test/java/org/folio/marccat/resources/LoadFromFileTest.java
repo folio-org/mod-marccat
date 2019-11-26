@@ -14,6 +14,8 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 
 import static io.restassured.RestAssured.given;
 
@@ -38,18 +40,18 @@ public class LoadFromFileTest {
   public void loadRecords() throws Exception {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/load-from-file";
-    String mrc = IOUtils.toString(this.getClass().getResourceAsStream("/record.mrc"), "UTF-8");
+    String path = this.getClass().getResource("/bibliographic/record.mrc").getFile().toString();
 
     given()
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
       .queryParam("view", "1")
       .queryParam("startRecord", "1")
       .queryParam("numberOfRecords", "1")
-      .multiPart("files", new File("/record.mrc"))
+      .multiPart("files", new File(path))
       .when()
       .post(url)
       .then()
-      .statusCode(200);
+      .statusCode(201);
   }
 
 

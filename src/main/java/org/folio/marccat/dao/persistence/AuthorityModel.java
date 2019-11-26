@@ -12,8 +12,8 @@ import org.folio.marccat.dao.AuthorityModelDAO;
  */
 public class AuthorityModel extends Model {
 
-  private String frbrSecondGroup;
-  private String frbrThirdGroup;
+  private Integer frbrSecondGroup;
+  private Integer frbrThirdGroup;
 
   /**
    * Gets the authority model DAO.
@@ -29,7 +29,7 @@ public class AuthorityModel extends Model {
    *
    * @return the frbr second group
    */
-  public String getFrbrSecondGroup() {
+  public Integer getFrbrSecondGroup() {
     return frbrSecondGroup;
   }
 
@@ -39,7 +39,7 @@ public class AuthorityModel extends Model {
    *
    * @param frbrSecondGroup the new frbr second group
    */
-  public void setFrbrSecondGroup(final String frbrSecondGroup) {
+  public void setFrbrSecondGroup(final Integer frbrSecondGroup) {
     this.frbrSecondGroup = frbrSecondGroup;
   }
 
@@ -49,7 +49,7 @@ public class AuthorityModel extends Model {
    *
    * @return the frbr third group
    */
-  public String getFrbrThirdGroup() {
+  public Integer getFrbrThirdGroup() {
     return frbrThirdGroup;
   }
 
@@ -58,7 +58,7 @@ public class AuthorityModel extends Model {
    *
    * @param frbrThirdGroup the new frbr third group
    */
-  public void setFrbrThirdGroup(final String frbrThirdGroup) {
+  public void setFrbrThirdGroup(final Integer frbrThirdGroup) {
     this.frbrThirdGroup = frbrThirdGroup;
   }
 

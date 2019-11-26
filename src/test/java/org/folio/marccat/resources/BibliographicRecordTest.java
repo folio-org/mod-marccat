@@ -1,8 +1,12 @@
 package org.folio.marccat.resources;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
+import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
+import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.LockEntityType;
+import org.folio.marccat.resources.domain.RecordTemplate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,9 +79,28 @@ public class BibliographicRecordTest {
 
 
 
-  public void save() {
+  public void save() throws Exception {
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat//bibliographic-record";
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/record.json"), "UTF-8");
+    ObjectMapper objectMapper = new ObjectMapper();
+    ContainerRecordTemplate recordTemplate = objectMapper.readValue(templateJson, ContainerRecordTemplate.class);
+
+    given()
+      .headers("Content-Type", "application/json")
+      .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
+      .queryParam("view", "1")
+      .body(recordTemplate)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
 
   }
+
+  public void getFixedFieldWithDisplayValue() {
+
+  }
+
 
   @Test
   public void delete() {
@@ -140,5 +163,7 @@ public class BibliographicRecordTest {
       .then()
       .statusCode(200);
   }
+
+
 
 }

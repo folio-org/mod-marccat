@@ -8,6 +8,7 @@
 	<property name="show_sql">true</property>
 		<mapping resource="org/folio/marccat/dao/persistence/BibliographicModel.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/BibliographicModelItem.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/AUTHORITY_MODEL.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/DB_LIST.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/INDEX_MAIN_LIST.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/INDEX_SUB_LIST.hbm.xml"/>

@@ -1,13 +1,12 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
+import net.sf.hibernate.*;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.codetable.Avp;
+import org.folio.marccat.dao.persistence.BibliographicModel;
 import org.folio.marccat.dao.persistence.Model;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -176,5 +175,19 @@ public abstract class ModelDAO extends AbstractDAO {
       " select new org.folio.marccat.business.codetable.Avp(m.id, m.label) from "
         + " org.folio.marccat.dao.persistence.AuthorityModel "
         + AS_M_ORDER_BY_M_LABEL);
+  }
+
+  /**
+   * Retrieves the list of all available authority models.
+   *
+   * @param session the hibernate session
+   * @param sequenceName the sequence name
+   * @return the current sequence key.
+   * @throws HibernateException in case of data access failure
+   */
+  public Long getCurrentSequenceKey(final Session session, final String sequenceName) throws HibernateException {
+    Query query = session.createSQLQuery( "select currval('"+ sequenceName +"')" , "", BibliographicModel.class);
+    Long key = ((BigInteger) query.uniqueResult()).longValue();
+    return key;
   }
 }

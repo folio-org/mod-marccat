@@ -36,11 +36,11 @@ public class FieldTemplateTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/field-template";
 
     given()
-      .param("categoryCode", "7")
-      .param("ind1", " ")
-      .param("ind2", " ")
-      .param("code", "500")
-      .param("headerType", "7")
+      .param("categoryCode", "3")
+      .param("ind1", "0")
+      .param("ind2", "2")
+      .param("code", "245")
+      .param("headerType", "3")
       .param("leader", "01657nam a22002057i 4500")
       .param("valueField", "\u001faNota generale")
       .param("lang", "ita")
