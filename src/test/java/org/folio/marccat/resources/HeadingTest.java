@@ -40,9 +40,9 @@ public class HeadingTest {
     heading.setTag("245");
     heading.setCategoryCode(3);
     heading.setKeyNumber(0);
-    heading.setInd1("1");
-    heading.setInd2("0");
-    heading.setDisplayValue("\u001faStoria");
+    heading.setInd1("0");
+    heading.setInd2("2");
+    heading.setDisplayValue("\u001faI promessi sposi");
 
     given()
       .headers("Content-Type", "application/json")

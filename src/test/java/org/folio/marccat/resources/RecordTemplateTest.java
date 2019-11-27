@@ -171,7 +171,7 @@ public class RecordTemplateTest {
   public void createFromRecord_Bibliographic() throws Exception{
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-template/from-record";
-    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/record.json"), "UTF-8");
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/record_for_template.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     BibliographicRecord bibliographicRecord = objectMapper.readValue(templateJson, BibliographicRecord.class);
 

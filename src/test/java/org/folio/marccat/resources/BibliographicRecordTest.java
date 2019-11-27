@@ -5,6 +5,7 @@ import io.restassured.RestAssured;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
 import org.folio.marccat.resources.domain.ContainerRecordTemplate;
+import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.LockEntityType;
 import org.folio.marccat.resources.domain.RecordTemplate;
 import org.junit.Before;
@@ -78,18 +79,19 @@ public class BibliographicRecordTest {
   }
 
 
-
+  @Test
   public void save() throws Exception {
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat//bibliographic-record";
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record";
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/record.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
-    ContainerRecordTemplate recordTemplate = objectMapper.readValue(templateJson, ContainerRecordTemplate.class);
+    ContainerRecordTemplate containerRecordTemplate = objectMapper.readValue(templateJson, ContainerRecordTemplate.class);
 
     given()
       .headers("Content-Type", "application/json")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
       .queryParam("view", "1")
-      .body(recordTemplate)
+      .queryParam("lang", "ita")
+      .body(containerRecordTemplate)
       .when()
       .post(url)
       .then()
@@ -97,7 +99,22 @@ public class BibliographicRecordTest {
 
   }
 
-  public void getFixedFieldWithDisplayValue() {
+  @Test
+  public void getFixedFieldWithDisplayValue() throws Exception {
+
+    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/fixed-field-display-value";
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/fixed_field.json"), "UTF-8");
+    ObjectMapper objectMapper = new ObjectMapper();
+    FixedField fixedField = objectMapper.readValue(templateJson, FixedField.class);
+
+    given()
+      .headers("Content-Type", "application/json")
+      .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
+      .body(fixedField)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
 
   }
 
@@ -116,7 +133,7 @@ public class BibliographicRecordTest {
       .statusCode(204);
   }
 
- /* @Test
+  /*@Test
   public void unlock() {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/unlock/1";
@@ -146,15 +163,15 @@ public class BibliographicRecordTest {
       .delete(url)
       .then()
       .statusCode(204);
-  }*/
-
+  }
+*/
   @Test
   public void duplicate() {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/duplicate";
 
     given()
-      .param("id", new Integer(1000))
+      .param("id", new Integer(1))
       .param("lang", "ita")
       .param("view", "1")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
