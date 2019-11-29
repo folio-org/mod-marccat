@@ -155,13 +155,16 @@ public abstract class MarccatHelper {
     final Configuration configurator,
     final String... configurationSets) {
     try {
-       final ObjectNode settings = configurator.attributes(tenant, okapiUrl,true, configurationSets);
+      final T result;
+      final ObjectNode settings = configurator.attributes(tenant, okapiUrl,true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
       try (final Connection connection = datasource.getConnection();
            final StorageService service =
-             new StorageService(
-               HCONFIGURATION.buildSessionFactory().openSession(connection))) {
-        return adapter.execute(service, configuration(settings));
+             new StorageService()) {
+        service.setSession(HCONFIGURATION.buildSessionFactory().openSession(connection));
+        result = adapter.execute(service, configuration(settings));
+        service.getSession().close();
+        return result;
       } catch (final SQLException exception) {
         throw new DataAccessException(exception);
       } catch (Exception exception) {
