@@ -104,10 +104,9 @@ public class StorageService implements Closeable {
     THIRD_CORRELATION_HEADING_CLASS_MAP.put(11, NameSubType.class);
   }
 
-  private final Session session;
+  private  Session session;
 
   public StorageService() {
-    session = null;
   }
 
   public void setSession(Session session) {
