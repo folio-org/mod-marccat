@@ -110,7 +110,7 @@ public class StorageService implements Closeable {
   }
 
   public void setSession(Session session) {
-    session = this.session;
+    this.session = session;
   }
 
   public Session getSession() {

@@ -5,7 +5,6 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
 import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
-
 import static java.util.stream.Collectors.toMap;
 import static org.folio.marccat.config.constants.Global.HCONFIGURATION;
 
@@ -158,9 +156,8 @@ public abstract class MarccatHelper {
       final T result;
       final ObjectNode settings = configurator.attributes(tenant, okapiUrl,true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
-      try (final Connection connection = datasource.getConnection();
-           final StorageService service =
-             new StorageService()) {
+      try (final Connection connection = datasource.getConnection()) {
+        final StorageService service = new StorageService();
         service.setSession(HCONFIGURATION.buildSessionFactory().openSession(connection));
         result = adapter.execute(service, configuration(settings));
         service.getSession().close();
