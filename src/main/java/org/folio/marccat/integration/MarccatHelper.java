@@ -3,6 +3,7 @@ package org.folio.marccat.integration;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.sf.hibernate.FlushMode;
 import net.sf.hibernate.Session;
+import net.sf.hibernate.SessionFactory;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
@@ -160,11 +161,13 @@ public abstract class MarccatHelper {
       final DataSource datasource = datasource(tenant, settings);
       try (final Connection connection = datasource.getConnection()) {
         final StorageService service = new StorageService();
-        Session session = HCONFIGURATION.buildSessionFactory().openSession(connection);
+        SessionFactory sessionFactory =  HCONFIGURATION.buildSessionFactory();
+        Session session = sessionFactory.openSession(connection);
         session.setFlushMode(FlushMode.COMMIT);
         service.setSession(session);
         result = adapter.execute(service, configuration(settings));
         service.getSession().close();
+        sessionFactory.close();
         return result;
       } catch (final SQLException exception) {
         throw new DataAccessException(exception);
