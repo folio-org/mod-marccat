@@ -37,12 +37,15 @@ public abstract class MarccatHelper {
   private final static Properties DEFAULT_VALUES = new Properties();
   private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
+  private static SessionFactory sessionFactory =  null;
 
 
   static {
     try {
       DEFAULT_VALUES.load(MarccatHelper.class.getResourceAsStream("/defaults.properties"));
-     } catch (Exception exception) {
+      sessionFactory =  HCONFIGURATION.buildSessionFactory();
+      System.out.println("SONO passata da MarcHelper");
+    } catch (Exception exception) {
       throw new ExceptionInInitializerError(exception);
     }
   }
@@ -161,13 +164,12 @@ public abstract class MarccatHelper {
       final DataSource datasource = datasource(tenant, settings);
       try (final Connection connection = datasource.getConnection()) {
         final StorageService service = new StorageService();
-        SessionFactory sessionFactory =  HCONFIGURATION.buildSessionFactory();
         Session session = sessionFactory.openSession(connection);
         session.setFlushMode(FlushMode.COMMIT);
         service.setSession(session);
         result = adapter.execute(service, configuration(settings));
         service.getSession().close();
-        sessionFactory.close();
+        //sessionFactory.close();
         return result;
       } catch (final SQLException exception) {
         throw new DataAccessException(exception);
