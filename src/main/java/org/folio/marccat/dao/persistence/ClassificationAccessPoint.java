@@ -85,7 +85,7 @@ public class ClassificationAccessPoint extends BibliographicAccessPoint implemen
    * @param stringText -- the string text to add text.
    */
   private void addEditionNumberIfNeeds(final StringText stringText) {
-    if (descriptor.getTypeCode() == Global.DEWEY_TYPE_CODE && descriptor.getDeweyEditionNumber() != 0)
+    if (descriptor.getTypeCode() == Global.DEWEY_TYPE_CODE && descriptor.getDeweyEditionNumber() != null)
       stringText.addSubfield(new Subfield("2", EMPTY_STRING + descriptor.getDeweyEditionNumber()));
   }
 

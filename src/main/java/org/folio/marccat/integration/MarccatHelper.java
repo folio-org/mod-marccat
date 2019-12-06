@@ -44,7 +44,6 @@ public abstract class MarccatHelper {
     try {
       DEFAULT_VALUES.load(MarccatHelper.class.getResourceAsStream("/defaults.properties"));
       sessionFactory =  HCONFIGURATION.buildSessionFactory();
-      System.out.println("SONO passata da MarcHelper");
     } catch (Exception exception) {
       throw new ExceptionInInitializerError(exception);
     }
@@ -169,7 +168,6 @@ public abstract class MarccatHelper {
         service.setSession(session);
         result = adapter.execute(service, configuration(settings));
         service.getSession().close();
-        //sessionFactory.close();
         return result;
       } catch (final SQLException exception) {
         throw new DataAccessException(exception);
