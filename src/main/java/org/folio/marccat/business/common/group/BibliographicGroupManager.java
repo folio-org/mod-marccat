@@ -32,6 +32,7 @@ public class BibliographicGroupManager extends MarcGroupManager implements Filte
       add(new RegExpGroup(false, false, "1\\d\\d"));
       add(new RegExpGroup(false, false, "245"));
       add(new RegExpGroup(true, true, "210|222|240|242|243|246|247"));
+      add(new RegExpGroup(true, false, "250|251|254|255|256|257|258"));
       add(new RegExpGroup(false, false, "260"));
       add(new RegExpGroup(false, false, "264"));
       add(new RegExpGroup(true, true, "3\\d\\d"));
