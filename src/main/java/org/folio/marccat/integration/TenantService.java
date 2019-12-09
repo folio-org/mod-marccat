@@ -185,21 +185,11 @@ public class TenantService {
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName = tenant + marccatSuffix;
     final Map <String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
-    logger.debug("Host from application.yml : " + host);
-    logger.debug("Port from application.yml : " + port);
-    logger.debug("DB username from application.yml : " + adminUser);
-    logger.debug("DB password from application.yml : " + adminPassword);
-
     if (!env.isEmpty() && external.equals("false")) {
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
-
-      logger.debug("Host from okapi env: " + host);
-      logger.debug("Port from okapi env: " + port);
-      logger.debug("DB username from okapi env: " + adminUser);
-      logger.debug("DB password from okapi env: " + adminPassword);
     }
     createRole();
     boolean databaseNotExist = databaseExists(databaseName);
