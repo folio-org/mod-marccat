@@ -1,11 +1,13 @@
 package org.folio.marccat.integration;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import net.sf.hibernate.FlushMode;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.SessionFactory;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
 import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,6 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
-
 import static java.util.stream.Collectors.toMap;
 import static org.folio.marccat.config.constants.Global.HCONFIGURATION;
 
@@ -36,12 +37,14 @@ public abstract class MarccatHelper {
   private final static Properties DEFAULT_VALUES = new Properties();
   private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
+  private static SessionFactory sessionFactory =  null;
 
 
   static {
     try {
       DEFAULT_VALUES.load(MarccatHelper.class.getResourceAsStream("/defaults.properties"));
-     } catch (Exception exception) {
+      sessionFactory =  HCONFIGURATION.buildSessionFactory();
+    } catch (Exception exception) {
       throw new ExceptionInInitializerError(exception);
     }
   }
@@ -155,13 +158,17 @@ public abstract class MarccatHelper {
     final Configuration configurator,
     final String... configurationSets) {
     try {
-       final ObjectNode settings = configurator.attributes(tenant, okapiUrl,true, configurationSets);
+      final T result;
+      final ObjectNode settings = configurator.attributes(tenant, okapiUrl,true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
-      try (final Connection connection = datasource.getConnection();
-           final StorageService service =
-             new StorageService(
-               HCONFIGURATION.buildSessionFactory().openSession(connection))) {
-        return adapter.execute(service, configuration(settings));
+      try (final Connection connection = datasource.getConnection()) {
+        final StorageService service = new StorageService();
+        Session session = sessionFactory.openSession(connection);
+        session.setFlushMode(FlushMode.COMMIT);
+        service.setSession(session);
+        result = adapter.execute(service, configuration(settings));
+        service.getSession().close();
+        return result;
       } catch (final SQLException exception) {
         throw new DataAccessException(exception);
       } catch (Exception exception) {

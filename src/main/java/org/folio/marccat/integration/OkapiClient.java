@@ -1,17 +1,17 @@
 package org.folio.marccat.integration;
 
 import io.vertx.core.json.Json;
-import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.resources.domain.DeploymentDescriptor;
 import org.folio.marccat.resources.domain.EnvEntry;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +35,17 @@ public class OkapiClient {
    */
   private final RestTemplate client;
 
+  /**
+   * The external database.
+   */
+  @Value("${spring.datasource.external}")
+  private String external;
+
+  /**
+   * The external host of okapi.
+   */
+  @Value("${spring.datasource.host}")
+  private String host;
 
   /**
    * The url of the modules.
@@ -62,7 +73,7 @@ public class OkapiClient {
    * @param url the new okapi url
    */
   public void setOkapiUrl(String url) {
-    okapiUrl = url;
+     okapiUrl = url;
   }
 
   /**
@@ -71,11 +82,11 @@ public class OkapiClient {
    * @return the okapi url
    */
   public String getOkapiUrl() {
-    return okapiUrl;
+    return replaceRemoteHost(okapiUrl);
   }
 
 
-   /**
+  /**
    * Builds the url of a module from Okapi.
    *
    * @param moduleDescription the module description.
@@ -91,6 +102,7 @@ public class OkapiClient {
       for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
         if (deployDescriptor.getSrvcId().contains(moduleDescription)) {
           moduleUrl = (deployDescriptor.getUrl() + subdomain);
+          moduleUrl = replaceRemoteHost(moduleUrl);
         }
       }
     } catch (RestClientException exception) {
@@ -107,24 +119,45 @@ public class OkapiClient {
    */
   public Map <String, String> getModuleEnvs(final String moduleDescription) {
     EnvEntry[] env = null;
-    final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_DISCOVERY_MODULES, String.class);
-    final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
-    for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
-      if (deployDescriptor.getSrvcId().contains(moduleDescription)) {
-        env = deployDescriptor.getDescriptor().getEnv();
-      }
-    }
     final HashMap <String, String> entries = new HashMap <>();
-    if (env != null) {
-      for (EnvEntry e : env) {
-        entries.put(e.getName(), e.getValue());
-        logger.debug("Environment variables");
-        logger.debug("Name: " + e.getName());
-        logger.debug("Value: " + e.getValue());
+    try {
+      final ResponseEntity <String> response = client.getForEntity(okapiUrl + OKAPI_URL_DISCOVERY_MODULES, String.class);
+      final DeploymentDescriptor[] deploymentDescriptorList = Json.decodeValue(response.getBody(), DeploymentDescriptor[].class);
+      for (DeploymentDescriptor deployDescriptor : deploymentDescriptorList) {
+        if (deployDescriptor.getSrvcId().contains(moduleDescription)) {
+          if (deployDescriptor.getDescriptor() != null && deployDescriptor.getDescriptor().getEnv() != null)
+            env = deployDescriptor.getDescriptor().getEnv();
+        }
       }
+      if (env != null) {
+        for (EnvEntry e : env) {
+          entries.put(e.getName(), e.getValue());
+        }
+      }
+    } catch (RestClientException exception) {
+      logger.error(Message.MOD_MARCCAT_00034_CLIENT_FAILURE, exception);
     }
     return entries;
   }
 
+  /**
+   * Replace the host in the url.
+   *
+   * @param path the url.
+   * @return the url
+   */
+  public String replaceRemoteHost(String path) {
+    final URL url;
+    try {
+      url = new URL(path);
+      final String remoteHost = url.getHost();
+      if(external.equals("true"))
+        path = path.replace(remoteHost, host);
+      logger.debug("URL:" + path);
+    } catch (MalformedURLException e) {
+      logger.debug("Wrong URL");
+    }
+    return path;
+  }
 
 }

@@ -76,6 +76,12 @@ public class TenantService {
   private String port;
 
   /**
+   * The external datasource.
+   */
+  @Value("${spring.datasource.external}")
+  private String external;
+
+  /**
    * The host.
    */
   @Value("${spring.datasource.host}")
@@ -179,7 +185,7 @@ public class TenantService {
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName = tenant + marccatSuffix;
     final Map <String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
-    if (!env.isEmpty()) {
+    if (!env.isEmpty() && external.equals("false")) {
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");

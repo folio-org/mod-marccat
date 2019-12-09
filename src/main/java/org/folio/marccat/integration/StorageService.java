@@ -104,16 +104,29 @@ public class StorageService implements Closeable {
     THIRD_CORRELATION_HEADING_CLASS_MAP.put(11, NameSubType.class);
   }
 
-  private final Session session;
+  private  Session session;
+
+  public StorageService() {
+  }
+
+  public void setSession(Session session) {
+    this.session = session;
+  }
+
+  public Session getSession() {
+    return session;
+  }
+
+
 
   /**
    * Builds a new {@link StorageService} with the given session.
    *
    * @param session the Hibernate session, which will be used for gathering a connection to the RDBMS.
    */
-  StorageService(final Session session) {
+  /*StorageService(final Session session) {
     this.session = session;
-  }
+  }*/
 
   /**
    * Returns the skip in filing associated with the given language.
