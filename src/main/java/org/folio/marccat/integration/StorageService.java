@@ -617,7 +617,7 @@ public class StorageService implements Closeable {
       browseTerm = descriptor.getSortForm();
 
       descriptorsList = dao.getHeadingsBySortform("<", "desc", browseTerm, filter, view, 1, session);
-      if (!(dao instanceof PublisherDescriptorDAO) && descriptorsList.isEmpty()) {
+      if (!(dao instanceof PublisherDescriptorDAO) && !descriptorsList.isEmpty()) {
         browseTerm = dao.getBrowsingSortForm(descriptorsList.get(0));
         descriptorsList.clear();
       }
@@ -1065,8 +1065,8 @@ public class StorageService implements Closeable {
           if (dao instanceof ShelfListDAO) {
             filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
           }
-          browseTerm = descriptor.getDisplayText();
-          browseTerm = descriptor.getSortForm();/*dao.calculateSearchTerm(browseTerm, key, session);*/
+          descriptor.calculateAndSetSortForm();
+          browseTerm = descriptor.getSortForm();
 
           if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
             operator = ">=";
