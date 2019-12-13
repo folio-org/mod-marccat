@@ -351,7 +351,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getComputerFileTypeCode());
       sb.append(" ");
       sb.append(fixedField.getGovernmentPublicationCode());
-      sb.append("       ");
+      sb.append("      ");
     } else if (gi.isMap()) {
       sb.append(fixedField.getCartographicReliefCode1());
       sb.append(fixedField.getCartographicReliefCode2());
