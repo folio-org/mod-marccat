@@ -106,9 +106,6 @@ public class StorageService implements Closeable {
 
   private  Session session;
 
-  public StorageService() {
-  }
-
   public void setSession(Session session) {
     this.session = session;
   }
@@ -117,16 +114,6 @@ public class StorageService implements Closeable {
     return session;
   }
 
-
-
-  /**
-   * Builds a new {@link StorageService} with the given session.
-   *
-   * @param session the Hibernate session, which will be used for gathering a connection to the RDBMS.
-   */
-  /*StorageService(final Session session) {
-    this.session = session;
-  }*/
 
   /**
    * Returns the skip in filing associated with the given language.
