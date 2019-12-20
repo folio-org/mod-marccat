@@ -6,7 +6,6 @@
 \echo
 \echo MARCCAT DB 1.3 - Start -------------------------------------------------------------
 \echo
-\ir patch-check.sql
 \ir patch01.sql
 \ir patch_hstry_upd.sql
 \echo
