@@ -252,8 +252,9 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
   public void setAccessPointStringText(final StringText stringText) {
     workRelatorCode = stringText.getSubfieldsWithCodes(Global.WORK_REL_SUBFIELD_CODE).toString();
     if(workRelatorCode.isEmpty()) {
-      stringText.addSubfield(new Subfield(Global.WORK_REL_SUBFIELD_CODE, Global.UNDEFINED));
-      workRelatorCode = stringText.getSubfieldsWithCodes(Global.WORK_REL_SUBFIELD_CODE).toString();
+     // stringText.addSubfield(new Subfield(Global.WORK_REL_SUBFIELD_CODE, Global.UNDEFINED));
+      //workRelatorCode = stringText.getSubfieldsWithCodes(Global.WORK_REL_SUBFIELD_CODE).toString();
+      workRelatorCode = Global.UNDEFINED;
     }
     workRelatorStringtext = stringText.getSubfieldsWithCodes(Global.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
   }
