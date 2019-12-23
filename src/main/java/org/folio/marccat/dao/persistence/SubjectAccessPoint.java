@@ -234,7 +234,12 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    */
   public StringText getAccessPointStringText() {
     StringText text = new StringText(workRelatorStringtext);
-    text.parse(workRelatorCode);
+    StringBuilder workRelatorWithDelimiter = new StringBuilder()
+      .append(Global.SUBFIELD_DELIMITER)
+      .append(Global.WORK_REL_SUBFIELD_CODE)
+      .append(workRelatorCode);
+    if (!workRelatorCode.trim().equals(Global.UNDEFINED))
+      text.parse(workRelatorWithDelimiter.toString());
     return text;
   }
 
@@ -245,7 +250,16 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    */
   public void setAccessPointStringText(final StringText stringText) {
     workRelatorCode = stringText.getSubfieldsWithCodes(Global.WORK_REL_SUBFIELD_CODE).toString();
+    workRelatorCode = getWorkRelatorCodeString();
     workRelatorStringtext = stringText.getSubfieldsWithCodes(Global.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
+  }
+
+  /**
+   * Gets the work relator code in string
+   */
+  private String getWorkRelatorCodeString() {
+    return (workRelatorCode.isEmpty()) ? Global.UNDEFINED :
+      workRelatorCode.replace(Global.SUBFIELD_DELIMITER + Global.WORK_REL_SUBFIELD_CODE, "");
   }
 
   /**

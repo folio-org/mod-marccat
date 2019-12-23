@@ -179,6 +179,7 @@ public abstract class Global {
   public static final List<String> SKIP_IN_FILING_CODES = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
   public static final String MODULE_CONFIGURATION = "mod-configuration";
   public static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
+  public static final String UNDEFINED ="und";
 
   static {
     TAGS.put("001", "Control Number  (NR)");

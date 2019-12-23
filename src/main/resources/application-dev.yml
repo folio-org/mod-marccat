@@ -39,8 +39,9 @@ admin:
   password: folio_admin
 
 patch:
-    database: /database-setup/patches/MARCCAT_DB/1.2
-    procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
+  database: /database-setup/patches/MARCCAT_DB/1.2
+  database2: /database-setup/patches/MARCCAT_DB/1.3
+  procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
 
 server:
   port: 8081
