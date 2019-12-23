@@ -3,7 +3,6 @@ package org.folio.marccat.dao.persistence;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -238,9 +237,9 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
     StringBuilder workRelatorWithDelimiter = new StringBuilder()
       .append(Global.SUBFIELD_DELIMITER)
       .append(Global.WORK_REL_SUBFIELD_CODE)
-      .append(Global.UNDEFINED);
-    if (!workRelatorCode.equals(workRelatorWithDelimiter.toString()))
-      text.parse(workRelatorCode);
+      .append(workRelatorCode);
+    if (!workRelatorCode.equals(Global.UNDEFINED))
+      text.parse(workRelatorWithDelimiter.toString());
     return text;
   }
 
@@ -251,12 +250,12 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    */
   public void setAccessPointStringText(final StringText stringText) {
     workRelatorCode = stringText.getSubfieldsWithCodes(Global.WORK_REL_SUBFIELD_CODE).toString();
-    if(workRelatorCode.isEmpty()) {
-     // stringText.addSubfield(new Subfield(Global.WORK_REL_SUBFIELD_CODE, Global.UNDEFINED));
-      //workRelatorCode = stringText.getSubfieldsWithCodes(Global.WORK_REL_SUBFIELD_CODE).toString();
-      workRelatorCode = Global.UNDEFINED;
-    }
+    workRelatorCode = getWorkRelatorCodeString();
     workRelatorStringtext = stringText.getSubfieldsWithCodes(Global.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
+  }
+
+  private String getWorkRelatorCodeString() {
+    return (workRelatorCode.isEmpty()) ? Global.UNDEFINED : workRelatorCode.replaceAll(Global.SUBFIELD_DELIMITER + Global.WORK_REL_SUBFIELD_CODE, "");
   }
 
   /**
