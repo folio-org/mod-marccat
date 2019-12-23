@@ -238,7 +238,7 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
       .append(Global.SUBFIELD_DELIMITER)
       .append(Global.WORK_REL_SUBFIELD_CODE)
       .append(workRelatorCode);
-    if (!workRelatorCode.equals(Global.UNDEFINED))
+    if (!workRelatorCode.trim().equals(Global.UNDEFINED))
       text.parse(workRelatorWithDelimiter.toString());
     return text;
   }
@@ -255,7 +255,8 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
   }
 
   private String getWorkRelatorCodeString() {
-    return (workRelatorCode.isEmpty()) ? Global.UNDEFINED : workRelatorCode.replaceAll(Global.SUBFIELD_DELIMITER + Global.WORK_REL_SUBFIELD_CODE, "");
+    return (workRelatorCode.isEmpty()) ? Global.UNDEFINED :
+      workRelatorCode.replaceAll(Global.SUBFIELD_DELIMITER + Global.WORK_REL_SUBFIELD_CODE, "");
   }
 
   /**
