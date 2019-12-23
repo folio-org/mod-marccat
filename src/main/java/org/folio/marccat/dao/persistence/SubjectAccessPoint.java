@@ -254,6 +254,9 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
     workRelatorStringtext = stringText.getSubfieldsWithCodes(Global.SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES).toString();
   }
 
+  /**
+   * Gets the work relator code in string
+   */
   private String getWorkRelatorCodeString() {
     return (workRelatorCode.isEmpty()) ? Global.UNDEFINED :
       workRelatorCode.replace(Global.SUBFIELD_DELIMITER + Global.WORK_REL_SUBFIELD_CODE, "");
