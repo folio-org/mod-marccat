@@ -8,6 +8,8 @@ import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,12 +34,12 @@ public class TenantAPI {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl,
     @RequestBody TenantAttributes attributes
-  ){
+  ) throws SQLException, IOException {
     logger.debug("URL OKAPI:" + okapiUrl);
     okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
-   // tenantService.createTenant(tenant, okapiUrl);
-    tenantRefService.loadData(attributes, okapiHeaders);
+    tenantService.createTenant(tenant, okapiUrl);
+    //tenantRefService.loadData(attributes, okapiHeaders);
     return new ResponseEntity("Success", CREATED);
   }
 
