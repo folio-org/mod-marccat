@@ -217,6 +217,7 @@ public abstract class MarccatHelper {
     logger.debug("DATABASE USER: " + config.get("user"));
     logger.debug("DATABASE PASSWORD: " + config.get("password"));
     logger.debug("DATABASE URL: " + config.get("url"));
+    System.out.println(config.get("url"));
     return DataSourceBuilder
       .create()
       .username(config.get("user"))

@@ -1,4 +1,4 @@
-package org.folio.marccat.domain;
+package org.folio.marccat.resources.shared;
 
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.FixedField;

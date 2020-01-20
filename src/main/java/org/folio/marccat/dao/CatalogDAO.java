@@ -8,7 +8,6 @@ import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UpdateStatus;
-import org.folio.marccat.business.controller.UserProfile;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;

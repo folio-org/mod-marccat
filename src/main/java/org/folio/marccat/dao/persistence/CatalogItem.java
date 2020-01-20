@@ -305,8 +305,8 @@ public abstract class CatalogItem implements Serializable {
    * @throws ValidationException in case of validation exception.
    * @throws DataAccessException in case of data access exception.
    */
-  public void validate() {
-    checkForMandatoryTags(this.session);
+  public void validate(Session session) {
+    checkForMandatoryTags(session);
     for (int i = 0; i < getTags().size(); i++) {
       checkRepeatability(i);
       getTag(i).validate(i);

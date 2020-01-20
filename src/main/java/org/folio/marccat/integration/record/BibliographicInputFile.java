@@ -120,7 +120,7 @@ public class BibliographicInputFile {
 
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
 
-      item.validate();
+      item.validate(session);
       dao.saveCatalogItem(item, session);
 
       stats.setRecordsAdded(stats.getRecordsAdded() + 1);
@@ -196,7 +196,10 @@ public class BibliographicInputFile {
       Correlation corr = impl.getCorrelation(df.getTag(), df.getIndicator1(), df.getIndicator2(), 0, session);
       Tag newTag = null;
       try {
-        newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+        if(corr == null)
+          logger.debug("The tag does not exist: " + df.getTag() + " " + df.getIndicator1() + " " + df.getIndicator2());
+        else
+          newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       } catch (RuntimeException e) {
         logger.error(e.getMessage(), e);
 

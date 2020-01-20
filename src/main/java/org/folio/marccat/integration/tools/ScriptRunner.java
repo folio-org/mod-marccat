@@ -1,18 +1,19 @@
-package org.folio.marccat.integration;
+package org.folio.marccat.integration.tools;
 
 /**
  * Tool to run database scripts
  */
 
-import java.io.*;
-import java.sql.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
 import org.folio.marccat.config.log.Log;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
+
+import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The Class ScriptRunner.

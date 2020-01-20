@@ -26,7 +26,7 @@ public class LoadFromFileAPI extends BaseResource {
   public ResponseEntity<?> loadRecords(
     @RequestParam("files") MultipartFile uploadfiles,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestParam(name = "startRecord", defaultValue = "0") final int startRecord,
+    @RequestParam(name = "startRecord", defaultValue = "1") final int startRecord,
     @RequestParam(name = "numberOfRecords", defaultValue = "50") final int numberOfRecords,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
