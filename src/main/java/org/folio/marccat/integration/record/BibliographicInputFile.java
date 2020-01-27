@@ -19,6 +19,7 @@ import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.util.StringText;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
@@ -206,26 +207,17 @@ public class BibliographicInputFile {
       }
 
       if (newTag != null) {
-        StringText st = stringTextFromSubfield(df.getSubfields());
+         StringText st = stringTextFromSubfield(df.getSubfields());
         ((VariableField) newTag).setStringText(st);
         if (newTag instanceof Browsable) {
-
           ((Browsable) newTag).setDescriptorStringText(st);
           Descriptor d = ((Browsable) newTag).getDescriptor();
-          d.setUserViewString(View.makeSingleViewString(view));
-          Descriptor dup;
-          try {
-            dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
-            if (dup == null) {
-              d.setConfigValues(configuration);
-              d.generateNewKey(session);
-              d.getDAO().save(d, session);
-            } else {
-              ((Browsable) newTag).setDescriptor(dup);
-            }
-          } catch (HibernateException | SQLException e) {
-            throw new DataAccessException(e);
-          }
+          Descriptor dup = createOrReplaceDescriptor(session, view, configuration, newTag, d);
+          if(dup != null)
+            ((Browsable) newTag).setDescriptor(dup);
+        }
+        else if (newTag.isPublisher()) {
+          createPublisherDescriptor(session, view, configuration, newTag);
         }
         newTag.setCorrelationKey(impl.getMarcEncoding(newTag, session));
         newTag.setValidation(impl.getValidation(newTag, session));
@@ -233,6 +225,7 @@ public class BibliographicInputFile {
       }
     });
   }
+
 
   /**
    * Adds variable fileds to catalog item.
@@ -255,6 +248,8 @@ public class BibliographicInputFile {
           final String formOfMaterial = ofNullable(rtm).map(material -> rtm.getAmicusMaterialTypeCode()).orElse(" ");
 
           final MaterialDescription md = new MaterialDescription();
+          //TODO prendere il valore
+          md.setCartographicMaterial("u");
           md.setFormOfMaterial(formOfMaterial);
           md.setMaterialDescription008Indicator(("006".equals(field.getTag()) ? "0" : "1"));
           md.setItemEntity(item.getItemEntity());
@@ -312,7 +307,7 @@ public class BibliographicInputFile {
    * @return the string text.
    */
   private StringText stringTextFromSubfield(List<Subfield> subfields) {
-    return new StringText(subfields.stream().map(s -> (s.getCode() + s.getData())).collect(Collectors.joining()));
+    return new StringText(subfields.stream().map(s -> (Global.SUBFIELD_DELIMITER + s.getCode() + s.getData())).collect(Collectors.joining()));
   }
 
   public int getLoadingStatisticsNumber() {
@@ -327,4 +322,43 @@ public class BibliographicInputFile {
   public void setStats(LDG_STATS stats) {
     this.stats = stats;
   }
+
+  /**
+   * Save a publisher heading, if the capture already exists
+   *
+   * @param session       the hibernate session associated.
+   * @param view          the view.
+   * @param configuration the configuration.
+   * @param newTag        the new tag.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void createPublisherDescriptor(final Session session, final int view, final Map <String, String> configuration, final Tag newTag){
+    final List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
+    for (PUBL_TAG publisherTag : publisherTagUnits) {
+      final Descriptor descriptor = publisherTag.getDescriptor();
+      Descriptor dup = createOrReplaceDescriptor(session, view, configuration, newTag, descriptor);
+      if(dup != null)
+        publisherTag.setDescriptor((PUBL_HDG) dup);
+    }
+  }
+
+  private Descriptor createOrReplaceDescriptor(Session session, int view, Map <String, String> configuration, Tag newTag, Descriptor d) {
+    d.setUserViewString(View.makeSingleViewString(view));
+    d.setConfigValues(configuration);
+    Descriptor dup;
+    try {
+      dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
+      if (dup == null) {
+        d.generateNewKey(session);
+        d.getDAO().save(d, session);
+      } //else {
+        //TODO ritornare il descrittore in questo caso e settarlo nel tag solo se != null
+        //newTag.setDescriptor(dup);
+      //}
+      return dup;
+    } catch (HibernateException | SQLException e) {
+      throw new DataAccessException(e);
+    }
+  }
+
 }

@@ -111,7 +111,7 @@ public class BibliographicItem extends CatalogItem implements Serializable {
    */
   public Element toXmlElement(Document xmlDocument) {
     Element record = xmlDocument.createElement("record");
-    Iterator tagIterator = this.tags.iterator();
+    Iterator tagIterator = this.getTags().iterator();
     while (tagIterator.hasNext()) {
       Tag tag = (Tag) tagIterator.next();
       record.appendChild(tag.toXmlElement(xmlDocument));

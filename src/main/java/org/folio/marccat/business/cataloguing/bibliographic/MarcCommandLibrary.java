@@ -81,21 +81,7 @@ public class MarcCommandLibrary {
       (newDescriptor.getKey().getHeadingNumber()));
   }
 
-  public static Tag replaceTagWithClone(CatalogItem catalogItem, Tag srcTag) {
-    Tag newTag = (Tag) deepCopy(srcTag);
-    if (newTag instanceof PersistsViaItem) {
-      ((PersistsViaItem) newTag).setItemEntity(
-        ((PersistsViaItem) srcTag).getItemEntity());
-    }
-    newTag.markNew();
-    if (!srcTag.isNew()) {
-      srcTag.markDeleted();
-      catalogItem.addDeletedTag(srcTag);
-    }
 
-    catalogItem.setTag(srcTag, newTag);
-    return newTag;
-  }
 
   public static Descriptor createNewDescriptor(final Descriptor currDescriptor, final String headingView, final Session session) throws DataAccessException, HibernateException, SQLException {
     if (!currDescriptor.isNew()) return currDescriptor;
