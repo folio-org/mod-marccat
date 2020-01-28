@@ -46,7 +46,7 @@ public class LoadFromFileAPI extends BaseResource {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
-    }, tenant, okapiUrl, configurator, () -> !uploadfiles.isEmpty(), "title", "name", "subject");
+    }, tenant, okapiUrl, configurator, () -> !uploadfiles.isEmpty(), "bibliographic", "material", "title", "name", "subject");
   }
 
 }

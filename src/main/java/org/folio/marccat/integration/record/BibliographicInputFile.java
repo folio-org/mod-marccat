@@ -114,10 +114,10 @@ public class BibliographicInputFile {
       List<ControlField> controlFields = record.getControlFields();
       addControlFieldToItem(item, controlFields, impl, session, catalog, leaderTag);
 
+      item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
+
       List<DataField> dataFields = record.getDataFields();
       addDataFieldToItem(item, dataFields, impl, session, catalog, cataloguingView, configuration);
-
-      item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
 
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
 
