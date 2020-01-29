@@ -475,13 +475,13 @@ public class FixedFieldUtils {
 
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialFrequencyCode", storageService.getCodesList(lang, SRL_FREQUENCY).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialRegularityCode", storageService.getCodesList(lang, SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialTypeCode", storageService.getCodesList(lang, SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialTypeCode", storageService.getCodesList(lang, SRL_TYPE_CONTINUING_RESOURCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialFormOriginalItemCode", storageService.getCodesList(lang, SRL_FORM_ORGNL_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfEntireWork", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent1", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent2", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent3", natureOfContents));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent4", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("conferencePublicationCode", storageService.getCodesList(lang, CONF_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("serialOriginalAlphabetOfTitleCode", storageService.getCodesList(lang, SRL_ORIGIN_ALPHABET).stream().map(toPairItem).collect(toList())));

@@ -91,10 +91,10 @@ public class ConversionFieldUtils {
       fixedField.setSerialTypeCode(String.valueOf(displayValue.charAt(startPosition + 2)));
       fixedField.setSerialFormOriginalItemCode(String.valueOf(displayValue.charAt(startPosition + 4)));
       fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
-      fixedField.setNatureOfContent1(String.valueOf(displayValue.charAt(startPosition + 6)));
-      fixedField.setNatureOfContent2(String.valueOf(displayValue.charAt(startPosition + 7)));
-      fixedField.setNatureOfContent3(String.valueOf(displayValue.charAt(startPosition + 8)));
-      fixedField.setNatureOfContent4(String.valueOf(displayValue.charAt(startPosition + 9)));
+      fixedField.setNatureOfEntireWork(String.valueOf(displayValue.charAt(startPosition + 6)));
+      fixedField.setNatureOfContent1(String.valueOf(displayValue.charAt(startPosition + 7)));
+      fixedField.setNatureOfContent2(String.valueOf(displayValue.charAt(startPosition + 8)));
+      fixedField.setNatureOfContent3(String.valueOf(displayValue.charAt(startPosition + 9)));
       fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition + 10)));
       fixedField.setConferencePublicationCode(String.valueOf(displayValue.charAt(startPosition + 11)));
       fixedField.setSerialOriginalAlphabetOfTitleCode(String.valueOf(displayValue.charAt(startPosition + 15)));
@@ -335,6 +335,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getSerialTypeCode());
       sb.append(fixedField.getSerialFormOriginalItemCode());
       sb.append(fixedField.getFormOfItemCode());
+      sb.append(fixedField.getNatureOfEntireWork());
       sb.append(fixedField.getNatureOfContent1());
       sb.append(fixedField.getNatureOfContent2());
       sb.append(fixedField.getNatureOfContent3());

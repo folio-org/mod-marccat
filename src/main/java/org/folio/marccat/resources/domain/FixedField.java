@@ -14,7 +14,7 @@ import java.util.Map;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile",
   "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3",
-  "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfContent1", "natureOfContent2", "natureOfContent3", "natureOfContent4",
+  "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfEntireWork","natureOfContent1", "natureOfContent2", "natureOfContent3", "natureOfContent4",
   "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode", "bookBiographyCode",
   "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial",
   "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2", "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode",
@@ -95,6 +95,9 @@ public class FixedField {
 
   @JsonProperty("formOfItemCode")
   private String formOfItemCode;
+
+  @JsonProperty("natureOfEntireWork")
+  private String natureOfEntireWork;
 
   @JsonProperty("natureOfContent1")
   private String natureOfContent1;
@@ -806,6 +809,29 @@ public class FixedField {
   public FixedField withFormOfItemCode(String formOfItemCode) {
     this.attributes.put("formOfItemCode", formOfItemCode);
     this.formOfItemCode = formOfItemCode;
+    return this;
+  }
+
+  /**
+   * @return The natureOfEntireWork
+   */
+  @JsonProperty("natureOfEntireWork")
+  public String getNatureOfEntireWork() {
+    return natureOfEntireWork;
+  }
+
+  /**
+   * @param natureOfEntireWork The natureOfEntireWork
+   */
+  @JsonProperty("natureOfEntireWork")
+  public void setNatureOfEntireWork(String natureOfEntireWork) {
+    this.attributes.put("natureOfEntireWork", natureOfEntireWork);
+    this.natureOfEntireWork = natureOfEntireWork;
+  }
+
+  public FixedField withNatureOfEntireWork(String natureOfEntireWork) {
+    this.attributes.put("natureOfEntireWork", natureOfEntireWork);
+    this.natureOfEntireWork = natureOfEntireWork;
     return this;
   }
 
