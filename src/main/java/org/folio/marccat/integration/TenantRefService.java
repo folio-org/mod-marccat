@@ -1,5 +1,6 @@
 package org.folio.marccat.integration;
 
+import org.folio.marccat.config.log.Log;
 import org.folio.marccat.integration.tools.TenantLoading;
 import org.folio.rest.jaxrs.model.Parameter;
 import org.folio.rest.jaxrs.model.TenantAttributes;
@@ -13,6 +14,8 @@ import java.util.*;
  */
 @Service("TenantRefService")
 public class TenantRefService {
+
+  private static final Log logger = new Log(TenantRefService.class);
 
   /** The Constant SAMPLE_LEAD. */
   private static final String SAMPLE_LEAD = "sample-data";
@@ -39,10 +42,12 @@ public class TenantRefService {
    * @param headers the headers
    */
   public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers){
+    logger.debug("Start sample data loading");
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
     if (loadData) {
       tl.perform(tenantAttributes, headers);
     }
+    logger.debug("End sample data loading");
   }
 
 
