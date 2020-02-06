@@ -37,7 +37,7 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 public class TenantLoading {
 
   /** The Constant logger. */
-  private static final Log logger = new Log(TenantRefService.class);
+  private static final Log logger = new Log(TenantLoading.class);
 
   /**
    * The Client.
@@ -198,6 +198,7 @@ public class TenantLoading {
       filePath = filePath + '/' + loadingEntry.filePath;
     }
     final String endPointUrl = okapiUrl + "/" + loadingEntry.uriPath ;
+    logger.debug("Load data URL "+endPointUrl);
     try {
       List<URL> urls = getURLsFromClassPathDir(filePath);
       if (urls.isEmpty()) {
