@@ -198,7 +198,7 @@ public class TenantLoading {
       filePath = filePath + '/' + loadingEntry.filePath;
     }
     final String endPointUrl = okapiUrl + "/" + loadingEntry.uriPath ;
-    logger.debug("Load data URL "+endPointUrl);
+    logger.debug("Load data URL "+ endPointUrl);
     try {
       List<URL> urls = getURLsFromClassPathDir(filePath);
       if (urls.isEmpty()) {
