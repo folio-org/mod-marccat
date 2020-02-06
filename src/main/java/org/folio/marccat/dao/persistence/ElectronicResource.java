@@ -23,7 +23,7 @@ public class ElectronicResource extends PhysicalDescription {
   private char antecedentSourceCode;
   private char levelOfCompressionCode;
   private char reformattingQualityCode;
-  private char obsolete1;
+  private char obsolete1 = 'u';
 
 
   public ElectronicResource() {

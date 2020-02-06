@@ -21,7 +21,7 @@ public class ProjectedGraphic extends PhysicalDescription {
   private char mediumForSoundCode;
   private char dimensionsCode;
   private char secondarySupportMaterialCode;
-  private char obsolete1;
+  private char obsolete1 = 'u';
 
   public ProjectedGraphic() {
     super();

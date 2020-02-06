@@ -83,7 +83,7 @@ public class DAOBibItem extends AbstractDAO {
    * @throws HibernateException -- in case of hibernate exception.
    */
   @SuppressWarnings("unchecked")
-  public BIB_ITM load(final int id, final int userView, final Session session) throws HibernateException {
+  public BIB_ITM load(final int id, final int userView, final Session session) throws HibernateException, RecordNotFoundException {
     List<BIB_ITM> l =
       session.find("from BIB_ITM as itm where itm.amicusNumber = ? "
           + " and SUBSTR(itm.userViewString, ?, 1) = '1'",

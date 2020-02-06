@@ -94,8 +94,12 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       for (Object o : item.getTags()) {
         if (o instanceof BibliographicRelationshipTag) {
           BibliographicRelationshipTag t = (BibliographicRelationshipTag) o;
-          CatalogItem relItem = getBibliographicItemByAmicusNumber(t.getTargetBibItemNumber(), item.getUserView(), session);
-          updateFullRecordCacheTable(session, relItem, false);
+          System.out.println(t.getItemNumber());
+          System.out.println(t.getTargetBibItemNumber());
+          if(t.getTargetBibItemNumber() > 0) {
+            CatalogItem relItem = getBibliographicItemByAmicusNumber(t.getTargetBibItemNumber(), item.getUserView(), session);
+            updateFullRecordCacheTable(session, relItem, false);
+          }
         }
       }
     }
@@ -484,7 +488,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws HibernateException  in case of hibernate exception.
    * @throws DataAccessException in case of data access exception.
    */
-  private BibliographicItem getBibliographicItem(final int amicusNumber, final int userView, final Session session) throws HibernateException {
+  private BibliographicItem getBibliographicItem(final int amicusNumber, final int userView, final Session session) throws HibernateException, RecordNotFoundException {
 
     final BibliographicItem item = new BibliographicItem();
 

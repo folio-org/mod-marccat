@@ -20,7 +20,7 @@ public class Map extends PhysicalDescription {
   private char mapTypeOfReproductionCode;
   private char mapProductionDetailsCode;
   private char mapPolarityCode;
-  private char obsolete1;
+  private char obsolete1 = 'u';
 
   public Map() {
     super();
