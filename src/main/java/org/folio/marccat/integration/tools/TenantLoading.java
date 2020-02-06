@@ -177,9 +177,9 @@ public class TenantLoading {
     LoadingEntry le = it.next();
     if (ta != null) {
       for (Parameter parameter : ta.getParameters()) {
-        if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
+        //if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
           loadData(okapiUrl, headers, le);
-        }
+        //}
       }
     }
   }

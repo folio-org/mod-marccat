@@ -45,9 +45,9 @@ public class TenantRefService {
     logger.debug("Start sample data loading");
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
     logger.debug("Is Load data " + loadData);
-    if (loadData) {
+   // if (loadData) {
       tl.perform(tenantAttributes, headers);
-    }
+    //}
     logger.debug("End sample data loading");
   }
 
@@ -103,7 +103,8 @@ public class TenantRefService {
     boolean loadSample = false;
     List<Parameter> parameters = tenantAttributes.getParameters();
     for (Parameter parameter : parameters) {
-      logger.debug("Parameter " + parameter.getKey());
+      logger.debug("Load Sample Parameter " + parameter.getKey());
+      logger.debug("Load Sample Value " + parameter.getValue());
       if (SAMPLE_KEY.equals(parameter.getKey())) {
         loadSample = Boolean.parseBoolean(parameter.getValue());
       }
