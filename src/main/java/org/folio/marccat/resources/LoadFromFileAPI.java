@@ -2,6 +2,8 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.integration.TenantRefService;
 import org.folio.marccat.resources.domain.ResultLoaderCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import static org.folio.marccat.resources.shared.MappingUtils.setMapToResult;
 @RequestMapping(value = BASE_URI, produces = "application/json")
 public class LoadFromFileAPI extends BaseResource {
 
+  private static final Log logger = new Log(LoadFromFileAPI.class);
 
   @PostMapping("/load-from-file")
   public ResponseEntity<?> loadRecords(
@@ -38,6 +41,7 @@ public class LoadFromFileAPI extends BaseResource {
         final List<MultipartFile> files = Arrays.asList(uploadfiles);
         container.setResultLoaders(
           files.stream().map(file -> {
+            logger.debug("Start load from file");
             final Map<String, Object> map = storageService.loadRecords(file, startRecord, numberOfRecords, view, configuration);
             return setMapToResult(map);
           }).collect(Collectors.toList()));

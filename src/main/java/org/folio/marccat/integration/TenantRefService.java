@@ -44,6 +44,7 @@ public class TenantRefService {
   public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers){
     logger.debug("Start sample data loading");
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
+    logger.debug("Is Load data " + loadData);
     if (loadData) {
       tl.perform(tenantAttributes, headers);
     }
@@ -70,7 +71,7 @@ public class TenantRefService {
       tl.add("load-from-file", "marccat/load-from-file");
       loadData = true;
     }
-
+    logger.debug("Load data = " + loadData);
     return loadData;
   }
 
@@ -102,6 +103,7 @@ public class TenantRefService {
     boolean loadSample = false;
     List<Parameter> parameters = tenantAttributes.getParameters();
     for (Parameter parameter : parameters) {
+      logger.debug("Parameter " + parameter.getKey());
       if (SAMPLE_KEY.equals(parameter.getKey())) {
         loadSample = Boolean.parseBoolean(parameter.getValue());
       }
