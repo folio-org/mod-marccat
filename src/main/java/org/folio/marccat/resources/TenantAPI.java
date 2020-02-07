@@ -40,8 +40,6 @@ public class TenantAPI {
     okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
     tenantService.createTenant(tenant, okapiUrl);
-    final ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.writeValue(System.out, attributes);
     tenantRefService.loadData(attributes, okapiHeaders);
     return new ResponseEntity("Success", CREATED);
   }
