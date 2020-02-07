@@ -85,6 +85,11 @@ public abstract class MarccatHelper {
     final BooleanSupplier validator,
     final String... configurationSets) {
     if (validator.getAsBoolean()) {
+      logger.debug("ADAPTER:" + adapter);
+      logger.debug("TENANT: " + tenant);
+      logger.debug("OKAPI URL: " + okapiUrl);
+      logger.debug("CONFIGURATION Sets" + configurationSets);
+      logger.debug("VALIDATOR: ");
       final T result = exec(adapter, tenant, okapiUrl, configurator, configurationSets);
       final HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_TYPE, "application/json");

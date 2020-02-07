@@ -1,4 +1,5 @@
 package org.folio.marccat.resources;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 
@@ -39,6 +40,8 @@ public class TenantAPI {
     okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
     tenantService.createTenant(tenant, okapiUrl);
+    final ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.writeValue(System.out, attributes);
     tenantRefService.loadData(attributes, okapiHeaders);
     return new ResponseEntity("Success", CREATED);
   }
