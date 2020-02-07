@@ -84,6 +84,7 @@ public abstract class MarccatHelper {
     final Configuration configurator,
     final BooleanSupplier validator,
     final String... configurationSets) {
+    logger.debug("Validator:" + validator);
     if (validator.getAsBoolean()) {
       logger.debug("ADAPTER:" + adapter);
       logger.debug("TENANT: " + tenant);

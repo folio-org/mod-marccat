@@ -200,9 +200,9 @@ public class TenantLoading {
     }
     final String endPointUrl = okapiUrl + "/" + loadingEntry.uriPath ;*/
     final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
-      logger.debug("Load data URL "+ endPointUrl);
+    logger.debug("Load data URL "+ endPointUrl);
     try {
-     // List<URL> urls = getURLsFromClassPathDir(filePath);
+      // List<URL> urls = getURLsFromClassPathDir(filePath);
       List<URL> urls = getURLsFromClassPathDir("sample-data/load-from-file");
 
       if (urls.isEmpty()) {

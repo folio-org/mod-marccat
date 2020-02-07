@@ -37,11 +37,11 @@ public class LoadFromFileAPI extends BaseResource {
     return doPost((storageService, configuration) -> {
 
       try {
+        logger.debug("Start load from file");
         final ResultLoaderCollection container = new ResultLoaderCollection();
         final List<MultipartFile> files = Arrays.asList(uploadfiles);
         container.setResultLoaders(
           files.stream().map(file -> {
-            logger.debug("Start load from file");
             final Map<String, Object> map = storageService.loadRecords(file, startRecord, numberOfRecords, view, configuration);
             return setMapToResult(map);
           }).collect(Collectors.toList()));
@@ -49,8 +49,9 @@ public class LoadFromFileAPI extends BaseResource {
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
+      //}, tenant, okapiUrl, configurator, () -> !uploadfiles.isEmpty(), "bibliographic", "material", "title", "name", "subject");
+    }, tenant, okapiUrl, configurator, () -> true, "bibliographic", "material", "title", "name", "subject");
 
-    }, tenant, okapiUrl, configurator, () -> !uploadfiles.isEmpty(), "bibliographic", "material", "title", "name", "subject");
   }
 
 }
