@@ -214,6 +214,7 @@ public class TenantLoading {
         httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
         httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String,Object> requestEntity = new LinkedMultiValueMap<>();
+        logger.debug("Path file: " + url.getPath());
         requestEntity.add("files", new FileSystemResource(url.getPath()));
         HttpEntity<MultiValueMap<String,Object>> httpEntity = new HttpEntity<>(requestEntity, httpHeaders);
         client.exchange(
