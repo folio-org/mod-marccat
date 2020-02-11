@@ -54,7 +54,7 @@ public class RemoteConfiguration implements Configuration {
       okapiClient.setOkapiUrl(okapiUrl);
     if(okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
       endpoint = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
-    logger.info("Configuration URL : " + endpoint);
+    logger.debug("Configuration URL : " + endpoint);
     final HttpHeaders headers = new HttpHeaders();
     headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     return client.exchange(

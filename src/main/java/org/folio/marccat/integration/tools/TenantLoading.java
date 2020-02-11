@@ -174,15 +174,14 @@ public class TenantLoading {
   private void performR(String okapiUrl, TenantAttributes ta,
                         Map<String, String> headers, Iterator<LoadingEntry> it) {
 
-   /* LoadingEntry le = it.next();
+    LoadingEntry le = it.next();
     if (ta != null) {
       for (Parameter parameter : ta.getParameters()) {
-        //if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
+        if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
           loadData(okapiUrl, headers, le);
         }
       }
-    }*/
-    loadData(okapiUrl, headers, null);
+    }
   }
 
   /**
@@ -194,19 +193,15 @@ public class TenantLoading {
    */
   private  void loadData(String okapiUrl, Map<String, String> headers,
                          LoadingEntry loadingEntry) {
-   /* String filePath = loadingEntry.lead;
+    String filePath = loadingEntry.lead;
     if (!loadingEntry.filePath.isEmpty()) {
       filePath = filePath + '/' + loadingEntry.filePath;
     }
-    final String endPointUrl = okapiUrl + "/" + loadingEntry.uriPath ;*/
-    final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
-    logger.debug("Load data URL "+ endPointUrl);
+    final String endPointUrl = okapiUrl + "/" + loadingEntry.uriPath ;
     try {
-      // List<URL> urls = getURLsFromClassPathDir(filePath);
-      List<URL> urls = getURLsFromClassPathDir("sample-data/load-from-file");
-
+      List<URL> urls = getURLsFromClassPathDir(filePath);
       if (urls.isEmpty()) {
-        logger.error("loadData getURLsFromClassPathDir returns empty list for path=" + "sample-data/load-from-file");
+        logger.error("loadData getURLsFromClassPathDir returns empty list for path=" + filePath);
       }
       for (URL url : urls) {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -214,7 +209,6 @@ public class TenantLoading {
         httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
         httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String,Object> requestEntity = new LinkedMultiValueMap<>();
-        logger.debug("Path file: " + url.getPath());
         requestEntity.add("files", new FileSystemResource(url.getPath()));
         HttpEntity<MultiValueMap<String,Object>> httpEntity = new HttpEntity<>(requestEntity, httpHeaders);
         client.exchange(
@@ -227,7 +221,7 @@ public class TenantLoading {
       }
 
     } catch (URISyntaxException |IOException ex) {
-      logger.error("Exception for path " + "filePath", ex);
+      logger.error("Exception for path " + filePath, ex);
     }
   }
 
@@ -259,13 +253,17 @@ public class TenantLoading {
         }
       } else if (url.getProtocol().equals("jar")) {
         String dirname = directoryName + "/";
+        logger.debug("Dirname: "+ dirname);
         String path = url.getPath();
+        logger.debug("Path file: " + path);
         String jarPath = path.substring(5, path.indexOf('!'));
+        logger.debug("Path jar: " + jarPath);
         try (JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8.name()))) {
           Enumeration<JarEntry> entries = jar.entries();
           while (entries.hasMoreElements()) {
             JarEntry entry = entries.nextElement();
             String name = entry.getName();
+            logger.debug("Entry jar: " + name);
             if (name.startsWith(dirname) && !dirname.equals(name)) {
               URL resource = Thread.currentThread().getContextClassLoader().getResource(name);
               filenames.add(resource);

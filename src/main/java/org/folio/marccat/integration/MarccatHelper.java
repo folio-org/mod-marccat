@@ -84,13 +84,7 @@ public abstract class MarccatHelper {
     final Configuration configurator,
     final BooleanSupplier validator,
     final String... configurationSets) {
-    logger.debug("Validator:" + validator);
     if (validator.getAsBoolean()) {
-      logger.debug("ADAPTER:" + adapter);
-      logger.debug("TENANT: " + tenant);
-      logger.debug("OKAPI URL: " + okapiUrl);
-      logger.debug("CONFIGURATION Sets" + configurationSets);
-      logger.debug("VALIDATOR: ");
       final T result = exec(adapter, tenant, okapiUrl, configurator, configurationSets);
       final HttpHeaders headers = new HttpHeaders();
       headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -223,7 +217,6 @@ public abstract class MarccatHelper {
     logger.debug("DATABASE USER: " + config.get("user"));
     logger.debug("DATABASE PASSWORD: " + config.get("password"));
     logger.debug("DATABASE URL: " + config.get("url"));
-    System.out.println(config.get("url"));
     return DataSourceBuilder
       .create()
       .username(config.get("user"))
