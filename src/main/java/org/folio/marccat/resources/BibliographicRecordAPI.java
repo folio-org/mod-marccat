@@ -74,6 +74,13 @@ public class BibliographicRecordAPI extends BaseResource {
             controlNumber.setDisplayValue(F.padNumber("0", 11, bibliographicRecord.getId()));
             field.setFixedField(controlNumber);
           }
+          if (field.getCode().equals(Global.MATERIAL_TAG_CODE)) {
+            FixedField materialTag = field.getFixedField();
+            String dateEnteredOnFile = F.getFormattedToday("yyMMdd");
+            materialTag.setDateEnteredOnFile(dateEnteredOnFile);
+            materialTag.setDisplayValue(dateEnteredOnFile + materialTag.getDisplayValue().substring(6));
+            field.setFixedField(materialTag);
+          }
           if (field.getCode().equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
             VariableField variableField = field.getVariableField();
             variableField.setValue(configuration.get("bibliographicItem.cataloguingSourceStringText"));
