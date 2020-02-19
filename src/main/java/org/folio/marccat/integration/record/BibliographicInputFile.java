@@ -115,7 +115,6 @@ public class BibliographicInputFile {
       addControlFieldToItem(item, controlFields, impl, session, catalog, leaderTag);
 
       item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
-
       List<DataField> dataFields = record.getDataFields();
       addDataFieldToItem(item, dataFields, impl, session, catalog, cataloguingView, configuration);
 
@@ -248,7 +247,6 @@ public class BibliographicInputFile {
           final String formOfMaterial = ofNullable(rtm).map(material -> rtm.getAmicusMaterialTypeCode()).orElse(" ");
 
           final MaterialDescription md = new MaterialDescription();
-          //TODO prendere il valore
           md.setCartographicMaterial("u");
           md.setFormOfMaterial(formOfMaterial);
           md.setMaterialDescription008Indicator(("006".equals(field.getTag()) ? "0" : "1"));

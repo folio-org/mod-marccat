@@ -5,7 +5,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.integration.TenantRefService;
 import org.folio.rest.jaxrs.model.Parameter;
 import org.folio.rest.jaxrs.model.TenantAttributes;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,12 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
+import java.io.*;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.*;
@@ -272,6 +268,7 @@ public class TenantLoading {
             logger.debug("Entry jar: " + name);
             if (name.startsWith(dirname) && !dirname.equals(name)) {
               URL resource = Thread.currentThread().getContextClassLoader().getResource(name);
+              logger.debug("Path file in jar: " + resource.getPath());
               filenames.add(resource);
             }
           }
