@@ -1,9 +1,9 @@
 package org.folio.marccat.integration.tools;
 
+import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.integration.TenantRefService;
-import org.folio.rest.jaxrs.model.Parameter;
+import org.folio.marccat.config.log.Message;
 import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.core.io.*;
 import org.springframework.http.HttpEntity;
@@ -34,6 +34,11 @@ public class TenantLoading {
 
   /** The Constant logger. */
   private static final Log logger = new Log(TenantLoading.class);
+
+  /**
+   * The Constant UTF_8.
+   */
+  public static final String UTF_8 = "UTF-8";
 
   /**
    * The Client.
@@ -170,14 +175,7 @@ public class TenantLoading {
   private void performR(String okapiUrl, TenantAttributes ta,
                         Map<String, String> headers, Iterator<LoadingEntry> it) {
 
-   /* LoadingEntry le = it.next();
-    if (ta != null) {
-      for (Parameter parameter : ta.getParameters()) {
-        //if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
-          loadData(okapiUrl, headers, le);
-        }
-      }
-    }*/
+
     loadData(okapiUrl, headers, null);
   }
 
@@ -190,16 +188,10 @@ public class TenantLoading {
    */
   private  void loadData(String okapiUrl, Map<String, String> headers,
                          LoadingEntry loadingEntry) {
-   /* String filePath = loadingEntry.lead;
-    if (!loadingEntry.filePath.isEmpty()) {
-      filePath = filePath + '/' + loadingEntry.filePath;
-    }
-    final String endPointUrl = okapiUrl + "/" + loadingEntry.uriPath ;*/
     final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
-    logger.debug("Load data URL "+ endPointUrl);
+    logger.debug("Load data URL " + endPointUrl);
     try {
-      // List<URL> urls = getURLsFromClassPathDir(filePath);
-      List<URL> urls = getURLsFromClassPathDir("sample-data/load-from-file");
+      List <URL> urls = getURLsFromClassPathDir("sample-data/load-from-file");
 
       if (urls.isEmpty()) {
         logger.error("loadData getURLsFromClassPathDir returns empty list for path=" + "sample-data/load-from-file");
@@ -209,10 +201,10 @@ public class TenantLoading {
         httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
         httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
         httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-        MultiValueMap<String,Object> requestEntity = new LinkedMultiValueMap<>();
-        logger.debug("Path file: " + url.getPath());
-        requestEntity.add("files", new FileSystemResource(url.getPath()));
-        HttpEntity<MultiValueMap<String,Object>> httpEntity = new HttpEntity<>(requestEntity, httpHeaders);
+        MultiValueMap <String, Object> requestEntity = new LinkedMultiValueMap <>();
+        File file = getResourceAsFile("/sample-data/load-from-file/record1.mrc");
+        requestEntity.add("files", new FileSystemResource(file));
+        HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
         client.exchange(
           fromUriString(endPointUrl)
             .build()
@@ -222,9 +214,34 @@ public class TenantLoading {
           String.class);
       }
 
-    } catch (URISyntaxException |IOException ex) {
+    } catch (URISyntaxException | IOException ex) {
       logger.error("Exception for path " + "filePath", ex);
     }
+  }
+
+    /**
+     * Gets the resource as a temporary file.
+     *
+     * @param resourcePath       the resource path
+     * @return the resource as file
+     */
+  private File getResourceAsFile(final String resourcePath) {
+    try {
+      final InputStream inputStream = getClass().getResourceAsStream(resourcePath);
+      if (inputStream == null) {
+        return null;
+      }
+      final File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
+      tempFile.deleteOnExit();
+      String stringInputStream = IOUtils.toString(inputStream, UTF_8);
+      final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
+      IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
+      return tempFile;
+    } catch (IOException exception) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+      return null;
+    }
+
   }
 
 
@@ -265,11 +282,9 @@ public class TenantLoading {
           while (entries.hasMoreElements()) {
             JarEntry entry = entries.nextElement();
             String name = entry.getName();
-            logger.debug("Entry jar: " + name);
             if (name.startsWith(dirname) && !dirname.equals(name)) {
-              URL resource = Thread.currentThread().getContextClassLoader().getResource(name);
-              logger.debug("Path file in jar: " + resource.getPath());
-              filenames.add(resource);
+              filenames.add(new URL(name));
+              logger.debug("Entry jar: " + name);
             }
           }
         }
