@@ -283,7 +283,8 @@ public class TenantLoading {
             JarEntry entry = entries.nextElement();
             String name = entry.getName();
             if (name.startsWith(dirname) && !dirname.equals(name)) {
-              filenames.add(new URL(name));
+              URL resource = Thread.currentThread().getContextClassLoader().getResource(name);
+              filenames.add(resource);
               logger.debug("Entry jar: " + name);
             }
           }
