@@ -202,7 +202,7 @@ public class TenantLoading {
         httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
         httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap <String, Object> requestEntity = new LinkedMultiValueMap <>();
-        File file = getResourceAsFile("/sample-data/load-from-file/record1.mrc");
+        File file = getResourceAsFile("/sample-data/load-from-file/records.mrc");
         requestEntity.add("files", new FileSystemResource(file));
         HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
         client.exchange(
