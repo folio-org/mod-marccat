@@ -486,7 +486,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws HibernateException  in case of hibernate exception.
    * @throws DataAccessException in case of data access exception.
    */
-  private BibliographicItem getBibliographicItem(final int amicusNumber, final int userView, final Session session) throws HibernateException, RecordNotFoundException {
+  private BibliographicItem getBibliographicItem(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 
     final BibliographicItem item = new BibliographicItem();
 
