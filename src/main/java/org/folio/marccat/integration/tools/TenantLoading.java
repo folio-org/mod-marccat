@@ -176,7 +176,7 @@ public class TenantLoading {
   private void performR(String okapiUrl, TenantAttributes ta,
                         Map<String, String> headers, Iterator<LoadingEntry> it) {
 
-    LoadingEntry le = it.next();
+   /* LoadingEntry le = it.next();
     if (ta != null) {
       for (Parameter parameter : ta.getParameters()) {
         if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
@@ -185,9 +185,10 @@ public class TenantLoading {
       }
     }
 
+  }*/
+    //commenta
+    loadData(okapiUrl, headers);
   }
-  //commentare
-  // loadData(okapiUrl, headers, null);
   /**
    * Load data.
    *
