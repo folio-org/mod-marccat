@@ -16,14 +16,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.UnaryOperator;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 
