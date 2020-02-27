@@ -30,10 +30,10 @@ public abstract class CatalogItem implements Serializable {
 
   private static final Comparator<Tag> tagComparator =
     (Tag tag1, Tag tag2) -> (tag1.getMarcEncoding().getMarcTag().compareTo(tag2.getMarcEncoding().getMarcTag()));
-  protected List<Tag> deletedTags = new ArrayList<>();
+  private List<Tag> deletedTags = new ArrayList<>();
   protected ModelItem modelItem;
   protected Session session;
-  protected List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
   private transient Log logger = new Log(CatalogItem.class);
 
   public CatalogItem() {
@@ -49,20 +49,23 @@ public abstract class CatalogItem implements Serializable {
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder;
     Document xmlDocument = null;
+    Element record = null;
     try {
       documentBuilder = documentBuilderFactory.newDocumentBuilder();
       xmlDocument = documentBuilder.newDocument();
     } catch (ParserConfigurationException parserConfigurationException) {
       logger.error("Xml Parser Configuration Exception", parserConfigurationException);
     }
-    Element record = xmlDocument.createElement("record");
-    for (Object t : tags) {
-      Tag tag = (Tag) t;
-      logger.debug("appending " + tag);
-      record.appendChild(tag.toExternalMarcSlim(xmlDocument, session));
+    if(xmlDocument != null) {
+      record = xmlDocument.createElement("record");
+      for (Object t : tags) {
+        Tag tag = (Tag) t;
+        logger.debug("appending " + tag);
+        record.appendChild(tag.toExternalMarcSlim(xmlDocument, session));
+      }
+      xmlDocument.appendChild(record);
     }
-    xmlDocument.appendChild(record);
-    return xmlDocument;
+     return xmlDocument;
   }
 
   /**
@@ -98,7 +101,7 @@ public abstract class CatalogItem implements Serializable {
   /**
    * @param session
    */
-  abstract public void checkForMandatoryTags(Session session);
+   public abstract void checkForMandatoryTags(Session session);
 
   /**
    * Checks if the specified tag is illegally repeated in the item and throws an exception if so.
@@ -109,9 +112,10 @@ public abstract class CatalogItem implements Serializable {
     final Tag t = getTag(index);
     Validation bv = t.getValidation();
     if (!bv.isMarcTagRepeatable()) {
-      getTags().remove(index);
-      getTags().sort(tagComparator);
-      if (Collections.binarySearch(getTags(), t, tagComparator) >= 0) {
+      List l = new ArrayList(getTags());
+      l.remove(index);
+      l.sort(tagComparator);
+      if (Collections.binarySearch(l, t, tagComparator) >= 0) {
         throw new DuplicateTagException(index);
       }
     }
@@ -196,7 +200,7 @@ public abstract class CatalogItem implements Serializable {
     tags = set;
   }
 
-  abstract public int getUserView();
+  public abstract int getUserView();
 
   /**
    * @return the verification level of item entity.
@@ -305,8 +309,8 @@ public abstract class CatalogItem implements Serializable {
    * @throws ValidationException in case of validation exception.
    * @throws DataAccessException in case of data access exception.
    */
-  public void validate() {
-    checkForMandatoryTags(this.session);
+  public void validate(Session session) {
+    checkForMandatoryTags(session);
     for (int i = 0; i < getTags().size(); i++) {
       checkRepeatability(i);
       getTag(i).validate(i);

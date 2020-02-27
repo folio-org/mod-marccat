@@ -94,8 +94,10 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       for (Object o : item.getTags()) {
         if (o instanceof BibliographicRelationshipTag) {
           BibliographicRelationshipTag t = (BibliographicRelationshipTag) o;
-          CatalogItem relItem = getBibliographicItemByAmicusNumber(t.getTargetBibItemNumber(), item.getUserView(), session);
-          updateFullRecordCacheTable(session, relItem, false);
+          if(t.getTargetBibItemNumber() > 0) {
+            CatalogItem relItem = getBibliographicItemByAmicusNumber(t.getTargetBibItemNumber(), item.getUserView(), session);
+            updateFullRecordCacheTable(session, relItem, false);
+          }
         }
       }
     }

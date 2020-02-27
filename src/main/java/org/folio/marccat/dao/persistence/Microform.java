@@ -21,7 +21,7 @@ public class Microform extends PhysicalDescription {
   private char emulsionOnFilmCode;
   private char generationCode;
   private char baseOfFilmCode;
-  private char obsolete1;
+  private char obsolete1 = 'u';
 
   public Microform() {
     super();

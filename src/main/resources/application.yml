@@ -11,7 +11,7 @@ logging:
     root: ERROR
     org.springframework: ERROR
     net.sf.hibernate: ERROR
-    net.sf.hibernate.SQL: DEBUG
+    net.sf.hibernate.SQL: ERROR
     org.folio.marccat.integration.search: DEBUG
     ru.yandex: ERROR
     org.folio.marccat: INFO

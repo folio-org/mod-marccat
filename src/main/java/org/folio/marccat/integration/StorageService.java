@@ -1109,7 +1109,7 @@ public class StorageService implements Closeable {
         final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
         final Map<String, Object> map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
         materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
-        materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? (String) map.get(Global.MATERIAL_TYPE_CODE_LABEL) : null);
+        materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? materialTag.getMaterialTypeCode() : null);
         materialTag.setFormOfMaterial((String) map.get(Global.FORM_OF_MATERIAL_LABEL));
       }
 

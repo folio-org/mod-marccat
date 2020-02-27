@@ -1,7 +1,7 @@
 package org.folio.marccat.shared;
 
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.domain.ConversionFieldUtils;
+import org.folio.marccat.resources.shared.ConversionFieldUtils;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.util.F;

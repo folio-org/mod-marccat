@@ -30,7 +30,7 @@ public class MotionPicture extends PhysicalDescription {
   private char deteriorationStageCode;
   private char completenessCode;
   private String inspectionDate;
-  private char obsolete1;
+  private char obsolete1 = 'u';
 
   public MotionPicture() {
     super();

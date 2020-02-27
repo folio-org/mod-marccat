@@ -258,6 +258,8 @@ public class BibliographicCatalog extends Catalog {
       materialDescription.setBookIllustrationCode(bookIllustration);
       if (isNotNull(ff.getTargetAudienceCode()))
         materialDescription.setTargetAudienceCode(ff.getTargetAudienceCode());
+      if (isNotNull(ff.getNatureOfEntireWork()))
+        materialDescription.setNatureOfContentsCode(ff.getNatureOfEntireWork());
       final String natureContentCodes = (isNotNull(ff.getNatureOfContent1()) ? ff.getNatureOfContent1() : "")
         + (isNotNull(ff.getNatureOfContent2()) ? ff.getNatureOfContent2() : "")
         + (isNotNull(ff.getNatureOfContent3()) ? ff.getNatureOfContent3() : "")

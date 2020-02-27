@@ -103,8 +103,8 @@ public class Parser {
     final String orderByClause = buildOrderByClause(attributes, directions, true);
     final String columnSortForm = attributes != null ? getSortFormOrDateByAtributes(attributes) : EMPTY_STRING;
     final String columnItemNumber = searchingView == -1 ? "aut_nbr" : "bib_itm_nbr";
-    final String query = "select res." + columnItemNumber +
-      " from (select distinct " + columnSortForm + " smtc." + columnItemNumber + " from ((" + n.getValue() + ")) smtc " +
+    final String query = "select distinct res." + columnItemNumber +
+      " from (select " + columnSortForm + " smtc." + columnItemNumber + " from ((" + n.getValue() + ")) smtc " +
       orderByClause + ") res" +
       " limit " + limitSize + " offset " + offsetSize;
     logger.debug(
@@ -130,8 +130,8 @@ public class Parser {
     final String orderByClause = buildOrderByClause(attributes, directions, false);
     final String columnSortForm = attributes != null ? getSortFormOrDateByAtributes(attributes) : EMPTY_STRING;
     final String columnItemNumber = searchingView == -1 ? "aut_nbr" : "bib_itm_nbr";
-    final String query = "select res." + columnItemNumber +
-      " from (select distinct " + columnSortForm + " smtc." + columnItemNumber + " from ((" + n.getValue() + ")) smtc " +
+    final String query = "select distinct res." + columnItemNumber +
+      " from (select " + columnSortForm + " smtc." + columnItemNumber + " from ((" + n.getValue() + ")) smtc " +
       orderByClause + ") res";
     return "select count(*) from ((" + query + ")) smtc";
   }

@@ -122,7 +122,7 @@ public class TermExpressionNode implements ExpressionNode {
         }
       }
 
-      return "select distinct "
+      return "select "
         + semantic().getSelectClause()
         + " from "
         + semantic().getFromClause()

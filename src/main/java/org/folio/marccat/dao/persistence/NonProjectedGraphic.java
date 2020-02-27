@@ -16,7 +16,7 @@ public class NonProjectedGraphic extends PhysicalDescription {
   private char colourCode;
   private char primarySupportMaterialCode;
   private char secondarySupportMaterialCode;
-  private char obsolete1;
+  private char obsolete1 = 'u';
 
   public NonProjectedGraphic() {
     super();

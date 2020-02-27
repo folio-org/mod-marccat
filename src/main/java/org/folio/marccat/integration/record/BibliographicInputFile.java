@@ -113,14 +113,13 @@ public class BibliographicInputFile {
       List<ControlField> controlFields = record.getControlFields();
       addControlFieldToItem(item, controlFields, impl, session, catalog, leaderTag);
 
+      item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
       List<DataField> dataFields = record.getDataFields();
       addDataFieldToItem(item, dataFields, impl, session, catalog, cataloguingView, configuration);
 
-      item.getItemEntity().setAmicusNumber(new SystemNextNumberDAO().getNextNumber("BI", session));
-
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
 
-      item.validate();
+      item.validate(session);
       dao.saveCatalogItem(item, session);
 
       stats.setRecordsAdded(stats.getRecordsAdded() + 1);
@@ -196,33 +195,27 @@ public class BibliographicInputFile {
       Correlation corr = impl.getCorrelation(df.getTag(), df.getIndicator1(), df.getIndicator2(), 0, session);
       Tag newTag = null;
       try {
-        newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+        if(corr == null)
+          logger.debug("The tag does not exist: " + df.getTag() + " " + df.getIndicator1() + " " + df.getIndicator2());
+        else
+          newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       } catch (RuntimeException e) {
         logger.error(e.getMessage(), e);
 
       }
 
       if (newTag != null) {
-        StringText st = stringTextFromSubfield(df.getSubfields());
+         StringText st = stringTextFromSubfield(df.getSubfields());
         ((VariableField) newTag).setStringText(st);
         if (newTag instanceof Browsable) {
-
           ((Browsable) newTag).setDescriptorStringText(st);
           Descriptor d = ((Browsable) newTag).getDescriptor();
-          d.setUserViewString(View.makeSingleViewString(view));
-          Descriptor dup;
-          try {
-            dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
-            if (dup == null) {
-              d.setConfigValues(configuration);
-              d.generateNewKey(session);
-              d.getDAO().save(d, session);
-            } else {
-              ((Browsable) newTag).setDescriptor(dup);
-            }
-          } catch (HibernateException | SQLException e) {
-            throw new DataAccessException(e);
-          }
+          Descriptor dup = createOrReplaceDescriptor(session, view, configuration, d);
+          if(dup != null)
+            ((Browsable) newTag).setDescriptor(dup);
+        }
+        else if (newTag.isPublisher()) {
+          createPublisherDescriptor(session, view, configuration, newTag);
         }
         newTag.setCorrelationKey(impl.getMarcEncoding(newTag, session));
         newTag.setValidation(impl.getValidation(newTag, session));
@@ -230,6 +223,7 @@ public class BibliographicInputFile {
       }
     });
   }
+
 
   /**
    * Adds variable fileds to catalog item.
@@ -252,6 +246,7 @@ public class BibliographicInputFile {
           final String formOfMaterial = ofNullable(rtm).map(material -> rtm.getAmicusMaterialTypeCode()).orElse(" ");
 
           final MaterialDescription md = new MaterialDescription();
+          md.setCartographicMaterial("u");
           md.setFormOfMaterial(formOfMaterial);
           md.setMaterialDescription008Indicator(("006".equals(field.getTag()) ? "0" : "1"));
           md.setItemEntity(item.getItemEntity());
@@ -309,7 +304,7 @@ public class BibliographicInputFile {
    * @return the string text.
    */
   private StringText stringTextFromSubfield(List<Subfield> subfields) {
-    return new StringText(subfields.stream().map(s -> (s.getCode() + s.getData())).collect(Collectors.joining()));
+    return new StringText(subfields.stream().map(s -> (Global.SUBFIELD_DELIMITER + s.getCode() + s.getData())).collect(Collectors.joining()));
   }
 
   public int getLoadingStatisticsNumber() {
@@ -324,4 +319,40 @@ public class BibliographicInputFile {
   public void setStats(LDG_STATS stats) {
     this.stats = stats;
   }
+
+  /**
+   * Save a publisher heading, if the capture already exists
+   *
+   * @param session       the hibernate session associated.
+   * @param view          the view.
+   * @param configuration the configuration.
+   * @param newTag        the new tag.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public void createPublisherDescriptor(final Session session, final int view, final Map <String, String> configuration, final Tag newTag){
+    final List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
+    for (PUBL_TAG publisherTag : publisherTagUnits) {
+      final Descriptor descriptor = publisherTag.getDescriptor();
+      Descriptor dup = createOrReplaceDescriptor(session, view, configuration, descriptor);
+      if(dup != null)
+        publisherTag.setDescriptor((PUBL_HDG) dup);
+    }
+  }
+
+  private Descriptor createOrReplaceDescriptor(final Session session, final int view, final Map <String, String> configuration, final Descriptor d) {
+    d.setUserViewString(View.makeSingleViewString(view));
+    d.setConfigValues(configuration);
+    Descriptor dup;
+    try {
+      dup = ((DAODescriptor) (d.getDAO())).getMatchingHeading(d, session);
+      if (dup == null) {
+        d.generateNewKey(session);
+        d.getDAO().save(d, session);
+      }
+      return dup;
+    } catch (HibernateException | SQLException e) {
+      throw new DataAccessException(e);
+    }
+  }
+
 }

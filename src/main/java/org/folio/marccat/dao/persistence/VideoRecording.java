@@ -21,7 +21,7 @@ public class VideoRecording extends PhysicalDescription {
   private char mediumForSoundCode;
   private char dimensionsCode;
   private char configurationCode;
-  private char obsolete1;
+  private char obsolete1 = 'u';
 
   public VideoRecording() {
     super();

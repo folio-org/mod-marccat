@@ -26,7 +26,7 @@ public class SoundRecording extends PhysicalDescription {
   private char cuttingTypeCode;
   private char specialPlaybackCharacteristicsCode;
   private char storageTechniqueCode;
-  private char obsolete1;
+  private char obsolete1 = 'u';
 
 
   public SoundRecording() {

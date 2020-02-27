@@ -3,7 +3,7 @@ package org.folio.marccat.resources;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
-import org.folio.marccat.domain.ConversionFieldUtils;
+import org.folio.marccat.resources.shared.ConversionFieldUtils;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.*;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
@@ -17,8 +17,8 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.constants.Global.BASE_URI;
-import static org.folio.marccat.domain.ConversionFieldUtils.getDisplayValueOfMaterial;
-import static org.folio.marccat.domain.ConversionFieldUtils.getDisplayValueOfPhysicalInformation;
+import static org.folio.marccat.resources.shared.ConversionFieldUtils.getDisplayValueOfMaterial;
+import static org.folio.marccat.resources.shared.ConversionFieldUtils.getDisplayValueOfPhysicalInformation;
 import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.resources.shared.RecordUtils.*;
 import static org.folio.marccat.resources.shared.ValidationUtils.validate;
@@ -73,6 +73,13 @@ public class BibliographicRecordAPI extends BaseResource {
             FixedField controlNumber = field.getFixedField();
             controlNumber.setDisplayValue(F.padNumber("0", 11, bibliographicRecord.getId()));
             field.setFixedField(controlNumber);
+          }
+          if (field.getCode().equals(Global.MATERIAL_TAG_CODE)) {
+            FixedField materialTag = field.getFixedField();
+            String dateEnteredOnFile = F.getFormattedToday("yyMMdd");
+            materialTag.setDateEnteredOnFile(dateEnteredOnFile);
+            materialTag.setDisplayValue(dateEnteredOnFile + materialTag.getDisplayValue().substring(6));
+            field.setFixedField(materialTag);
           }
           if (field.getCode().equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
             VariableField variableField = field.getVariableField();
