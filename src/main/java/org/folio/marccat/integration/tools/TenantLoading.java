@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
+import org.folio.rest.jaxrs.model.Parameter;
 import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.core.io.*;
 import org.springframework.http.HttpEntity;
@@ -22,7 +23,6 @@ import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 
@@ -175,8 +175,14 @@ public class TenantLoading {
   private void performR(String okapiUrl, TenantAttributes ta,
                         Map<String, String> headers, Iterator<LoadingEntry> it) {
 
-
-    loadData(okapiUrl, headers, null);
+   LoadingEntry le = it.next();
+    if (ta != null) {
+      for (Parameter parameter : ta.getParameters()) {
+        if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
+          loadData(okapiUrl, headers, le);
+        }
+      }
+    }
   }
 
   /**
@@ -188,11 +194,15 @@ public class TenantLoading {
    */
   private  void loadData(String okapiUrl, Map<String, String> headers,
                          LoadingEntry loadingEntry) {
-    final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
+   String filePath = loadingEntry.lead;
+    if (!loadingEntry.filePath.isEmpty()) {
+      filePath = filePath + '/' + loadingEntry.filePath;
+    }
+    final String endPointUrl = okapiUrl + "/" + loadingEntry.uriPath ;
+
     logger.debug("Load data URL " + endPointUrl);
     try {
-      List <URL> urls = getURLsFromClassPathDir("sample-data/load-from-file");
-
+      List<URL> urls = getURLsFromClassPathDir(filePath);
       if (urls.isEmpty()) {
         logger.error("loadData getURLsFromClassPathDir returns empty list for path=" + "sample-data/load-from-file");
       }
@@ -202,6 +212,7 @@ public class TenantLoading {
         httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
         httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap <String, Object> requestEntity = new LinkedMultiValueMap <>();
+        logger.debug("Path file: " + url.getPath());
         File file = getResourceAsFile("/sample-data/load-from-file/records.mrc");
         requestEntity.add("files", new FileSystemResource(file));
         HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
