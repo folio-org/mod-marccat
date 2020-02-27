@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 
@@ -175,67 +176,52 @@ public class TenantLoading {
   private void performR(String okapiUrl, TenantAttributes ta,
                         Map<String, String> headers, Iterator<LoadingEntry> it) {
 
-   LoadingEntry le = it.next();
+    LoadingEntry le = it.next();
     if (ta != null) {
       for (Parameter parameter : ta.getParameters()) {
         if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
-          loadData(okapiUrl, headers, le);
+          loadData(okapiUrl, headers);
         }
       }
     }
-  }
 
+  }
+  //commentare
+  // loadData(okapiUrl, headers, null);
   /**
    * Load data.
    *
    * @param okapiUrl the okapi url
    * @param headers the headers
-   * @param loadingEntry the loading entry
-   */
-  private  void loadData(String okapiUrl, Map<String, String> headers,
-                         LoadingEntry loadingEntry) {
-   String filePath = loadingEntry.lead;
-    if (!loadingEntry.filePath.isEmpty()) {
-      filePath = filePath + '/' + loadingEntry.filePath;
-    }
-    final String endPointUrl = okapiUrl + "/" + loadingEntry.uriPath ;
+    */
+  private void loadData(String okapiUrl, Map <String, String> headers) {
 
+    final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
     logger.debug("Load data URL " + endPointUrl);
-    try {
-      List<URL> urls = getURLsFromClassPathDir(filePath);
-      if (urls.isEmpty()) {
-        logger.error("loadData getURLsFromClassPathDir returns empty list for path=" + "sample-data/load-from-file");
-      }
-      for (URL url : urls) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
-        httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
-        httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-        MultiValueMap <String, Object> requestEntity = new LinkedMultiValueMap <>();
-        logger.debug("Path file: " + url.getPath());
-        File file = getResourceAsFile("/sample-data/load-from-file/records.mrc");
-        requestEntity.add("files", new FileSystemResource(file));
-        HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
-        client.exchange(
-          fromUriString(endPointUrl)
-            .build()
-            .toUri(),
-          HttpMethod.POST,
-          httpEntity,
-          String.class);
-      }
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
+    httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
+    httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+    MultiValueMap <String, Object> requestEntity = new LinkedMultiValueMap <>();
+    File file = getResourceAsFile("/sample-data/load-from-file/records.mrc");
+    requestEntity.add("files", new FileSystemResource(file));
+    HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
+    client.exchange(
+      fromUriString(endPointUrl)
+        .build()
+        .toUri(),
+      HttpMethod.POST,
+      httpEntity,
+      String.class);
 
-    } catch (URISyntaxException | IOException ex) {
-      logger.error("Exception for path " + "filePath", ex);
-    }
   }
 
-    /**
-     * Gets the resource as a temporary file.
-     *
-     * @param resourcePath       the resource path
-     * @return the resource as file
-     */
+  /**
+   * Gets the resource as a temporary file.
+   *
+   * @param resourcePath       the resource path
+   * @return the resource as file
+   */
   private File getResourceAsFile(final String resourcePath) {
     try {
       final InputStream inputStream = getClass().getResourceAsStream(resourcePath);
@@ -256,54 +242,6 @@ public class TenantLoading {
   }
 
 
-  /**
-   * Gets the UR ls from class path dir.
-   *
-   * @param directoryName the directory name
-   * @return the UR ls from class path dir
-   * @throws URISyntaxException the URI syntax exception
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  public static List<URL> getURLsFromClassPathDir(String directoryName)
-    throws URISyntaxException, IOException {
-
-    List<URL> filenames = new LinkedList<>();
-    URL url = Thread.currentThread().getContextClassLoader().getResource(directoryName);
-    if (url != null) {
-      if (url.getProtocol().equals("file")) {
-        File file = Paths.get(url.toURI()).toFile();
-        if (file != null) {
-          File[] files = file.listFiles();
-          if (files != null) {
-            for (File filename : files) {
-              URL resource = filename.toURI().toURL();
-              filenames.add(resource);
-            }
-          }
-        }
-      } else if (url.getProtocol().equals("jar")) {
-        String dirname = directoryName + "/";
-        logger.debug("Dirname: "+ dirname);
-        String path = url.getPath();
-        logger.debug("Path file: " + path);
-        String jarPath = path.substring(5, path.indexOf('!'));
-        logger.debug("Path jar: " + jarPath);
-        try (JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8.name()))) {
-          Enumeration<JarEntry> entries = jar.entries();
-          while (entries.hasMoreElements()) {
-            JarEntry entry = entries.nextElement();
-            String name = entry.getName();
-            if (name.startsWith(dirname) && !dirname.equals(name)) {
-              URL resource = Thread.currentThread().getContextClassLoader().getResource(name);
-              filenames.add(resource);
-              logger.debug("Entry jar: " + name);
-            }
-          }
-        }
-      }
-    }
-    return filenames;
-  }
 
   /**
    * Adds a directory of files to be loaded (PUT/POST).
