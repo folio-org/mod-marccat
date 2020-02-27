@@ -157,8 +157,7 @@ public abstract class CatalogDAO extends AbstractDAO {
           if (aTag.isNew()) {
             aTag.setItemNumber(item.getAmicusNumber());
             if (aTag instanceof PersistentObjectWithView)
-            ((PersistentObjectWithView) aTag).setUserViewString(myView);
-         // if (aTag.isBrowsable())
+              ((PersistentObjectWithView) aTag).setUserViewString(myView);
             aTag.generateNewKey(session);
           if (item.getDeletedTags().contains(aTag)) {
             aTag.reinstateDeletedTag();

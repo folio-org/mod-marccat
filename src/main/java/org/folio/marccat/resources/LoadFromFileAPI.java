@@ -2,19 +2,15 @@ package org.folio.marccat.resources;
 
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.integration.TenantRefService;
 import org.folio.marccat.resources.domain.ResultLoaderCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.integration.MarccatHelper.doPost;
 import static org.folio.marccat.resources.shared.MappingUtils.setMapToResult;
@@ -23,7 +19,6 @@ import static org.folio.marccat.resources.shared.MappingUtils.setMapToResult;
 @RequestMapping(value = BASE_URI, produces = "application/json")
 public class LoadFromFileAPI extends BaseResource {
 
-  private static final Log logger = new Log(LoadFromFileAPI.class);
 
   @PostMapping("/load-from-file")
   public ResponseEntity<?> loadRecords(
@@ -49,7 +44,6 @@ public class LoadFromFileAPI extends BaseResource {
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
-      //}, tenant, okapiUrl, configurator, () -> !uploadfiles.isEmpty(), "bibliographic", "material", "title", "name", "subject");
     }, tenant, okapiUrl, configurator, () -> true, "bibliographic", "material", "title", "name", "subject");
 
   }

@@ -1,15 +1,12 @@
 package org.folio.marccat.resources;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
-
 import org.folio.marccat.integration.TenantRefService;
 import org.folio.marccat.integration.TenantService;
 import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;

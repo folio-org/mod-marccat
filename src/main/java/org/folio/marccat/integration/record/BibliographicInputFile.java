@@ -19,7 +19,6 @@ import org.folio.marccat.dao.RecordTypeMaterialDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.util.StringText;
 import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
@@ -211,7 +210,7 @@ public class BibliographicInputFile {
         if (newTag instanceof Browsable) {
           ((Browsable) newTag).setDescriptorStringText(st);
           Descriptor d = ((Browsable) newTag).getDescriptor();
-          Descriptor dup = createOrReplaceDescriptor(session, view, configuration, newTag, d);
+          Descriptor dup = createOrReplaceDescriptor(session, view, configuration, d);
           if(dup != null)
             ((Browsable) newTag).setDescriptor(dup);
         }
@@ -334,13 +333,13 @@ public class BibliographicInputFile {
     final List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
     for (PUBL_TAG publisherTag : publisherTagUnits) {
       final Descriptor descriptor = publisherTag.getDescriptor();
-      Descriptor dup = createOrReplaceDescriptor(session, view, configuration, newTag, descriptor);
+      Descriptor dup = createOrReplaceDescriptor(session, view, configuration, descriptor);
       if(dup != null)
         publisherTag.setDescriptor((PUBL_HDG) dup);
     }
   }
 
-  private Descriptor createOrReplaceDescriptor(Session session, int view, Map <String, String> configuration, Tag newTag, Descriptor d) {
+  private Descriptor createOrReplaceDescriptor(final Session session, final int view, final Map <String, String> configuration, final Descriptor d) {
     d.setUserViewString(View.makeSingleViewString(view));
     d.setConfigValues(configuration);
     Descriptor dup;
@@ -349,10 +348,7 @@ public class BibliographicInputFile {
       if (dup == null) {
         d.generateNewKey(session);
         d.getDAO().save(d, session);
-      } //else {
-        //TODO ritornare il descrittore in questo caso e settarlo nel tag solo se != null
-        //newTag.setDescriptor(dup);
-      //}
+      }
       return dup;
     } catch (HibernateException | SQLException e) {
       throw new DataAccessException(e);
