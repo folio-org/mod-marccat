@@ -17,6 +17,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.function.UnaryOperator;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
@@ -41,11 +43,6 @@ public class TenantLoading {
    */
   private RestTemplate client;
 
-  /**
-   * The port.
-   */
-  @Value("${server.port}")
-  private String port;
 
   /**
    * The Enum Strategy.
@@ -196,6 +193,7 @@ public class TenantLoading {
    * @param headers the headers
     */
   private void loadData(String okapiUrl, Map <String, String> headers) {
+    String port = System.getProperties().getProperty("server.port");
     final String endPointUrl = "http://127.0.0.1:" + port  + "/marccat/load-from-file";
     logger.debug("Load data URL " + endPointUrl);
     HttpHeaders httpHeaders = new HttpHeaders();
