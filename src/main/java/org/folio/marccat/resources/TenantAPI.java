@@ -37,7 +37,7 @@ public class TenantAPI {
     okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
     tenantService.createTenant(tenant, okapiUrl);
-    tenantRefService.loadData(attributes, okapiHeaders);
+    //tenantRefService.loadData(attributes, okapiHeaders);
     return new ResponseEntity("Success", CREATED);
   }
 
