@@ -31,11 +31,13 @@ public class TenantAPI {
   public ResponseEntity<String> create(
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl,
+    @RequestHeader(Global.OKAPI_TO_URL) String okapiUrlTo,
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
     logger.debug("URL OKAPI:" + okapiUrl);
     okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
+    okapiHeaders.put(Global.OKAPI_TO_URL, okapiUrlTo);
     tenantService.createTenant(tenant, okapiUrl);
     tenantRefService.loadData(attributes, okapiHeaders);
     return new ResponseEntity("Success", CREATED);

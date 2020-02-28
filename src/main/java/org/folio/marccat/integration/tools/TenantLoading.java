@@ -193,8 +193,7 @@ public class TenantLoading {
    * @param headers the headers
     */
   private void loadData(String okapiUrl, Map <String, String> headers) {
-    String port = System.getProperties().getProperty("server.port");
-    final String endPointUrl = "http://127.0.0.1:" + port  + "/marccat/load-from-file";
+    final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
     logger.debug("Load data URL " + endPointUrl);
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
