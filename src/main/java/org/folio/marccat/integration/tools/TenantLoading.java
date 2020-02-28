@@ -6,6 +6,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.rest.jaxrs.model.Parameter;
 import org.folio.rest.jaxrs.model.TenantAttributes;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -40,6 +41,11 @@ public class TenantLoading {
    */
   private RestTemplate client;
 
+  /**
+   * The port.
+   */
+  @Value("${server.port}")
+  private String port;
 
   /**
    * The Enum Strategy.
@@ -190,8 +196,7 @@ public class TenantLoading {
    * @param headers the headers
     */
   private void loadData(String okapiUrl, Map <String, String> headers) {
-
-    final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
+    final String endPointUrl = "http://127.0.0.1:" + port  + "/marccat/load-from-file";
     logger.debug("Load data URL " + endPointUrl);
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
