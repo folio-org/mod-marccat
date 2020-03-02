@@ -149,7 +149,8 @@ public class TenantLoading {
    */
   public void perform(TenantAttributes ta, Map<String, String> headers) {
 
-    String okapiUrl = headers.get("X-Okapi-Url-to");
+    //String okapiUrl = headers.get("X-Okapi-Url-to");
+    String okapiUrl = null;
     if (okapiUrl == null) {
       logger.debug("TenantLoading.perform No X-Okapi-Url-to header");
       okapiUrl = headers.get("X-Okapi-Url");
