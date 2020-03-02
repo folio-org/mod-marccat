@@ -35,7 +35,7 @@ public class TenantAPI {
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
     logger.debug("URL OKAPI: " + okapiUrl);
-    logger.debug("OKAPI TO URL: " + okapiUrl);
+    logger.debug("OKAPI TO URL: " + okapiUrlTo);
     okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
     okapiHeaders.put(Global.OKAPI_TO_URL, okapiUrlTo);
