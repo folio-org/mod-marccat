@@ -4,9 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
-import org.folio.rest.jaxrs.model.Parameter;
 import org.folio.rest.jaxrs.model.TenantAttributes;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +15,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 import java.util.function.UnaryOperator;
 import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
@@ -173,17 +169,6 @@ public class TenantLoading {
   private void performR(String okapiUrl, TenantAttributes ta,
                         Map<String, String> headers, Iterator<LoadingEntry> it) {
 
-   /* LoadingEntry le = it.next();
-    if (ta != null) {
-      for (Parameter parameter : ta.getParameters()) {
-        if (le.key.equals(parameter.getKey()) && "true".equals(parameter.getValue())) {
-          loadData(okapiUrl, headers);
-        }
-      }
-    }
-
-  }*/
-    //commenta
     loadData(okapiUrl, headers);
   }
   /**
@@ -197,7 +182,7 @@ public class TenantLoading {
     logger.debug("Load data URL " + endPointUrl);
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
-    httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
+    httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_URL));
     httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
     MultiValueMap <String, Object> requestEntity = new LinkedMultiValueMap <>();
     File file = getResourceAsFile("/sample-data/load-from-file/records.mrc");

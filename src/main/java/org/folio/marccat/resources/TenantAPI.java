@@ -1,6 +1,5 @@
 package org.folio.marccat.resources;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.config.log.Log;
 import org.folio.marccat.integration.TenantRefService;
 import org.folio.marccat.integration.TenantService;
 import org.folio.rest.jaxrs.model.TenantAttributes;
@@ -17,8 +16,6 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RestController
 @RequestMapping("/_/tenant")
 public class TenantAPI {
-
-  private static final Log logger = new Log(TenantAPI.class);
   private static Map<String,String> okapiHeaders = new HashMap<>();
 
   @Autowired
@@ -34,14 +31,16 @@ public class TenantAPI {
     @RequestHeader(Global.OKAPI_TO_URL) String okapiUrlTo,
     @RequestBody TenantAttributes attributes
   ) throws SQLException, IOException {
-    logger.debug("URL OKAPI: " + okapiUrl);
-    logger.debug("OKAPI TO URL: " + okapiUrlTo);
-    okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
-    okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
-    okapiHeaders.put(Global.OKAPI_TO_URL, okapiUrlTo);
+    addHeaders(tenant, okapiUrl, okapiUrlTo);
     tenantService.createTenant(tenant, okapiUrl);
     tenantRefService.loadData(attributes, okapiHeaders);
     return new ResponseEntity("Success", CREATED);
+  }
+
+  public void addHeaders(@RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant, @RequestHeader(Global.OKAPI_URL) String okapiUrl, @RequestHeader(Global.OKAPI_TO_URL) String okapiUrlTo) {
+    okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
+    okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
+    okapiHeaders.put(Global.OKAPI_TO_URL, okapiUrlTo);
   }
 
   @DeleteMapping
