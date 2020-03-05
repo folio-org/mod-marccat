@@ -635,6 +635,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   @Override
   public StringText addPunctuation() throws Exception {
     final StringText result = new StringText(getStringText().toString());
+    System.out.println(getStringText().toString());
     try {
       int subfieldIndex = 0;
       for (Object o : result.getSubfieldList()) {
@@ -652,7 +653,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
         } else if (s.getCode().equals("c")) {
           if (subfieldIndex == result.getNumberOfSubfields() - 1 &&
             !"-])".contains(EMPTY_STRING + s.getContent().charAt(s.getContentLength() - 1))) {
-            s.setContent(s.getContent() + ".");
+            if(!s.getContent().endsWith("."))
+              s.setContent(s.getContent() + ".");
           }
         } else if (s.getCode().equals("e") || s.getCode().equals("f")) {
           if (subfieldIndex < result.getNumberOfSubfields() - 1) {
@@ -667,6 +669,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
         }
         subfieldIndex++;
       }
+      System.out.println(result);
+      //System.out.println(s);
       return result;
     } catch (Exception e) {
       return result;
