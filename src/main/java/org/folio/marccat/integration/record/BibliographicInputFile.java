@@ -337,6 +337,10 @@ public class BibliographicInputFile {
       Descriptor dup = createOrReplaceDescriptor(session, view, configuration, descriptor);
       if(dup != null) {
         publisherTag.setDescriptor((PUBL_HDG) dup);
+        publisherTag.setPublisherHeadingNumber(dup.getHeadingNumber());
+        publisherTag.setSequenceNumber(idx++);
+      }
+      else {
         publisherTag.setPublisherHeadingNumber(publisherTag.getDescriptor().getKey().getHeadingNumber());
         publisherTag.setSequenceNumber(idx++);
       }
