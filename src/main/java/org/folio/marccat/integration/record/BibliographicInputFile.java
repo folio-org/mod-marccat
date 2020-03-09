@@ -331,11 +331,19 @@ public class BibliographicInputFile {
    */
   public void createPublisherDescriptor(final Session session, final int view, final Map <String, String> configuration, final Tag newTag){
     final List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
+    int idx = 1;
     for (PUBL_TAG publisherTag : publisherTagUnits) {
       final Descriptor descriptor = publisherTag.getDescriptor();
       Descriptor dup = createOrReplaceDescriptor(session, view, configuration, descriptor);
-      if(dup != null)
+      if(dup != null) {
         publisherTag.setDescriptor((PUBL_HDG) dup);
+        publisherTag.setPublisherHeadingNumber(dup.getHeadingNumber());
+        publisherTag.setSequenceNumber(idx++);
+      }
+      else {
+        publisherTag.setPublisherHeadingNumber(publisherTag.getDescriptor().getKey().getHeadingNumber());
+        publisherTag.setSequenceNumber(idx++);
+      }
     }
   }
 
