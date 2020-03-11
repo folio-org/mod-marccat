@@ -296,7 +296,10 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
     Element field;
     if (isFixedField()) {
-      field = xmlDocument.createElement("controlfield");
+      if (marcTag.equals("000"))
+        field = xmlDocument.createElement("leader");
+      else
+        field = xmlDocument.createElement("controlfield");
     } else {
       field = xmlDocument.createElement("datafield");
     }

@@ -290,8 +290,6 @@ public class BibliographicCatalog extends Catalog {
         materialDescription.setCartographicProjectionCode(ff.getCartographicProjectionCode());
       if (isNotNull(ff.getCartographicMaterial()))
         materialDescription.setCartographicMeridianCode(ff.getCartographicMaterial());
-      if (isNotNull(ff.getCartographicMaterial()))
-        materialDescription.setCartographicNarrativeTextCode(ff.getCartographicMaterial());
       if (isNotNull(ff.getCartographicIndexAvailabilityCode()))
         materialDescription.setCartographicIndexAvailabilityCode(ff.getCartographicIndexAvailabilityCode());
       codes = (isNotNull(ff.getCartographicFormatCode1()) ? ff.getCartographicFormatCode1() : "") + (isNotNull(ff.getCartographicFormatCode2()) ? ff.getCartographicFormatCode2() : "");
