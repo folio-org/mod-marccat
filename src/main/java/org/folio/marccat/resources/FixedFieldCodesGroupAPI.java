@@ -82,5 +82,4 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
         }).orElse(null);
     }, tenant, okapiUrl, configurator, "bibliographic", "material");
   }
-  
 }
