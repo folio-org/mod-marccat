@@ -125,7 +125,7 @@ public class GeneralInformation {
     setComputerTargetAudienceCode(configuration.get(audienceMaterial));
     setComputerFileTypeCode(configuration.get("material.computerFileTypeCode"));
     setComputerFileFormCode(configuration.get("material.computerFileFormCode"));
-    setCartographicIndexAvailabilityCode("0");
+    setCartographicIndexAvailabilityCode(configuration.get("material.cartographicIndexAvailabilityCode"));
     setCartographicReliefCode(configuration.get("material.cartographicReliefCode"));
     setCartographicProjectionCode(configuration.get("material.cartographicProjectionCode"));
     setCartographicMaterial(configuration.get("material.cartographicMaterial"));
@@ -146,7 +146,7 @@ public class GeneralInformation {
     setVisualTargetAudienceCode(configuration.get(audienceMaterial));
     setVisualMaterialTypeCode(configuration.get("material.visualMaterialTypeCode"));
     setVisualTechniqueCode(configuration.get("material.visualTechniqueCode"));
-  }
+ }
 
   /**
    * Makes field string value with default values.
