@@ -37,6 +37,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
+import static org.folio.marccat.config.constants.Global.BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC;
+import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
 
 /**
  * Represents a physical file of Marc Bibliographic records and provides methods for loading the file into the database.
@@ -210,6 +212,9 @@ public class BibliographicInputFile {
         if (newTag instanceof Browsable) {
           ((Browsable) newTag).setDescriptorStringText(st);
           Descriptor d = ((Browsable) newTag).getDescriptor();
+          final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), String.valueOf(df.getIndicator1()), String.valueOf(df.getIndicator2()));
+          d.setSkipInFiling(skipInFiling);
+
           Descriptor dup = createOrReplaceDescriptor(session, view, configuration, d);
           if(dup != null)
             ((Browsable) newTag).setDescriptor(dup);
@@ -362,5 +367,24 @@ public class BibliographicInputFile {
       throw new DataAccessException(e);
     }
   }
+
+
+  /**
+   * Changes any non-numeric indicators from the correlation table
+   * S for skipinfiling for bibliographic tags
+   *
+   * @param coKey
+   * @param indicator1
+   * @param indicator2
+   */
+  private int updateIndicatorNotNumeric(final CorrelationKey coKey, final String indicator1, final String indicator2) {
+    final int skipInFiling = 0;
+    if (coKey.getMarcFirstIndicator() == BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC)
+      return (!indicator1.isEmpty()) ? Integer.parseInt(indicator1) : skipInFiling;
+    else if (coKey.getMarcSecondIndicator() == BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC && !indicator2.isEmpty())
+      return (!indicator2.equals(EMPTY_VALUE)) ? Integer.parseInt(indicator2) : skipInFiling;
+    return skipInFiling;
+  }
+
 
 }
