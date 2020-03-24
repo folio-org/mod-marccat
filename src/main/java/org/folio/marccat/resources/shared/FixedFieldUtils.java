@@ -350,7 +350,7 @@ public class FixedFieldUtils {
           setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
           if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
             fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
-              storageService.getCodesList(lang, MAP_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
+              storageService.getCodesList(lang, MAP_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
           }
           break;
         case VISUAL_TYPE:
