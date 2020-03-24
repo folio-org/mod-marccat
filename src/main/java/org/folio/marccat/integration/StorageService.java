@@ -916,6 +916,31 @@ public class StorageService implements Closeable {
     }
   }
 
+
+  /**
+   * Gets the Material description information.
+   *
+   * @param recordTypeCode     the record type code (Tag 006//00) used here as filter criterion.
+   * @return a map with RecordTypeMaterial info.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public Map<String, Object> getHeaderTypeByRecordTypeCode(final char recordTypeCode,  final String code) throws DataAccessException {
+
+    final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
+
+    try {
+      final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
+      final RecordTypeMaterial rtm = dao.get006HeaderCode(session, recordTypeCode);
+
+      mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, rtm.getBibHeader006());
+      mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+      return mapRecordTypeMaterial;
+    } catch (final HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
   /**
    * Returns the multipart resource level associated with the given language.
    *
@@ -1111,7 +1136,7 @@ public class StorageService implements Closeable {
         if(tagNbr.equals("008"))
           map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
         else
-          map = getMaterialTypeInfosByLeaderValues(materialTag.getMaterialTypeCode().charAt(0),' ', tagNbr);
+          map = getHeaderTypeByRecordTypeCode(materialTag.getMaterialTypeCode().charAt(0), tagNbr);
         materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
         materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? materialTag.getMaterialTypeCode() : null);
         materialTag.setFormOfMaterial((String) map.get(Global.FORM_OF_MATERIAL_LABEL));

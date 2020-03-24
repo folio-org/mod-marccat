@@ -13,6 +13,8 @@ import java.util.Objects;
 
 public class RecordTypeMaterialDAO extends AbstractDAO {
 
+  private static final String FROM_RECORD_TYPE_MATERIAL_AS_T = "from RecordTypeMaterial as t ";
+
   /**
    * The method gets the material type for 006/008 tags field using leader values.
    *
@@ -25,7 +27,7 @@ public class RecordTypeMaterialDAO extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public RecordTypeMaterial getMaterialHeaderCode(final Session session, final char recordType, final char bibliographicLevel) throws HibernateException {
     final List<RecordTypeMaterial> recordTypeMaterials = session.find(
-      "from RecordTypeMaterial as t "
+      FROM_RECORD_TYPE_MATERIAL_AS_T
         + " where t.recordTypeCode = ? and "
         + "       (t.bibliographicLevel = ? "
         + "        OR t.bibliographicLevel is NULL)",
@@ -40,11 +42,30 @@ public class RecordTypeMaterialDAO extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public RecordTypeMaterial getDefaultTypeByHeaderCode(final Session session, final int headerCode, final String code) throws HibernateException {
     final List<RecordTypeMaterial> recordTypeMaterials = session.find(
-      "from RecordTypeMaterial as t "
+      FROM_RECORD_TYPE_MATERIAL_AS_T
         + (code.equals(Global.OTHER_MATERIAL_TAG_CODE) ? " where t.bibHeader006 = ?" : " where t.bibHeader008 = ?"),
       new Object[]{headerCode},
       new Type[]{Hibernate.INTEGER});
 
+    return recordTypeMaterials.stream().filter(Objects::nonNull).findFirst().orElse(null);
+  }
+
+  /**
+   * The method gets the material type for 006 tag field using material type.
+   *
+   * @param session            the valid hibernate session.
+   * @param materialType       the material type
+   * @return RecordTypeMaterial to represent form of item
+   * @throws HibernateException in case of hibernate exception.
+   */
+  @SuppressWarnings("unchecked")
+  public RecordTypeMaterial get006HeaderCode(final Session session, final Character materialType) throws HibernateException {
+    final List <RecordTypeMaterial> recordTypeMaterials =
+      session.find(
+        FROM_RECORD_TYPE_MATERIAL_AS_T
+          + " where t.recordTypeCode = ?",
+        new Object[]{materialType},
+        new Type[]{Hibernate.CHARACTER});
     return recordTypeMaterials.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 }
