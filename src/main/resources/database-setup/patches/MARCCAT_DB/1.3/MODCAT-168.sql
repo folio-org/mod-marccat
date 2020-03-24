@@ -1,0 +1,9 @@
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk6;
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk12;
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk14;
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk16;
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk17;
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk22;
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk24;
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk25;
+ALTER TABLE amicus.mtrl_dsc DROP CONSTRAINT mtrl_dsc_fk34;

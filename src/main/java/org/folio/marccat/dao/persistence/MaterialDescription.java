@@ -134,7 +134,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
    */
   private String leftJustify(final String s) {
     return ofNullable(s).map(v -> stream(s.split("")).filter(character -> !" ".equals(character)).collect(joining()))
-      .map(result -> StringUtils.leftPad(result, s.length() - result.length(), ' '))
+      .map(result -> StringUtils.rightPad(result, s.length(), ' '))
       .orElse("    ");
   }
 
@@ -178,7 +178,6 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
         .append(getRecordModifiedCode())
         .append(getRecordCataloguingSourceCode());
     }
-
     return sb.toString();
   }
 
