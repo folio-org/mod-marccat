@@ -7,9 +7,7 @@ import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.MandatoryTagException;
-
 import java.util.Collections;
-import java.util.Comparator;
 
 
 public class AuthorityItem extends CatalogItem {
@@ -114,9 +112,9 @@ public class AuthorityItem extends CatalogItem {
   public void sortTags() {
     final Session session = this.session;
 
-    Collections.sort(getTags(), (Comparator) (o1, o2) -> {
-      Tag t1 = (Tag) o1;
-      Tag t2 = (Tag) o2;
+    Collections.sort(getTags(),  (o1, o2) -> {
+      Tag t1 = o1;
+      Tag t2 = o2;
       try {
         return t1.getMarcEncoding(session).getMarcTag().
           compareTo(t2.getMarcEncoding().getMarcTag());

@@ -180,11 +180,12 @@ public class RecordParser {
   }
 
   @SuppressWarnings("unchecked")
-  private boolean checkIfAlreadyExist(final int headingNbr, CatalogItem item, final Class clazz) {
+  private boolean checkIfAlreadyExist(final CorrelationValues tagCorrelations, int headingNbr, CatalogItem item, final Class clazz) {
     return item.getTags().stream().filter(aTag -> clazz.isAssignableFrom(aTag.getClass()))
       .anyMatch(t -> {
         AccessPoint apf = (AccessPoint) t;
-        return apf.getHeadingNumber() == headingNbr;
+        CorrelationValues correlationValues = t.getCorrelationValues();
+        return apf.getHeadingNumber() == headingNbr && correlationValues.equals(tagCorrelations);
       });
   }
 
@@ -396,25 +397,25 @@ public class RecordParser {
                                      final int view) throws HibernateException {
 
     if (variableField.getCategoryCode() == Global.TITLE_CATEGORY) {
-      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, TitleAccessPoint.class))
+      if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, TitleAccessPoint.class))
         addTitleToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.NAME_CATEGORY) {
-      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, NameAccessPoint.class))
+      if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, NameAccessPoint.class))
         addNameToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.CONTROL_NUMBER_CATEGORY) {
-      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, ControlNumberAccessPoint.class))
+      if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, ControlNumberAccessPoint.class))
         addControlFieldToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.CLASSIFICATION_CATEGORY) {
-      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, ClassificationAccessPoint.class))
+      if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, ClassificationAccessPoint.class))
         addClassificationToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     } else if (variableField.getCategoryCode() == Global.SUBJECT_CATEGORY) {
-      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, SubjectAccessPoint.class))
+      if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, SubjectAccessPoint.class))
         addSubjectToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     }  else if (variableField.getCategoryCode() == Global.NAME_TITLE_CATEGORY) {
-      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, NameTitleAccessPoint.class))
+      if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, NameTitleAccessPoint.class))
         addNameTitleToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     }  else if (variableField.getCategoryCode() == Global.RELATION_CATEGORY) {
-      if (!checkIfAlreadyExist(variableField.getKeyNumber(), item, BibliographicRelationshipTag.class))
+      if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, BibliographicRelationshipTag.class))
         addRelationToCatalog(item, correlationValues, variableField, bibItemNumber);
     }
     else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {

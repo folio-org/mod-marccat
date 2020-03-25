@@ -6,22 +6,15 @@ import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import static org.folio.marccat.util.F.deepCopy;
 
 
@@ -40,14 +33,6 @@ public abstract class DAODescriptor extends AbstractDAO {
    * The blank sortform.
    */
   private static final String BLANK_SORTFORM = " ";
-  /**
-   * The sort sortform length.
-   */
-  private static final int SORTFORM_LENGTH = 1080;
-  /**
-   * The max sort sortform length.
-   */
-  private static final int MAX_SORTFORM_LENGTH = 250;
   private static final String FROM = " from ";
   private String queryAccessPoint = " AND hdg.accessPointLanguage=? ";
   private String queryTarget = " AND ref.key.target=hdg.key.headingNumber ";
@@ -112,94 +97,9 @@ public abstract class DAODescriptor extends AbstractDAO {
     return descriptor.getSortForm();
   }
 
-  /**
-   * Calculates the sortform of a String with known search index. The method
-   * is overloaded. (String) and (Descriptor) versions exist.
-   *
-   * @param s              the s
-   * @param browseIndexKey the browse index key
-   * @param session        the session
-   * @return the string
-   * @throws HibernateException the hibernate exception
-   * @throws SQLException       the SQL exception
-   * @since 1.0
-   */
-  /*private String calculateSortForm(final String s, final String browseIndexKey, final Session session)
-    throws HibernateException, SQLException {
-    if ("".equals(s)) {
-      return " ";
-    }
-    final SortFormParameters parms = new DAOIndexList()
-      .getSortFormParametersByKey(browseIndexKey, session);
-    return calculateSortForm(s, parms, session);
-  }*/
 
-  /**
-   * Calculate sort form of a String.
-   *
-   * @param text    the text
-   * @param parms   the parms
-   * @param session the session
-   * @return the string
-   * @throws HibernateException the hibernate exception
-   * @throws SortFormException  the sort form exception
-   * @throws SQLException       the SQL exception
-   */
- /* public String calculateSortForm(final String text, final SortFormParameters parms, final Session session)
-    throws HibernateException, SQLException {
-    String result;
-    CallableStatement proc = null;
-    Connection connection;
-    final int bufSize = 300;
-    int rc;
-    connection = session.connection();
-    try {
-      proc = connection.prepareCall("{ call PACK_SORTFORM.SF_PREPROCESS(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
-      proc.setString(1, text);
-      proc.setInt(2, bufSize);
-      proc.setInt(3, parms.getSortFormMainType());
-      proc.setInt(4, parms.getSortFormSubType());
-      proc.setInt(5, parms.getNameTitleOrSubjectType());
-      proc.setInt(6, parms.getNameSubtype());
-      proc.setInt(7, parms.getSkipInFiling());
-      proc.registerOutParameter(8, Types.INTEGER);
-      proc.registerOutParameter(9, Types.VARCHAR);
-      proc.execute();
-      rc = proc.getInt(8);
-      if (rc != 0) {
-        throw new SortFormException(String.valueOf(rc));
-      }
-      result = proc.getString(9);
-      proc.close();
-      proc = connection.prepareCall("{ call PACK_SORTFORM.SF_BUILDSRTFRM(?, ?, ?, ?, ?, ?, ?, ?, ?) }");
-      proc.setString(1, result);
-      proc.setInt(2, bufSize);
-      proc.setInt(3, parms.getSortFormMainType());
-      proc.setInt(4, parms.getSortFormSubType());
-      proc.setInt(5, parms.getNameTitleOrSubjectType());
-      proc.setInt(6, parms.getNameSubtype());
-      proc.setInt(7, parms.getSkipInFiling());
-      proc.registerOutParameter(8, Types.INTEGER);
-      proc.registerOutParameter(9, Types.VARCHAR);
-      proc.execute();
 
-      rc = proc.getInt(8);
 
-      if (rc != 0) {
-        throw new SortFormException(String.valueOf(rc));
-      }
-      result = proc.getString(9);
-    } catch (SQLException e) {
-      throw new SQLException(e);
-    } finally {
-      if (proc != null) {
-        proc.close();
-      }
-
-    }
-
-    return result;
-  }*/
 
   /**
    * Load a heading by heading number and cataloguing view.
@@ -713,33 +613,6 @@ public abstract class DAODescriptor extends AbstractDAO {
     return result;
   }
 
-  /**
-   * Calculate search term.
-   *
-   * @param term        the term
-   * @param browseIndex the browse index
-   * @param session     the session
-   * @return the string
-   * @throws HibernateException the hibernate exception
-   * @throws SQLException       the SQL exception
-   */
- /* public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
-    throws HibernateException, SQLException {
-    String searchTerm;
-    try {
-      searchTerm = calculateSortForm(term, browseIndex, session);
-    } catch (SortFormException e) {
-      int lterm = term.getBytes().length;
-      String newTerm = lterm > SORTFORM_LENGTH ? term.substring(0, MAX_SORTFORM_LENGTH)
-        : term;
-      try {
-        searchTerm = calculateSortForm(newTerm, browseIndex, session);
-      } catch (SortFormException e1) {
-        searchTerm = " ";
-      }
-    }
-    return searchTerm;
-  }*/
 
   /**
    * Gets the cross references with language.
