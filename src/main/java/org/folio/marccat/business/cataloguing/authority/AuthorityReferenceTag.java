@@ -78,7 +78,7 @@ public abstract class AuthorityReferenceTag
 
   @Override
   public boolean equals(Object obj) {
-    if (obj.getClass().equals(this.getClass())) {
+    if (obj != null &&obj.getClass().equals(this.getClass())) {
       AuthorityReferenceTag aRef = (AuthorityReferenceTag) obj;
       return aRef.getReference().equals(this.getReference());
     }

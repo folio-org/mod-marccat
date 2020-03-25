@@ -78,7 +78,8 @@ public class SemanticDAO {
       }
     } finally {
       try {
-        rs.close();
+        if(rs != null)
+          rs.close();
       } catch (Exception e) {
         logger.error(e.getMessage(), e);
       }

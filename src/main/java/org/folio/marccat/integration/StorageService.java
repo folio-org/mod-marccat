@@ -924,7 +924,7 @@ public class StorageService implements Closeable {
    * @return a map with RecordTypeMaterial info.
    * @throws DataAccessException in case of data access failure.
    */
-  public Map<String, Object> getHeaderTypeByRecordTypeCode(final char recordTypeCode,  final String code) throws DataAccessException {
+  public Map<String, Object> getHeaderTypeByRecordTypeCode(final char recordTypeCode) {
 
     final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
 
@@ -1136,7 +1136,7 @@ public class StorageService implements Closeable {
         if(tagNbr.equals("008"))
           map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
         else
-          map = getHeaderTypeByRecordTypeCode(materialTag.getMaterialTypeCode().charAt(0), tagNbr);
+          map = getHeaderTypeByRecordTypeCode(materialTag.getMaterialTypeCode().charAt(0));
         materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
         materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? materialTag.getMaterialTypeCode() : null);
         materialTag.setFormOfMaterial((String) map.get(Global.FORM_OF_MATERIAL_LABEL));
