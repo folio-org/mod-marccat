@@ -29,7 +29,8 @@ public class NameToTitleReferencesDAO extends CrossReferencesDAO {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
-  private REF loadReciprocal(final REF ref, final int cataloguingView, final Session session) throws HibernateException {
+  @Override
+  public REF loadReciprocal(final REF ref, final int cataloguingView, final Session session) throws HibernateException {
 
     final int reciprocalType = ReferenceType.getReciprocal(ref.getType());
     final String queryString;

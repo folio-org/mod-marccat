@@ -33,9 +33,9 @@ public class T_SINGLE_LONGCHAR extends CodeTable {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj.getClass().equals(this.getClass())))
+    if (obj != null && !(obj.getClass().equals(this.getClass())))
       return false;
-    return (((T_SINGLE_LONGCHAR) obj).getCode().equals(getCode()))
+    return (obj != null && ((T_SINGLE_LONGCHAR) obj).getCode().equals(getCode()))
       && (((T_SINGLE_LONGCHAR) obj).getLanguage().equals(getLanguage()));
   }
 

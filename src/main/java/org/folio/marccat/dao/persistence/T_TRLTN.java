@@ -72,7 +72,7 @@ public class T_TRLTN implements Serializable {
    * @see java.lang.Object#hashCode()
    */
   public int hashCode() {
-    return new Long(getStringNumber()).intValue() + getLanguageNumber();
+    return Long.valueOf(getStringNumber()).intValue() + getLanguageNumber();
   }
 
 }
