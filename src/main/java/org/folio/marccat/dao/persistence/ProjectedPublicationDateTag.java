@@ -1,17 +1,15 @@
-/*
- * (c) LibriCore
- *
- * Created on Oct 25, 2004
- *
- * CataloguingSourceTag.java
- */
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.util.StringText;
 
-
+/**
+ * Class representing the Projected Publication Date Tag
+ *
+ * @author paulm
+ * @author carment
+ */
 public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
 
 
@@ -22,21 +20,16 @@ public class ProjectedPublicationDateTag extends VariableHeaderUsingItemEntity {
 
   @Override
   public StringText getStringText() {
-    StringText result = null;
-    String source = "" + ((BIB_ITM) getItemEntity()).getProjectedPublicationDateCode();
-
+    String source = ((BIB_ITM) getItemEntity()).getProjectedPublicationDateCode();
     if (source == null) {
-      result = new StringText(Subfield.SUBFIELD_DELIMITER + "a");
+      return new StringText(Subfield.SUBFIELD_DELIMITER + "a");
     } else {
-      result = new StringText(source);
+      return new StringText(source);
     }
-    return result;
   }
 
   @Override
-  public void setStringText(StringText st) {
-//TODO need a more definitive way to set to null
-    if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
+  public void setStringText(StringText st) {    if (st.toString().equals(Subfield.SUBFIELD_DELIMITER + "a")) {
       ((BIB_ITM) getItemEntity()).setProjectedPublicationDateCode(null);
     } else {
       ((BIB_ITM) getItemEntity()).setProjectedPublicationDateCode(st.toString());

@@ -28,7 +28,7 @@ public class S_LCK_TBL implements Persistence, Serializable {
   }
 
   public boolean equals(Object arg0) {
-    if (arg0.getClass() == S_LCK_TBL.class) {
+    if (arg0 != null && (arg0.getClass() == S_LCK_TBL.class)) {
       S_LCK_TBL arg = (S_LCK_TBL) arg0;
       return arg.getTableKey() == this.getTableKey()
         && arg.getTableType() == this.getTableType();

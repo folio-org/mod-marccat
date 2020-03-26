@@ -94,7 +94,7 @@ public class CorrelationValues implements Cloneable {
 
   @Override
   public boolean equals(Object o) {
-    if (o.getClass() == getClass()) {
+    if (o != null && o.getClass() == getClass()) {
       final CorrelationValues other = (CorrelationValues) o;
       return Arrays.equals(values, other.values);
     }

@@ -67,7 +67,7 @@ public class CrossReferencesDAO extends AbstractDAO {
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
-  private REF loadReciprocal(REF ref, int cataloguingView, final Session session) throws HibernateException {
+  public REF loadReciprocal(final REF ref, final int cataloguingView, final Session session) throws HibernateException {
     final int reciprocalType = ReferenceType.getReciprocal(ref.getType());
     final List<REF> list =
       session.find(
