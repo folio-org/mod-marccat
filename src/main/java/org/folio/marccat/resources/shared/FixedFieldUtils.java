@@ -171,6 +171,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("kindOfColorStockCode", storageService.getCodesList(lang, MP_KIND_COLORS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("deteriorationStageCode", storageService.getCodesList(lang, MP_DETERIORATION_STAGE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("completenessCode", storageService.getCodesList(lang, MP_COMPLETENESS).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("inspectionDate", Collections.EMPTY_LIST ));
   }
 
   /**
@@ -203,6 +204,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("emulsionOnFilmCode", storageService.getCodesList(lang, MIC_EMUL_FILM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("generationCode", storageService.getCodesList(lang, MIC_GENERATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("baseOfFilmCode", storageService.getCodesList(lang, MIC_BASE_FILM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("reductionRatioCode", Collections.EMPTY_LIST ));
   }
 
   /**
@@ -287,6 +289,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("antecedentSourceCode", storageService.getCodesList(lang, CF_ANTECEDENT_SRC).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("levelOfCompressionCode", storageService.getCodesList(lang, CF_COMPRESSION_LVL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("reformattingQualityCode", storageService.getCodesList(lang, CF_REFORMATTING_QUALITY).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("imageBitDepth", Collections.EMPTY_LIST ));
   }
 
   /**
@@ -306,6 +309,8 @@ public class FixedFieldUtils {
     Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, tag);
     if (mapRecordTypeMaterial != null) {
       if (tag.equals(MATERIAL_TAG_CODE)) {
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateFirstPublication", Collections.EMPTY_LIST ));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateLastPublication", Collections.EMPTY_LIST ));
         fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypeCode", storageService.getCodesList(lang, DATE_TYPE).stream().map(toPairItem).collect(toList())));
         fixedFieldCodesGroup.addResults(new FixedFieldElement("placeOfPublication", storageService.getCodesList(lang, MARC_COUNTRY).stream().map(toPairItem).collect(toList())));
       }
@@ -358,6 +363,7 @@ public class FixedFieldUtils {
           if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
             fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
               storageService.getCodesList(lang, VM_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
+            fixedFieldCodesGroup.addResults(new FixedFieldElement("visualRunningTime", Collections.EMPTY_LIST ));
           }
           break;
         case COMPUTER_TYPE:
