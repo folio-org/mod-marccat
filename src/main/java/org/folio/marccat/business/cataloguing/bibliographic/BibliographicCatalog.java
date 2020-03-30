@@ -345,6 +345,8 @@ public class BibliographicCatalog extends Catalog {
       codes = (isNotNull(ff.getMusicLiteraryTextCode1()) ? ff.getMusicLiteraryTextCode1() : "")
         + (isNotNull(ff.getMusicLiteraryTextCode2()) ? ff.getMusicLiteraryTextCode2() : "");
       materialDescription.setMusicLiteraryTextCode(codes);
+      if (isNotNull(ff.getMusicTranspositionArrangementCode()))
+        materialDescription.setMusicTranspositionArrangementCode(ff.getMusicTranspositionArrangementCode());
     }
 
     if (materialDescription.getMaterialDescription008Indicator().equals("1")) {
