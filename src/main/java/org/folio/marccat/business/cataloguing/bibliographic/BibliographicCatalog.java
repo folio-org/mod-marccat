@@ -13,6 +13,7 @@ import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NewTagException;
+import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.text.ParseException;
@@ -260,15 +261,7 @@ public class BibliographicCatalog extends Catalog {
         materialDescription.setTargetAudienceCode(ff.getTargetAudienceCode());
       if (isNotNull(ff.getNatureOfEntireWork()))
         materialDescription.setNatureOfContentsCode(ff.getNatureOfEntireWork());
-      final String natureContentCodes = (isNotNull(ff.getNatureOfContent1()) ? ff.getNatureOfContent1() : "")
-        + (isNotNull(ff.getNatureOfContent2()) ? ff.getNatureOfContent2() : "")
-        + (isNotNull(ff.getNatureOfContent3()) ? ff.getNatureOfContent3() : "")
-        + (isNotNull(ff.getNatureOfContent4()) ? ff.getNatureOfContent4() : "");
-      materialDescription.setNatureOfContentsCode(natureContentCodes);
-      if (isNotNull(ff.getGovernmentPublicationCode()))
-        materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
-      if (isNotNull(ff.getConferencePublicationCode()))
-        materialDescription.setConferencePublicationCode(ff.getConferencePublicationCode());
+      setNaturesAndPublications(ff, materialDescription);
       if (isNotNull(ff.getBookFestschrift()))
         materialDescription.setBookFestschrift(ff.getBookFestschrift());
       if (isNotNull(ff.getBookIndexAvailabilityCode()))
@@ -323,12 +316,14 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getSerialTypeCode())) materialDescription.setSerialTypeCode(ff.getSerialTypeCode());
       if (isNotNull(ff.getSerialFormOriginalItemCode()))
         materialDescription.setSerialFormOriginalItemCode(ff.getSerialFormOriginalItemCode());
+      setNaturesAndPublications(ff, materialDescription);
       if (isNotNull(ff.getSerialOriginalAlphabetOfTitleCode()))
         materialDescription.setSerialOriginalAlphabetOfTitleCode(ff.getSerialOriginalAlphabetOfTitleCode());
       if (isNotNull(ff.getSerialSuccessiveLatestCode()))
         materialDescription.setSerialSuccessiveLatestCode(ff.getSerialSuccessiveLatestCode());
       materialDescription.setSerialTitlePageExistenceCode(" ");
       materialDescription.setSerialIndexAvailabilityCode(" ");
+
     } else if (materialDescription.isMixedMaterial()) {
       if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
     } else if (materialDescription.isMusic()) {
@@ -377,6 +372,18 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getRecordCataloguingSourceCode()))
         materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
     }
+  }
+
+  private void setNaturesAndPublications(FixedField ff, MaterialDescription materialDescription) {
+    final String natureContentCodes = (isNotNull(ff.getNatureOfContent1()) ? ff.getNatureOfContent1() : "")
+      + (isNotNull(ff.getNatureOfContent2()) ? ff.getNatureOfContent2() : "")
+      + (isNotNull(ff.getNatureOfContent3()) ? ff.getNatureOfContent3() : "")
+      + (isNotNull(ff.getNatureOfContent4()) ? ff.getNatureOfContent4() : ff.getNatureOfEntireWork());
+    materialDescription.setNatureOfContentsCode(natureContentCodes);
+    if (isNotNull(ff.getGovernmentPublicationCode()))
+      materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
+    if (isNotNull(ff.getConferencePublicationCode()))
+      materialDescription.setConferencePublicationCode(ff.getConferencePublicationCode());
   }
 
 
