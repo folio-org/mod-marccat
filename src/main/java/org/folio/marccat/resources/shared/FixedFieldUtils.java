@@ -363,8 +363,7 @@ public class FixedFieldUtils {
           if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
             fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
               storageService.getCodesList(lang, VM_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
-            fixedFieldCodesGroup.addResults(new FixedFieldElement("visualRunningTime", Collections.EMPTY_LIST ));
-          }
+         }
           break;
         case COMPUTER_TYPE:
           setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
@@ -415,12 +414,13 @@ public class FixedFieldUtils {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setVisualMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualRunningTime", Collections.EMPTY_LIST ));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, VSL_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualMaterialTypeCode", storageService.getCodesList(lang, VSL_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTechniqueCode", storageService.getCodesList(lang, VSL_TECHNIQUE).stream().map(toPairItem).collect(toList())));
-  }
+ }
 
   /**
    * Sets values Map type for 008/006 fixed field
