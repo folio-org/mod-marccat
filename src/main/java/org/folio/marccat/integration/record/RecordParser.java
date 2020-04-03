@@ -153,8 +153,8 @@ public class RecordParser {
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
       item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
         final MaterialDescription materialTag = (MaterialDescription) aTag;
-        final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
-        if (correlation.getMarcTag().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) && materialTag.getMaterialDescriptionKeyNumber() == field.getFixedField().getKeyNumber()) {
+        final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
+        if (tagNbr.equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) && materialTag.getMaterialDescriptionKeyNumber() == field.getFixedField().getKeyNumber()) {
           if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
             materialTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
             catalog.toMaterialDescription(field.getFixedField(), materialTag);
