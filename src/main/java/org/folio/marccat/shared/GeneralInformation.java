@@ -83,6 +83,16 @@ public class GeneralInformation {
   private String marcCountryCode;
   private String languageCode;
 
+  private String mediumForSoundCode;
+  private String videoRecordingFormatCode;
+
+  private String soundOnMediumOrSeparateCode;
+
+  private String remoteSensingDataTypeCode;
+
+  private String includesSoundCode;
+
+
   public GeneralInformation() {
   }
 
@@ -102,7 +112,7 @@ public class GeneralInformation {
    *
    * @param configuration the map that contains configuration values to set.
    */
-  public void setDefaultValues(final Map<String, String> configuration) {
+  public void setDefaultValues(final Map <String, String> configuration) {
     final String audienceMaterial = "material.targetAudienceCode";
     setRecordModifiedCode(" ");
     setRecordCataloguingSourceCode(configuration.get("bibliographicItem.recordCataloguingSourceCode"));
@@ -111,7 +121,6 @@ public class GeneralInformation {
     setItemDateFirstPublication(Global.ITEM_DATE_FIRST_PUBLICATION);
     setItemDateLastPublication(Global.ITEM_DATE_LAST_PUBLICATION);
     setMarcCountryCode(configuration.get("bibliographicItem.marcCountryCode"));
-
     setBookIllustrationCode(configuration.get("material.bookIllustrationCode"));
     setTargetAudienceCode(configuration.get(audienceMaterial));
     setFormOfItemCode(configuration.get("material.formOfItemCode"));
@@ -146,7 +155,13 @@ public class GeneralInformation {
     setVisualTargetAudienceCode(configuration.get(audienceMaterial));
     setVisualMaterialTypeCode(configuration.get("material.visualMaterialTypeCode"));
     setVisualTechniqueCode(configuration.get("material.visualTechniqueCode"));
- }
+    setMediumForSoundCode(configuration.get("material.mediumForSoundCode"));
+    setVideoRecordingFormatCode(configuration.get("material.videoRecordingFormatCode"));
+    setSoundOnMediumOrSeparateCode(configuration.get("material.soundOnMediumOrSeparateCode"));
+    setRemoteSensingDataTypeCode(configuration.get("material.remoteSensingDataTypeCode"));
+    setIncludesSoundCode(configuration.get("material.includesSoundCode"));
+
+  }
 
   /**
    * Makes field string value with default values.
@@ -794,4 +809,46 @@ public class GeneralInformation {
   public void setRecordModifiedCode(String recordModifiedCode) {
     this.recordModifiedCode = recordModifiedCode;
   }
+
+  public String getMediumForSoundCode() {
+    return mediumForSoundCode;
+  }
+
+  public void setMediumForSoundCode(String mediumForSoundCode) {
+    this.mediumForSoundCode = mediumForSoundCode;
+  }
+
+  public String getSoundOnMediumOrSeparateCode() {
+    return soundOnMediumOrSeparateCode;
+  }
+
+  public void setSoundOnMediumOrSeparateCode(String soundOnMediumOrSeparateCode) {
+    this.soundOnMediumOrSeparateCode = soundOnMediumOrSeparateCode;
+  }
+  public String getRemoteSensingDataTypeCode() {
+    return remoteSensingDataTypeCode;
+  }
+
+  public void setRemoteSensingDataTypeCode(String remoteSensingDataTypeCode) {
+    this.remoteSensingDataTypeCode = remoteSensingDataTypeCode;
+  }
+
+  public String getVideoRecordingFormatCode() {
+    return videoRecordingFormatCode;
+  }
+
+  public void setVideoRecordingFormatCode(String videoRecordingFormatCode) {
+    this.videoRecordingFormatCode = videoRecordingFormatCode;
+  }
+  public String getIncludesSoundCode() {
+    return includesSoundCode;
+  }
+
+  public void setIncludesSoundCode(String includesSoundCode) {
+    this.includesSoundCode = includesSoundCode;
+  }
+
+
+
+
 }
