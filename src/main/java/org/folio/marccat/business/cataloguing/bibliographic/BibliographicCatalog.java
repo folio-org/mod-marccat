@@ -634,7 +634,7 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getPolarityCode()))
         ((MotionPicture) physicalDescription).setPolarityCode(ff.getPolarityCode().charAt(0));
       if (isNotNull(ff.getGenerationCode()))
-        ((MotionPicture) physicalDescription).setGenerationCode(ff.getPolarityCode().charAt(0));
+        ((MotionPicture) physicalDescription).setGenerationCode(ff.getGenerationCode().charAt(0));
       if (isNotNull(ff.getBaseOfFilmCode()))
         ((MotionPicture) physicalDescription).setBaseOfFilmCode(ff.getBaseOfFilmCode().charAt(0));
       if (isNotNull(ff.getRefinedCategoriesOfColourCode()))
