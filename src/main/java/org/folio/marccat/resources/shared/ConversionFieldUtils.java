@@ -253,7 +253,7 @@ public class ConversionFieldUtils {
       fixedField.setPlatformConstructionTypeCode(String.valueOf(valueField.charAt(6)));
       fixedField.setPlatformUseCode(String.valueOf(valueField.charAt(7)));
       fixedField.setSensorTypeCode(String.valueOf(valueField.charAt(8)));
-      fixedField.setRemoteDataTypeCode(valueField.substring(9));
+      fixedField.setRemoteSensingDataTypeCode(valueField.substring(9));
       fixedField.setPhysicalType(FixedField.PhysicalType.REMOTE_SENSING_IMAGE);
     } else if (categoryOfMaterial.equals(Global.SOUND_RECORDING)) {
       fixedField.setSpeedCode(String.valueOf(valueField.charAt(3)));
@@ -275,8 +275,8 @@ public class ConversionFieldUtils {
     } else if (categoryOfMaterial.equals(Global.VIDEO_RECORDING)) {
       fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
       fixedField.setFormatCode(String.valueOf(valueField.charAt(4)));
-      fixedField.setIncludesSoundCode(String.valueOf(valueField.charAt(5)));
-      fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(6)));
+      fixedField.setVideoRecordingFormatCode(String.valueOf(valueField.charAt(5)));
+      fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(6)));
       fixedField.setDimensionCode(String.valueOf(valueField.charAt(7)));
       fixedField.setConfigurationCode(String.valueOf(valueField.charAt(8)));
       fixedField.setPhysicalType(FixedField.PhysicalType.VIDEO_RECORDING);
@@ -507,7 +507,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getPlatformConstructionTypeCode());
       sb.append(fixedField.getPlatformUseCode());
       sb.append(fixedField.getSensorTypeCode());
-      sb.append(fixedField.getRemoteDataTypeCode());
+      sb.append(fixedField.getRemoteSensingDataTypeCode());
     } else if (categoryOfMaterial.equals(Global.SOUND_RECORDING)) {
       sb.append(" ");
       sb.append(fixedField.getSpeedCode());
@@ -525,8 +525,8 @@ public class ConversionFieldUtils {
       sb.append(" ");
       sb.append(fixedField.getColorCode());
       sb.append(fixedField.getFormatCode());
-      sb.append(fixedField.getIncludesSoundCode());
-      sb.append(fixedField.getMediumForSoundCode());
+      sb.append(fixedField.getVideoRecordingFormatCode());
+      sb.append(fixedField.getSoundOnMediumOrSeparateCode());
       sb.append(fixedField.getDimensionCode());
       sb.append(fixedField.getConfigurationCode());
     }

@@ -2920,7 +2920,7 @@ public class FixedField {
    * @param remoteSensingDataTypeCode The remoteSensingDataTypeCode
    */
   @JsonProperty("remoteSensingDataTypeCode")
-  public void setRemoteSensingDataTypeCodee(String remoteSensingDataTypeCode) {
+  public void setRemoteSensingDataTypeCode(String remoteSensingDataTypeCode) {
     this.attributes.put("remoteSensingDataTypeCode", remoteSensingDataTypeCode);
     this.remoteSensingDataTypeCode = remoteSensingDataTypeCode;
   }

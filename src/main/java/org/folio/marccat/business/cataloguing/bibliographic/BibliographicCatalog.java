@@ -250,6 +250,7 @@ public class BibliographicCatalog extends Catalog {
   public void toMaterialDescription(final org.folio.marccat.resources.domain.FixedField ff,
                                     final MaterialDescription materialDescription) {
     materialDescription.setMaterialTypeCode(ff.getMaterialTypeCode());
+    //TODO  se è presente ff.getMaterialTypeCode(), cambiare materialDEscription
     if (materialDescription.isBook()) {
       if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
       final String bookIllustration = (isNotNull(ff.getBookIllustrationCode1()) ? ff.getBookIllustrationCode1() : "")
