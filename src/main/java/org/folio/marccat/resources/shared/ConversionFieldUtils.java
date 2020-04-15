@@ -274,7 +274,7 @@ public class ConversionFieldUtils {
       fixedField.setPhysicalType(FixedField.PhysicalType.UNSPECIFIED);
     } else if (categoryOfMaterial.equals(Global.VIDEO_RECORDING)) {
       fixedField.setColorCode(String.valueOf(valueField.charAt(3)));
-      fixedField.setFormatCode(String.valueOf(valueField.charAt(4)));
+      fixedField.setVideoRecordingFormatCode(String.valueOf(valueField.charAt(4)));
       fixedField.setMediumForSoundCode(String.valueOf(valueField.charAt(5)));
       fixedField.setSoundOnMediumOrSeparateCode(String.valueOf(valueField.charAt(6)));
       fixedField.setDimensionCode(String.valueOf(valueField.charAt(7)));
@@ -524,7 +524,7 @@ public class ConversionFieldUtils {
     } else if (categoryOfMaterial.equals(Global.VIDEO_RECORDING)) {
       sb.append(" ");
       sb.append(fixedField.getColorCode());
-      sb.append(fixedField.getFormatCode());
+      sb.append(fixedField.getVideoRecordingFormatCode());
       sb.append(fixedField.getMediumForSoundCode());
       sb.append(fixedField.getSoundOnMediumOrSeparateCode());
       sb.append(fixedField.getDimensionCode());
