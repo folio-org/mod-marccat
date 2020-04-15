@@ -661,8 +661,8 @@ public class BibliographicCatalog extends Catalog {
         ((RemoteSensingImage) physicalDescription).setPlatformUseCode(ff.getPlatformUseCode().charAt(0));
       if (isNotNull(ff.getSensorTypeCode()))
         ((RemoteSensingImage) physicalDescription).setSensorTypeCode(ff.getSensorTypeCode().charAt(0));
-      if (isNotNull(ff.getRemoteDataTypeCode()))
-        ((RemoteSensingImage) physicalDescription).setDataTypeCode(ff.getRemoteDataTypeCode());
+      if (isNotNull(ff.getRemoteSensingDataTypeCode()))
+        ((RemoteSensingImage) physicalDescription).setDataTypeCode(ff.getRemoteSensingDataTypeCode());
     } else if (physicalDescription instanceof SoundRecording) {
       if (isNotNull(ff.getSpeedCode()))
         ((SoundRecording) physicalDescription).setSpeedCode(ff.getSpeedCode().charAt(0));
@@ -689,16 +689,17 @@ public class BibliographicCatalog extends Catalog {
     } else if ((physicalDescription instanceof Text) || (physicalDescription instanceof Unspecified) || (physicalDescription instanceof VideoRecording)) {
       if (isNotNull(ff.getColorCode()))
         ((VideoRecording) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
-      if (isNotNull(ff.getFormatCode()))
-        ((VideoRecording) physicalDescription).setFormatCode(ff.getFormatCode().charAt(0));
-      if (isNotNull(ff.getIncludesSoundCode()))
-        ((VideoRecording) physicalDescription).setIncludesSoundCode(ff.getIncludesSoundCode().charAt(0));
+      if (isNotNull(ff.getVideoRecordingFormatCode()))
+        ((VideoRecording) physicalDescription).setFormatCode(ff.getVideoRecordingFormatCode().charAt(0));
+      if (isNotNull(ff.getSoundOnMediumOrSeparateCode()))
+        ((VideoRecording) physicalDescription).setIncludesSoundCode(ff.getSoundOnMediumOrSeparateCode().charAt(0));
       if (isNotNull(ff.getMediumForSoundCode()))
         ((VideoRecording) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
       if (isNotNull(ff.getDimensionCode()))
         ((VideoRecording) physicalDescription).setDimensionsCode(ff.getDimensionCode().charAt(0));
       if (isNotNull(ff.getConfigurationCode()))
         ((VideoRecording) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
+
     }
   }
 
