@@ -142,11 +142,10 @@ public class RecordParser {
    *
    * @param item               -- the current catalog item.
    * @param field              -- bibliographic record field.
-   * @param session            -- the current hibernate session.
    * @param formOfMaterial     -- the form of material associated.
    * @param generalInformation -- {@linked GeneralInformation} for default values.
    */
-  public void changeMaterialDescriptionOtherTag(final CatalogItem item, final Field field, final Session session,
+  public void changeMaterialDescriptionOtherTag(final CatalogItem item, final Field field,
                                                 final String formOfMaterial,
                                                 final GeneralInformation generalInformation) {
 
