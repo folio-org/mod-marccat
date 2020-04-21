@@ -299,13 +299,13 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getVisualTechniqueCode()))
         materialDescription.setVisualTechniqueCode(ff.getVisualTechniqueCode());
     } else if (materialDescription.isComputerFile()) {
-      if (isNotNull(ff.getTargetAudienceCode()))
-        materialDescription.setComputerTargetAudienceCode(ff.getTargetAudienceCode());
+      if (isNotNull(ff.getComputerTargetAudienceCode()))
+        materialDescription.setComputerTargetAudienceCode(ff.getComputerTargetAudienceCode());
       if (isNotNull(ff.getComputerFileTypeCode()))
         materialDescription.setComputerFileTypeCode(ff.getComputerFileTypeCode());
       if (isNotNull(ff.getGovernmentPublicationCode()))
         materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
-      materialDescription.setComputerFileFormCode(ff.getFormOfItemCode());
+      materialDescription.setComputerFileFormCode(ff.getComputerFileFormCode());
     } else if (materialDescription.isSerial()) {
       if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
       if (isNotNull(ff.getSerialFrequencyCode()))
