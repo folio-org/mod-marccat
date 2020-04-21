@@ -101,8 +101,8 @@ public class ConversionFieldUtils {
       fixedField.setSerialSuccessiveLatestCode(String.valueOf(displayValue.charAt(startPosition + 16)));
       fixedField.setMaterialType(FixedField.MaterialType.CONTINUING_RESOURCE);
     } else if (gi.isComputerFile()) {
-      fixedField.setTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition + 4)));
-      fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
+      fixedField.setComputerTargetAudienceCode(String.valueOf(displayValue.charAt(startPosition + 4)));
+      fixedField.setComputerFileFormCode(String.valueOf(displayValue.charAt(startPosition + 5)));
       fixedField.setComputerFileTypeCode(String.valueOf(displayValue.charAt(startPosition + 8)));
       fixedField.setGovernmentPublicationCode(String.valueOf(displayValue.charAt(startPosition + 10)));
       fixedField.setMaterialType(FixedField.MaterialType.COMPUTER_FILE);
