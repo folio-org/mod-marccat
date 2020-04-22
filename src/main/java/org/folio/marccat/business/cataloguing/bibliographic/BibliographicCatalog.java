@@ -277,10 +277,12 @@ public class BibliographicCatalog extends Catalog {
         + (isNotNull(ff.getCartographicReliefCode3()) ? ff.getCartographicReliefCode3() : "")
         + (isNotNull(ff.getCartographicReliefCode4()) ? ff.getCartographicReliefCode4() : "");
       materialDescription.setCartographicReliefCode(codes);
-      if (isNotNull(ff.getGovernmentPublicationCode()))
-        materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
       if (isNotNull(ff.getCartographicProjectionCode()))
         materialDescription.setCartographicProjectionCode(ff.getCartographicProjectionCode());
+      if (isNotNull(ff.getCartographicMaterial()))
+        materialDescription.setCartographicMaterial(ff.getCartographicMaterial());
+      if (isNotNull(ff.getGovernmentPublicationCode()))
+        materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
       if (isNotNull(ff.getCartographicIndexAvailabilityCode()))
         materialDescription.setCartographicIndexAvailabilityCode(ff.getCartographicIndexAvailabilityCode());
       codes = (isNotNull(ff.getCartographicFormatCode1()) ? ff.getCartographicFormatCode1() : "") + (isNotNull(ff.getCartographicFormatCode2()) ? ff.getCartographicFormatCode2() : "");
