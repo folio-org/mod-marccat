@@ -1381,7 +1381,7 @@ public class StorageService implements Closeable {
       final String tagNbr = field.getCode();
       final Field.FieldStatus status = field.getFieldStatus();
 
-      if (tagNbr.equals(Global.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED || status == Field.FieldStatus.UNCHANGED) {
+      if (tagNbr.equals(Global.MATERIAL_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
         recordParser.changeMaterialDescriptionTag(item, field, session);
       }
 
