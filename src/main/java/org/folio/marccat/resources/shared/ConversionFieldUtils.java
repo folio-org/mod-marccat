@@ -88,7 +88,7 @@ public class ConversionFieldUtils {
     } else if (gi.isSerial()) {
       fixedField.setSerialFrequencyCode(String.valueOf(displayValue.charAt(startPosition)));
       fixedField.setSerialRegularityCode(String.valueOf(displayValue.charAt(startPosition + 1)));
-      fixedField.setSerialTypeCode(String.valueOf(displayValue.charAt(startPosition + 2)));
+      fixedField.setSerialTypeCode(String.valueOf(displayValue.charAt(startPosition + 3)));
       fixedField.setSerialFormOriginalItemCode(String.valueOf(displayValue.charAt(startPosition + 4)));
       fixedField.setFormOfItemCode(String.valueOf(displayValue.charAt(startPosition + 5)));
       fixedField.setNatureOfEntireWork(String.valueOf(displayValue.charAt(startPosition + 6)));
