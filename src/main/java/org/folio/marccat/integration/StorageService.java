@@ -1390,7 +1390,7 @@ public class StorageService implements Closeable {
         || status == Field.FieldStatus.CHANGED) {
 
         if (tagNbr.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-          final Map<String, Object> mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(field.getFixedField().getMaterialTypeCode().charAt(0),' ', tagNbr);
+          final Map<String, Object> mapRecordTypeMaterial = getHeaderTypeByRecordTypeCode(field.getFixedField().getMaterialTypeCode().charAt(0));
           final String formOfMaterial = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
           recordParser.changeMaterialDescriptionOtherTag(item, field, formOfMaterial, generalInformation);
         }
