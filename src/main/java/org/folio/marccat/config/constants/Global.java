@@ -612,7 +612,7 @@ public abstract class Global {
     MAP_CODE_LISTS.put("KIT_SPEC_DESIGN", T_KIT_SMD.class);
     MAP_CODE_LISTS.put("NMU_SPEC_DESIGN", T_NM_SMD.class);
     MAP_CODE_LISTS.put("TXT_SPEC_DESIGN", T_TXT_SMD.class);
-    MAP_CODE_LISTS.put("UNS_SPEC_DESIGN", T_USP_SMD_CDE.class);
+    MAP_CODE_LISTS.put("UNS_SPEC_DESIGN", T_USP_SMD.class);
     MAP_CODE_LISTS.put("RSI_SPEC_DESIGN", T_RSI_SMD.class);
     MAP_CODE_LISTS.put("RSI_ALTITUDE", T_RSI_ALT_SENS.class);
     MAP_CODE_LISTS.put("RSI_ATTITUDE", T_RSI_ATT_SENS.class);

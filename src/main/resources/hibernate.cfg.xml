@@ -215,7 +215,7 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_KIT_SMD.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_NM_SMD.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_TXT_SMD.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_USP_SMD_CDE.hbm.xml"/>
+		<mapping resource="org/folio/marccat/dao/persistence/T_USP_SMD.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_RSI_SMD.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_RSI_ALT_SENS.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_RSI_ATT_SENS.hbm.xml"/>
