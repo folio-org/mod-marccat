@@ -28,8 +28,8 @@ import static io.restassured.RestAssured.given;
 @ActiveProfiles("test")
 
 @Suite.SuiteClasses({
-  TenantTest.class,
-  CountDocumentTest.class/*,
+  TenantTest.class/*,
+  CountDocumentTest.class,
   BibliographicRecordTest.class,
   BrowseTest.class,
   FieldTest.class,
@@ -45,7 +45,7 @@ import static io.restassured.RestAssured.given;
 
 public class StorageTestSuite {
   //public static final String TENANT_ID = "test_tenant";
-  public static final String TENANT_ID = "tnx";
+  public static final String TENANT_ID = "test";
 
   @LocalServerPort
   private int localPort;

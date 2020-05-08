@@ -18,7 +18,7 @@ spring:
   datasource:
     platform: postgres
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/okapi_modules
     port: 5432
     host: localhost
     username: folio_admin

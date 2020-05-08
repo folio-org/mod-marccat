@@ -30,7 +30,7 @@ public class TenantService {
   /**
    * The Constant POSTGRES.
    */
-  public static final String POSTGRES = "postgres";
+  public static final String POSTGRES = "okapi_modules";
   /**
    * The Constant logger.
    */
@@ -186,10 +186,10 @@ public class TenantService {
       adminPassword = env.get("DB_PASSWORD");
     }
 
-    host = "192.168.0.158";
-    port = "5433";
-    adminUser = "postgres";
-    adminPassword = "pes001clt";
+    host = "localhost";
+    port = "5432";
+    adminUser = "folio_admin";
+    adminPassword = "folio_admin";
 
     createRole();
     boolean databaseNotExist = databaseExists(databaseName);
