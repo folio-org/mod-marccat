@@ -76,6 +76,7 @@ public abstract class Global {
   public static final String ERROR_DUPLICATE_TAG = "-2";
   public static final String ERROR_EMPTY_TAG = "-3";
   public static final String NO_RECORD_FOUND = "-4";
+  public static final String NO_TAG_FOUND = "-5";
   public static final Map<String, String> ERRORS_MAP = new HashMap<>();
   public static final int TAG_RELATION_MIN = 760;
   public static final int TAG_RELATION_MAX = 787;
@@ -496,6 +497,7 @@ public abstract class Global {
     ERRORS_MAP.put(ERROR_DUPLICATE_TAG, "Duplicate TAGS for : %s");
     ERRORS_MAP.put(ERROR_EMPTY_TAG, "Some TAGS appears empties: %s.");
     ERRORS_MAP.put(NO_RECORD_FOUND, "Record not found: %d.");
+    ERRORS_MAP.put(NO_TAG_FOUND, "Tag %s not found");
   }
 
   static {

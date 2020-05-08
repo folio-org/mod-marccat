@@ -1281,6 +1281,38 @@ public class StorageService implements Closeable {
 
 
   /**
+   * Gets category code using tag and indicators.
+   *
+   * @param tag             -- the tag number.
+   * @param firstIndicator  -- the 1.st indicator.
+   * @param secondIndicator -- the 2nd. indicator.
+   * @return category code.
+   * @throws DataAccessException -- in case of DataAccessException.
+   */
+  public int getCategoryByTag(final String tag,
+                            final char firstIndicator,
+                            final char secondIndicator) throws DataAccessException {
+    final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
+
+    try {
+      List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
+       if (correlations.stream().anyMatch(Objects::nonNull)) {
+            return correlations
+              .stream()
+              .findFirst()
+              .get()
+              .getKey()
+              .getMarcTagCategoryCode();
+        }
+      return 0;
+
+    } catch (final HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  /**
    * Checks if record is new then execute insert or update.
    *
    * @param record             -- the bibliographic record to save.

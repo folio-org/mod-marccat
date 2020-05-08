@@ -29,4 +29,10 @@ public abstract class BaseResource {
     return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
+  public ResponseEntity<Object> notFoundFailure(final ErrorCollection errors, final String message) {
+    logger.error(message, errors);
+    return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+  }
+
+
 }
