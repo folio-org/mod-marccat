@@ -178,13 +178,13 @@ public class TenantService {
    */
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName = tenant + marccatSuffix;
-    final Map <String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
+   /* final Map <String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
     if (!env.isEmpty()) {
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
-    }
+    }*/
 
     host = "localhost";
     port = "5432";
