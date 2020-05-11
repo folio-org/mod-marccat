@@ -78,6 +78,11 @@
         },
         {
           "methods": ["GET"],
+          "pathPattern": "/marccat/validateTag",
+          "modulePermissions": ["configuration.all"]
+        },
+        {
+          "methods": ["GET"],
           "pathPattern": "/marccat/record-templates",
           "modulePermissions": ["configuration.all"]
         },
