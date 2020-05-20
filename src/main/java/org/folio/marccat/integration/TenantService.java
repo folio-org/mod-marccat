@@ -130,6 +130,14 @@ public class TenantService {
   @Value("${patch.database2}")
   private String patchDatabase2;
 
+
+  /**
+   * The database patch.
+   */
+  @Value("${patch.database3}")
+  private String patchDatabase3;
+
+
   /**
    * The database procedure.
    */
@@ -208,6 +216,7 @@ public class TenantService {
     executePatch(databaseName, patchDatabase, "Install patch MARCCAT DB 1.2", "MARCCAT DB 1.2 found");
     executePatch(databaseName, patchProcedure, "Install patch MARCCAT DB PLPGSQL 3.3", "MARCCAT DB PLPGSQL 3.3");
     executePatch(databaseName, patchDatabase2, "Install patch MARCCAT DB 1.3", "MARCCAT DB 1.3 found");
+    executePatch(databaseName, patchDatabase3, "Install patch MARCCAT DB 1.4", "MARCCAT DB 1.4 found");
   }
 
   /**
