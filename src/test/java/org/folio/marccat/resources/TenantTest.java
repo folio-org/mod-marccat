@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 public class TenantTest {
 
   //public static final String TENANT_ID = "test_tenant";
-  public static final String TENANT_ID = "test";
+  public static final String TENANT_ID = "test2";
 
   @LocalServerPort
   private int localPort;
@@ -55,16 +55,18 @@ public class TenantTest {
     Response response = given()
       .header("Content-Type", "application/json")
       .header("X-Okapi-Tenant", TENANT_ID)
-      .header("X-Okapi-Url", "http://localhost:9130")
+      .header("X-Okapi-Url", "")
       .body(jo)
       .when()
       .post(url);
+    Thread.sleep(120000);
 
     String failureMessage = String.format("Tenant init failed: %s: %s",
       response.getStatusCode(), response.getBody());
 
     assertThat(failureMessage,
       response.getStatusCode(), is(201));
+
   }
 
 }

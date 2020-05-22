@@ -136,11 +136,12 @@ public class TenantService {
     logger.debug("Enable tenant" + " - Start");
     okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);
-    ObjectNode value = configuration.attributes(tenant, true, "");
+    //TODO test sul modulo di configurazione
+    /*ObjectNode value = configuration.attributes(tenant, true, "");
     final Map <String, String> config = getConfigurations(value);
     if (config != null && config.size() == 0) {
       initializeConfiguration(tenant);
-    }
+    }*/
     logger.debug("Enable tenant" + " - End");
   }
 
@@ -178,7 +179,7 @@ public class TenantService {
    */
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName = tenant + marccatSuffix;
-   final Map <String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
+    final Map <String, String> env =  okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
     if (!env.isEmpty()) {
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
@@ -224,7 +225,7 @@ public class TenantService {
    * @throws SQLException the SQL exception
    */
   private void createDatabase(final String databaseName) throws SQLException {
-    final String queryDatabase = "create database " + databaseName;
+    final String queryDatabase = "create database " + databaseName; /*+ " ENCODING 'UTF8'";*/
 
     logger.debug("Start database " + databaseName);
     try (Connection connection = getConnection(POSTGRES, adminUser, adminPassword);
