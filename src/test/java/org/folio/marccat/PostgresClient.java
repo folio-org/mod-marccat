@@ -1,43 +1,51 @@
 package org.folio.marccat;
 
-import de.flapdoodle.embed.process.runtime.Network;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import ru.yandex.qatools.embed.postgresql.EmbeddedPostgres;
-import ru.yandex.qatools.embed.postgresql.PostgresExecutable;
 import ru.yandex.qatools.embed.postgresql.PostgresProcess;
-import ru.yandex.qatools.embed.postgresql.PostgresStarter;
-import ru.yandex.qatools.embed.postgresql.config.AbstractPostgresConfig;
 import ru.yandex.qatools.embed.postgresql.config.PostgresConfig;
 import ru.yandex.qatools.embed.postgresql.distribution.Version;
-
+import org.postgresql.ds.PGPoolingDataSource;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 @Configuration
 public class PostgresClient {
+
+  private static EmbeddedPostgres embeddedPostgres;
+
   @Bean(destroyMethod = "stop")
   public PostgresProcess postgresProcess() throws IOException {
-    //log.info("Starting embedded Postgres");
+    EmbeddedPostgres embeddedPostgres = new EmbeddedPostgres(Version.Main.V10);
+    embeddedPostgres.start("localhost", 5432, "database_for_tests", "folio_admin", "folio_admin"/*,
+       Arrays.asList("-E", "UTF-8", "--locale", "en_US.UTF-8")*/);
+    Runtime.getRuntime().addShutdownHook(new Thread(PostgresClient::stopEmbeddedPostgres));
+    return embeddedPostgres.getProcess().get();
 
-    String tempDir = System.getProperty("java.io.tmpdir");
-    String dataDir = tempDir + "/database_for_tests";
-    String binariesDir = System.getProperty("java.io.tmpdir") + "/postgres_binaries";
-
-    PostgresConfig postgresConfig = new PostgresConfig(
-      Version.V10_3,
-      new AbstractPostgresConfig.Net("localhost", Network.getFreeServerPort()),
-      new AbstractPostgresConfig.Storage("database_for_tests", dataDir),
-      new AbstractPostgresConfig.Timeout(60_000),
-      new AbstractPostgresConfig.Credentials("bob", "ninja")
-    );
-
-    PostgresStarter<PostgresExecutable, PostgresProcess> runtime = PostgresStarter.getInstance(EmbeddedPostgres.cachedRuntimeConfig(Paths.get(binariesDir)));
-    PostgresExecutable exec = runtime.prepare(postgresConfig);
-    PostgresProcess process = exec.start();
-    return process;
   }
 
+  @Bean(destroyMethod = "close")
+  @DependsOn("postgresProcess")
+  DataSource dataSource(PostgresProcess postgresProcess) {
+    PGPoolingDataSource dataSource = new PGPoolingDataSource();
+    PostgresConfig postgresConfig = postgresProcess.getConfig();
+    dataSource.setUser(postgresConfig.credentials().username());
+    dataSource.setPassword(postgresConfig.credentials().password());
+    dataSource.setPortNumber(postgresConfig.net().port());
+    dataSource.setServerName(postgresConfig.net().host());
+    dataSource.setDatabaseName(postgresConfig.storage().dbName());
+     return dataSource;
+  }
+
+  public static void stopEmbeddedPostgres() {
+    if (embeddedPostgres != null) {
+     embeddedPostgres.stop();
+      embeddedPostgres = null;
+
+    }
+  }
 
 }
