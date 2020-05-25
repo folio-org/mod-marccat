@@ -59,7 +59,7 @@ public class TenantTest {
       .body(jo)
       .when()
       .post(url);
-    Thread.sleep(120000);
+    //Thread.sleep(120000);
 
     String failureMessage = String.format("Tenant init failed: %s: %s",
       response.getStatusCode(), response.getBody());
