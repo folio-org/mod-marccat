@@ -43,7 +43,6 @@ public class TenantTest {
     TimeoutException,
     MalformedURLException {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/_/tenant";
-    System.out.println(url);
     JSONObject jo = new JSONObject();
     String moduleFrom = "mod-marccat-2.3.0";
     String moduleTo ="";
