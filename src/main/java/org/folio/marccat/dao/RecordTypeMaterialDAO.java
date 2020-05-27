@@ -6,7 +6,6 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.persistence.RecordTypeMaterial;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -59,7 +58,7 @@ public class RecordTypeMaterialDAO extends AbstractDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   @SuppressWarnings("unchecked")
-  public RecordTypeMaterial get006HeaderCode(final Session session, final Character materialType) throws HibernateException {
+  public RecordTypeMaterial get006HeaderCode(final Session session, final char materialType) throws HibernateException {
     final List <RecordTypeMaterial> recordTypeMaterials =
       session.find(
         FROM_RECORD_TYPE_MATERIAL_AS_T
@@ -68,4 +67,7 @@ public class RecordTypeMaterialDAO extends AbstractDAO {
         new Type[]{Hibernate.CHARACTER});
     return recordTypeMaterials.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
+
+
+
 }

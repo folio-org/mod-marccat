@@ -171,6 +171,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("kindOfColorStockCode", storageService.getCodesList(lang, MP_KIND_COLORS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("deteriorationStageCode", storageService.getCodesList(lang, MP_DETERIORATION_STAGE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("completenessCode", storageService.getCodesList(lang, MP_COMPLETENESS).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("inspectionDate", Collections.EMPTY_LIST ));
   }
 
   /**
@@ -203,6 +204,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("emulsionOnFilmCode", storageService.getCodesList(lang, MIC_EMUL_FILM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("generationCode", storageService.getCodesList(lang, MIC_GENERATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("baseOfFilmCode", storageService.getCodesList(lang, MIC_BASE_FILM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("reductionRatioCode", Collections.EMPTY_LIST ));
   }
 
   /**
@@ -217,7 +219,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement(COLOR_CODE, storageService.getCodesList(lang, PG_COLOR).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("baseOfEmulsionCode", storageService.getCodesList(lang, PG_EMUL_BASE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("soundOnMediumOrSeparateCode", storageService.getCodesList(lang, SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("mediumForSoundCodes", storageService.getCodesList(lang, MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("mediumForSoundCode", storageService.getCodesList(lang, MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("dimensionCode", storageService.getCodesList(lang, PG_DIMENSIONS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("secondarySupportMaterialCode", storageService.getCodesList(lang, PG_SECONDARY_SUPPORT).stream().map(toPairItem).collect(toList())));
   }
@@ -281,12 +283,13 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("specificMaterialDesignationCode", storageService.getCodesList(lang, CF_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("colorCode", storageService.getCodesList(lang, CF_COLOR).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("dimensionCode", storageService.getCodesList(lang, CF_DIMENSIONS).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("includesSoundCodes", storageService.getCodesList(lang, SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("includesSoundCode", storageService.getCodesList(lang, SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("fileFormatsCode", storageService.getCodesList(lang, CF_FILE_FORMAT).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("qualityAssuranceTargetCode", storageService.getCodesList(lang, CF_QUALITY_ASS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("antecedentSourceCode", storageService.getCodesList(lang, CF_ANTECEDENT_SRC).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("levelOfCompressionCode", storageService.getCodesList(lang, CF_COMPRESSION_LVL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("reformattingQualityCode", storageService.getCodesList(lang, CF_REFORMATTING_QUALITY).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("imageBitDepth", Collections.EMPTY_LIST ));
   }
 
   /**
@@ -306,6 +309,8 @@ public class FixedFieldUtils {
     Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, tag);
     if (mapRecordTypeMaterial != null) {
       if (tag.equals(MATERIAL_TAG_CODE)) {
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateFirstPublication", Collections.EMPTY_LIST ));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("dateLastPublication", Collections.EMPTY_LIST ));
         fixedFieldCodesGroup.addResults(new FixedFieldElement("dateTypeCode", storageService.getCodesList(lang, DATE_TYPE).stream().map(toPairItem).collect(toList())));
         fixedFieldCodesGroup.addResults(new FixedFieldElement("placeOfPublication", storageService.getCodesList(lang, MARC_COUNTRY).stream().map(toPairItem).collect(toList())));
       }
@@ -358,7 +363,7 @@ public class FixedFieldUtils {
           if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
             fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
               storageService.getCodesList(lang, VM_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
-          }
+         }
           break;
         case COMPUTER_TYPE:
           setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
@@ -409,12 +414,13 @@ public class FixedFieldUtils {
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setVisualMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("visualRunningTime", Collections.EMPTY_LIST ));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, VSL_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualMaterialTypeCode", storageService.getCodesList(lang, VSL_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTechniqueCode", storageService.getCodesList(lang, VSL_TECHNIQUE).stream().map(toPairItem).collect(toList())));
-  }
+ }
 
   /**
    * Sets values Map type for 008/006 fixed field

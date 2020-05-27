@@ -33,4 +33,5 @@ public interface Message {
   String MOD_MARCCAT_00032_LOAD_REC_BY_REC_FAILURE = "<" + MODULE_NAME + "-00032> : Error during load record from file procedure. Record %s not loaded.";
   String MOD_MARCCAT_00033_PROCESS_FAILURE = "<" + MODULE_NAME + "-00033> : Error during wait process";
   String MOD_MARCCAT_00034_CLIENT_FAILURE = "<" + MODULE_NAME + "-00034> : Client connection refused";
+  String MOD_MARCCAT_00035_TAG_NOT_FOUND_FAILURE = "<" + MODULE_NAME + "-00035> : Tag %s not found";
 }

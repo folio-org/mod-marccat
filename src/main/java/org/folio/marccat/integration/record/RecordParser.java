@@ -87,7 +87,7 @@ public class RecordParser {
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
       item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof PhysicalDescription).forEach(aTag -> {
         final PhysicalDescription physicalTag = (PhysicalDescription) aTag;
-        if (physicalTag.getKeyNumber() == field.getFixedField().getKeyNumber()) {
+        //if (physicalTag.getKeyNumber() == field.getFixedField().getKeyNumber()) {
           if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
             final char gmd = field.getFixedField().getDisplayValue().charAt(0);
             final int headerTypeCode = (field.getFixedField().getHeaderTypeCode() != null) ? field.getFixedField().getHeaderTypeCode() : PhysicalDescription.getInstanceByGMD(gmd).getHeaderType();
@@ -99,7 +99,7 @@ public class RecordParser {
             physicalTag.markDeleted();
             item.getDeletedTags().add(physicalTag);
           }
-        }
+        //}
       });
     } else if (field.getFixedField().getKeyNumber() == 0 && field.getFieldStatus() == Field.FieldStatus.NEW) {
       addPhysicalDescriptionTag(item, field.getFixedField(), bibItemNumber);
@@ -142,19 +142,18 @@ public class RecordParser {
    *
    * @param item               -- the current catalog item.
    * @param field              -- bibliographic record field.
-   * @param session            -- the current hibernate session.
    * @param formOfMaterial     -- the form of material associated.
    * @param generalInformation -- {@linked GeneralInformation} for default values.
    */
-  public void changeMaterialDescriptionOtherTag(final CatalogItem item, final Field field, final Session session,
+  public void changeMaterialDescriptionOtherTag(final CatalogItem item, final Field field,
                                                 final String formOfMaterial,
                                                 final GeneralInformation generalInformation) {
 
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
       item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof MaterialDescription).forEach(aTag -> {
         final MaterialDescription materialTag = (MaterialDescription) aTag;
-        final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
-        if (correlation.getMarcTag().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) && materialTag.getMaterialDescriptionKeyNumber() == field.getFixedField().getKeyNumber()) {
+        final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
+        if (tagNbr.equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) /*&& materialTag.getMaterialDescriptionKeyNumber() == field.getFixedField().getKeyNumber()*/) {
           if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
             materialTag.setCorrelationValues(new CorrelationValues(field.getFixedField().getHeaderTypeCode(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
             catalog.toMaterialDescription(field.getFixedField(), materialTag);

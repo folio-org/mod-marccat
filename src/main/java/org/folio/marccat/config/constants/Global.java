@@ -76,6 +76,7 @@ public abstract class Global {
   public static final String ERROR_DUPLICATE_TAG = "-2";
   public static final String ERROR_EMPTY_TAG = "-3";
   public static final String NO_RECORD_FOUND = "-4";
+  public static final String NO_TAG_FOUND = "-5";
   public static final Map<String, String> ERRORS_MAP = new HashMap<>();
   public static final int TAG_RELATION_MIN = 760;
   public static final int TAG_RELATION_MAX = 787;
@@ -496,6 +497,7 @@ public abstract class Global {
     ERRORS_MAP.put(ERROR_DUPLICATE_TAG, "Duplicate TAGS for : %s");
     ERRORS_MAP.put(ERROR_EMPTY_TAG, "Some TAGS appears empties: %s.");
     ERRORS_MAP.put(NO_RECORD_FOUND, "Record not found: %d.");
+    ERRORS_MAP.put(NO_TAG_FOUND, "Tag %s not found");
   }
 
   static {
@@ -612,7 +614,7 @@ public abstract class Global {
     MAP_CODE_LISTS.put("KIT_SPEC_DESIGN", T_KIT_SMD.class);
     MAP_CODE_LISTS.put("NMU_SPEC_DESIGN", T_NM_SMD.class);
     MAP_CODE_LISTS.put("TXT_SPEC_DESIGN", T_TXT_SMD.class);
-    MAP_CODE_LISTS.put("UNS_SPEC_DESIGN", T_USP_SMD_CDE.class);
+    MAP_CODE_LISTS.put("UNS_SPEC_DESIGN", T_USP_SMD.class);
     MAP_CODE_LISTS.put("RSI_SPEC_DESIGN", T_RSI_SMD.class);
     MAP_CODE_LISTS.put("RSI_ALTITUDE", T_RSI_ALT_SENS.class);
     MAP_CODE_LISTS.put("RSI_ATTITUDE", T_RSI_ATT_SENS.class);

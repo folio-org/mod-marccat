@@ -64,7 +64,7 @@ public class ValidationUtils {
    * @param values -- placeholders for description object.
    * @return a new error.
    */
-  private static Error getError(final String code, final Object... values) {
+  public static Error getError(final String code, final Object... values) {
     Error e = new Error();
     e.setCode(code);
     e.setDescription(values == null ? Global.ERRORS_MAP.get(code) : String.format(Global.ERRORS_MAP.get(code), values));
@@ -137,4 +137,6 @@ public class ValidationUtils {
     result.retainAll(found);
     return result.size() == Global.MANDATORY_FIELDS.size() && !found.isEmpty();
   }
+
+
 }

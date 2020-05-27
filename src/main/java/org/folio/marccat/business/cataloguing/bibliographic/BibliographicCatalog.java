@@ -13,6 +13,7 @@ import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.NewTagException;
+import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.text.ParseException;
@@ -260,15 +261,7 @@ public class BibliographicCatalog extends Catalog {
         materialDescription.setTargetAudienceCode(ff.getTargetAudienceCode());
       if (isNotNull(ff.getNatureOfEntireWork()))
         materialDescription.setNatureOfContentsCode(ff.getNatureOfEntireWork());
-      final String natureContentCodes = (isNotNull(ff.getNatureOfContent1()) ? ff.getNatureOfContent1() : "")
-        + (isNotNull(ff.getNatureOfContent2()) ? ff.getNatureOfContent2() : "")
-        + (isNotNull(ff.getNatureOfContent3()) ? ff.getNatureOfContent3() : "")
-        + (isNotNull(ff.getNatureOfContent4()) ? ff.getNatureOfContent4() : "");
-      materialDescription.setNatureOfContentsCode(natureContentCodes);
-      if (isNotNull(ff.getGovernmentPublicationCode()))
-        materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
-      if (isNotNull(ff.getConferencePublicationCode()))
-        materialDescription.setConferencePublicationCode(ff.getConferencePublicationCode());
+      setNaturesAndPublications(ff, materialDescription);
       if (isNotNull(ff.getBookFestschrift()))
         materialDescription.setBookFestschrift(ff.getBookFestschrift());
       if (isNotNull(ff.getBookIndexAvailabilityCode()))
@@ -284,10 +277,12 @@ public class BibliographicCatalog extends Catalog {
         + (isNotNull(ff.getCartographicReliefCode3()) ? ff.getCartographicReliefCode3() : "")
         + (isNotNull(ff.getCartographicReliefCode4()) ? ff.getCartographicReliefCode4() : "");
       materialDescription.setCartographicReliefCode(codes);
-      if (isNotNull(ff.getGovernmentPublicationCode()))
-        materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
       if (isNotNull(ff.getCartographicProjectionCode()))
         materialDescription.setCartographicProjectionCode(ff.getCartographicProjectionCode());
+      if (isNotNull(ff.getCartographicMaterial()))
+        materialDescription.setCartographicMaterial(ff.getCartographicMaterial());
+      if (isNotNull(ff.getGovernmentPublicationCode()))
+        materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
       if (isNotNull(ff.getCartographicIndexAvailabilityCode()))
         materialDescription.setCartographicIndexAvailabilityCode(ff.getCartographicIndexAvailabilityCode());
       codes = (isNotNull(ff.getCartographicFormatCode1()) ? ff.getCartographicFormatCode1() : "") + (isNotNull(ff.getCartographicFormatCode2()) ? ff.getCartographicFormatCode2() : "");
@@ -306,13 +301,13 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getVisualTechniqueCode()))
         materialDescription.setVisualTechniqueCode(ff.getVisualTechniqueCode());
     } else if (materialDescription.isComputerFile()) {
-      if (isNotNull(ff.getTargetAudienceCode()))
-        materialDescription.setComputerTargetAudienceCode(ff.getTargetAudienceCode());
+      if (isNotNull(ff.getComputerTargetAudienceCode()))
+        materialDescription.setComputerTargetAudienceCode(ff.getComputerTargetAudienceCode());
       if (isNotNull(ff.getComputerFileTypeCode()))
         materialDescription.setComputerFileTypeCode(ff.getComputerFileTypeCode());
       if (isNotNull(ff.getGovernmentPublicationCode()))
         materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
-      materialDescription.setComputerFileFormCode(ff.getFormOfItemCode());
+      materialDescription.setComputerFileFormCode(ff.getComputerFileFormCode());
     } else if (materialDescription.isSerial()) {
       if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
       if (isNotNull(ff.getSerialFrequencyCode()))
@@ -323,12 +318,14 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getSerialTypeCode())) materialDescription.setSerialTypeCode(ff.getSerialTypeCode());
       if (isNotNull(ff.getSerialFormOriginalItemCode()))
         materialDescription.setSerialFormOriginalItemCode(ff.getSerialFormOriginalItemCode());
+      setNaturesAndPublications(ff, materialDescription);
       if (isNotNull(ff.getSerialOriginalAlphabetOfTitleCode()))
         materialDescription.setSerialOriginalAlphabetOfTitleCode(ff.getSerialOriginalAlphabetOfTitleCode());
       if (isNotNull(ff.getSerialSuccessiveLatestCode()))
         materialDescription.setSerialSuccessiveLatestCode(ff.getSerialSuccessiveLatestCode());
       materialDescription.setSerialTitlePageExistenceCode(" ");
       materialDescription.setSerialIndexAvailabilityCode(" ");
+
     } else if (materialDescription.isMixedMaterial()) {
       if (isNotNull(ff.getFormOfItemCode())) materialDescription.setFormOfItemCode(ff.getFormOfItemCode());
     } else if (materialDescription.isMusic()) {
@@ -350,6 +347,8 @@ public class BibliographicCatalog extends Catalog {
       codes = (isNotNull(ff.getMusicLiteraryTextCode1()) ? ff.getMusicLiteraryTextCode1() : "")
         + (isNotNull(ff.getMusicLiteraryTextCode2()) ? ff.getMusicLiteraryTextCode2() : "");
       materialDescription.setMusicLiteraryTextCode(codes);
+      if (isNotNull(ff.getMusicTranspositionArrangementCode()))
+        materialDescription.setMusicTranspositionArrangementCode(ff.getMusicTranspositionArrangementCode());
     }
 
     if (materialDescription.getMaterialDescription008Indicator().equals("1")) {
@@ -377,6 +376,18 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getRecordCataloguingSourceCode()))
         materialDescription.setRecordCataloguingSourceCode(ff.getRecordCataloguingSourceCode().charAt(0));
     }
+  }
+
+  private void setNaturesAndPublications(FixedField ff, MaterialDescription materialDescription) {
+    final String natureContentCodes = (isNotNull(ff.getNatureOfContent1()) ? ff.getNatureOfContent1() : "")
+      + (isNotNull(ff.getNatureOfContent2()) ? ff.getNatureOfContent2() : "")
+      + (isNotNull(ff.getNatureOfContent3()) ? ff.getNatureOfContent3() : "")
+      + (isNotNull(ff.getNatureOfContent4()) ? ff.getNatureOfContent4() : ff.getNatureOfEntireWork());
+    materialDescription.setNatureOfContentsCode(natureContentCodes);
+    if (isNotNull(ff.getGovernmentPublicationCode()))
+      materialDescription.setGovernmentPublicationCode(ff.getGovernmentPublicationCode());
+    if (isNotNull(ff.getConferencePublicationCode()))
+      materialDescription.setConferencePublicationCode(ff.getConferencePublicationCode());
   }
 
 
@@ -625,7 +636,7 @@ public class BibliographicCatalog extends Catalog {
       if (isNotNull(ff.getPolarityCode()))
         ((MotionPicture) physicalDescription).setPolarityCode(ff.getPolarityCode().charAt(0));
       if (isNotNull(ff.getGenerationCode()))
-        ((MotionPicture) physicalDescription).setGenerationCode(ff.getPolarityCode().charAt(0));
+        ((MotionPicture) physicalDescription).setGenerationCode(ff.getGenerationCode().charAt(0));
       if (isNotNull(ff.getBaseOfFilmCode()))
         ((MotionPicture) physicalDescription).setBaseOfFilmCode(ff.getBaseOfFilmCode().charAt(0));
       if (isNotNull(ff.getRefinedCategoriesOfColourCode()))
@@ -651,8 +662,8 @@ public class BibliographicCatalog extends Catalog {
         ((RemoteSensingImage) physicalDescription).setPlatformUseCode(ff.getPlatformUseCode().charAt(0));
       if (isNotNull(ff.getSensorTypeCode()))
         ((RemoteSensingImage) physicalDescription).setSensorTypeCode(ff.getSensorTypeCode().charAt(0));
-      if (isNotNull(ff.getRemoteDataTypeCode()))
-        ((RemoteSensingImage) physicalDescription).setDataTypeCode(ff.getRemoteDataTypeCode());
+      if (isNotNull(ff.getRemoteSensingDataTypeCode()))
+        ((RemoteSensingImage) physicalDescription).setDataTypeCode(ff.getRemoteSensingDataTypeCode());
     } else if (physicalDescription instanceof SoundRecording) {
       if (isNotNull(ff.getSpeedCode()))
         ((SoundRecording) physicalDescription).setSpeedCode(ff.getSpeedCode().charAt(0));
@@ -679,16 +690,17 @@ public class BibliographicCatalog extends Catalog {
     } else if ((physicalDescription instanceof Text) || (physicalDescription instanceof Unspecified) || (physicalDescription instanceof VideoRecording)) {
       if (isNotNull(ff.getColorCode()))
         ((VideoRecording) physicalDescription).setColourCode(ff.getColorCode().charAt(0));
-      if (isNotNull(ff.getFormatCode()))
-        ((VideoRecording) physicalDescription).setFormatCode(ff.getFormatCode().charAt(0));
-      if (isNotNull(ff.getIncludesSoundCode()))
-        ((VideoRecording) physicalDescription).setIncludesSoundCode(ff.getIncludesSoundCode().charAt(0));
+      if (isNotNull(ff.getVideoRecordingFormatCode()))
+        ((VideoRecording) physicalDescription).setFormatCode(ff.getVideoRecordingFormatCode().charAt(0));
+      if (isNotNull(ff.getSoundOnMediumOrSeparateCode()))
+        ((VideoRecording) physicalDescription).setIncludesSoundCode(ff.getSoundOnMediumOrSeparateCode().charAt(0));
       if (isNotNull(ff.getMediumForSoundCode()))
         ((VideoRecording) physicalDescription).setMediumForSoundCode(ff.getMediumForSoundCode().charAt(0));
       if (isNotNull(ff.getDimensionCode()))
         ((VideoRecording) physicalDescription).setDimensionsCode(ff.getDimensionCode().charAt(0));
       if (isNotNull(ff.getConfigurationCode()))
         ((VideoRecording) physicalDescription).setConfigurationCode(ff.getConfigurationCode().charAt(0));
+
     }
   }
 
