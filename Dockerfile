@@ -1,4 +1,4 @@
-FROM folioci/alpine-jre-openjdk8:lates
+FROM folioci/alpine-jre-openjdk8:latest
 
 ENV VERTICLE_FILE mod-marccat-fat.jar
 
