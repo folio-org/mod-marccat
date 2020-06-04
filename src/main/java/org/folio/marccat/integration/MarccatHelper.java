@@ -166,7 +166,7 @@ public abstract class MarccatHelper {
         Session session = sessionFactory.openSession(connection);
         session.setFlushMode(FlushMode.COMMIT);
         service.setSession(session);
-        result = adapter.execute(service, configuration(settings));
+        result = adapter.execute(service, configuration(service));
         service.getSession().close();
         return result;
       } catch (final SQLException exception) {
@@ -182,17 +182,17 @@ public abstract class MarccatHelper {
   /**
    * Creates a dedicated configuration for the current service.
    *
-   * @param value the mod-configuration response.
+   * @param storageService the mod-configuration response.
    * @return a dedicated configuration for the current service.
    */
-  private static Map<String, String> configuration(final ObjectNode value) {
-    return StreamSupport.stream(value.withArray("configs").spliterator(), false)
+  private static Map<String, String> configuration(final StorageService storageService) {
+   /* return StreamSupport.stream(value.withArray("configs").spliterator(), false)
       .filter(node -> !"datasource".equals(node.get("configName").asText()))
       .filter(node -> node.get("code") != null && node.get("value") != null)
       .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));*/
+    return storageService.getAllGlobalVariable();
   }
-
   /**
    * Retrieves the datasource configuration from the given buffer.
    * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.

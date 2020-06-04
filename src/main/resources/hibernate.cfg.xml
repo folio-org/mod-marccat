@@ -281,5 +281,6 @@
     <mapping resource="org/folio/marccat/dao/persistence/T_TM_LC.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/T_TM_BMF.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/T_TM_SPC.hbm.xml"/>
-	</session-factory>
+    <mapping resource="org/folio/marccat/dao/persistence/S_SYS_GLBL_VRBL.hbm.xml"/>
+</session-factory>
 </hibernate-configuration>

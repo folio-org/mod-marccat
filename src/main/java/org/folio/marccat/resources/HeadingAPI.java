@@ -30,7 +30,7 @@ public class HeadingAPI extends BaseResource {
       heading.setCategoryCode(RecordUtils.getTagCategory(heading, storageService));
       storageService.saveHeading(heading, view, configuration);
       return heading;
-    }, tenant, okapiUrl, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue())), "title", "subject", "name", "controlNumber", "classification", "publisher", "nameTitle");
+    }, tenant, okapiUrl, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue())));
   }
 
 
@@ -86,8 +86,7 @@ public class HeadingAPI extends BaseResource {
       else {
         return validateTag(heading.getTag());
       }
-
-    }, tenant, okapiUrl, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue())), "title", "subject", "name", "controlNumber", "classification", "publisher", "nameTitle");
+    }, tenant, okapiUrl, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue())));
   }
 
   private ResponseEntity <Object> validateTag(final String tag) {

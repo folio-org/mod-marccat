@@ -1123,7 +1123,7 @@ public class StorageService implements Closeable {
     bibliographicRecord.setCanadianContentIndicator(valueOf(canadianIndicator));
     bibliographicRecord.setVerificationLevel(valueOf(item.getItemEntity().getVerificationLevel()));
 
-    item.getTags().stream().skip(1).forEach(aTag -> {
+    item.getTags().stream().skip(1).forEach((Tag aTag) -> {
       int keyNumber = 0;
       int sequenceNbr = 0;
       int skipInFiling = 0;
@@ -1175,9 +1175,14 @@ public class StorageService implements Closeable {
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
 
-      final String entry = aTag.isFixedField()
-        ? (((FixedField) aTag).getDisplayString())
-        : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
+      String entry = null;
+      try {
+        entry = aTag.isFixedField()
+          ? (((FixedField) aTag).getDisplayString())
+          : aTag.addPunctuation().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
+      } catch (Exception exception) {
+        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+      }
 
       final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
       org.folio.marccat.resources.domain.VariableField variableField;
@@ -1291,7 +1296,7 @@ public class StorageService implements Closeable {
    */
   public int getCategoryByTag(final String tag,
                             final char firstIndicator,
-                            final char secondIndicator) throws DataAccessException {
+                            final char secondIndicator) {
     final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 
     try {
@@ -1929,6 +1934,21 @@ public class StorageService implements Closeable {
       secondIndicators.add(valueOf(key.getMarcSecondIndicator()));
     } else {
       secondIndicators.addAll(Global.SKIP_IN_FILING_CODES);
+    }
+  }
+
+  /**
+   * Return all global variables
+   *
+   * @return all global variables
+   * @throws DataAccessException
+   */
+  public  Map<String, String> getAllGlobalVariable () throws DataAccessException {
+    try {
+      return new GlobalVariableDAO().getAllGlobalVariable(session);
+    } catch (HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
     }
   }
 

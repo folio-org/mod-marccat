@@ -1,5 +1,6 @@
 package org.folio.marccat.dao;
 
+import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.persistence.S_SYS_GLBL_VRBL;
 import org.folio.marccat.exception.DataAccessException;
@@ -25,9 +26,9 @@ public class GlobalVariableDAO extends AbstractDAO {
    * @return  all global variables.
    * @throws DataAccessException in case of data access failure
    */
-  public Map<String, String> getAllGlobalVariable(final Session session){
+  public Map<String, String> getAllGlobalVariable(final Session session) throws HibernateException{
     final Map<String, String> hash = new HashMap<>();
-    final List<S_SYS_GLBL_VRBL> listAllKeys = find(session, "from S_SYS_GLBL_VRBL");
+    final List<S_SYS_GLBL_VRBL> listAllKeys = session.find( "from S_SYS_GLBL_VRBL");
     final Iterator<S_SYS_GLBL_VRBL> iter = listAllKeys.iterator();
     while (iter.hasNext()) {
       S_SYS_GLBL_VRBL rawGlobalVar = iter.next();
