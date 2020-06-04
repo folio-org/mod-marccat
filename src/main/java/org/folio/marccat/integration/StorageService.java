@@ -1175,14 +1175,11 @@ public class StorageService implements Closeable {
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
 
-      String entry = null;
-      try {
-        entry = aTag.isFixedField()
-          ? (((FixedField) aTag).getDisplayString())
-          : aTag.addPunctuation().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
-      } catch (Exception exception) {
-        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
-      }
+
+
+      final String entry = aTag.isFixedField()
+        ? (((FixedField) aTag).getDisplayString())
+        : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
 
       final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
       org.folio.marccat.resources.domain.VariableField variableField;
