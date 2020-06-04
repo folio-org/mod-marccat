@@ -186,12 +186,7 @@ public abstract class MarccatHelper {
    * @return a dedicated configuration for the current service.
    */
   private static Map<String, String> configuration(final StorageService storageService) {
-   /* return StreamSupport.stream(value.withArray("configs").spliterator(), false)
-      .filter(node -> !"datasource".equals(node.get("configName").asText()))
-      .filter(node -> node.get("code") != null && node.get("value") != null)
-      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));*/
-    return storageService.getAllGlobalVariable();
+       return storageService.getAllGlobalVariable();
   }
   /**
    * Retrieves the datasource configuration from the given buffer.

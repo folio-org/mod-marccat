@@ -66,7 +66,8 @@ public class FieldTemplateAPI extends BaseResource implements CatalogingInformat
             logger.error(Message.MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID, categoryCode, code);
             return new FieldTemplate();
           })
-      , tenant, okapiUrl, configurator, "bibliographic", "material");
+      //, tenant, okapiUrl, configurator, "bibliographic", "material");
+      , tenant, okapiUrl, configurator);
 
   }
 }
