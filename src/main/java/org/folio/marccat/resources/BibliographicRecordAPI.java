@@ -108,8 +108,8 @@ public class BibliographicRecordAPI extends BaseResource {
       bibliographicRecord.setCanadianContentIndicator("0");
       resetStatus(bibliographicRecord);
       return bibliographicRecord;
-    }, tenant, okapiUrl, configurator, "bibliographic");
-    //}, tenant, okapiUrl, configurator);
+   // }, tenant, okapiUrl, configurator, "bibliographic");
+    }, tenant, okapiUrl, configurator);
   }
 
 
