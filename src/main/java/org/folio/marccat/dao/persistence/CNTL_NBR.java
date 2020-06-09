@@ -1,6 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.cataloguing.authority.AuthorityControlNumberAccessPoint;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
 import org.folio.marccat.config.log.Log;
@@ -54,11 +53,6 @@ public class CNTL_NBR extends Descriptor {
     return ControlNumberAccessPoint.class;
   }
 
-
-  @Override
-  public Class getAuthorityAccessPointClass() {
-    return AuthorityControlNumberAccessPoint.class;
-  }
 
   public String getDefaultBrowseKey() {
     return "16P30";

@@ -4,18 +4,13 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.codetable.IndexListElement;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.dao.persistence.IndexListKey;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -25,7 +20,6 @@ import static java.util.stream.Collectors.toList;
  * @since 1.0
  */
 public class DAOIndexList extends AbstractDAO {
-  private static final Log logger = LogFactory.getLog(DAOIndexList.class);
   private static final String FROM_INDEX_LIST_AS_A = "from IndexList as a ";
   private static final String CODE_LIBRICAT = "' and a.codeLibriCatMades = 'LC'";
   private static final String LANGUAGE = " and a.key.language = '";
@@ -81,29 +75,6 @@ public class DAOIndexList extends AbstractDAO {
     }
   }
 
-  /**
-   * Gets the index by english abreviation.
-   *
-   * @param s the s
-   * @return the index by english abreviation
-   */
-  public String getIndexByEnglishAbreviation(String s) {
-
-    String query =
-      FROM_INDEX_LIST_AS_A
-        + "where a.languageCode = "
-        + "'" + s + "'"
-        + LANGUAGE
-        + Locale.ENGLISH.getISO3Language()
-        + CODE_LIBRICAT;
-
-    List l = getIndexByQuery(query);
-    if (!l.isEmpty()) {
-      return ((IndexListElement) l.get(0)).getKey();
-    } else {
-      return null;
-    }
-  }
 
   /**
    * Gets the sort form parameters by key.
@@ -152,9 +123,9 @@ public class DAOIndexList extends AbstractDAO {
    * @param locale  the locale
    * @return the index by local abbreviation
    */
-  public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) {
+  public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) throws HibernateException{
 
-    List l = find(session, FROM_INDEX_LIST_AS_A
+    List l = session.find(FROM_INDEX_LIST_AS_A
       + "where lower(a.languageCode) = '" + s.toLowerCase() + "'"
       + LANGUAGE + locale.getISO3Language() + "'"
       + " and a.codeLibriCatMades = 'LC'");
@@ -199,46 +170,8 @@ public class DAOIndexList extends AbstractDAO {
       .collect(toList());
   }
 
-  /**
-   * Get the IndexElementList for a expecific query
-   *
-   * @param query
-   * @throws DataAccessException
-   * @since 1.0
-   */
-  @SuppressWarnings("unchecked")
 
-  public List getIndexByQuery(String query) {
-    List l = null;
-    List result = new ArrayList();
-    Session s = currentSession();
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("Doing query: " + query);
-    }
-    try {
-      l = s.find(query);
-    } catch (HibernateException e) {
-      logAndWrap(e);
-    }
-
-    if (l != null) {
-      Iterator iter = l.iterator();
-      while (iter.hasNext()) {
-        IndexList aRow = (IndexList) iter.next();
-
-        result.add(
-          new IndexListElement(
-            aRow.getLanguageCode(),
-            aRow.getLanguageDescription(),
-            ""
-              + aRow.getKey().getKeyNumber()
-              + aRow.getKey().getTypeCode().trim()));
-
-      }
-    }
-    return result;
-  }
 
   /**
    * Get the key for a specific index

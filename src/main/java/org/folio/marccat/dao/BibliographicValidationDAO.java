@@ -90,13 +90,13 @@ public class BibliographicValidationDAO extends DAOValidation {
     }
   }
 
-  @Deprecated
+ /* @Deprecated
   public BibliographicValidation load(final String marcNumber, final int marcCategory) {
     return (BibliographicValidation) load(BibliographicValidation.class, new BibliographicValidationKey(marcNumber, marcCategory));
   }
 
-  @Deprecated
-  public Validation load(final int s, final CorrelationValues values) {
+  @Deprecated*/
+ /* public Validation load(final int s, final CorrelationValues values) {
     List<BibliographicValidation> validations = find(querySelect +
         queryFrom +
         queryWhere +
@@ -148,5 +148,5 @@ public class BibliographicValidationDAO extends DAOValidation {
         throw new MarcCorrelationException("no Validation found");
       }
     }
-  }
+  }*/
 }

@@ -147,7 +147,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public int getPreferredView(final int itemNumber, final int databasePreferenceOrder) throws DataAccessException {
-    return new DAOCache().getPreferredView(session, itemNumber, databasePreferenceOrder);
+    return new CacheDAO().getPreferredView(session, itemNumber, databasePreferenceOrder);
   }
 
   /**
@@ -188,9 +188,9 @@ public class StorageService implements Closeable {
    * @return the {@link CatalogItem} associated with the given data.
    */
   public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
-    if(searchingView == View.AUTHORITY)
+   /* if(searchingView == View.AUTHORITY)
       return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
-    else
+    else*/
       return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
   }
 
@@ -448,9 +448,6 @@ public class StorageService implements Closeable {
    * @param view the related view.
    */
   public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
-    if(view == View.AUTHORITY)
-      new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
-    else
       try {
         new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
       } catch (final HibernateException exception) {

@@ -4,7 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.search.SearchResponse;
@@ -18,7 +17,7 @@ import java.sql.SQLException;
  * @version $Revision: 1.1 $, $Date: 2006/07/11 08:01:05 $
  * @since 1.0
  */
-public class DAOSortResultSets extends HibernateUtil {
+public class DAOSortResultSets extends AbstractDAO {
   private Log logger = LogFactory.getLog(DAOSortResultSets.class);
 
   public void sort(
@@ -34,7 +33,6 @@ public class DAOSortResultSets extends HibernateUtil {
      */
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s) {
-        SearchResponse sortedResults;
         insertResults(rs);
         doSort(orderBy, rs);
       }

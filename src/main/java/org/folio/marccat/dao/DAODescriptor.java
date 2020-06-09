@@ -98,19 +98,6 @@ public abstract class DAODescriptor extends AbstractDAO {
   }
 
 
-
-
-
-  /**
-   * Load a heading by heading number and cataloguing view.
-   *
-   * @deprecated replaced by {@link #load(int, int, Session)}
-   */
-  @Deprecated
-  public Descriptor load(final int headingNumber, final int cataloguingView) {
-    return null;
-  }
-
   /**
    * loads the heading member from the database based on the settings of the
    * key values.
@@ -377,7 +364,7 @@ public abstract class DAODescriptor extends AbstractDAO {
       final Descriptor descriptor = load(headingNumber, onFileView, session);
       final Descriptor newDescriptor = (Descriptor) deepCopy(descriptor);
       newDescriptor.setUserViewString(View.makeSingleViewString(cataloguingView));
-      save(newDescriptor);
+      save(newDescriptor, session);
       return newDescriptor;
     }
   }

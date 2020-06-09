@@ -81,11 +81,7 @@ public class PublisherManagerDAO extends AbstractDAO {
 
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see HibernateUtil#update(librisuite.business.common.Persistence)
-   */
+
   @Override
   public void update(final Persistence p, final Session session) throws DataAccessException {
     if (!(p instanceof PublisherManager)) {

@@ -271,21 +271,6 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
     return result.stream().findFirst().map(Correlation::getDatabaseSecondValue).orElse(-1);
   }
 
-  @SuppressWarnings("unchecked")
-  public String getClassificationIndexByShelfType(final int shelfType, final Session session) throws HibernateException {
-    List<BibliographicCorrelation> l = session.find(queryFrom
-        + " where bc.key.marcTagCategoryCode = 13 and "
-        + " bc.databaseFirstValue = ? ",
-      new Object[]{shelfType},
-      new Type[]{Hibernate.INTEGER});
-
-    if (l.size() == 1) {
-      String s = l.stream().findFirst().map(Correlation::getSearchIndexTypeCode).toString();
-      return new DAOIndexList().getIndexByEnglishAbreviation(s);
-    } else {
-      return null;
-    }
-  }
 
   /**
    * Gets correlations from selected index.
