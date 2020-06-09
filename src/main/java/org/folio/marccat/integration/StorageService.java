@@ -188,9 +188,6 @@ public class StorageService implements Closeable {
    * @return the {@link CatalogItem} associated with the given data.
    */
   public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
-   /* if(searchingView == View.AUTHORITY)
-      return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
-    else*/
       return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
   }
 
@@ -1937,7 +1934,7 @@ public class StorageService implements Closeable {
    * @return all global variables
    * @throws DataAccessException
    */
-  public  Map<String, String> getAllGlobalVariable () throws DataAccessException {
+  public  Map<String, String> getAllGlobalVariable ()  {
     try {
       return new GlobalVariableDAO().getAllGlobalVariable(session);
     } catch (HibernateException exception) {

@@ -48,7 +48,7 @@ public class BibliographicValidationDAO extends DAOValidation {
   @SuppressWarnings("unchecked")
   public BibliographicValidation load(final Session session, final int category, final CorrelationValues values) throws HibernateException {
 
-    List<BibliographicValidation> bibliographicValidations = session.find(querySelect +
+    List <BibliographicValidation> bibliographicValidations = session.find(querySelect +
         queryFrom +
         queryWhere +
         " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
@@ -68,7 +68,7 @@ public class BibliographicValidationDAO extends DAOValidation {
         Hibernate.INTEGER, Hibernate.INTEGER}
     );
 
-    Optional<BibliographicValidation> firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
+    Optional <BibliographicValidation> firstElement = bibliographicValidations.stream().filter(Objects::nonNull).findFirst();
     if (firstElement.isPresent()) {
       return firstElement.get();
     }
@@ -90,63 +90,4 @@ public class BibliographicValidationDAO extends DAOValidation {
     }
   }
 
- /* @Deprecated
-  public BibliographicValidation load(final String marcNumber, final int marcCategory) {
-    return (BibliographicValidation) load(BibliographicValidation.class, new BibliographicValidationKey(marcNumber, marcCategory));
-  }
-
-  @Deprecated*/
- /* public Validation load(final int s, final CorrelationValues values) {
-    List<BibliographicValidation> validations = find(querySelect +
-        queryFrom +
-        queryWhere +
-        " and (c.databaseFirstValue = ? or c.databaseFirstValue = -1 or -1 = ?)" +
-        " and (c.databaseSecondValue = ? or c.databaseSecondValue = -1 or -1 = ?)" +
-        " and (c.databaseThirdValue = ? or c.databaseThirdValue = -1 or -1 = ?)" +
-        queryAndTag +
-        queryCategory,
-      new Object[]{
-        s,
-        values.getValue(1), values.getValue(1),
-        values.getValue(2), values.getValue(2),
-        values.getValue(3), values.getValue(3)},
-      new Type[]{
-        Hibernate.INTEGER,
-        Hibernate.INTEGER, Hibernate.INTEGER,
-        Hibernate.INTEGER, Hibernate.INTEGER,
-        Hibernate.INTEGER, Hibernate.INTEGER}
-    );
-
-    if (!validations.isEmpty()) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("BibliographicValidation(s) found:");
-        for (int i = 0; i < validations.size(); i++) {
-          logger.debug(validations.get(i));
-        }
-      }
-      return validations.get(0);
-    } else {
-      validations = find(querySelect +
-          queryFrom +
-          queryWhere +
-          queryAndTag +
-          queryCategory,
-        new Object[]{s},
-        new Type[]{Hibernate.INTEGER}
-      );
-
-      if (!validations.isEmpty()) {
-        if (logger.isDebugEnabled()) {
-          logger.debug("BibliographicValidation(s) found:");
-          for (int i = 0; i < validations.size(); i++) {
-            logger.debug(validations.get(i));
-          }
-        }
-        return validations.get(0);
-      } else {
-        logger.warn("No validation found for category " + s + " and values " + values.toString());
-        throw new MarcCorrelationException("no Validation found");
-      }
-    }
-  }*/
 }

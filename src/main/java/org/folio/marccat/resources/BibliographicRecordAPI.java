@@ -108,7 +108,6 @@ public class BibliographicRecordAPI extends BaseResource {
       bibliographicRecord.setCanadianContentIndicator("0");
       resetStatus(bibliographicRecord);
       return bibliographicRecord;
-   // }, tenant, okapiUrl, configurator, "bibliographic");
     }, tenant, okapiUrl, configurator);
   }
 
@@ -165,8 +164,7 @@ public class BibliographicRecordAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return new ResponseEntity<>(container, HttpStatus.INTERNAL_SERVER_ERROR);
       }
-   // }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(container.getBibliographicRecord().getId().toString()), "bibliographic", "material");
-       }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(container.getBibliographicRecord().getId().toString()));
+    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(container.getBibliographicRecord().getId().toString()));
 
   }
 

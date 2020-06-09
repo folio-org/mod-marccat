@@ -25,7 +25,7 @@ public class CacheDAO extends AbstractDAO {
 
 
   public Cache load(final int bibItemNumber, final int cataloguingView,final Session session) throws HibernateException {
-    List l =
+    List<Cache> l =
      session.find(
         "from Cache as c "
           + " where c.bibItemNumber = ? and c.cataloguingView = ?",
@@ -36,7 +36,7 @@ public class CacheDAO extends AbstractDAO {
     if (l.isEmpty()) {
       throw new RecordNotFoundException("Cache entry not found");
     }
-    return (Cache) l.get(0);
+    return  l.get(0);
   }
 
 
@@ -56,8 +56,10 @@ public class CacheDAO extends AbstractDAO {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(final Session s) throws HibernateException {
         final Connection connection = s.connection();
-        try (final PreparedStatement stmt = stmt(connection, amicusNumber, preferenceOrder);
+        try (final PreparedStatement stmt = stmt(connection);
              final ResultSet resultSet = stmt.executeQuery()) {
+          stmt.setInt(1, amicusNumber);
+          stmt.setInt(2, preferenceOrder);
           while (resultSet.next()) {
             preferredView.set(resultSet.getInt("trstn_vw_nbr"));
           }
@@ -69,8 +71,8 @@ public class CacheDAO extends AbstractDAO {
     return preferredView.get();
   }
 
-  private PreparedStatement stmt(final Connection connection, final int recordId, final int preferenceOrder) throws SQLException {
-    final PreparedStatement stmt = connection.prepareStatement(
+  private PreparedStatement stmt(final Connection connection) throws SQLException {
+    return connection.prepareStatement(
       "SELECT a1.trstn_vw_nbr FROM (" +
         "SELECT b.trstn_vw_nbr " +
         " FROM s_cache_bib_itm_dsply a, " +
@@ -80,8 +82,6 @@ public class CacheDAO extends AbstractDAO {
         " b.DB_PRFNC_ORDR_NBR = ? " +
         " order by b.vw_seq_nbr) a1" +
         " limit 2");
-    stmt.setInt(1, recordId);
-    stmt.setInt(2, preferenceOrder);
-    return stmt;
+
   }
 }

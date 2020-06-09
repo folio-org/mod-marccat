@@ -44,7 +44,6 @@ public class LoadFromFileAPI extends BaseResource {
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
-    //}, tenant, okapiUrl, configurator, () -> true, "bibliographic", "material", "title", "name", "subject");
     }, tenant, okapiUrl, configurator, () -> true);
 
   }

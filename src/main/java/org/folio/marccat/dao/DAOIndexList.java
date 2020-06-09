@@ -32,7 +32,7 @@ public class DAOIndexList extends AbstractDAO {
    * @return the browse indexes
    * @throws HibernateException
    */
-  public List getBrowseIndex(final Locale locale, final Session session) throws HibernateException {
+  public List<Avp<String>> getBrowseIndex(final Locale locale, final Session session) throws HibernateException {
     final String query =
       FROM_INDEX_LIST_AS_A
         + "where SUBSTR(a.browseCode, 1, 1) = 'B' "
