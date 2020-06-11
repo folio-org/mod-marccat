@@ -34,7 +34,7 @@ import static org.folio.marccat.util.F.deepCopy;
 /**
  * The Class Tag.
  */
-public abstract class Tag implements Serializable, Cloneable, TagInterface {
+public abstract class Tag implements Serializable, TagInterface {
 
   /**
    * The Constant PHYSICAL_MATERIAL.
@@ -578,31 +578,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     }
   }
 
-  /**
-   * This method creates a XML Document as follows
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * or for a control field
-   * <controlfield tag="001">000000005581</controlfield>.
-   *
-   * @return a Document
-   */
-  public Document toXmlDocument() {
-    DocumentBuilderFactory documentBuilderFactory =
-      DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = null;
-    Document xmlDocument = null;
-    try {
-      documentBuilder = documentBuilderFactory.newDocumentBuilder();
-      xmlDocument = documentBuilder.newDocument();
-      xmlDocument.appendChild(toXmlElement(xmlDocument));
-    } catch (ParserConfigurationException parserConfigurationException) {
-      logger.error("", parserConfigurationException);
-    }
-    return xmlDocument;
-  }
 
   /**
    * This method creates a XML Element as follows
@@ -658,10 +633,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#clone()
-   */
-  public Object clone() {
+  public Object copy() {
     return deepCopy(this);
   }
 
@@ -728,7 +700,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   /* (non-Javadoc)
    * @see TagInterface#getCategory()
    */
-  abstract public int getCategory();
+ public abstract int getCategory();
 
   /**
    * Gets the display category.

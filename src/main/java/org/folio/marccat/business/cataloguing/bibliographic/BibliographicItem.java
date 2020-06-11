@@ -3,25 +3,19 @@ package org.folio.marccat.business.cataloguing.bibliographic;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.config.log.Log;
+
 import org.folio.marccat.dao.persistence.BIB_ITM;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.dao.persistence.ModelItem;
 import org.folio.marccat.exception.MandatoryTagException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.Serializable;
 import java.util.Iterator;
 
 public class BibliographicItem extends CatalogItem implements Serializable {
   private static final long serialVersionUID = 8676099561229020012L;
-  private transient Log logger = new Log(BibliographicItem.class);
-  private BIB_ITM bibItmData;
+  private BIB_ITM bibItm;
   private int userView;
 
   public BibliographicItem() {
@@ -31,15 +25,15 @@ public class BibliographicItem extends CatalogItem implements Serializable {
 
   public BibliographicItem(Integer id) {
     super();
-    this.bibItmData.setAmicusNumber(id);
+    this.bibItm.setAmicusNumber(id);
   }
 
-  public BIB_ITM getBibItmData() {
-    return bibItmData;
+  public BIB_ITM getBibItm() {
+    return bibItm;
   }
 
-  public void setBibItmData(BIB_ITM bib_itm) {
-    bibItmData = bib_itm;
+  public void setBibItmData(BIB_ITM bibItm) {
+    bibItm = bibItm;
     /*
      * Set all PersistsViaBibItem tags
      */
@@ -47,7 +41,7 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     while (iter.hasNext()) {
       Tag aTag = (Tag) iter.next();
       if (aTag instanceof PersistsViaItem) {
-        ((PersistsViaItem) aTag).setItemEntity(bib_itm);
+        ((PersistsViaItem) aTag).setItemEntity(bibItm);
       }
     }
   }
@@ -69,55 +63,6 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     this.modelItem = modelItem;
   }
 
-  /**
-   * This method creates a XML Document as follows
-   * <record>
-   * <leader>00451nam a2200109 a 4500</leader>
-   * <controlfield tag="001">000000005581</controlfield>
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * </record
-   *
-   * @return a Document
-   */
-  public Document toXmlDocument() {
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = null;
-    Document xmlDocument = null;
-    try {
-      documentBuilder = documentBuilderFactory.newDocumentBuilder();
-      xmlDocument = documentBuilder.newDocument();
-      xmlDocument.appendChild(toXmlElement(xmlDocument));
-    } catch (ParserConfigurationException parserConfigurationException) {
-      logger.error("", parserConfigurationException);
-    }
-    return xmlDocument;
-  }
-
-  /**
-   * This method creates a XML Element as follows
-   * <record>
-   * <leader>00451nam a2200109 a 4500</leader>
-   * <controlfield tag="001">000000005581</controlfield>
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * </record
-   *
-   * @return an Element
-   */
-  public Element toXmlElement(Document xmlDocument) {
-    Element record = xmlDocument.createElement("record");
-    Iterator tagIterator = this.getTags().iterator();
-    while (tagIterator.hasNext()) {
-      Tag tag = (Tag) tagIterator.next();
-      record.appendChild(tag.toXmlElement(xmlDocument));
-    }
-    return record;
-  }
 
 
   /* (non-Javadoc)
@@ -138,7 +83,7 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   }
 
   public ItemEntity getItemEntity() {
-    return bibItmData;
+    return bibItm;
   }
 
   /* (non-Javadoc)
@@ -148,9 +93,7 @@ public class BibliographicItem extends CatalogItem implements Serializable {
     setBibItmData((BIB_ITM) item);
   }
 
-  /* (non-Javadoc)
-   * @see CatalogItem#setItemEntity(ItemEntity)
-   */
+
 
 
 }

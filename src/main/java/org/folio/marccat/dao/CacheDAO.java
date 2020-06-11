@@ -5,7 +5,6 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.Cache;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
@@ -24,9 +23,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CacheDAO extends AbstractDAO {
 
 
+  /**
+   * Load the cache for a bib item number.
+   *
+   * @param bibItemNumber the bib item number
+   * @param cataloguingView the cataloguing view
+   * @param session the session
+   * @return the cache
+   * @throws HibernateException the hibernate exception
+   */
+  @SuppressWarnings("unchecked")
   public Cache load(final int bibItemNumber, final int cataloguingView,final Session session) throws HibernateException {
     List<Cache> l =
-     session.find(
+      session.find(
         "from Cache as c "
           + " where c.bibItemNumber = ? and c.cataloguingView = ?",
         new Object[]{
@@ -42,36 +51,37 @@ public class CacheDAO extends AbstractDAO {
 
 
   /**
-    * Determines the correct view to retrieve for the given amicusNumber
-   * based on the contents of the cache and the user's selected preference
-   * order
+   * Gets the preferred view for the view = 0 (Any)
    *
-   * @param amicusNumber
-   * @param preferenceOrder
-   * @return
-   * @throws DataAccessException
+   * @param session the session
+   * @param amicusNumber the amicus number
+   * @param preferenceOrder the preference order
+   * @return the preferred view
    */
   public int getPreferredView(final Session session, final int amicusNumber, final int preferenceOrder) {
     final AtomicInteger preferredView = new AtomicInteger();
-    new TransactionalHibernateOperation() {
-      public void doInHibernateTransaction(final Session s) throws HibernateException {
-        final Connection connection = s.connection();
-        try (final PreparedStatement stmt = stmt(connection);
-             final ResultSet resultSet = stmt.executeQuery()) {
-          stmt.setInt(1, amicusNumber);
-          stmt.setInt(2, preferenceOrder);
-          while (resultSet.next()) {
-            preferredView.set(resultSet.getInt("trstn_vw_nbr"));
-          }
-        } catch (final SQLException exception) {
-          throw new DataAccessException(exception);
+    try (PreparedStatement stmt = getPreparedStatement(session.connection())) {
+      stmt.setInt(1, amicusNumber);
+      stmt.setInt(2, preferenceOrder);
+      try(ResultSet resultSet = stmt.executeQuery()) {
+        while (resultSet.next()) {
+          preferredView.set(resultSet.getInt("trstn_vw_nbr"));
         }
       }
-    }.execute(session);
+    } catch (SQLException | HibernateException e) {
+      throw new DataAccessException(e);
+    }
     return preferredView.get();
   }
 
-  private PreparedStatement stmt(final Connection connection) throws SQLException {
+  /**
+   * return a PreparedStatement.
+   *
+   * @param connection the connection
+   * @return the prepared statement
+   * @throws SQLException the SQL exception
+   */
+  private PreparedStatement getPreparedStatement(final Connection connection) throws SQLException {
     return connection.prepareStatement(
       "SELECT a1.trstn_vw_nbr FROM (" +
         "SELECT b.trstn_vw_nbr " +
@@ -84,4 +94,5 @@ public class CacheDAO extends AbstractDAO {
         " limit 2");
 
   }
+
 }

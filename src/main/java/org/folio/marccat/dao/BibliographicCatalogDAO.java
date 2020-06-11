@@ -222,7 +222,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    */
   private List <Tag> getHeaderFields(final BibliographicItem item, final int userView, final Session session) throws HibernateException {
 
-    final BIB_ITM bibItemData = item.getBibItmData();
+    final BIB_ITM bibItemData = item.getBibItm();
     final List <Tag> result = new ArrayList <>();
     result.add(new BibliographicLeader());
     result.add(new BibliographicControlNumberTag());

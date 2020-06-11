@@ -14,6 +14,7 @@ import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,13 +44,15 @@ public abstract class CatalogItem implements Serializable {
   /**
    * This method creates a MarcSlim XML Element for this item
    *
-   * @return an Element
+   * @return an Document
    */
   public Document toExternalMarcSlim(Session session) {
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+    documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
     DocumentBuilder documentBuilder;
     Document xmlDocument = null;
-    Element record = null;
+    Element record;
     try {
       documentBuilder = documentBuilderFactory.newDocumentBuilder();
       xmlDocument = documentBuilder.newDocument();
@@ -68,27 +71,8 @@ public abstract class CatalogItem implements Serializable {
      return xmlDocument;
   }
 
-  /**
-   * @param tags
-   * @deprecated
-   */
-  @Deprecated
-  public void addAllTags(Tag[] tags) {
-    for (int i = 0; i < tags.length; i++) {
-      addTag(tags[i]);
-    }
-  }
 
-  /**
-   * @param aTag
-   * @deprecated
-   */
-  @Deprecated
-  public void addDeletedTag(Tag aTag) {
-    if (!deletedTags.contains(aTag)) {
-      deletedTags.add(aTag);
-    }
-  }
+
 
 
   /**

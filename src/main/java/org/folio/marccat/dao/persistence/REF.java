@@ -20,7 +20,7 @@ import java.io.Serializable;
  * @author paulm
  * @author carment
  */
-public abstract class REF extends PersistenceState implements Serializable, Cloneable, PersistentObjectWithView {
+public abstract class REF extends PersistenceState implements Serializable, PersistentObjectWithView {
 
   /**
    * The persistence state.
@@ -159,9 +159,9 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
    *
    * @return the object
    */
-  public Object clone() {
+  public Object copy() {
     try {
-      RefKey newKey = (RefKey) getKey().clone();
+      RefKey newKey = (RefKey) getKey().copy();
       REF result = (REF) super.clone();
       result.setKey(newKey);
       return result;
@@ -170,13 +170,14 @@ public abstract class REF extends PersistenceState implements Serializable, Clon
     }
   }
 
+
   /**
    * Creates the cross reference reciprocal.
    *
    * @return the ref
    */
   public REF createReciprocal() {
-    REF result = (REF) this.clone();
+    REF result = (REF) this.copy();
     result.setSource(getTarget());
     result.setTarget(getSource());
     result.setType(ReferenceType.getReciprocal(result.getType()));

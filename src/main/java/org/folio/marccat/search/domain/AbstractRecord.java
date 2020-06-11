@@ -2,29 +2,8 @@ package org.folio.marccat.search.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.exception.XmlDocumentException;
-import org.folio.marccat.exception.XmlParserConfigurationException;
-import org.folio.marccat.exception.XslTransformerConfigurationException;
-import org.folio.marccat.exception.XslTransformerException;
 import org.folio.marccat.util.XmlUtils;
-import org.w3c.dom.Document;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -36,24 +15,49 @@ import java.util.Map;
  * @since 1.0
  */
 public abstract class AbstractRecord implements Record {
-  private static final String XSLT_PATH = "/xslt/";
-  private static final Log logger = new Log(AbstractRecord.class);
+
+  /** The log. */
   private final Log log = new Log(AbstractRecord.class);
+
+  /** The ccl query. */
   @JsonIgnore
   private String cclQuery = "";
+
+  /** The content. */
   private Map<String, Object> content = new HashMap<>();
 
+  /** The record view. */
   private int recordView;
+
+  /** The count doc. */
   private int countDoc;
+
+  /** The query for associated doc. */
   private String queryForAssociatedDoc;
+
+  /** The tag highlighted. */
   private String tagHighlighted;
+
+  /** The record id. */
   private int recordId;
 
+  /**
+   * Checks for content.
+   *
+   * @param elementSetName the element set name
+   * @return true, if successful
+   */
   @Override
   public boolean hasContent(final String elementSetName) {
     return content.containsKey(elementSetName);
   }
 
+  /**
+   * Sets the content.
+   *
+   * @param elementSetName the element set name
+   * @param data the data
+   */
   @Override
   public void setContent(final String elementSetName, final Object data) {
     if (elementSetName != null && data != null) {
@@ -61,11 +65,23 @@ public abstract class AbstractRecord implements Record {
     }
   }
 
+  /**
+   * Gets the content.
+   *
+   * @param elementSetName the element set name
+   * @return the content
+   */
   @Override
   public Object getContent(final String elementSetName) {
     return content.get(elementSetName);
   }
 
+  /**
+   * To xml string.
+   *
+   * @param elementSetName the element set name
+   * @return the string
+   */
   @Override
   public String toXmlString(String elementSetName) {
     if (this.hasContent(elementSetName)) {
@@ -75,123 +91,28 @@ public abstract class AbstractRecord implements Record {
     }
   }
 
-  @Override
-  public Document toXmlStyledDocument(
-    final String elementSetName,
-    final String stylesheet,
-    final Map xsltParameters) {
-    URL styleURL = AbstractRecord.class.getResource(XSLT_PATH + stylesheet);
-    if (styleURL == null)
-      throw new XmlParserConfigurationException("stylesheet " + stylesheet + " not found in " + XSLT_PATH);
-    return toXmlStyledDocument(elementSetName, styleURL, xsltParameters);
-  }
 
-  @Override
-  public Document toXmlStyledDocument(
-    final String elementSetName,
-    URL stylesheet,
-    Map xsltParameters) {
-    Document xmlStyledDocument = null;
 
-    try {
-      // load the transformer using JAXP
-      TransformerFactory factory = TransformerFactory.newInstance();
-      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-      Transformer transformer = factory.newTransformer(new StreamSource(
-        stylesheet.getFile()));
-
-      // First set some parameters if there are any
-      if (xsltParameters != null) {
-        Iterator iterator = xsltParameters.entrySet().iterator();
-        while (iterator.hasNext()) {
-          Map.Entry entry = (Map.Entry) iterator.next();
-          transformer.setParameter(entry.getKey().toString(), entry
-            .getValue().toString());
-        }
-      }
-
-      // now lets style the given document
-      DOMSource source = new DOMSource(this
-        .toXmlDocument(elementSetName));
-      DocumentBuilderFactory documentBuilderFactory =
-        DocumentBuilderFactory.newInstance();
-      DocumentBuilder documentBuilder = null;
-
-      documentBuilder = documentBuilderFactory.newDocumentBuilder();
-      xmlStyledDocument = documentBuilder.newDocument();
-      DOMResult result = new DOMResult(xmlStyledDocument);
-      transformer.transform(source, result);
-    } catch (TransformerConfigurationException transformerConfigurationException) {
-      logger.error(transformerConfigurationException.getMessage());
-      throw new XslTransformerConfigurationException(
-        transformerConfigurationException);
-    } catch (TransformerException transformerException) {
-      logger.error(transformerException.getMessage());
-      throw new XslTransformerException(transformerException);
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      throw new XslTransformerException(e);
-    }
-
-    return xmlStyledDocument;
-  }
-
-  public String toStyledDocument(String elementSetName, String stylesheet,
-                                 Map xsltParameters) {
-    // MIKE: helpful in configuration time
-    URL styleURL = AbstractRecord.class.getResource(XSLT_PATH + stylesheet);
-    if (styleURL == null) throw new XmlDocumentException("stylesheet " + stylesheet + " not found in " + XSLT_PATH);
-    return toStyledDocument(elementSetName, styleURL, xsltParameters);
-  }
-
-  public String toStyledDocument(String elementSetName, URL stylesheet,
-                                 Map xsltParameters) {
-    StringWriter buffer = new StringWriter();
-    try {
-      // load the transformer using JAXP
-      TransformerFactory factory = TransformerFactory.newInstance();
-      factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-      Transformer transformer = factory.newTransformer(new StreamSource(
-        stylesheet.openStream()));
-
-      // First set some parameters if there are any
-      if (xsltParameters != null) {
-        Iterator iterator = xsltParameters.entrySet().iterator();
-        while (iterator.hasNext()) {
-          Map.Entry entry = (Map.Entry) iterator.next();
-          transformer.setParameter(entry.getKey().toString(), entry.getValue());
-        }
-      }
-
-      // now lets style the given document
-      DOMSource source = new DOMSource(this
-        .toXmlDocument(elementSetName));
-      transformer.transform(source, new StreamResult(buffer));
-
-    } catch (TransformerConfigurationException transformerConfigurationException) {
-      logger.error(transformerConfigurationException.getMessage());
-      throw new XslTransformerConfigurationException(
-        transformerConfigurationException);
-    } catch (TransformerException transformerException) {
-      logger.error(transformerException.getMessage());
-      throw new XslTransformerException(transformerException);
-    } catch (IOException e) {
-      log.error("", e);
-    }
-
-    return buffer.toString();
-  }
-
+  /**
+   * Gets the ccl query.
+   *
+   * @return the ccl query
+   */
   public String getCclQuery() {
     return cclQuery;
   }
 
+  /**
+   * Sets the ccl query.
+   *
+   * @param cclQuery the new ccl query
+   */
   public void setCclQuery(String cclQuery) {
     this.cclQuery = cclQuery;
   }
 
   /**
-   * pm 2011
+   * Gets the record view.
    *
    * @return the recordView
    */
@@ -200,7 +121,7 @@ public abstract class AbstractRecord implements Record {
   }
 
   /**
-   * pm 2011
+   * Sets the record view.
    *
    * @param recordView the recordView to set
    */
@@ -208,34 +129,74 @@ public abstract class AbstractRecord implements Record {
     this.recordView = recordView;
   }
 
+  /**
+   * Gets the count doc.
+   *
+   * @return the count doc
+   */
   public int getCountDoc() {
     return countDoc;
   }
 
+  /**
+   * Sets the count doc.
+   *
+   * @param countDoc the new count doc
+   */
   public void setCountDoc(int countDoc) {
     this.countDoc = countDoc;
   }
 
+  /**
+   * Gets the query for associated doc.
+   *
+   * @return the query for associated doc
+   */
   public String getQueryForAssociatedDoc() {
     return queryForAssociatedDoc;
   }
 
+  /**
+   * Sets the query for associated doc.
+   *
+   * @param queryForAssociatedDoc the new query for associated doc
+   */
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
 
+  /**
+   * Gets the tag highlighted.
+   *
+   * @return the tag highlighted
+   */
   public String getTagHighlighted() {
     return tagHighlighted;
   }
 
+  /**
+   * Sets the tag highlighted.
+   *
+   * @param tag the new tag highlighted
+   */
   public void setTagHighlighted(String tag) {
     this.tagHighlighted = tag;
   }
 
+  /**
+   * Gets the record id.
+   *
+   * @return the record id
+   */
   public int getRecordId() {
     return recordId;
   }
 
+  /**
+   * Sets the record id.
+   *
+   * @param recordId the new record id
+   */
   public void setRecordId(int recordId) {
     this.recordId = recordId;
   }

@@ -310,7 +310,7 @@ public class StringText implements Serializable {
       Subfield s = getSubfield(i);
       if (((include == null) || (include.contains(s.getCode())))
         && ((exclude == null) || (!exclude.contains(s.getCode())))) {
-        text.addSubfield((Subfield) s.clone());
+        text.addSubfield((Subfield) s.copy());
       }
     }
     return text;

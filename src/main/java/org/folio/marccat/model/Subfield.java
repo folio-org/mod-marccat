@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * MARC Subfield definition.
  *
- * @author Wim Crols
+ * @author paulm
  * @author cchiama
  * @since 1.0
  */
@@ -133,10 +133,8 @@ public class Subfield implements Serializable {
     this.content = content;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#clone()
-   */
-  public Object clone() {
+
+  public Object copy() {
     return new Subfield(this);
   }
 

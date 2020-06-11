@@ -15,12 +15,9 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
-
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
@@ -50,7 +47,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
   /**
    * The persistence state.
    */
-  private PersistenceState persistenceState = new PersistenceState();
+  private PersistenceState pState = new PersistenceState();
 
   /**
    * The publisher tag units.
@@ -97,7 +94,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    */
   public PublisherManager() {
     super();
-    setPersistenceState(persistenceState);
+    setPersistenceState(pState);
     setNoteType(Global.PUBLISHER_DEFAULT_NOTE_TYPE);
     setApf(new PublisherAccessPoint());
   }
@@ -113,7 +110,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     setApf(new PublisherAccessPoint(bibItemNumber));
     final String singleViewString = View.makeSingleViewString(view);
     getApf().setUserViewString(singleViewString);
-    setPersistenceState(persistenceState);
+    setPersistenceState(pState);
     setBibItemNumber(bibItemNumber);
     setUserViewString(singleViewString);
     setNoteType(Global.PUBLISHER_DEFAULT_NOTE_TYPE);
@@ -126,7 +123,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    */
   public PublisherManager(final PublisherAccessPoint apf) {
     super();
-    setPersistenceState(persistenceState);
+    setPersistenceState(pState);
     setItemNumber(apf.getItemNumber());
     setUserViewString(apf.getUserViewString());
     setUpdateStatus(apf.getUpdateStatus());
@@ -177,9 +174,8 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Copy dates from access points into Publisher Tag while editing.
    */
   private void copyDates() {
-    getPublisherTagUnits().stream().forEach(publisherTag -> {
-      getDates().add(publisherTag.getDate());
-    });
+    getPublisherTagUnits().stream().forEach(publisherTag ->
+      getDates().add(publisherTag.getDate())    );
   }
 
   /**
@@ -187,7 +183,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    */
   private void extractManufacturerData() {
     final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
-    if (ofNullable(last).isPresent()) {
+    if (last != null && ofNullable(last).isPresent()) {
       final StringText stringText = new StringText(last.getOtherSubfields());
       last.setOtherSubfields(stringText.getSubfieldsWithoutCodes(Global.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString());
       final String remainingFieldsText = stringText.getSubfieldsWithCodes(Global.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString();
@@ -206,9 +202,9 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    */
   public StringText getStringText() {
     final StringText result = new StringText();
-    getPublisherTagUnits().forEach(aTagUnit -> {
-      result.add(new StringText(aTagUnit.getStringText()));
-    });
+    getPublisherTagUnits().forEach(aTagUnit ->
+      result.add(new StringText(aTagUnit.getStringText()))
+    );
     return result;
   }
 
@@ -305,15 +301,6 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     publisherTagUnits = list;
   }
 
-  /**
-   * @return the first correlation list
-   * @throws DataAccessException the data access exception
-   * @deprecated Gets the first correlation list.
-   */
-  @Deprecated
-  public List getFirstCorrelationList() throws DataAccessException {
-    return Collections.emptyList();
-  }
 
   /**
    * Compares an object with another one.
@@ -461,7 +448,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
       }
 
       final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
-      if (ofNullable(last).isPresent()) {
+      if (last != null && ofNullable(last).isPresent()) {
         StringText st = new StringText(last.getOtherSubfields()).add(s);
         last.setOtherSubfields(st.toString());
       }
@@ -510,19 +497,17 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    *
    * @throws DataAccessException in case of data access exception.
    */
-  public void evict() throws DataAccessException {
+  public void evict()  {
     final PublisherAccessPoint publisherAccessPoint = getApf();
     publisherAccessPoint.evict();
-    getPublisherTagUnits().stream().forEach(tagUnit -> {
-      tagUnit.evict();
-    });
+    getPublisherTagUnits().stream().forEach(PUBL_TAG::evict );
   }
 
   /**
    * Mark as changed.
    */
   public void markChanged() {
-    getPublisherTagUnits().forEach(tagUnit -> tagUnit.markChanged());
+    getPublisherTagUnits().forEach(PUBL_TAG::markChanged );
     super.markChanged();
   }
 
@@ -530,7 +515,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Mark as deleted.
    */
   public void markDeleted() {
-    getPublisherTagUnits().forEach(tagUnit -> tagUnit.markDeleted());
+    getPublisherTagUnits().forEach(PUBL_TAG::markDeleted);
     super.markDeleted();
   }
 
@@ -538,7 +523,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Mark as new.
    */
   public void markNew() {
-    getPublisherTagUnits().forEach(tagUnit -> tagUnit.markNew());
+    getPublisherTagUnits().forEach(PUBL_TAG::markNew);
     super.markNew();
   }
 
@@ -546,7 +531,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    * Mark as unchanged.
    */
   public void markUnchanged() {
-    getPublisherTagUnits().forEach(tagUnit -> tagUnit.markUnchanged());
+    getPublisherTagUnits().forEach(PUBL_TAG::markUnchanged);
     super.markUnchanged();
   }
 
@@ -651,20 +636,19 @@ public class PublisherManager extends VariableField implements PersistentObjectW
           }
         } else if (s.getCode().equals("c")) {
           if (subfieldIndex == result.getNumberOfSubfields() - 1 &&
-            !"-])".contains(EMPTY_STRING + s.getContent().charAt(s.getContentLength() - 1))) {
-            if(!s.getContent().endsWith("."))
+            !"-])".contains(EMPTY_STRING + s.getContent().charAt(s.getContentLength() - 1))
+            && !s.getContent().endsWith(".")) {
               s.setContent(s.getContent() + ".");
           }
-        } else if (s.getCode().equals("e") || s.getCode().equals("f")) {
-          if (subfieldIndex < result.getNumberOfSubfields() - 1) {
-            if (result.getSubfield(subfieldIndex + 1).getCode().equals("e")) {
+        } else if ((s.getCode().equals("e") || s.getCode().equals("f"))
+          && subfieldIndex < result.getNumberOfSubfields() - 1 ) {
+              if (result.getSubfield(subfieldIndex + 1).getCode().equals("e")) {
               s.setContent(s.getContent() + ";");
             } else if (result.getSubfield(subfieldIndex + 1).getCode().equals("f")) {
               s.setContent(s.getContent() + " :");
             } else if (result.getSubfield(subfieldIndex + 1).getCode().equals("g")) {
               s.setContent(s.getContent() + ",");
             }
-          }
         }
         subfieldIndex++;
       }

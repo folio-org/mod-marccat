@@ -2,6 +2,8 @@ package org.folio.marccat.dao.persistence;
 
 import java.io.Serializable;
 
+import static org.folio.marccat.util.F.deepCopy;
+
 
 /**
  * Represents composite key for REF class.
@@ -9,7 +11,7 @@ import java.io.Serializable;
  * @author paulm
  * @author carment
  */
-public class RefKey implements Serializable, Cloneable {
+public class RefKey implements Serializable {
 
   /**
    * The source.
@@ -130,12 +132,8 @@ public class RefKey implements Serializable, Cloneable {
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
-  public Object clone() {
-    try {
-      return super.clone();
-    } catch (CloneNotSupportedException e) {
-      return new Object();
-    }
+  public Object copy() {
+    return deepCopy(this);
   }
 
 }

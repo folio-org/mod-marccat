@@ -20,7 +20,7 @@ public interface TagInterface {
    *
    * @return the object
    */
-  Object clone();
+  Object copy();
 
   /**
    * indicates whether the proposed change in correlation values would result in a
@@ -353,32 +353,6 @@ public interface TagInterface {
    */
   void parseModelXmlElementContent(Element xmlElement);
 
-  /**
-   * This method creates a XML Document as follows
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * or for a control field
-   * <controlfield tag="001">000000005581</controlfield>.
-   *
-   * @return a Document
-   */
-  Document toXmlDocument();
-
-  /**
-   * This method creates a XML Element as follows
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * or for a control field
-   * <controlfield tag="001">000000005581</controlfield>.
-   *
-   * @param xmlDocument the xml document
-   * @return an Element
-   */
-  Element toXmlElement(Document xmlDocument);
 
   /**
    * After a change in correlation value 1, the available choices for values 2 and

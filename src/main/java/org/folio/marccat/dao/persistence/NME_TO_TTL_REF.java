@@ -212,7 +212,7 @@ public class NME_TO_TTL_REF extends REF {
    */
   @Override
   public REF createReciprocal() {
-    NME_TO_TTL_REF result = (NME_TO_TTL_REF) this.clone();
+    NME_TO_TTL_REF result = (NME_TO_TTL_REF) this.copy();
     if (isSourceName()) {
       result.setSourceHeadingType("TH");
     } else {

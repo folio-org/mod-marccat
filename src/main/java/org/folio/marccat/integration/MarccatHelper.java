@@ -34,8 +34,8 @@ import static org.folio.marccat.config.constants.Global.HCONFIGURATION;
 @Component("MarccatHelper")
 
 public abstract class MarccatHelper {
-  private final static Properties DEFAULT_VALUES = new Properties();
-  private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
+  private static final  Properties DEFAULT_VALUES = new Properties();
+  private static final  Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
   private static SessionFactory sessionFactory =  null;
 
@@ -161,8 +161,8 @@ public abstract class MarccatHelper {
       final T result;
       final ObjectNode settings = configurator.attributes(tenant, okapiUrl,true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
-      try (final Connection connection = datasource.getConnection()) {
-        final StorageService service = new StorageService();
+      try (final Connection connection = datasource.getConnection();
+           final StorageService service = new StorageService()) {
         Session session = sessionFactory.openSession(connection);
         session.setFlushMode(FlushMode.COMMIT);
         service.setSession(session);

@@ -1,6 +1,9 @@
 package org.folio.marccat.shared;
 
+import java.io.Serializable;
 import java.util.Arrays;
+
+import static org.folio.marccat.util.F.deepCopy;
 
 /**
  * Class representing three correlation values.
@@ -13,7 +16,7 @@ import java.util.Arrays;
  * @author cchiama
  * @since 1.0
  */
-public class CorrelationValues implements Cloneable {
+public class CorrelationValues implements Serializable {
 
   public static final int UNDEFINED = -1;
   private int[] values = {UNDEFINED, UNDEFINED, UNDEFINED};
@@ -50,11 +53,14 @@ public class CorrelationValues implements Cloneable {
   }
 
   public CorrelationValues change(final int i, final int v) {
-    final CorrelationValues val = (CorrelationValues) clone();
+    final CorrelationValues val = (CorrelationValues) copy();
     val.setValue(i, v);
     return val;
   }
 
+  public Object copy() {
+    return deepCopy(this);
+  }
   /**
    * Places the argument value in the first unused correlation slot.
    */
@@ -85,12 +91,6 @@ public class CorrelationValues implements Cloneable {
     return null;
   }
 
-  @Override
-  public Object clone() {
-    final CorrelationValues v = new CorrelationValues();
-    v.values = values.clone();
-    return v;
-  }
 
   @Override
   public boolean equals(Object o) {
