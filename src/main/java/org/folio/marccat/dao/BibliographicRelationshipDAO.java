@@ -146,8 +146,8 @@ public class BibliographicRelationshipDAO extends AbstractDAO {
       stringText.addSubfield(new Subfield("y", t.getStringText().toDisplayString()));
     }
 
-    stringText.addSubfield(new Subfield("e", item.getBibItm().getLanguageCode()));
-    stringText.addSubfield(new Subfield("f", item.getBibItm().getMarcCountryCode()));
+    stringText.addSubfield(new Subfield("e", item.getBibItmData().getLanguageCode()));
+    stringText.addSubfield(new Subfield("f", item.getBibItmData().getMarcCountryCode()));
     return stringText;
   }
 

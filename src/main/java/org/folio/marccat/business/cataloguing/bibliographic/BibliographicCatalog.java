@@ -453,10 +453,10 @@ public class BibliographicCatalog extends Catalog {
     int cataloguingView = (Integer) key[0];
     if (key.length > 1) {
       int amicusNumber = (Integer) key[1];
-      bibliographicItem.getBibItm().setAmicusNumber(amicusNumber);
+      bibliographicItem.getBibItmData().setAmicusNumber(amicusNumber);
     }
 
-    bibliographicItem.getBibItm().setUserViewString(View.makeSingleViewString(cataloguingView));
+    bibliographicItem.getBibItmData().setUserViewString(View.makeSingleViewString(cataloguingView));
     bibliographicItem.setUserView(cataloguingView);
     return bibliographicItem;
   }

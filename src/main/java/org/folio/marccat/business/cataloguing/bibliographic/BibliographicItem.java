@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 public class BibliographicItem extends CatalogItem implements Serializable {
   private static final long serialVersionUID = 8676099561229020012L;
-  private BIB_ITM bibItm;
+  private BIB_ITM bibItmData;
   private int userView;
 
   public BibliographicItem() {
@@ -25,15 +25,15 @@ public class BibliographicItem extends CatalogItem implements Serializable {
 
   public BibliographicItem(Integer id) {
     super();
-    this.bibItm.setAmicusNumber(id);
+    this.bibItmData.setAmicusNumber(id);
   }
 
-  public BIB_ITM getBibItm() {
-    return bibItm;
+  public BIB_ITM getBibItmData() {
+    return bibItmData;
   }
 
   public void setBibItmData(BIB_ITM bibItm) {
-    bibItm = bibItm;
+    bibItmData = bibItm;
     /*
      * Set all PersistsViaBibItem tags
      */
@@ -83,7 +83,7 @@ public class BibliographicItem extends CatalogItem implements Serializable {
   }
 
   public ItemEntity getItemEntity() {
-    return bibItm;
+    return bibItmData;
   }
 
   /* (non-Javadoc)

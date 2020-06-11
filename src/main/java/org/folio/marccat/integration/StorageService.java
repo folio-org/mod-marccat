@@ -1113,7 +1113,7 @@ public class StorageService implements Closeable {
     leader.setCode("000");
     leader.setValue(((org.folio.marccat.dao.persistence.Leader) item.getTag(0)).getDisplayString());
     bibliographicRecord.setLeader(leader);
-    final char canadianIndicator = ((BibliographicItem) item).getBibItm().getCanadianContentIndicator();
+    final char canadianIndicator = ((BibliographicItem) item).getBibItmData().getCanadianContentIndicator();
     bibliographicRecord.setCanadianContentIndicator(valueOf(canadianIndicator));
     bibliographicRecord.setVerificationLevel(valueOf(item.getItemEntity().getVerificationLevel()));
 
@@ -1341,7 +1341,7 @@ public class StorageService implements Closeable {
       if (isNotNullOrEmpty(record.getVerificationLevel()))
         item.getItemEntity().setVerificationLevel(record.getVerificationLevel().charAt(0));
       if (isNotNullOrEmpty(record.getCanadianContentIndicator()))
-        ((BibliographicItem) item).getBibItm().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
+        ((BibliographicItem) item).getBibItmData().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
 
 
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
