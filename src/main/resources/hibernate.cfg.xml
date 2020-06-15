@@ -225,7 +225,6 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_RSI_SNSR_TPE.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_RSI_DATA_TPE.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/FULL_CACHE.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/Diacritics.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/Tags.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/MTRL_DSC.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/CF.hbm.xml"/>
