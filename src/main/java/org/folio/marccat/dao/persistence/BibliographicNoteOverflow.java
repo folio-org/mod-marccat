@@ -203,11 +203,6 @@ public class BibliographicNoteOverflow implements PersistentObjectWithView, Seri
     }
   }
 
-  public void evict() {
-    if (persistenceState != null) {
-      persistenceState.evict(this);
-    }
-  }
 
   public int getUpdateStatus() {
     if (persistenceState == null) {

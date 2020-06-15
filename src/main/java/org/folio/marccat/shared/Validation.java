@@ -1,13 +1,13 @@
 package org.folio.marccat.shared;
 
+import java.io.Serializable;
 import java.util.List;
-
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
 
-public abstract class Validation {
-
+public abstract class Validation implements Serializable {
+  private static final long serialVersionUID = 1L;
   private char marcTagObsoleteIndicator;
   private char marcTagRepeatableIndicator;
   private char marcTagEditableIndicator;

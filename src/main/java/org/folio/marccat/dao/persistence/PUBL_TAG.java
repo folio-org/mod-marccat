@@ -20,7 +20,7 @@ import java.io.Serializable;
  *
  * @since 1.0
  */
-public class PUBL_TAG implements PersistentObjectWithView {
+public class PUBL_TAG implements Serializable, PersistentObjectWithView {
 
   private static final long serialVersionUID = 1L;
   private static Log logger = new Log(PUBL_TAG.class);
@@ -40,9 +40,7 @@ public class PUBL_TAG implements PersistentObjectWithView {
       + ", " + getSequenceNumber() + ", " + getOtherSubfields() + ")";
   }
 
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
+
 
   public DAODescriptor getDescriptorDAO() {
     return thePublisherDescriptor;
@@ -135,9 +133,6 @@ public class PUBL_TAG implements PersistentObjectWithView {
     return getPublisherTagNumber() * getSequenceNumber();
   }
 
-  public void evict(Object obj) throws DataAccessException {
-    persistence.evict(obj);
-  }
 
   public int getUpdateStatus() {
     return persistence.getUpdateStatus();

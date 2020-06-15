@@ -84,10 +84,6 @@ public class Diacritics implements Persistence, Serializable {
     this.utf8Code = utf8Code;
   }
 
-  @Override
-  public void evict() {
-
-  }
 
   @Override
   public int getUpdateStatus() {

@@ -197,14 +197,6 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
     }
   }
 
-  /**
-   * @param obj
-   * @throws DataAccessException
-   * @see PersistenceState#evict(Object)
-   */
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
 
   /**
    * @return
@@ -346,13 +338,9 @@ public class SRL_PRED_PAT_DTL implements Persistence, Serializable {
     return persistenceState.toString();
   }
 
-  public void evict() {
-    persistenceState.evict(this);
-  }
 
   public void generateNewKey() {
-
-
+    // Do nothing because it doesn't have a key to generate
   }
 
   /**

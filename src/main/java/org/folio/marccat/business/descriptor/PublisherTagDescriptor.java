@@ -6,7 +6,6 @@ import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.PUBL_TAG;
 import org.folio.marccat.dao.persistence.PublisherAccessPoint;
 import org.folio.marccat.shared.CorrelationValues;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +34,7 @@ public class PublisherTagDescriptor extends Descriptor {
 
   @Override
   public void setCorrelationValues(CorrelationValues v) {
+    // Do nothing because it uses the method of Descriptor.
   }
 
   @Override

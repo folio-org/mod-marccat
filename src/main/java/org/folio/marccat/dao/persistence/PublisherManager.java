@@ -10,7 +10,6 @@ import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.PublisherManagerDAO;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
@@ -492,16 +491,6 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     setItemNumber(i);
   }
 
-  /**
-   * Evict.
-   *
-   * @throws DataAccessException in case of data access exception.
-   */
-  public void evict()  {
-    final PublisherAccessPoint publisherAccessPoint = getApf();
-    publisherAccessPoint.evict();
-    getPublisherTagUnits().stream().forEach(PUBL_TAG::evict );
-  }
 
   /**
    * Mark as changed.

@@ -58,9 +58,6 @@ public class LDG_STATS implements Serializable, Persistence {
     persistenceState.confirmChanges();
   }
 
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
 
   public int getModifiedRecords() {
     return modifiedRecords;
@@ -276,9 +273,6 @@ public class LDG_STATS implements Serializable, Persistence {
     return getLoadingStatisticsNumber();
   }
 
-  @Override
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
+
 
 }

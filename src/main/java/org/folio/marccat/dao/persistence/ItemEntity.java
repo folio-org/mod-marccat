@@ -36,10 +36,6 @@ public abstract class ItemEntity implements Persistence, Serializable {
   private Integer amicusNumber = null;
 
 
-  public void evict() throws DataAccessException {
-    persistenceState.evict(this);
-  }
-
 
   public Integer getAmicusNumber() {
     return amicusNumber;

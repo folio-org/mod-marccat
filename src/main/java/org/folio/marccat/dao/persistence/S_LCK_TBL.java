@@ -37,16 +37,10 @@ public class S_LCK_TBL implements Persistence, Serializable {
     }
   }
 
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
 
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
 
   public void generateNewKey() throws DataAccessException {
-    //do nothing
+    // Do nothing because it doesn't have a key to generate
   }
 
   public AbstractDAO getDAO() {

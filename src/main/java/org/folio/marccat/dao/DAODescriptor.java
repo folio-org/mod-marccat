@@ -10,6 +10,8 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
+
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +30,8 @@ import static org.folio.marccat.util.F.deepCopy;
  * @author natasciab
  * @author carment
  */
-public abstract class DAODescriptor extends AbstractDAO {
+public abstract class DAODescriptor extends AbstractDAO implements Serializable {
+  private static final long serialVersionUID = 1L;
   /**
    * The blank sortform.
    */
@@ -300,17 +303,7 @@ public abstract class DAODescriptor extends AbstractDAO {
     }
   }
 
-  /**
-   * Updates the cache table for each of the documents attached to the
-   * descriptor.
-   *
-   * @param descriptor the descriptor
-   * @since 1.0
-   * @deprecated
-   */
-  @Deprecated
-  public void updateCacheTable(Descriptor descriptor) {
-  }
+
 
   /**
    * Updates the cache table for each of the documents attached to the descriptor.
@@ -543,20 +536,6 @@ public abstract class DAODescriptor extends AbstractDAO {
         source.getKey().getHeadingNumber()},
       new Type[]{
         Hibernate.INTEGER});
-  }
-
-  /**
-   * Gets the cross references for the given source and view.
-   *
-   * @param source          the source
-   * @param cataloguingView the cataloguing view
-   * @return the cross references
-   * @throws DataAccessException the data access exception
-   * @deprecated
-   */
-  @Deprecated
-  public List getCrossReferences(final Descriptor source, final int cataloguingView) {
-    return Collections.emptyList();
   }
 
 

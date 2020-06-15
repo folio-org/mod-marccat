@@ -54,19 +54,6 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
     persistenceState = new PersistenceState();
   }
 
-  /**
-   * @since 1.0
-   */
-  public void evict() {
-    persistenceState.evict(this);
-  }
-
-  /**
-   * @since 1.0
-   */
-  public void evict(Object obj) {
-    persistenceState.evict(obj);
-  }
 
   /* (non-Javadoc)
    * @see librisuite.business.common.PersistentObject#generateNewKey()

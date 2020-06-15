@@ -11,8 +11,6 @@ import java.io.Serializable;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2004/12/14 10:40:41 $
- * @since 1.0
  */
 public class LOADING_MARC_RECORDS implements Serializable, Persistence {
   private int sequence;
@@ -28,9 +26,12 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
   }
 
   public void generateNewKey() throws DataAccessException {
-    // key is stats number + sequence -- managed by app
+    // Do nothing because  key is stats number and sequence are managed by app
   }
 
+  public AbstractDAO getDAO() {
+    return persistenceState.getDAO();
+  }
 
   public int getBibItemNumber() {
     return BibItemNumber;
@@ -100,20 +101,6 @@ public class LOADING_MARC_RECORDS implements Serializable, Persistence {
     persistenceState.confirmChanges();
   }
 
-  @Deprecated
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
-
-  public AbstractDAO getDAO() {
-    return persistenceState.getDAO();
-  }
-
-  @Override
-  @Deprecated
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
 
   public int getUpdateStatus() {
     return persistenceState.getUpdateStatus();

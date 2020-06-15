@@ -132,15 +132,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
     this.indexingLanguage = indexingLanguage;
   }
 
-  /**
-   * Evict.
-   *
-   * @throws DataAccessException the data access exception
-   */
-  @Deprecated
-  public void evict() {
-    po.evict(this);
-  }
+
 
   /**
    * Builds the browse term.

@@ -207,10 +207,6 @@ public class SerialPart implements Persistence, Serializable {
   }
 
 
-  public void evict(Object obj) {
-    persistenceState.evict(obj);
-  }
-
 
   public AbstractDAO getDAO() {
     return persistenceState.getDAO();
@@ -286,14 +282,6 @@ public class SerialPart implements Persistence, Serializable {
     return persistenceState.onUpdate(arg0);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see librisuite.business.common.Persistence#evict()
-   */
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
 
   /*
    * (non-Javadoc)

@@ -49,15 +49,6 @@ public class ORDR_ITM_BIB_ITM implements Persistence {
   }
 
 
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
-
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
-
-
   public AbstractDAO getDAO() {
     return persistenceState.getDAO();
   }

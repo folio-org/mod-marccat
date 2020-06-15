@@ -80,20 +80,6 @@ public class USR_ACNT implements Serializable, Persistence {
     } else return name.equals(other.name);
   }
 
-  @Override
-  public void evict() throws DataAccessException {
-    persistenceState.evict(this);
-  }
-
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
-
-	/*
-	@Override
-	public void generateNewKey() throws DataAccessException {
-		// do nothing
-	}*/
 
   /**
    * Getter for branchLibrary

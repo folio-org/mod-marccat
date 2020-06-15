@@ -42,10 +42,6 @@ public class ReceiveItem implements Persistence {
   }
 
 
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
-
 
   public AbstractDAO getDAO() {
     return persistenceState.getDAO();
@@ -121,12 +117,7 @@ public class ReceiveItem implements Persistence {
     return persistenceState.onUpdate(arg0);
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#evict()
-   */
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
+
 
   /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#generateNewKey()

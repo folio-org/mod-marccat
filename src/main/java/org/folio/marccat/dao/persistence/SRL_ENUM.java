@@ -134,15 +134,6 @@ public class SRL_ENUM implements Persistence, Serializable {
   }
 
   /**
-   * @param obj
-   * @throws DataAccessException
-   * @see PersistenceState#evict(Object)
-   */
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
-
-  /**
    * @return
    * @see PersistenceState#getDAO()
    */
@@ -273,21 +264,10 @@ public class SRL_ENUM implements Persistence, Serializable {
     return persistenceState.onUpdate(arg0);
   }
 
-  /**
-   * @return
-   * @see PersistenceState#toString()
-   */
-  public String toString() {
-    return persistenceState.toString();
-  }
 
-  public void evict() throws DataAccessException {
-    persistenceState.evict(this);
-  }
 
   public void generateNewKey() throws DataAccessException {
-
-
+    // Do nothing because it doesn't have a key to generate
   }
 
   /**

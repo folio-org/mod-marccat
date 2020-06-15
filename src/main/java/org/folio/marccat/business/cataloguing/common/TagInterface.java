@@ -39,13 +39,7 @@ public interface TagInterface {
    */
   boolean equals(Object obj);
 
-  /**
-   * Evict.
-   *
-   * @throws DataAccessException the data access exception
-   * @since 1.0
-   */
-  void evict() throws DataAccessException;
+
 
 
   /**
@@ -125,10 +119,9 @@ public interface TagInterface {
    * Gets the marc encoding.
    *
    * @return the MARC tag and indicators for this tag
-   * @throws DataAccessException the data access exception
    * @deprecated
    */
-  CorrelationKey getMarcEncoding() throws DataAccessException;
+  CorrelationKey getMarcEncoding();
 
   /**
    * Gets the persistence state.
@@ -162,9 +155,8 @@ public interface TagInterface {
    * @param value1 the first correlation value
    * @return the second correlation list for this tag
    * entry
-   * @throws DataAccessException the data access exception
    */
-  List getSecondCorrelationList(int value1) throws DataAccessException;
+  List getSecondCorrelationList(int value1);
 
   /**
    * Gets appropriate values for selection of the second correlation list.  Values
@@ -175,9 +167,8 @@ public interface TagInterface {
    * @param value2 the second correlation value
    * @return the second correlation list for this tag
    * entry
-   * @throws DataAccessException the data access exception
    */
-  List getThirdCorrelationList(int value1, int value2) throws DataAccessException;
+  List getThirdCorrelationList(int value1, int value2);
 
   /**
    * Gets the update status.
@@ -359,28 +350,23 @@ public interface TagInterface {
    * 3 are recalculated and the values are reset (to the first available valid choice).
    *
    * @param s the new value1
-   * @throws DataAccessException the data access exception
-   */
-  void updateFirstCorrelation(int s)
-    throws DataAccessException;
+    */
+  void updateFirstCorrelation(int s) ;
 
   /**
    * After a change in correlation value 2, the available choices for values 3
    * are recalculated and the value is reset (to the first available valid choice).
    *
    * @param s the new value 2
-   * @throws DataAccessException the data access exception
    */
-  void updateSecondCorrelation(int s)
-    throws DataAccessException;
+  void updateSecondCorrelation(int s) ;
 
   /**
    * Validate.
    *
    * @param index the index
-   * @throws ValidationException the validation exception
    */
-  void validate(int index) throws ValidationException;
+  void validate(int index);
 
   /**
    * Called where a

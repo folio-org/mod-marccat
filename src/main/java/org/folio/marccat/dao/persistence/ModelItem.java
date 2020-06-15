@@ -88,24 +88,7 @@ public abstract class ModelItem implements Persistence, Serializable {
     this.model = model;
   }
 
-  /**
-   * Evicts the given object.
-   *
-   * @param obj the object to be evicted.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public void evict(final Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
 
-  /**
-   * Evicts the this object.
-   *
-   * @throws DataAccessException in case of data access failure.
-   */
-  public void evict() throws DataAccessException {
-    persistenceState.evict(this);
-  }
 
   /**
    * Gets the update status.

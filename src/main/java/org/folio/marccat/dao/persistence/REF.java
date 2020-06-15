@@ -184,14 +184,6 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
     return result;
   }
 
-  /**
-   * Evict.
-   *
-   * @throws DataAccessException the data access exception
-   */
-  public void evict() throws DataAccessException {
-    persistenceState.evict(this);
-  }
 
   /**
    * Equals.

@@ -13,14 +13,6 @@ import java.io.Serializable;
 public interface Persistence extends Lifecycle, Serializable {
 
 
-  /**
-   * Removes the object from the persistence session.
-   *
-   * @throws DataAccessException the data access exception
-   * @since 1.0
-   */
-  @Deprecated
-  void evict() throws DataAccessException;
 
   /**
    * Gets the update status.
