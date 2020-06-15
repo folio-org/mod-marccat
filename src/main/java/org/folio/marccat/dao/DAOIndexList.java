@@ -125,12 +125,12 @@ public class DAOIndexList extends AbstractDAO {
    */
   public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) throws HibernateException{
 
-    List l = session.find(FROM_INDEX_LIST_AS_A
+    List<IndexList> l = session.find(FROM_INDEX_LIST_AS_A
       + "where lower(a.languageCode) = '" + s.toLowerCase() + "'"
       + LANGUAGE + locale.getISO3Language() + "'"
       + " and a.codeLibriCatMades = 'LC'");
     if (!l.isEmpty()) {
-      return (IndexList) l.get(0);
+      return  l.get(0);
     } else {
       return null;
     }

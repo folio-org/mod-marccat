@@ -793,11 +793,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   }
 
   public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    return content;
+    return null;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
+    // Do nothing because it is not used in the model
   }
 
   public String getUserViewString() {
@@ -922,7 +922,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
     getBibItm().setItemRecordTypeCode(c);
   }
 
-  @Deprecated
+  @Override
   public List getFirstCorrelationList() {
     return Collections.emptyList();
   }

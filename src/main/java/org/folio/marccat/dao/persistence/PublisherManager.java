@@ -16,8 +16,6 @@ import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
-import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 
@@ -182,7 +180,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
    */
   private void extractManufacturerData() {
     final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
-    if (last != null && ofNullable(last).isPresent()) {
+    if (last != null) {
       final StringText stringText = new StringText(last.getOtherSubfields());
       last.setOtherSubfields(stringText.getSubfieldsWithoutCodes(Global.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString());
       final String remainingFieldsText = stringText.getSubfieldsWithCodes(Global.PUBLISHER_FAST_PRINTER_SUBFIELD_CODES).toString();
@@ -417,43 +415,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     copyDates();
   }
 
-  /**
-   * Incorporate edit changes (dates, manufacturer data, sequences, etc.) into the tagUnits ready for saving to the database.
-   */
-  public void saveEdits() {
 
-    IntStream.range(0, getPublisherTagUnits().size())
-      .forEach(idx -> {
-        final PUBL_TAG publTag = getPublisherTagUnits().get(idx);
-        final PUBL_HDG publUnit = publTag.getDescriptor();
-        if (publUnit != null && publUnit.getKey().getHeadingNumber() == -1) {
-          publUnit.setNameStringText(EMPTY_STRING);
-          publUnit.setPlaceStringText(EMPTY_STRING);
-        }
-        publTag.setSequenceNumber(idx + 1);
-        String date = EMPTY_STRING;
-        if (!EMPTY_STRING.equals(getDates().get(idx)))
-          date = Subfield.SUBFIELD_DELIMITER + "c" + getDates().get(idx);
-
-        publTag.setOtherSubfields(date);
-      });
-    setDates(new ArrayList<>());
-
-    final StringText s = new StringText();
-    s.add(new StringText(getStringTextForFastDigitPublisher()));
-    if (s.getNumberOfSubfields() > 0) {
-      if (getPublisherTagUnits().isEmpty()) {
-        getPublisherTagUnits().add(new PUBL_TAG());
-      }
-
-      final PUBL_TAG last = getPublisherTagUnits().stream().reduce((a, b) -> b).orElse(null);
-      if (last != null && ofNullable(last).isPresent()) {
-        StringText st = new StringText(last.getOtherSubfields()).add(s);
-        last.setOtherSubfields(st.toString());
-      }
-    }
-    ((PublisherTagDescriptor) getApf().getDescriptor()).setPublisherTagUnits(getPublisherTagUnits());
-  }
 
   /**
    * Gets user view string associated.

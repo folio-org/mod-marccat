@@ -5,8 +5,6 @@ import net.sf.hibernate.Lifecycle;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.common.TransactionalHibernateOperation;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.io.Serializable;
 
 /**
@@ -156,7 +154,7 @@ public class PersistenceState implements Lifecycle, Serializable {
     setUpdateStatus(UpdateStatus.DELETED);
   }
 
- 
+
 
   /**
    * Default implementation for Persistence objects.

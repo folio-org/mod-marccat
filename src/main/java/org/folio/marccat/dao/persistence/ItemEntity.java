@@ -4,8 +4,6 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -126,16 +124,12 @@ public abstract class ItemEntity implements Persistence, Serializable {
 
   public String getEnteredOnFileDateYYMMDD() {
     Format formatter = new SimpleDateFormat("yyMMdd");
-    String result =
-      formatter.format(getEnteredOnFileDate());
-    return result;
+    return  formatter.format(getEnteredOnFileDate());
   }
 
   public String getEnteredOnFileDateYYYYMMDD() {
     Format formatter = new SimpleDateFormat("yyyyMMdd");
-    String result =
-      formatter.format(getEnteredOnFileDate());
-    return result;
+    return formatter.format(getEnteredOnFileDate());
   }
 
 

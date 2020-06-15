@@ -165,14 +165,6 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
   }
 
   /**
-   * Evict.
-   *
-   */
-  public void evict() {
-    // Do nothing because there is no need to remove the object frm the cache
-  }
-
-  /**
    * Generate new key.
    *
    */

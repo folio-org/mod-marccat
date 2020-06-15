@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Jun 21, 2004
- *
- * USR_ACNT.java
- */
 package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
@@ -12,14 +5,11 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author paulm
- * @version $Revision: 1.4 $, $Date: 2005/07/14 13:32:57 $
  * @since 1.0
  */
 public class USR_ACNT implements Serializable, Persistence {

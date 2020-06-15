@@ -10,16 +10,12 @@ import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.BibliographicValidation;
 import org.folio.marccat.dao.persistence.BibliographicValidationKey;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.MarcCorrelationException;
 import org.folio.marccat.shared.CorrelationValues;
-import org.folio.marccat.shared.Validation;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- * @author elena
  * @author natasciab
  * @author cchiama
  * @since 1.0

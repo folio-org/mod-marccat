@@ -33,7 +33,7 @@ public class Parser {
   /**
    * The default index.
    */
-  private static IndexList defaultIndex;
+  private IndexList defaultIndex;
 
   /**
    * The locale.
@@ -94,9 +94,8 @@ public class Parser {
    * @param attributes  the attributes of the search index.
    * @param directions  the directions asc or desc.
    * @return the parsed string.
-   * @throws CclParserException in case of parsing failure.
    */
-  public String parse(final String ccl, final int firstRecord, final int lastRecord, final String[] attributes, String[] directions) throws CclParserException, HibernateException {
+  public String parse(final String ccl, final int firstRecord, final int lastRecord, final String[] attributes, String[] directions) throws HibernateException {
     final Tokenizer tokenizer = new Tokenizer().tokenize(ccl);
     final ExpressionNode n = parse(tokenizer.getTokens());
     final int limitSize = (lastRecord - firstRecord) + 1;
@@ -122,9 +121,8 @@ public class Parser {
    * @param attributes the attributes of the search index.
    * @param directions the directions asc or desc.
    * @return the parsed string.
-   * @throws CclParserException in case of parsing failure.
    */
-  public String parseAndCount(String ccl, final String[] attributes, String[] directions) throws CclParserException, HibernateException {
+  public String parseAndCount(String ccl, final String[] attributes, String[] directions) throws HibernateException {
     final Tokenizer tokenizer = new Tokenizer();
     tokenizer.tokenize(ccl);
     final ExpressionNode n = parse(tokenizer.getTokens());
@@ -143,9 +141,8 @@ public class Parser {
    *
    * @param tokens the tokens list.
    * @return the expression node..
-   * @throws CclParserException in case of parsing failure.
    */
-  public ExpressionNode parse(final List<Token> tokens) throws CclParserException, HibernateException {
+  public ExpressionNode parse(final List<Token> tokens) throws  HibernateException {
     this.tokens = new LinkedList<>(tokens);
     this.lookahead = this.tokens.getFirst();
     ExpressionNode expr = null;
@@ -173,9 +170,8 @@ public class Parser {
    *
    * @param expr the expr
    * @return the expression node
-   * @throws CclParserException the ccl parser exception
    */
-  private ExpressionNode searchGroup(ExpressionNode expr) throws CclParserException, HibernateException {
+  private ExpressionNode searchGroup(ExpressionNode expr) throws HibernateException {
     if (lookahead.token == Tokenizer.TokenType.LP) {
       nextToken();
       while (lookahead.token != Tokenizer.TokenType.RP && lookahead.token != Tokenizer.TokenType.EOL) {
@@ -202,9 +198,8 @@ public class Parser {
    * Search expression.
    *
    * @return the expression node
-   * @throws CclParserException the ccl parser exception
    */
-  private ExpressionNode searchExpression() throws CclParserException, HibernateException {
+  private ExpressionNode searchExpression() throws HibernateException {
     final TermExpressionNode expr = new TermExpressionNode(session, locale, mainLibraryId, searchingView);
     if (lookahead.token == Tokenizer.TokenType.WORD) {
       if (lookahead.sequence.length() <= 3) {
@@ -259,9 +254,8 @@ public class Parser {
    *
    * @param expr the expr
    * @return the expression node
-   * @throws CclParserException the ccl parser exception
    */
-  private ExpressionNode term(TermExpressionNode expr) throws CclParserException {
+  private ExpressionNode term(TermExpressionNode expr)  {
     if (lookahead.token == Tokenizer.TokenType.WORD) {
       expr.appendToTerm(lookahead.sequence + " ");
       nextToken();
@@ -276,9 +270,8 @@ public class Parser {
    *
    * @param expr the expr
    * @return the expression node
-   * @throws CclParserException the ccl parser exception
    */
-  private ExpressionNode wordlist(TermExpressionNode expr) throws CclParserException {
+  private ExpressionNode wordlist(TermExpressionNode expr)  {
     if (lookahead.token == Tokenizer.TokenType.PROX) {
       expr.setProximityOperator(lookahead.sequence);
       nextToken();
@@ -360,6 +353,9 @@ public class Parser {
             break;
           case 2096:
             orderByClause = SQLCommand.UNIFORM_TITLE_JOIN + viewClause() + order;
+            break;
+          default:
+            orderByClause = defaultForOrderBy;
             break;
         }
       }

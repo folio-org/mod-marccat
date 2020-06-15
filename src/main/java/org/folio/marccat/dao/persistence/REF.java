@@ -8,7 +8,6 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.CrossReferencesDAO;
 import org.folio.marccat.dao.DAODescriptor;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 
 import java.io.Serializable;
