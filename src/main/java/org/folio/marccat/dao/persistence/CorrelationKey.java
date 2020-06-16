@@ -1,7 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.io.Serializable;
 
@@ -11,7 +9,6 @@ import java.io.Serializable;
  */
 public class CorrelationKey implements Serializable {
 
-  private static final Log logger = LogFactory.getLog(CorrelationKey.class);
 
   private String marcTag;
   private char marcFirstIndicator;

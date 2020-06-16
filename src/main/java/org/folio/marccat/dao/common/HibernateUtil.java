@@ -176,28 +176,7 @@ public class HibernateUtil {
     }
   }
 
-  /**
-   * Convenience method for currentSession().find(String query, Object[]
-   * values, Type[] types) If the find method of the Hibernate Session throws
-   * a HibernateException, it wraps it in a DataAccessException
-   *
-   * @param query  the query string
-   * @param values an array of values to be bound to the "?" placeholders (JDBC
-   *               IN parameters).
-   * @param types  an array of Hibernate types of the values
-   * @return a distinct list of instances
-   * @throws DataAccessException
-   */
-  @Deprecated
-  public List find(String query, Object[] values, Type[] types)
-     {
-    try {
-      return currentSession().find(query, values, types);
-    } catch (HibernateException e) {
-      logAndWrap(e);
-      return Collections.emptyList();
-    }
-  }
+
 
 
   /**

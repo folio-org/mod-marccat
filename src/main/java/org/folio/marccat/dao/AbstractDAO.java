@@ -220,7 +220,7 @@ public class AbstractDAO {
    * @return the persistent instance or null
    */
 
-  public Object get(Session session, Class clazz, Serializable id) {
+  public Object get(Session session, Class<?> clazz, Serializable id) {
     try {
       return session.get(clazz, id);
     } catch (Exception exception) {

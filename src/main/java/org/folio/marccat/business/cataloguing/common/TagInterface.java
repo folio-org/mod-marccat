@@ -4,6 +4,7 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.dao.persistence.T_SINGLE;
 import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -155,7 +156,7 @@ public interface TagInterface {
    * @return the second correlation list for this tag
    * entry
    */
-  List getSecondCorrelationList(int value1);
+  List<T_SINGLE> getSecondCorrelationList(int value1);
 
   /**
    * Gets appropriate values for selection of the second correlation list.  Values
@@ -167,7 +168,7 @@ public interface TagInterface {
    * @return the second correlation list for this tag
    * entry
    */
-  List getThirdCorrelationList(int value1, int value2);
+  List<T_SINGLE> getThirdCorrelationList(int value1, int value2);
 
   /**
    * Gets the update status.
