@@ -11,7 +11,6 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.DataAccessException;
-
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * @deprecated
  * Provides a base class of support utilities for DAO objects
  */
 @Deprecated
@@ -167,7 +167,7 @@ public class HibernateUtil {
    */
   @Deprecated
   public Object get(Class clazz, Serializable id, LockMode l)
-    throws DataAccessException {
+   {
     try {
       return currentSession().get(clazz, id, l);
     } catch (HibernateException e) {
@@ -190,7 +190,7 @@ public class HibernateUtil {
    */
   @Deprecated
   public List find(String query, Object[] values, Type[] types)
-    throws DataAccessException {
+     {
     try {
       return currentSession().find(query, values, types);
     } catch (HibernateException e) {
@@ -207,9 +207,8 @@ public class HibernateUtil {
    *
    * @param query the query string
    * @return a distinct list of instances
-   * @throws DataAccessException
    */
-  public List find(Session session, String query) throws DataAccessException {
+  public List find(Session session, String query)  {
     try {
       return session.find(query);
     } catch (HibernateException e) {
@@ -223,7 +222,7 @@ public class HibernateUtil {
    *
    * @since 1.0
    */
-  public void save(final Persistence p) throws DataAccessException {
+  public void save(final Persistence p) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
@@ -237,7 +236,7 @@ public class HibernateUtil {
    *
    * @since 1.0
    */
-  public void update(final Persistence p) throws DataAccessException {
+  public void update(final Persistence p) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
@@ -251,7 +250,7 @@ public class HibernateUtil {
    *
    * @since 1.0
    */
-  public void delete(final Persistence p) throws DataAccessException {
+  public void delete(final Persistence p) {
     new TransactionalHibernateOperation() {
       public void doInHibernateTransaction(Session s)
         throws HibernateException {
@@ -260,33 +259,30 @@ public class HibernateUtil {
     }.execute();
   }
 
-  @Deprecated
-  public void lock(int key, String entityType, String userName) {
-  }
-
-  /*
-   *
-   */
-  @Deprecated
-  public void unlock(int key, String entityType) {
-  }
-
 
   @Deprecated
-  private Connection createNewDBSession() throws SQLException {
+  private Connection createNewDBSession() {
     throw new IllegalArgumentException("Don't call me!");
   }
 
-  private String getSessionID(Connection con) throws SQLException {
-    ResultSet rs = con
-      .createStatement()
-      .executeQuery(
-        "SELECT audsid from v$session where audsid = userenv('sessionid') ");
-    if (rs.next()) {
-      return rs.getString(1);
-    } else {
-      return null;
+
+
+  /**
+   * Gets the next session id.
+   *
+   * @param connection the connection
+   * @return the session id
+   */
+  private String getSessionID(Connection connection){
+    String result = null;
+    try (ResultSet rs = connection.createStatement().executeQuery("SELECT audsid from v$session where audsid = userenv('sessionid') ")){
+      if(rs.next())
+        result = rs.getString(1);
+    } catch (SQLException e) {
+      throw new DataAccessException(e);
     }
+    return result;
   }
+
 
 }

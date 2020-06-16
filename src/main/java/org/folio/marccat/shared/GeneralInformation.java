@@ -93,8 +93,6 @@ public class GeneralInformation {
   private String includesSoundCode;
 
 
-  public GeneralInformation() {
-  }
 
   /**
    * Squeeze all non-blank Strings to the left side of the string and retain the original length by padding with blanks on the right.

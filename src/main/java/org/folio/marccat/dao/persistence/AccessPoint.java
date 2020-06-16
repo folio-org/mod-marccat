@@ -103,7 +103,6 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   @Override
  public Object copy() {
     final AccessPoint ap = (AccessPoint) super.copy();
-    //TODO
     ap.setDescriptor(this.getDescriptor());
     return ap;
   }

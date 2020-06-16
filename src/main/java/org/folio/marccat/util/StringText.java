@@ -19,7 +19,7 @@ public class StringText implements Serializable {
   /**
    * The Constant serialVersionUID.
    */
-  private static final long serialVersionUID = -486513419723833977L;
+  private static final long serialVersionUID = 1L;
 
   /**
    * The subfield list.

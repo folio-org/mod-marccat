@@ -18,15 +18,12 @@ public class DeploymentDescriptor {
   private String url;
   private LaunchDescriptor descriptor;
 
- /* @JsonIgnore
-  private ModuleHandle moduleHandle;*/
 
   public DeploymentDescriptor() {
     this.instId = null;
     this.srvcId = null;
     this.url = null;
     this.descriptor = null;
-    //this.moduleHandle = null;
   }
 
   public DeploymentDescriptor(String instId, String srvcId,
@@ -35,7 +32,6 @@ public class DeploymentDescriptor {
     this.srvcId = srvcId;
     this.url = url;
     this.descriptor = descriptor;
-    //this.moduleHandle = moduleHandle;
   }
 
   public DeploymentDescriptor(String instId, String srvcId,
@@ -44,7 +40,6 @@ public class DeploymentDescriptor {
     this.srvcId = srvcId;
     this.url = null;
     this.descriptor = descriptor;
-    //this.moduleHandle = null;
   }
 
   public String getInstId() {
@@ -90,8 +85,6 @@ public class DeploymentDescriptor {
     this.descriptor = descriptor;
   }
 
- /* public ModuleHandle getModuleHandle() {
-    return moduleHandle;
-  }*/
+
 
 }

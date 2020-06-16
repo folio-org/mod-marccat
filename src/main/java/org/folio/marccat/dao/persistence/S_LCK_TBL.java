@@ -39,7 +39,7 @@ public class S_LCK_TBL implements Persistence, Serializable {
 
 
 
-  public void generateNewKey() throws DataAccessException {
+  public void generateNewKey() {
     // Do nothing because it doesn't have a key to generate
   }
 

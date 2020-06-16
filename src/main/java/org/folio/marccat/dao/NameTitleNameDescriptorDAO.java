@@ -128,7 +128,7 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
 
     } else if (operator.contains(">=") || operator.contains("<=")) {
       nextOperator = operator;
-      nextOperator = nextOperator.replaceAll("=", "");
+      nextOperator = nextOperator.replace("=", "");
       final Query firstQuery = session.createQuery(
         "Select distinct hdg, nme.sortForm, ttl.sortForm from "
           + "NME_TTL_HDG as hdg, "

@@ -29,7 +29,7 @@ public class XmlRecord extends AbstractRecord {
 
   private static final Log logger = new Log(XmlRecord.class);
 
-  private final static ThreadLocal<DocumentBuilder> DOCUMENT_BUILDERS =
+  private static final ThreadLocal<DocumentBuilder> DOCUMENT_BUILDERS =
     ThreadLocal.withInitial(() -> {
       try {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder();

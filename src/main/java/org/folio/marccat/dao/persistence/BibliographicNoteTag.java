@@ -259,9 +259,9 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
     String value = (ofNullable(valueElement.getLabel()).isPresent()) ? valueElement.getLabel() : "";
     if (value.contains("@1")) {
       if (note.getStringTextString().indexOf(Global.SUBFIELD_DELIMITER) != -1)
-        value = value.replaceAll("@1", note.getStringTextString().substring(2));
+        value = value.replace("@1", note.getStringTextString().substring(2));
       else
-        value = value.replaceAll("@1", note.getStringTextString());
+        value = value.replace("@1", note.getStringTextString());
     }
     return new StringText(value);
   }

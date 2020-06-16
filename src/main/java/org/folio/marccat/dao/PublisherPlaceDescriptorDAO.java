@@ -142,7 +142,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
 
     } else if (operator.contains(">=") || operator.contains("<=")) {
       String nextOperator = operator;
-      nextOperator = nextOperator.replaceAll("=", "");
+      nextOperator = nextOperator.replace("=", "");
 
       final String select = "select distinct hdg from "
         + getPersistentClass().getName()

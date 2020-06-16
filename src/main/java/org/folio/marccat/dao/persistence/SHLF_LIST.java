@@ -161,7 +161,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    * used (since there are no user views)
    */
   @Override
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewKey(final Session session) throws  HibernateException {
     super.generateNewKey(session);
     setShelfListKeyNumber(getKey().getHeadingNumber());
   }
