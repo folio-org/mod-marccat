@@ -11,7 +11,7 @@ import org.folio.marccat.dao.persistence.BIB_ITM;
 import org.folio.marccat.dao.persistence.Cache;
 import org.folio.marccat.exception.RecordNotFoundException;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author paulm
@@ -25,8 +25,8 @@ public class DAOBibItem extends AbstractDAO {
   /**
    * Deletes persistent objects (bib_item, cache, full_cache) using hibernate transaction.
    *
-   * @param p the persistent object.
-   * @param session          the current hibernate session.
+   * @param p       the persistent object.
+   * @param session the current hibernate session.
    * @throws HibernateException in case of hibernate exception.
    */
   @Override
@@ -43,7 +43,7 @@ public class DAOBibItem extends AbstractDAO {
       new Type[]{Hibernate.INTEGER, Hibernate.SHORT});
 
     session.delete("from FULL_CACHE as c "
-                + " where c.itemNumber = ? and c.userView = ? ",
+        + " where c.itemNumber = ? and c.userView = ? ",
       new Object[]{b.getAmicusNumber(), View.toIntView(b.getUserViewString())},
       new Type[]{Hibernate.INTEGER, Hibernate.SHORT});
 
@@ -60,19 +60,19 @@ public class DAOBibItem extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public BIB_ITM load(final int id, final int userView, final Session session) throws HibernateException {
-    List<BIB_ITM> l =
+    List <BIB_ITM> l =
       session.find("from BIB_ITM as itm where itm.amicusNumber = ? "
           + " and SUBSTR(itm.userViewString, ?, 1) = '1'",
         new Object[]{id, userView},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
 
-
-    if (l.stream().anyMatch(Objects::nonNull)) {
-      return (BIB_ITM) isolateView(l.stream().findFirst().get(), userView, session);
-    } else {
+    Optional <BIB_ITM> firstElement = l.stream().findFirst();
+    if (firstElement.isPresent())
+      return (BIB_ITM) isolateView(firstElement.get(), userView, session);
+    else {
       logger.debug("BIB_ITM not found");
-      logger.info("The Exception dosn't block the insert flow");
       throw new RecordNotFoundException("BIB_ITM not found");
     }
   }
+
 }

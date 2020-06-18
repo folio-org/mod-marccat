@@ -20,6 +20,7 @@ import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 public class FixedFieldUtils {
 
   private static final String MATERIAL_TYPE = "materialTypeCode";
+  private static final String TARGET_AUDIENCE_CODE = "targetAudienceCode";
   protected static Log logger = new Log(FixedFieldUtils.class);
 
   private FixedFieldUtils() {
@@ -415,7 +416,7 @@ public class FixedFieldUtils {
    */
   public static void setVisualMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualRunningTime", Collections.emptyList()));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, VSL_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(TARGET_AUDIENCE_CODE, storageService.getCodesList(lang, VSL_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualMaterialTypeCode", storageService.getCodesList(lang, VSL_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
@@ -454,7 +455,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormOfCompositionCode", storageService.getCodesList(lang, MSC_FORM_OF_COMPOSITION).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormatCode", storageService.getCodesList(lang, MSC_FORMAT).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicPartsCode", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(TARGET_AUDIENCE_CODE, storageService.getCodesList(lang, TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode1", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode2", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
@@ -510,7 +511,7 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("bookIllustrationCode2", bookIllustrations));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("bookIllustrationCode3", bookIllustrations));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("bookIllustrationCode4", bookIllustrations));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("targetAudienceCode", storageService.getCodesList(lang, TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(TARGET_AUDIENCE_CODE, storageService.getCodesList(lang, TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent1", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent2", natureOfContents));

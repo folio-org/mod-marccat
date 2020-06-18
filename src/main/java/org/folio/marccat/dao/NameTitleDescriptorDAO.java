@@ -23,6 +23,10 @@ import java.util.List;
  */
 public class NameTitleDescriptorDAO extends DAODescriptor {
 
+  private static final String WHERE_REF_NAME_TITLE_HEADING_NUMBER = " where ref.nameTitleHeadingNumber = ? ";
+  private static final String AND_REF_SOURCE_HEADING_TYPE_MH = " and ref.sourceHeadingType = 'MH' ";
+  private static final String AND_REF_USER_VIEW_STRING = " and ref.userViewString = '";
+
   /**
    * Gets the persistent class.
    *
@@ -106,9 +110,9 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
 
     int count = super.getXrefCount(source, cataloguingView, session);
     List<Integer> countList = session.find("select count(*) from NME_NME_TTL_REF as ref "
-        + " where ref.nameTitleHeadingNumber = ? "
-        + " and ref.sourceHeadingType = 'MH' "
-        + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
+        + WHERE_REF_NAME_TITLE_HEADING_NUMBER
+        + AND_REF_SOURCE_HEADING_TYPE_MH
+        + AND_REF_USER_VIEW_STRING + View.makeSingleViewString(cataloguingView) + "'",
       new Object[]{
         source.getKey().getHeadingNumber()},
       new Type[]{
@@ -116,9 +120,9 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
     count += countList.get(0);
 
     countList = session.find("select count(*) from TTL_NME_TTL_REF as ref "
-        + " where ref.nameTitleHeadingNumber = ? "
-        + " and ref.sourceHeadingType = 'MH' "
-        + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
+        + WHERE_REF_NAME_TITLE_HEADING_NUMBER
+        + AND_REF_SOURCE_HEADING_TYPE_MH
+        + AND_REF_USER_VIEW_STRING + View.makeSingleViewString(cataloguingView) + "'",
       new Object[]{
         source.getKey().getHeadingNumber()},
       new Type[]{
@@ -144,18 +148,18 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
 
     List<REF> refList = super.getCrossReferences(source, cataloguingView, session);
     refList.addAll(session.find("from NME_NME_TTL_REF as ref "
-        + " where ref.nameTitleHeadingNumber = ? "
-        + " and ref.sourceHeadingType = 'MH' "
-        + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
+        + WHERE_REF_NAME_TITLE_HEADING_NUMBER
+        + AND_REF_SOURCE_HEADING_TYPE_MH
+        + AND_REF_USER_VIEW_STRING + View.makeSingleViewString(cataloguingView) + "'",
       new Object[]{
         source.getKey().getHeadingNumber()},
       new Type[]{
         Hibernate.INTEGER}));
 
     refList.addAll(session.find("from TTL_NME_TTL_REF as ref "
-        + " where ref.nameTitleHeadingNumber = ? "
-        + " and ref.sourceHeadingType = 'MH' "
-        + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
+        + WHERE_REF_NAME_TITLE_HEADING_NUMBER
+        + AND_REF_SOURCE_HEADING_TYPE_MH
+        + AND_REF_USER_VIEW_STRING + View.makeSingleViewString(cataloguingView) + "'",
       new Object[]{
         source.getKey().getHeadingNumber()},
       new Type[]{
@@ -279,28 +283,7 @@ public class NameTitleDescriptorDAO extends DAODescriptor {
     return false;
   }
 
-  /**
-   * Calculate search term.
-   *
-   * @param term        the term
-   * @param browseIndex the browse index
-   * @return the string
-   * @throws DataAccessException the data access exception
-   */
-/*  @Override
-  public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
-    throws HibernateException, SQLException {
 
-    String searchTerm = super.calculateSearchTerm(term, browseIndex, session);
-    if (term.indexOf(':') > -1) {
-      String[] parsedTerm = term.split(":");
-      String name = parsedTerm[0].trim();
-      String title = parsedTerm[1].trim();
-      searchTerm = calculateSearchTerm(name, "2P0", session) + " : "
-        + calculateSearchTerm(title, "7P0", session);
-    }
-    return searchTerm;
-  }*/
 
   /**
    * Load headings.

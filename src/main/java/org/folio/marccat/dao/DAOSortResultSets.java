@@ -50,24 +50,24 @@ public class DAOSortResultSets extends AbstractDAO {
         Connection connection = s.connection();
         PreparedStatement stmt = null;
         java.sql.ResultSet js = null;
+        String query = "select bib_itm_nbr "
+          + "from (select bib_itm_nbr, TTL_HDG_MAIN_SRT_FORM, "
+          + "MAIN_ENTRY_SRT_FORM, "
+          + "BIB_NTE_IPRNT_STRNG_TXT, "
+          + "LANG_OF_CTLGG_CDE, "
+          + "ITM_DTE_1_DSC, "
+          + "ITM_REC_TYP_CDE, TTL_HDG_SRS_STRNG_TXT, TTL_VOL_NBR_1_DSC  "
+          + "from s_cache_bib_itm_dsply"
+          + ",s_srch_srt_rslts "
+          + "where bib_itm_nbr = itm_nbr and "
+          + "trstn_vw_nbr = "
+          + rs.getSearchingView() + " "
+          + orderBy
+          + ")";
         try {
 
           stmt =
-            connection.prepareStatement(
-              "select bib_itm_nbr "
-                + "from (select bib_itm_nbr, TTL_HDG_MAIN_SRT_FORM, "
-                + "MAIN_ENTRY_SRT_FORM, "
-                + "BIB_NTE_IPRNT_STRNG_TXT, "
-                + "LANG_OF_CTLGG_CDE, "
-                + "ITM_DTE_1_DSC, "
-                + "ITM_REC_TYP_CDE, TTL_HDG_SRS_STRNG_TXT, TTL_VOL_NBR_1_DSC  "
-                + "from s_cache_bib_itm_dsply"
-                + ",s_srch_srt_rslts "
-                + "where bib_itm_nbr = itm_nbr and "
-                + "trstn_vw_nbr = "
-                + rs.getSearchingView() + " "
-                + orderBy
-                + ")");
+            connection.prepareStatement(query);
 
           js = stmt.executeQuery();
 

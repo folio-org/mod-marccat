@@ -62,6 +62,9 @@ public abstract class ModMarcatSearchEngine implements SearchEngine {
         .mapToInt(Integer::intValue).toArray());
   }
 
+  /**
+   * @deprecated the expert search
+   */
   @Deprecated
   public SearchResponse expertSearch(final String cclQuery, final Locale locale, final int searchingView) {
     return null;

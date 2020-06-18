@@ -107,7 +107,7 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
         && other.getHeadingNumber() == null && other.getFunctionCode() == this.getFunctionCode());
     } else {
       return (other.getItemNumber() == this.getItemNumber() && other.getUserViewString().equals(this.getUserViewString())
-        && (!(other.getHeadingNumber() == null)) && other.getHeadingNumber().equals(this.getHeadingNumber())
+        && ((other.getHeadingNumber() != null)) && other.getHeadingNumber().equals(this.getHeadingNumber())
         && other.getFunctionCode() == this.getFunctionCode());
     }
   }
@@ -119,6 +119,10 @@ public class PublisherAccessPoint extends BibliographicAccessPoint {
   public int hashCode() {
     return this.getItemNumber() + 3 * this.getFunctionCode();
   }
+
+  /**
+   * @deprecated the first correlation is not used
+   */
 
   @Deprecated
   public List getFirstCorrelationList() {

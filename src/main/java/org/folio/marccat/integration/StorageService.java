@@ -1253,23 +1253,23 @@ public class StorageService implements Closeable {
     try {
       List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
       if (correlations.stream().anyMatch(Objects::nonNull) && correlations.size() == 1) {
-        return correlations
-          .stream()
-          .findFirst()
-          .get()
-          .getKey()
-          .getMarcTagCategoryCode();
+        Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+        if(firstElement.isPresent())
+          return firstElement
+            .get()
+            .getKey()
+            .getMarcTagCategoryCode();
       } else {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
           } else if (correlations.stream().anyMatch(Objects::nonNull)) {
-            return correlations
-              .stream()
-              .findFirst()
-              .get()
-              .getKey()
-              .getMarcTagCategoryCode();
+            Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+            if(firstElement.isPresent())
+              return firstElement
+                .get()
+                .getKey()
+                .getMarcTagCategoryCode();
           }
         }
       }
@@ -1300,13 +1300,14 @@ public class StorageService implements Closeable {
     try {
       List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
        if (correlations.stream().anyMatch(Objects::nonNull)) {
-            return correlations
-              .stream()
-              .findFirst()
+         Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+         if(firstElement.isPresent())
+            return firstElement
               .get()
               .getKey()
               .getMarcTagCategoryCode();
-        }
+       }
+
       return 0;
 
     } catch (final HibernateException exception) {
@@ -1604,9 +1605,7 @@ public class StorageService implements Closeable {
 
     try {
       CatalogItem item = getCatalogItemByKey(itemNumber, view);
-      //lockRecord(itemNumber, userName, uuid);
       catalog.deleteCatalogItem(item, session);
-      //unlockRecord(itemNumber, userName);
     } catch (RecordNotFoundException exception) {
       //ignore
     } catch (Exception exception) {

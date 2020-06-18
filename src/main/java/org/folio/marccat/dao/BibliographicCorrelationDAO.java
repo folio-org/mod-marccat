@@ -1,6 +1,6 @@
 package org.folio.marccat.dao;
 
-import com.google.common.base.Optional;
+
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
@@ -10,12 +10,10 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
 import static java.util.stream.Collectors.toList;
 
 /**

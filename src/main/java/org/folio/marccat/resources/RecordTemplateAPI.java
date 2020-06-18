@@ -87,8 +87,6 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doPut((storageService, configuration) -> {
       try {
-        final ObjectMapper mapper = new ObjectMapper();
-        final String jsonInString = mapper.writeValueAsString(template);
         if ("A".equals(template.getType())) {
           storageService.updateAuthorityRecordTemplate(template);
         } else {

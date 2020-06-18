@@ -23,6 +23,7 @@ public class BibliographicModel extends Model {
   /**
    * Gets the dao.
    *
+   * @deprecated  Not for public use.
    * @return the dao
    */
   @Deprecated

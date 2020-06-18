@@ -69,6 +69,9 @@ public class BibliographicTagImpl extends TagImpl {
     }
   }
 
+  /**
+   * @deprecated the tag validation is not used
+   */
   @Deprecated
   public Validation getValidation(Tag t) {
     return null;
@@ -83,6 +86,9 @@ public class BibliographicTagImpl extends TagImpl {
     return new BibliographicCatalog();
   }
 
+  /**
+   * @deprecated the correlation key is not used
+   */
   @Deprecated
   public CorrelationKey getMarcEncoding(Tag t) {
     return null;

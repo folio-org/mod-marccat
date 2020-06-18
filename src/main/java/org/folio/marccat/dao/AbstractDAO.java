@@ -128,7 +128,7 @@ public class AbstractDAO {
 
   public List<? extends PersistentObjectWithView> isolateViewForList(List<? extends PersistentObjectWithView> multiView, final int userView, final Session session) {
     if (userView == View.ANY) {
-      return multiView;
+      return  multiView;
     }
     return multiView.stream().map(po -> {
       try {

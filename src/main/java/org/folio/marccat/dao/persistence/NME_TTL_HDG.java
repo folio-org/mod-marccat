@@ -107,9 +107,9 @@ public class NME_TTL_HDG extends Descriptor {
   }
 
 
-  public void setNameHeading(NME_HDG nme_hdg) {
-    nameHeading = nme_hdg;
-    setNameHeadingNumber(nme_hdg.getKey().getHeadingNumber());
+  public void setNameHeading(NME_HDG nmeHdg) {
+    nameHeading = nmeHdg;
+    setNameHeadingNumber(nmeHdg.getKey().getHeadingNumber());
   }
 
 
@@ -161,9 +161,9 @@ public class NME_TTL_HDG extends Descriptor {
   }
 
 
-  public void setTitleHeading(TTL_HDG ttl_hdg) {
-    titleHeading = ttl_hdg;
-    setTitleHeadingNumber(ttl_hdg.getKey().getHeadingNumber());
+  public void setTitleHeading(TTL_HDG ttlHdg) {
+    titleHeading = ttlHdg;
+    setTitleHeadingNumber(ttlHdg.getKey().getHeadingNumber());
   }
 
 

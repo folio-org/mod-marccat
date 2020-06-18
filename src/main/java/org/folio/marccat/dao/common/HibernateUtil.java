@@ -3,7 +3,6 @@ package org.folio.marccat.dao.common;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.Persistence;

@@ -20,6 +20,7 @@ public class StringText implements Serializable {
    * The Constant serialVersionUID.
    */
   private static final long serialVersionUID = 1L;
+  private static final String SUBFIELD = "subfield";
 
   /**
    * The subfield list.
@@ -99,7 +100,7 @@ public class StringText implements Serializable {
     Element content = (Element) xmlElement.getChildNodes().item(0);
     StringText stringText = new StringText();
     NodeList subfieldList =
-      content.getElementsByTagName("subfield");
+      content.getElementsByTagName(SUBFIELD);
     for (int subfieldIndex = 0;
          subfieldIndex < subfieldList.getLength();
          subfieldIndex++) {
@@ -360,12 +361,12 @@ public class StringText implements Serializable {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("stringText");
-      List subfieldList = getSubfieldList();
-      Iterator subfieldIterator = subfieldList.iterator();
+      List subfields = getSubfieldList();
+      Iterator subfieldIterator = subfields.iterator();
       while (subfieldIterator.hasNext()) {
         Subfield subfield = (Subfield) subfieldIterator.next();
         Element subfieldElement =
-          xmlDocument.createElement("subfield");
+          xmlDocument.createElement(SUBFIELD);
         content.appendChild(subfieldElement);
         subfieldElement.setAttribute(
           "code",
@@ -387,12 +388,12 @@ public class StringText implements Serializable {
    */
   public void generateMarcXmlElementContent(Element datafield, Document xmlDocument, String cclQuery) {
     if (xmlDocument != null) {
-      List subfieldList = getSubfieldList();
-      Iterator subfieldIterator = subfieldList.iterator();
+      List subfields = getSubfieldList();
+      Iterator subfieldIterator = subfields.iterator();
       while (subfieldIterator.hasNext()) {
         Subfield subfield = (Subfield) subfieldIterator.next();
         Element subfieldElement =
-          xmlDocument.createElement("subfield");
+          xmlDocument.createElement(SUBFIELD);
         datafield.appendChild(subfieldElement);
         subfieldElement.setAttribute(
           "code",

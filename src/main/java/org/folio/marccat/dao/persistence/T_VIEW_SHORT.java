@@ -46,7 +46,7 @@ public class T_VIEW_SHORT extends CodeTable {
    */
   @Override
   public boolean equals(Object arg0) {
-    if (arg0.getClass().equals(this.getClass())) {
+    if (arg0 != null && arg0.getClass().equals(this.getClass())) {
       T_VIEW_SHORT t = (T_VIEW_SHORT) arg0;
       return t.getCode() == this.getCode();
     } else {

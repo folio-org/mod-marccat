@@ -49,13 +49,7 @@ public class BibliographicGroupManager extends MarcGroupManager implements Filte
     }
   }
 
-  @Deprecated
-  public static BibliographicGroupManager getInstance() {
-    if (instance == null) {
-      instance = new BibliographicGroupManager();
-    }
-    return instance;
-  }
+
 
   /* (non-Javadoc)
    * @see FilterManager#getFilter(Tag)
