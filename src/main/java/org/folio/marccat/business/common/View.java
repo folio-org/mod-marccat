@@ -17,7 +17,7 @@ public class View {
    * Creates a new usr_vw_ind string from the input string by
    * setting the position specified in arg2 to '0'.  The resultant
    * view string is useful in saving a persistant object after the
-   * current cataloguing view of the record is deleted (or modified)
+   * current cataloguing view of the record is deleted or modified
    *
    * @param viewString      -- the original view String
    * @param cataloguingView -- the position to be set to '0' (1 indexing)
