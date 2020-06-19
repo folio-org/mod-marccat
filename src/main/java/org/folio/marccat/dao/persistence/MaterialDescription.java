@@ -922,12 +922,14 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
     getBibItm().setItemRecordTypeCode(c);
   }
 
-  @Override
-  public List getFirstCorrelationList() {
+  /**
+   * @deprecated the first correlation is not used
+   */
+  @Deprecated
+   public List getFirstCorrelationList() {
     return Collections.emptyList();
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(String str) {
     if (getMaterialDescription008Indicator().equals("1")) {
@@ -935,7 +937,6 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
       try {
         getBibItm().setEnteredOnFileDate(df.parse(str.substring(0, 6)));
       } catch (ParseException e) {
-        // date not set if parse error
       }
       setItemDateTypeCode(str.charAt(6));
       setItemDateFirstPublication(str.substring(7, 11));

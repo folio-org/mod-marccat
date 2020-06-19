@@ -22,7 +22,6 @@ public class BibliographicGroupManager extends MarcGroupManager implements Filte
    */
   private static final TagFilter NO_TAG_FILTER = new NoTagFilter();
 
-  private static BibliographicGroupManager instance = null;
 
   public BibliographicGroupManager() {
     super();

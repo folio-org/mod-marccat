@@ -18,7 +18,7 @@ public class BibliographicValidation extends Validation implements Serializable 
     return key;
   }
 
-  private void setKey(BibliographicValidationKey validation) {
+  public void setKey(BibliographicValidationKey validation) {
     key = validation;
   }
 

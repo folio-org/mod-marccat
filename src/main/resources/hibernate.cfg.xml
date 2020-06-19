@@ -117,10 +117,8 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_VR_PLYBC_CHNL_CFGTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_1ST_IND.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_2ND_IND.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_ILL.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_LVL_OF_DTL.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_LOAN_PRD.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_RTNTN.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_HLDG_LVL_OF_DTL.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_HLDG_RTNTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_STUS.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_SBCPT_STUS.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_SRS_TRMT.hbm.xml"/>

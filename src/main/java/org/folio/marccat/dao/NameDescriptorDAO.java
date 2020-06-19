@@ -9,7 +9,6 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
-
 import java.util.List;
 
 /**

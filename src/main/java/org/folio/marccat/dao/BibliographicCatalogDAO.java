@@ -646,6 +646,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   public void updateCacheTable(
     final int bibItemNumber,
     final int cataloguingView) {
+    //Do nothing
   }
 
 

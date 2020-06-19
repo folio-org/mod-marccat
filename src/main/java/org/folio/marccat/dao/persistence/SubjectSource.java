@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Jun 18, 2004
- *
- * SubjectSource.java
- */
 package org.folio.marccat.dao.persistence;
 
 /**
@@ -13,7 +6,7 @@ package org.folio.marccat.dao.persistence;
  * @since 1.0
  */
 public class SubjectSource extends T_SINGLE {
-  private final static short USES_SECONDARY_SOURCE = 9;
+  private static final short USES_SECONDARY_SOURCE = 9;
 
   public static boolean isOtherSource(int code) {
     return code == USES_SECONDARY_SOURCE;

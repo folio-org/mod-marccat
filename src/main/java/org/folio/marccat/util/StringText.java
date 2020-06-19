@@ -6,7 +6,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -238,7 +237,7 @@ public class StringText implements Serializable {
    * @return the marc display string
    */
   public String getMarcDisplayString(final String subfieldCodeSubstitution) {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
 
     Iterator iter = subfieldList.iterator();
     while (iter.hasNext()) {
@@ -362,9 +361,9 @@ public class StringText implements Serializable {
     if (xmlDocument != null) {
       content = xmlDocument.createElement("stringText");
       List subfields = getSubfieldList();
-      Iterator subfieldIterator = subfields.iterator();
+      Iterator<Subfield> subfieldIterator = subfields.iterator();
       while (subfieldIterator.hasNext()) {
-        Subfield subfield = (Subfield) subfieldIterator.next();
+        Subfield subfield =  subfieldIterator.next();
         Element subfieldElement =
           xmlDocument.createElement(SUBFIELD);
         content.appendChild(subfieldElement);
@@ -389,9 +388,9 @@ public class StringText implements Serializable {
   public void generateMarcXmlElementContent(Element datafield, Document xmlDocument, String cclQuery) {
     if (xmlDocument != null) {
       List subfields = getSubfieldList();
-      Iterator subfieldIterator = subfields.iterator();
+      Iterator<Subfield> subfieldIterator = subfields.iterator();
       while (subfieldIterator.hasNext()) {
-        Subfield subfield = (Subfield) subfieldIterator.next();
+        Subfield subfield =  subfieldIterator.next();
         Element subfieldElement =
           xmlDocument.createElement(SUBFIELD);
         datafield.appendChild(subfieldElement);
@@ -454,14 +453,12 @@ public class StringText implements Serializable {
     int subfieldIndex = 0;
     for (Object o : getSubfieldList()) {
       Subfield s = (Subfield) o;
-      if (s.getCode().equals(code)) {
-        if (subfieldIndex > 0) {
+      if (s.getCode().equals(code) && subfieldIndex > 0) {
           Subfield before = getSubfield(subfieldIndex - 1);
           String bc = before.getContent();
           if (bc.endsWith(punc)) {
             before.setContent(bc.substring(0, bc.length() - 1).trim());
           }
-        }
       }
       subfieldIndex++;
     }

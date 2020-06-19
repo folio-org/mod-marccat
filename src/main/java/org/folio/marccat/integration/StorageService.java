@@ -162,7 +162,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions) throws DataAccessException {
-    new DAOSortResultSets().sort(session, rs, attributes, directions);
+    new SortResultSetsDAO().sort(session, rs, attributes, directions);
     rs.clearRecords();
     return rs;
   }

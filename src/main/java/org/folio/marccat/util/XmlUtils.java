@@ -39,6 +39,7 @@ public class XmlUtils {
     if (document != null) {
       try {
         final Transformer transformer = FACTORIES.get().newTransformer();
+        FACTORIES.remove();
         final DOMSource source = new DOMSource(document);
         final StringWriter writer = new StringWriter();
 
@@ -51,5 +52,6 @@ public class XmlUtils {
     }
     return builder.toString();
   }
+
 
 }

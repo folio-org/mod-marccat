@@ -61,7 +61,7 @@ public class BibliographicStandardNoteDAO extends AbstractDAO {
    * @return the STD display string
    * @throws HibernateException the hibernate exception
    */
-  public Avp <String> getSTDDisplayString(final int code, final String language, final Session session) throws HibernateException {
+  public Avp<String> getSTDDisplayString(final int code, final String language, final Session session) throws HibernateException {
 
     List <T_STD_NTE_TYP> l;
     Query q = session.createQuery("select distinct ct from T_STD_NTE_TYP  as ct where ct.code =" + code + " and ct.language ='" + language + "'");
@@ -71,7 +71,7 @@ public class BibliographicStandardNoteDAO extends AbstractDAO {
       Optional <T_STD_NTE_TYP> firstElement = l.stream().findFirst();
       if (firstElement.isPresent()) {
         T_STD_NTE_TYP standardNoteType = firstElement.get();
-        return new Avp(Integer.toString(standardNoteType.getCode()), standardNoteType.getLongText());
+        return new Avp<>(Integer.toString(standardNoteType.getCode()), standardNoteType.getLongText());
       }
     }
     return null;

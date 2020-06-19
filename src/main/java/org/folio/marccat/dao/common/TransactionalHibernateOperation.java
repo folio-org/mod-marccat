@@ -7,14 +7,12 @@ import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
 public abstract class TransactionalHibernateOperation {
 
   private static final Log logger = new Log(TransactionalHibernateOperation.class);
-  private static final HibernateUtil util = new HibernateUtil();
 
   private static ThreadLocal nestingLevel = new ThreadLocal() {
     @Override
@@ -64,43 +62,14 @@ public abstract class TransactionalHibernateOperation {
       setNestingLevel((getNestingLevel() - 1));
     } catch (HibernateException | SQLException | IOException | ReferentialIntegrityException e) {
       cleanup(tx);
-      util.logAndWrap(e);
     }  catch (DataAccessException e) {
       cleanup(tx);
       throw e;
     } catch (Throwable e) {
       cleanup(tx);
-      util.logAndWrap(e);
     }
   }
 
-  public void execute() throws DataAccessException {
-    Transaction tx = null;
-    try {
-      Session session = util.currentSession();
-      tx = session.beginTransaction();
-      setNestingLevel(getNestingLevel() + 1);
-      if (getNestingLevel() == 1) {
-        getPersistentStateManager().begin();
-      }
-      doInHibernateTransaction(session);
-      if (getNestingLevel() == 1) {
-        tx.commit();
-        getPersistentStateManager().commit();
-        getPersistentStateManager().end();
-      }
-      setNestingLevel((getNestingLevel() - 1));
-    } catch (HibernateException | SQLException | IOException | ReferentialIntegrityException e ) {
-      cleanup(tx);
-      util.logAndWrap(e);
-    } catch (DataAccessException e) {
-      cleanup(tx);
-      throw e;
-    } catch (Throwable e) {
-      cleanup(tx);
-      util.logAndWrap(e);
-    }
-  }
 
   private void cleanup(Transaction tx) throws DataAccessException {
     logger.error(
@@ -109,9 +78,7 @@ public abstract class TransactionalHibernateOperation {
       rollback(tx);
       getPersistentStateManager().rollback();
     } finally {
-      // MIKE: only the main transaction can close the session and reset
-      // the nested level
-      if (getNestingLevel() > 1) {
+       if (getNestingLevel() > 1) {
         setNestingLevel((getNestingLevel() - 1));
       } else {
         setNestingLevel(0);
@@ -127,7 +94,6 @@ public abstract class TransactionalHibernateOperation {
         tx.rollback();
         logger.info("rolled back");
       } catch (HibernateException e1) {
-        util.logAndWrap(e1);
       }
     }
   }

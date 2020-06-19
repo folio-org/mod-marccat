@@ -1,8 +1,11 @@
 package org.folio.marccat.config.log;
 
 public final class Message {
-  public static final String MODULE_NAME = "MODCAT";
 
+  private Message(){
+  }
+
+  public static final String MODULE_NAME = "MODCAT";
   public static final String MOD_MARCCAT_00010_DATA_ACCESS_FAILURE = "<" + MODULE_NAME + "-00010> : Data access failure. Please check the stacktrace below for further information.";
   public static final String MOD_MARCCAT_00011_NWS_FAILURE = "<" + MODULE_NAME + "-00011> : Not well known failure. Please check the stacktrace below for further information.";
   public static final String MOD_MARCCAT_00012_NULL_RESULT = "<" + MODULE_NAME + "-00012> : Not well known failure. The service did return a nullable (not allowed) stringValue.";

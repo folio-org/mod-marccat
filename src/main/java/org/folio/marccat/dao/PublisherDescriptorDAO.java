@@ -7,8 +7,6 @@ import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.PUBL_HDG;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.sql.SQLException;
 import java.util.List;
 

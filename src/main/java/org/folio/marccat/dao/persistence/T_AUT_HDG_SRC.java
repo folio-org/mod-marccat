@@ -13,22 +13,22 @@ public class T_AUT_HDG_SRC extends T_SINGLE {
   private static final HashMap<Integer, Character> marcSourceIndicator = new HashMap<Integer, Character>();
 
   static {
-    marcSourceIndicator.put(new Integer(2), new Character('0'));
-    marcSourceIndicator.put(new Integer(19), new Character('1'));
-    marcSourceIndicator.put(new Integer(4), new Character('2'));
-    marcSourceIndicator.put(new Integer(5), new Character('3'));
-    marcSourceIndicator.put(new Integer(6), new Character('4'));
-    marcSourceIndicator.put(new Integer(7), new Character('5'));
-    marcSourceIndicator.put(new Integer(8), new Character('6'));
-    marcSourceIndicator.put(new Integer(9), new Character('7'));
+    marcSourceIndicator.put(2, '0');
+    marcSourceIndicator.put(19, '1');
+    marcSourceIndicator.put(4, '2');
+    marcSourceIndicator.put(5, '3');
+    marcSourceIndicator.put(6, '4');
+    marcSourceIndicator.put(7, '5');
+    marcSourceIndicator.put(8, '6');
+    marcSourceIndicator.put(9, '7');
   }
 
   public static char toMarcIndicator(int source) {
-    Integer key = new Integer(source);
+    Integer key = source;
     if (marcSourceIndicator.containsKey(key)) {
       return marcSourceIndicator.get(key);
     } else {
-      return marcSourceIndicator.get(new Integer(SOURCE_NOT_SPECIFIED));
+      return marcSourceIndicator.get(SOURCE_NOT_SPECIFIED);
     }
   }
 

@@ -16,10 +16,6 @@ import org.folio.marccat.exception.DataAccessException;
  */
 public class SystemNextNumberDAO extends AbstractDAO {
 
-  @Deprecated
-  public int getPreviouwsNumber(final String keyFieldCodeValue) throws DataAccessException {
-    throw new IllegalArgumentException("DON'T CALL ME!");
-  }
 
   /**
    * This method return the field updated nextNumber and save changes in the table.
