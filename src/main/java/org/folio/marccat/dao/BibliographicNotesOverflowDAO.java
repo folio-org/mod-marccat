@@ -9,12 +9,24 @@ import org.folio.marccat.dao.persistence.BibliographicNoteOverflow;
 import java.util.List;
 
 /**
+ * Class to handle too long notes.
+ *
  * @author paulm
  * @author nbianchini
  * @since 1.0
  */
-public class DAOBibliographicNotesOverflow extends AbstractDAO {
+public class BibliographicNotesOverflowDAO extends AbstractDAO {
 
+  /**
+   * Gets the bib notes overflow list.
+   *
+   * @param bibItemNumber the bib item number
+   * @param userView the user view
+   * @param noteNumber the note number
+   * @param session the session
+   * @return the bib notes overflow list
+   * @throws HibernateException the hibernate exception
+   */
   @SuppressWarnings("unchecked")
   public List<BibliographicNoteOverflow> getBibNotesOverflowList(final int bibItemNumber, final int userView, final int noteNumber, final Session session) throws HibernateException {
     return session.find(
