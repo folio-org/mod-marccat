@@ -18,12 +18,12 @@ import java.util.Optional;
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
- * Manages headings in the CNTL_NBR table for NTN index.
+ * Manages headings in the CNTL_NBR table.
  *
  * @author paulm
  * @author carment
  */
-public class ControlNumberDescriptorDAO extends DAODescriptor {
+public class ControlNumberDescriptorDAO extends DescriptorDAO {
 
   /**
    * Gets the persistent class.

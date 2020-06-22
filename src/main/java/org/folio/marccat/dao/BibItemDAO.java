@@ -14,13 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * Data access object to bib item
+ *
  * @author paulm
- * @version $Revision: 1.2 $, $Date: 2005/02/02 14:09:42 $
  * @since 1.0
  */
-public class DAOBibItem extends AbstractDAO {
+public class BibItemDAO extends AbstractDAO {
 
-  private static final Log logger = new Log(DAOBibItem.class);
+  private static final Log logger = new Log(BibItemDAO.class);
 
   /**
    * Deletes persistent objects (bib_item, cache, full_cache) using hibernate transaction.

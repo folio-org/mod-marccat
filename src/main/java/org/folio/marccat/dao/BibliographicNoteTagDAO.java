@@ -13,13 +13,21 @@ import org.folio.marccat.exception.DataAccessException;
 import java.util.Iterator;
 
 /**
- * @author hansv
- * @version $Revision: 1.4 $ $Date: 2005/12/21 08:30:32 $
+ * Class to handle the notes.
+ *
+ * @author paulm
  * @since 1.0
  */
 
-public class DAOBibliographicNoteTag extends AbstractDAO {
+public class BibliographicNoteTagDAO extends AbstractDAO {
 
+  /**
+   * Delete a note, a note standard and the notes overflow
+   *
+   * @param po the po
+   * @param session the session
+   * @throws HibernateException the hibernate exception
+   */
   @Override
   public void delete(Persistence po, final Session session) throws HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {
@@ -42,7 +50,13 @@ public class DAOBibliographicNoteTag extends AbstractDAO {
     aNote.setUpdateStatus(UpdateStatus.REMOVED);
   }
 
-
+  /**
+   * Save a note, a note standard and the notes overflow.
+   *
+   * @param po the po
+   * @param session the session
+   * @throws HibernateException the hibernate exception
+   */
   @Override
   public void save(final Persistence po, final Session session) throws HibernateException {
     if (!(po instanceof BibliographicNoteTag)) {

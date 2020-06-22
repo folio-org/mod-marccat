@@ -3,7 +3,7 @@ package org.folio.marccat.business.descriptor;
 import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedSingletonFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.persistence.Descriptor;
 
 /**
@@ -27,8 +27,8 @@ public class DescriptorFactory {
     return (Descriptor) abstractMapBackedFactory.create(category);
   }
 
-  public static DAODescriptor getDao(int category) {
-    return (DAODescriptor) abstractMapBackedFactory.create(category);
+  public static DescriptorDAO getDao(int category) {
+    return (DescriptorDAO) abstractMapBackedFactory.create(category);
   }
 
 }

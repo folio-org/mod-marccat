@@ -17,6 +17,20 @@ import java.sql.ResultSet;
 public class SemanticDAO {
   private static final Log logger = new Log(SemanticDAO.class);
 
+  /**
+   * Gets the semantic entry for java search engine.
+   *
+   * @param session the session
+   * @param useNumber the use number
+   * @param relationNumber the relation number
+   * @param positionNumber the position number
+   * @param structureNumber the structure number
+   * @param truncationNumber the truncation number
+   * @param completenessNumber the completeness number
+   * @param recordTypeCode the record type code
+   * @return the semantic entry
+   * @throws Exception the exception
+   */
   public S_BIB1_SMNTC getSemanticEntry(
     final Session session,
     int useNumber,

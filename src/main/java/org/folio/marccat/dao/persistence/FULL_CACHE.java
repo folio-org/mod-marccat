@@ -5,7 +5,7 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOFullCache;
+import org.folio.marccat.dao.FullCacheDAO;
 
 import java.io.Serializable;
 
@@ -83,7 +83,7 @@ public class FULL_CACHE implements Persistence {
 
 
   public AbstractDAO getDAO() {
-    return new DAOFullCache();
+    return new FullCacheDAO();
   }
 
 

@@ -28,7 +28,7 @@ import static org.folio.marccat.util.F.deepCopy;
  * @author natasciab
  * @author carment
  */
-public abstract class DAODescriptor extends AbstractDAO implements Serializable {
+public abstract class DescriptorDAO extends AbstractDAO implements Serializable {
   private static final long serialVersionUID = 1L;
   /**
    * The blank sortform.

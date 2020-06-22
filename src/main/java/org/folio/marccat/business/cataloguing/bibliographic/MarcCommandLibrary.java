@@ -5,7 +5,7 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.descriptor.PublisherTagDescriptor;
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.MarcCorrelationException;
@@ -85,7 +85,7 @@ public class MarcCommandLibrary {
 
   public static Descriptor createNewDescriptor(final Descriptor currDescriptor, final String headingView, final Session session) throws DataAccessException, HibernateException, SQLException {
     if (!currDescriptor.isNew()) return currDescriptor;
-    Descriptor matchDescriptor = ((DAODescriptor) currDescriptor.getDAO()).getMatchingHeading(currDescriptor, session);
+    Descriptor matchDescriptor = ((DescriptorDAO) currDescriptor.getDAO()).getMatchingHeading(currDescriptor, session);
     if (matchDescriptor == null) {
       if (currDescriptor.getKey().getHeadingNumber() == -1) {// key is not null by default
         currDescriptor.generateNewKey(session);

@@ -52,7 +52,7 @@ public abstract class CatalogDAO extends AbstractDAO {
           throw new ModMarccatException(e);
         }
       });
-    new DAOBibItem().delete(item.getItemEntity(), session);
+    new BibItemDAO().delete(item.getItemEntity(), session);
     if (item.getModelItem() != null)
       session.delete(item.getModelItem());
     transaction.commit();

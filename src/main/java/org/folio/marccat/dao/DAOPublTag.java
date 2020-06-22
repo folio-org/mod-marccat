@@ -2,8 +2,20 @@ package org.folio.marccat.dao;
 
 import org.folio.marccat.dao.persistence.PUBL_TAG;
 
-public class DAOPublTag extends DAODescriptor {
+/**
+ * Data access of the pub_tag table
+ *
+ * @author paulm
+ * @author natasciab
+ * @since 1.0
+ */
 
+public class DAOPublTag extends DescriptorDAO {
+  /**
+   * Gets the persistent class.
+   *
+   * @return the persistent class
+   */
   public Class getPersistentClass() {
     return PUBL_TAG.class;
   }
