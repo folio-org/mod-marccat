@@ -26,6 +26,9 @@ public class ValidationUtils {
 
   protected static Log logger = new Log(ValidationUtils.class);
 
+  private ValidationUtils() {
+  }
+
   /**
    * Validates tags record.
    *

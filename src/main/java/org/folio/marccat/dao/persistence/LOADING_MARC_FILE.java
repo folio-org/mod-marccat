@@ -1,10 +1,3 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 7, 2004
- *
- * LOADING_MARC_FILE.java
- */
 package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
@@ -19,7 +12,6 @@ import java.io.Serializable;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2004/12/14 10:40:41 $
  * @since 1.0
  */
 public class LOADING_MARC_FILE implements Persistence {
@@ -84,10 +76,6 @@ public class LOADING_MARC_FILE implements Persistence {
     }
   }
 
-
-  public void evict(Object obj) {
-    persistenceState.evict(obj);
-  }
 
 
   public AbstractDAO getDAO() {
@@ -176,17 +164,10 @@ public class LOADING_MARC_FILE implements Persistence {
   }
 
   /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#evict()
-   */
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
-
-  /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#generateNewKey()
    */
   public void generateNewKey() throws DataAccessException {
-    // keys are assigned from a sequence by Hibernate
+    // // Do nothing  because keys are assigned from a sequence by Hibernate
   }
 
 }

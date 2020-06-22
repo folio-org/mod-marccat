@@ -6,7 +6,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -19,7 +18,8 @@ public class StringText implements Serializable {
   /**
    * The Constant serialVersionUID.
    */
-  private static final long serialVersionUID = -486513419723833977L;
+  private static final long serialVersionUID = 1L;
+  private static final String SUBFIELD = "subfield";
 
   /**
    * The subfield list.
@@ -99,7 +99,7 @@ public class StringText implements Serializable {
     Element content = (Element) xmlElement.getChildNodes().item(0);
     StringText stringText = new StringText();
     NodeList subfieldList =
-      content.getElementsByTagName("subfield");
+      content.getElementsByTagName(SUBFIELD);
     for (int subfieldIndex = 0;
          subfieldIndex < subfieldList.getLength();
          subfieldIndex++) {
@@ -237,7 +237,7 @@ public class StringText implements Serializable {
    * @return the marc display string
    */
   public String getMarcDisplayString(final String subfieldCodeSubstitution) {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
 
     Iterator iter = subfieldList.iterator();
     while (iter.hasNext()) {
@@ -310,7 +310,7 @@ public class StringText implements Serializable {
       Subfield s = getSubfield(i);
       if (((include == null) || (include.contains(s.getCode())))
         && ((exclude == null) || (!exclude.contains(s.getCode())))) {
-        text.addSubfield((Subfield) s.clone());
+        text.addSubfield((Subfield) s.copy());
       }
     }
     return text;
@@ -360,12 +360,12 @@ public class StringText implements Serializable {
     Element content = null;
     if (xmlDocument != null) {
       content = xmlDocument.createElement("stringText");
-      List subfieldList = getSubfieldList();
-      Iterator subfieldIterator = subfieldList.iterator();
+      List subfields = getSubfieldList();
+      Iterator<Subfield> subfieldIterator = subfields.iterator();
       while (subfieldIterator.hasNext()) {
-        Subfield subfield = (Subfield) subfieldIterator.next();
+        Subfield subfield =  subfieldIterator.next();
         Element subfieldElement =
-          xmlDocument.createElement("subfield");
+          xmlDocument.createElement(SUBFIELD);
         content.appendChild(subfieldElement);
         subfieldElement.setAttribute(
           "code",
@@ -387,12 +387,12 @@ public class StringText implements Serializable {
    */
   public void generateMarcXmlElementContent(Element datafield, Document xmlDocument, String cclQuery) {
     if (xmlDocument != null) {
-      List subfieldList = getSubfieldList();
-      Iterator subfieldIterator = subfieldList.iterator();
+      List subfields = getSubfieldList();
+      Iterator<Subfield> subfieldIterator = subfields.iterator();
       while (subfieldIterator.hasNext()) {
-        Subfield subfield = (Subfield) subfieldIterator.next();
+        Subfield subfield =  subfieldIterator.next();
         Element subfieldElement =
-          xmlDocument.createElement("subfield");
+          xmlDocument.createElement(SUBFIELD);
         datafield.appendChild(subfieldElement);
         subfieldElement.setAttribute(
           "code",
@@ -453,14 +453,12 @@ public class StringText implements Serializable {
     int subfieldIndex = 0;
     for (Object o : getSubfieldList()) {
       Subfield s = (Subfield) o;
-      if (s.getCode().equals(code)) {
-        if (subfieldIndex > 0) {
+      if (s.getCode().equals(code) && subfieldIndex > 0) {
           Subfield before = getSubfield(subfieldIndex - 1);
           String bc = before.getContent();
           if (bc.endsWith(punc)) {
             before.setContent(bc.substring(0, bc.length() - 1).trim());
           }
-        }
       }
       subfieldIndex++;
     }

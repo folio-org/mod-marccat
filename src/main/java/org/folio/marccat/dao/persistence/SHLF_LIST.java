@@ -5,7 +5,6 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.ShelfListDAO;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 
 import java.io.Serializable;
@@ -161,7 +160,7 @@ public class SHLF_LIST extends Descriptor implements Serializable {
    * used (since there are no user views)
    */
   @Override
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException {
+  public void generateNewKey(final Session session) throws  HibernateException {
     super.generateNewKey(session);
     setShelfListKeyNumber(getKey().getHeadingNumber());
   }

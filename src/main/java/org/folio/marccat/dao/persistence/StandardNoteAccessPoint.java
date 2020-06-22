@@ -73,14 +73,6 @@ public class StandardNoteAccessPoint implements Persistence {
   }
 
 
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
-
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
-
 
   public AbstractDAO getDAO() {
     return new BibliographicStandardNoteDAO();

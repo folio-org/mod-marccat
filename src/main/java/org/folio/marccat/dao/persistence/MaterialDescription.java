@@ -793,11 +793,11 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
   }
 
   public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    return content;
+    return null;
   }
 
   public void parseModelXmlElementContent(Element xmlElement) {
+    // Do nothing because it is not used in the model
   }
 
   public String getUserViewString() {
@@ -922,12 +922,14 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
     getBibItm().setItemRecordTypeCode(c);
   }
 
+  /**
+   * @deprecated the first correlation is not used
+   */
   @Deprecated
-  public List getFirstCorrelationList() {
+   public List getFirstCorrelationList() {
     return Collections.emptyList();
   }
 
-  //@paulm, us_bbl_loading
   @Override
   public void setContentFromMarcString(String str) {
     if (getMaterialDescription008Indicator().equals("1")) {

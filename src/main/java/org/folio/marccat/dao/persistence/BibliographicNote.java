@@ -14,7 +14,6 @@ import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibliographicNote;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +22,9 @@ import java.util.List;
  *
  * @author janick
  */
-public class BibliographicNote extends VariableField implements PersistentObjectWithView, OrderedTag {
+public class BibliographicNote extends VariableField implements  PersistentObjectWithView, OrderedTag {
   private static final short NOTE_CATEGORY= 7;
-  public List<BibliographicNoteOverflow> overflowList = new ArrayList<>();
+  private List<BibliographicNoteOverflow> overflowList = new ArrayList<>();
   /**
    * The content is all or a part of the stringText.toString() result.
    */

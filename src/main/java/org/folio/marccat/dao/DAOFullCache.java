@@ -5,11 +5,10 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.dao.persistence.FULL_CACHE;
 import org.folio.marccat.exception.RecordNotFoundException;
-
 import java.util.List;
 
 /**
- * 2018 Paul Search Engine Java
+ *  Provides data access to FULL_CACHE table for Search Engine Java
  *
  * @author paulm
  * @author cchiama

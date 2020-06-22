@@ -16,9 +16,7 @@ import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.F;
 import org.folio.marccat.util.StringText;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -261,9 +259,9 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
     String value = (ofNullable(valueElement.getLabel()).isPresent()) ? valueElement.getLabel() : "";
     if (value.contains("@1")) {
       if (note.getStringTextString().indexOf(Global.SUBFIELD_DELIMITER) != -1)
-        value = value.replaceAll("@1", note.getStringTextString().substring(2));
+        value = value.replace("@1", note.getStringTextString().substring(2));
       else
-        value = value.replaceAll("@1", note.getStringTextString());
+        value = value.replace("@1", note.getStringTextString());
     }
     return new StringText(value);
   }
@@ -383,7 +381,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    * @return list of overflow.
    */
   public List getOverflowList() {
-    return note.overflowList;
+    return note.getOverflowList();
   }
 
   /**
@@ -395,17 +393,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
     note.setOverflowList(list);
   }
 
-  /**
-   * Gets the overflow list.
-   *
-   * @param userView the user view
-   * @return the overflow list
-   * @deprecated
-   */
-  @Deprecated
-  public List getOverflowList(int userView) {
-    return Collections.emptyList();
-  }
 
   /**
    * Checks correlation key value is changed for note tag.

@@ -25,8 +25,14 @@ import java.util.List;
  */
 public class PublisherManagerDAO extends AbstractDAO {
 
+  /**
+   * Delete the persistence object.
+   *
+   * @param po the persistence object
+   * @param session the session
+   */
   @Override
-  public void delete(Persistence po, final Session session) throws DataAccessException {
+  public void delete(Persistence po, final Session session)  {
     if (!(po instanceof PublisherManager)) {
       throw new IllegalArgumentException(
         "I can only persist PublisherManager objects");
@@ -42,8 +48,14 @@ public class PublisherManagerDAO extends AbstractDAO {
     }
   }
 
+  /**
+   * Save the persistence object.
+   *
+   * @param po the persistence object
+   * @param session the session
+   */
   @Override
-  public void save(final Persistence po, final Session session) throws DataAccessException {
+  public void save(final Persistence po, final Session session)  {
     if (!(po instanceof PublisherManager)) {
       throw new IllegalArgumentException(
         "I can only persist PublisherManager objects");
@@ -81,13 +93,15 @@ public class PublisherManagerDAO extends AbstractDAO {
 
   }
 
-  /*
-   * (non-Javadoc)
+
+  /**
+   * Update the persistence object.
    *
-   * @see HibernateUtil#update(librisuite.business.common.Persistence)
+   * @param p the the persistence object
+   * @param session the session
    */
   @Override
-  public void update(final Persistence p, final Session session) throws DataAccessException {
+  public void update(final Persistence p, final Session session)  {
     if (!(p instanceof PublisherManager)) {
       throw new IllegalArgumentException(
         "Can only persist PublisherManager objects");
@@ -110,26 +124,22 @@ public class PublisherManagerDAO extends AbstractDAO {
     }
   }
 
+  /**
+   * Gets the next publisher tag number.
+   *
+   * @param session the session
+   * @return the next publisher tag number
+   */
   public int getNextPublisherTagNumber(final Session session) {
-    int result = 0;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-
-    try {
-      stmt = session.connection().prepareStatement("SELECT nextval('publ_tag_seq')");
-      rs = stmt.executeQuery();
+    int result;
+    try (PreparedStatement stmt = session.connection().prepareStatement("SELECT nextval('publ_tag_seq')");
+         ResultSet rs = stmt.executeQuery()) {
       rs.next();
       result = rs.getInt(1);
     } catch (SQLException | HibernateException e) {
       throw new DataAccessException(e);
-    } finally {
-      try {
-        if (stmt != null) stmt.close();
-        if (rs != null) rs.close();
-      } catch (SQLException e) {
-        throw new DataAccessException(e);
-      }
     }
     return result;
   }
+
 }

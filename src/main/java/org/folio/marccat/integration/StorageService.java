@@ -147,7 +147,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public int getPreferredView(final int itemNumber, final int databasePreferenceOrder) throws DataAccessException {
-    return new DAOCache().getPreferredView(session, itemNumber, databasePreferenceOrder);
+    return new CacheDAO().getPreferredView(session, itemNumber, databasePreferenceOrder);
   }
 
   /**
@@ -162,7 +162,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions) throws DataAccessException {
-    new DAOSortResultSets().sort(session, rs, attributes, directions);
+    new SortResultSetsDAO().sort(session, rs, attributes, directions);
     rs.clearRecords();
     return rs;
   }
@@ -188,9 +188,6 @@ public class StorageService implements Closeable {
    * @return the {@link CatalogItem} associated with the given data.
    */
   public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
-    if(searchingView == View.AUTHORITY)
-      return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
-    else
       return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
   }
 
@@ -448,9 +445,6 @@ public class StorageService implements Closeable {
    * @param view the related view.
    */
   public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
-    if(view == View.AUTHORITY)
-      new AuthorityCatalogDAO().updateFullRecordCacheTable(session, item);
-    else
       try {
         new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
       } catch (final HibernateException exception) {
@@ -1123,7 +1117,7 @@ public class StorageService implements Closeable {
     bibliographicRecord.setCanadianContentIndicator(valueOf(canadianIndicator));
     bibliographicRecord.setVerificationLevel(valueOf(item.getItemEntity().getVerificationLevel()));
 
-    item.getTags().stream().skip(1).forEach(aTag -> {
+    item.getTags().stream().skip(1).forEach((Tag aTag) -> {
       int keyNumber = 0;
       int sequenceNbr = 0;
       int skipInFiling = 0;
@@ -1175,14 +1169,23 @@ public class StorageService implements Closeable {
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
 
-      final String entry = aTag.isFixedField()
+
+      String entry = aTag.isFixedField()
         ? (((FixedField) aTag).getDisplayString())
         : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
 
+      if(aTag instanceof PublisherManager) {
+        try {
+          entry = aTag.addPunctuation().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
+        } catch (Exception exception) {
+          logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+        }
+      }
       final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
       org.folio.marccat.resources.domain.VariableField variableField;
       org.folio.marccat.resources.domain.FixedField fixedField;
       String tagNumber = correlation.getMarcTag();
+
       if (aTag.isFixedField()) {
         fixedField = new org.folio.marccat.resources.domain.FixedField();
         fixedField.setSequenceNumber(sequenceNbr);
@@ -1250,23 +1253,23 @@ public class StorageService implements Closeable {
     try {
       List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
       if (correlations.stream().anyMatch(Objects::nonNull) && correlations.size() == 1) {
-        return correlations
-          .stream()
-          .findFirst()
-          .get()
-          .getKey()
-          .getMarcTagCategoryCode();
+        Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+        if(firstElement.isPresent())
+          return firstElement
+            .get()
+            .getKey()
+            .getMarcTagCategoryCode();
       } else {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
           } else if (correlations.stream().anyMatch(Objects::nonNull)) {
-            return correlations
-              .stream()
-              .findFirst()
-              .get()
-              .getKey()
-              .getMarcTagCategoryCode();
+            Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+            if(firstElement.isPresent())
+              return firstElement
+                .get()
+                .getKey()
+                .getMarcTagCategoryCode();
           }
         }
       }
@@ -1291,19 +1294,20 @@ public class StorageService implements Closeable {
    */
   public int getCategoryByTag(final String tag,
                             final char firstIndicator,
-                            final char secondIndicator) throws DataAccessException {
+                            final char secondIndicator) {
     final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 
     try {
       List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
        if (correlations.stream().anyMatch(Objects::nonNull)) {
-            return correlations
-              .stream()
-              .findFirst()
+         Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+         if(firstElement.isPresent())
+            return firstElement
               .get()
               .getKey()
               .getMarcTagCategoryCode();
-        }
+       }
+
       return 0;
 
     } catch (final HibernateException exception) {
@@ -1601,9 +1605,7 @@ public class StorageService implements Closeable {
 
     try {
       CatalogItem item = getCatalogItemByKey(itemNumber, view);
-      //lockRecord(itemNumber, userName, uuid);
       catalog.deleteCatalogItem(item, session);
-      //unlockRecord(itemNumber, userName);
     } catch (RecordNotFoundException exception) {
       //ignore
     } catch (Exception exception) {
@@ -1929,6 +1931,21 @@ public class StorageService implements Closeable {
       secondIndicators.add(valueOf(key.getMarcSecondIndicator()));
     } else {
       secondIndicators.addAll(Global.SKIP_IN_FILING_CODES);
+    }
+  }
+
+  /**
+   * Return all global variables
+   *
+   * @return all global variables
+   * @throws DataAccessException
+   */
+  public  Map<String, String> getAllGlobalVariable ()  {
+    try {
+      return new GlobalVariableDAO().getAllGlobalVariable(session);
+    } catch (HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
     }
   }
 

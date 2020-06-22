@@ -4,8 +4,7 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.persistence.CorrelationKey;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ValidationException;
+import org.folio.marccat.dao.persistence.T_SINGLE;
 import org.folio.marccat.shared.CorrelationValues;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,7 +19,7 @@ public interface TagInterface {
    *
    * @return the object
    */
-  Object clone();
+  Object copy();
 
   /**
    * indicates whether the proposed change in correlation values would result in a
@@ -39,13 +38,7 @@ public interface TagInterface {
    */
   boolean equals(Object obj);
 
-  /**
-   * Evict.
-   *
-   * @throws DataAccessException the data access exception
-   * @since 1.0
-   */
-  void evict() throws DataAccessException;
+
 
 
   /**
@@ -125,10 +118,10 @@ public interface TagInterface {
    * Gets the marc encoding.
    *
    * @return the MARC tag and indicators for this tag
-   * @throws DataAccessException the data access exception
    * @deprecated
    */
-  CorrelationKey getMarcEncoding() throws DataAccessException;
+  @Deprecated
+  CorrelationKey getMarcEncoding();
 
   /**
    * Gets the persistence state.
@@ -162,9 +155,8 @@ public interface TagInterface {
    * @param value1 the first correlation value
    * @return the second correlation list for this tag
    * entry
-   * @throws DataAccessException the data access exception
    */
-  List getSecondCorrelationList(int value1) throws DataAccessException;
+  List<T_SINGLE> getSecondCorrelationList(int value1);
 
   /**
    * Gets appropriate values for selection of the second correlation list.  Values
@@ -175,9 +167,8 @@ public interface TagInterface {
    * @param value2 the second correlation value
    * @return the second correlation list for this tag
    * entry
-   * @throws DataAccessException the data access exception
    */
-  List getThirdCorrelationList(int value1, int value2) throws DataAccessException;
+  List<T_SINGLE> getThirdCorrelationList(int value1, int value2);
 
   /**
    * Gets the update status.
@@ -353,60 +344,29 @@ public interface TagInterface {
    */
   void parseModelXmlElementContent(Element xmlElement);
 
-  /**
-   * This method creates a XML Document as follows
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * or for a control field
-   * <controlfield tag="001">000000005581</controlfield>.
-   *
-   * @return a Document
-   */
-  Document toXmlDocument();
-
-  /**
-   * This method creates a XML Element as follows
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * or for a control field
-   * <controlfield tag="001">000000005581</controlfield>.
-   *
-   * @param xmlDocument the xml document
-   * @return an Element
-   */
-  Element toXmlElement(Document xmlDocument);
 
   /**
    * After a change in correlation value 1, the available choices for values 2 and
    * 3 are recalculated and the values are reset (to the first available valid choice).
    *
    * @param s the new value1
-   * @throws DataAccessException the data access exception
-   */
-  void updateFirstCorrelation(int s)
-    throws DataAccessException;
+    */
+  void updateFirstCorrelation(int s) ;
 
   /**
    * After a change in correlation value 2, the available choices for values 3
    * are recalculated and the value is reset (to the first available valid choice).
    *
    * @param s the new value 2
-   * @throws DataAccessException the data access exception
    */
-  void updateSecondCorrelation(int s)
-    throws DataAccessException;
+  void updateSecondCorrelation(int s) ;
 
   /**
    * Validate.
    *
    * @param index the index
-   * @throws ValidationException the validation exception
    */
-  void validate(int index) throws ValidationException;
+  void validate(int index);
 
   /**
    * Called where a

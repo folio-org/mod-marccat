@@ -82,12 +82,6 @@ public class FULL_CACHE implements Persistence {
   }
 
 
-  @Deprecated
-  public void evict(Object obj) {
-    persistentState.evict(obj);
-  }
-
-
   public AbstractDAO getDAO() {
     return new DAOFullCache();
   }
@@ -162,13 +156,7 @@ public class FULL_CACHE implements Persistence {
     return persistentState.onUpdate(arg0);
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.Persistence#evict()
-   */
-  @Deprecated
-  public void evict() {
-    evict(this);
-  }
+
 
   /* (non-Javadoc)
    * @see librisuite.business.common.Persistence#generateNewKey()

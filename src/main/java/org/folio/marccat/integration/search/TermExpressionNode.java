@@ -172,7 +172,7 @@ public class TermExpressionNode implements ExpressionNode {
           .replace('\u0002', '%')
           .replace('\u0003', '_');
       } else
-        sf = term.toString();
+         sf = term.toString();
       switch (semantic().getQueryActionCode()) {
         case "T":
         case "W":

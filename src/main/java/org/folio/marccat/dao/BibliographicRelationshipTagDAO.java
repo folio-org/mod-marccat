@@ -29,12 +29,9 @@ public class BibliographicRelationshipTagDAO extends AbstractDAO {
    */
   public void delete(final Session session, final Persistence po) throws HibernateException {
     final BibliographicRelationshipTag aRelation = ((BibliographicRelationshipTag) po).getOriginalTag();
-    evictAny(session, aRelation.getSourceRelationship());
-    aRelation.getSourceRelationship().markDeleted();
+        aRelation.getSourceRelationship().markDeleted();
     super.delete(aRelation.getSourceRelationship(), session);
-    if (aRelation.getTargetRelationship() != null) {
-      evictAny(session, aRelation.getTargetRelationship());
-      aRelation.getTargetRelationship().markDeleted();
+    if (aRelation.getTargetRelationship() != null) { aRelation.getTargetRelationship().markDeleted();
       super.delete(aRelation.getTargetRelationship(), session);
     }
     aRelation.setUpdateStatus(UpdateStatus.REMOVED);
@@ -135,17 +132,5 @@ public class BibliographicRelationshipTagDAO extends AbstractDAO {
     return !result.isEmpty() ? (Integer)result.get(0) : -1;
   }
 
-  /**
-   * Evict any.
-   *
-   * @param session the hibernate session
-   * @param aRelation the a relation
-   */
-  private void evictAny(final Session session, final BibliographicRelationship aRelation) {
-    final BibliographicRelationship inCache = (BibliographicRelationship)
-      get(session, BibliographicRelationship.class, aRelation);
-    if (inCache != null) {
-      inCache.evict();
-    }
-  }
+
 }

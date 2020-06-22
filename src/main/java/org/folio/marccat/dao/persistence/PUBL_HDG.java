@@ -1,12 +1,9 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.PublisherDescriptorDAO;
-import org.folio.marccat.exception.InvalidDescriptorException;
-import org.folio.marccat.exception.MandatorySubfieldException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -138,6 +135,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    */
   @Override
   public void setCorrelationValues(CorrelationValues v) {
+    // Do nothing
   }
 
   /* (non-Javadoc)
@@ -251,6 +249,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
    */
   @Override
   public void setSortForm(String string) {
+    // Do nothing because the sort form are given by name and place
   }
 
   /* (non-Javadoc)
@@ -273,20 +272,6 @@ public class PUBL_HDG extends Descriptor implements Serializable {
 
 
   /* (non-Javadoc)
-   * @see Descriptor#validate()
-   */
-  @Deprecated
-  @Override
-  public void validate() throws InvalidDescriptorException {
-    StringText text = new StringText(getStringText());
-    if (text.getSubfieldsWithCodes("b").getNumberOfSubfields() == 0
-      && (text.getSubfieldsWithCodes("a").getNumberOfSubfields() != 0
-      && !text.getSubfieldsWithCodes("a").isEmpty()))
-      throw new MandatorySubfieldException("260", "b");
-    super.validate();
-  }
-
-  /* (non-Javadoc)
    * @see Descriptor#getLockingEntityType()
    */
   public String getLockingEntityType() {
@@ -294,7 +279,7 @@ public class PUBL_HDG extends Descriptor implements Serializable {
   }
 
   @Override
-  public void calculateAndSetSortForm() throws SortFormException {
+  public void calculateAndSetSortForm() {
     setNameSortForm(calculateNameSortForm());
     setPlaceSortForm(calculatePlaceSortForm());
   }

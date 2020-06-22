@@ -12,8 +12,7 @@ public class SameDescriptorTagFilter implements TagFilter {
       return false;
     }
     // ok, the tag is browsable
-    if (optionalCondition == null ||
-      !(optionalCondition instanceof Descriptor)) {
+    if ( !(optionalCondition instanceof Descriptor)) {
       return false;
     }
     // ok, the optionalCondition is presents and it is a correct type

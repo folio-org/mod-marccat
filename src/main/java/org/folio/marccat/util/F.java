@@ -3,10 +3,7 @@ package org.folio.marccat.util;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -125,7 +122,7 @@ public abstract class F {
    *
    * @return a copy of the object, or null if the object cannot be serialized.
    */
-  public static Object deepCopy(final Object orig) {
+  public static Object deepCopy(final Serializable orig) {
     try (final ByteArrayOutputStream bos = new ByteArrayOutputStream();
          final ObjectOutputStream out = new ObjectOutputStream(bos)) {
 

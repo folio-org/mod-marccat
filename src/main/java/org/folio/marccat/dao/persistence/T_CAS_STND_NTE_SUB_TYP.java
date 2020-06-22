@@ -1,9 +1,3 @@
-/*
- * (c) Carmen
- *
- * Created on 01/09/2008
- *
- */
 package org.folio.marccat.dao.persistence;
 
 import net.sf.hibernate.CallbackException;
@@ -76,14 +70,9 @@ public class T_CAS_STND_NTE_SUB_TYP implements Persistence {
     return sequence == other.sequence;
   }
 
-  public void evict() throws DataAccessException {
-    persistenceState.evict(this);
-  }
 
   public void generateNewKey() throws DataAccessException {
-    // MIKE: this stringValue should be assigned when all the objects are available (eng, ita, etc...)
-    // sequence = ((DAOCodeTable)getDAO()).suggestNewKey((CodeTable)this);
-
+   // Do nothing because it doesn't have a key to generate
   }
 
   public AbstractDAO getDAO() {

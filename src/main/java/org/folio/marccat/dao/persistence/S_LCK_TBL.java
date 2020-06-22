@@ -5,8 +5,6 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.io.Serializable;
 
 public class S_LCK_TBL implements Persistence, Serializable {
@@ -37,16 +35,10 @@ public class S_LCK_TBL implements Persistence, Serializable {
     }
   }
 
-  public void evict() throws DataAccessException {
-    evict(this);
-  }
 
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
 
-  public void generateNewKey() throws DataAccessException {
-    //do nothing
+  public void generateNewKey() {
+    // Do nothing because it doesn't have a key to generate
   }
 
   public AbstractDAO getDAO() {

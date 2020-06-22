@@ -87,7 +87,6 @@ public class RecordParser {
     if (field.getFieldStatus() == Field.FieldStatus.CHANGED || field.getFieldStatus() == Field.FieldStatus.DELETED) {
       item.getTags().stream().skip(1).filter(aTag -> aTag.isFixedField() && aTag instanceof PhysicalDescription).forEach(aTag -> {
         final PhysicalDescription physicalTag = (PhysicalDescription) aTag;
-        //if (physicalTag.getKeyNumber() == field.getFixedField().getKeyNumber()) {
           if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
             final char gmd = field.getFixedField().getDisplayValue().charAt(0);
             final int headerTypeCode = (field.getFixedField().getHeaderTypeCode() != null) ? field.getFixedField().getHeaderTypeCode() : PhysicalDescription.getInstanceByGMD(gmd).getHeaderType();
@@ -99,7 +98,6 @@ public class RecordParser {
             physicalTag.markDeleted();
             item.getDeletedTags().add(physicalTag);
           }
-        //}
       });
     } else if (field.getFixedField().getKeyNumber() == 0 && field.getFieldStatus() == Field.FieldStatus.NEW) {
       addPhysicalDescriptionTag(item, field.getFixedField(), bibItemNumber);

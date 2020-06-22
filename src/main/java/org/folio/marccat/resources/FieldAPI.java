@@ -36,7 +36,7 @@ public class FieldAPI extends BaseResource {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return null;
       }
-    }, tenant, okapiUrl, configurator, "bibliographic", "material");
+    }, tenant, okapiUrl, configurator);
   }
 
 

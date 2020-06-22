@@ -6,15 +6,18 @@ package org.folio.marccat.business.common;
 public class View {
 
   public static final int AUTHORITY = -1;
-  public static final int ANY = 0; // pm 2011
+  public static final int ANY = 0;
   public static final int DEFAULT_BIBLIOGRAPHIC_VIEW = 1;
   public static final String DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING = "" + DEFAULT_BIBLIOGRAPHIC_VIEW;
+
+  private View() {
+  }
 
   /**
    * Creates a new usr_vw_ind string from the input string by
    * setting the position specified in arg2 to '0'.  The resultant
    * view string is useful in saving a persistant object after the
-   * current cataloguing view of the record is deleted (or modified)
+   * current cataloguing view of the record is deleted or modified
    *
    * @param viewString      -- the original view String
    * @param cataloguingView -- the position to be set to '0' (1 indexing)

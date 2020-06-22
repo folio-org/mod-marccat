@@ -20,6 +20,9 @@ import java.util.List;
 public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
 
 
+  private static final String ORDER_BY_HDG_PLACE_SORT_FORM = " order by hdg.placeSortForm ";
+  private static final String HDG_NAME_SORT_FORM = ", hdg.nameSortForm ";
+
   /**
    * Gets the persistent class.
    *
@@ -79,9 +82,9 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
           + " :term  and "
           + " hdg.key.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' "
           + filter
-          + " order by hdg.placeSortForm "
+          + ORDER_BY_HDG_PLACE_SORT_FORM
           + direction
-          + ", hdg.nameSortForm "
+          + HDG_NAME_SORT_FORM
           + direction);
     q.setString("term", term);
     q.setMaxResults(count);
@@ -129,9 +132,9 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
             + " :place "
             + viewClause
             + filter
-            + " order by hdg.placeSortForm "
+            + ORDER_BY_HDG_PLACE_SORT_FORM
             + direction
-            + ", hdg.nameSortForm "
+            + HDG_NAME_SORT_FORM
             + direction);
       q.setString("place", place);
       q.setString("name", name);
@@ -142,7 +145,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
 
     } else if (operator.contains(">=") || operator.contains("<=")) {
       String nextOperator = operator;
-      nextOperator = nextOperator.replaceAll("=", "");
+      nextOperator = nextOperator.replace("=", "");
 
       final String select = "select distinct hdg from "
         + getPersistentClass().getName()
@@ -161,9 +164,9 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
         session.createQuery(select
           + viewClause
           + filter
-          + " order by hdg.placeSortForm "
+          + ORDER_BY_HDG_PLACE_SORT_FORM
           + direction
-          + ", hdg.nameSortForm "
+          + HDG_NAME_SORT_FORM
           + direction);
       firstQuery.setString("place", place);
       firstQuery.setString("name", name);

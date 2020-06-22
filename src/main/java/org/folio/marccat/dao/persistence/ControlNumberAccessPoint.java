@@ -87,6 +87,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
    * @param stringText -- the stringText to set.
    */
   public void setAccessPointStringText(final StringText stringText) {
+    //Do nothing because It has no string text ​​in the access point
   }
 
   /**
@@ -209,7 +210,4 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
     super.setSequenceNumber(sequenceNumber);
   }
 
-  // move in storageService and set after creation (as was: called two constructor)
-  public void setDefaultFunctionCode() {
-  }
 }

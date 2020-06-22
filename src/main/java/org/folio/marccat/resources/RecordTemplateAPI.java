@@ -1,6 +1,5 @@
 package org.folio.marccat.resources;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.config.constants.Global;
@@ -11,9 +10,7 @@ import org.folio.marccat.resources.shared.FixedFieldUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.enumaration.CatalogingEntityType.A;
@@ -87,8 +84,6 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doPut((storageService, configuration) -> {
       try {
-        final ObjectMapper mapper = new ObjectMapper();
-        final String jsonInString = mapper.writeValueAsString(template);
         if ("A".equals(template.getType())) {
           storageService.updateAuthorityRecordTemplate(template);
         } else {

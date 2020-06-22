@@ -7,14 +7,11 @@ import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.dao.common.TransactionalHibernateOperation;
 import org.folio.marccat.dao.persistence.BIB_ITM;
 import org.folio.marccat.dao.persistence.Cache;
 import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.exception.ReferentialIntegrityException;
-
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author paulm
@@ -25,52 +22,31 @@ public class DAOBibItem extends AbstractDAO {
 
   private static final Log logger = new Log(DAOBibItem.class);
 
-
-  @Deprecated
+  /**
+   * Deletes persistent objects (bib_item, cache, full_cache) using hibernate transaction.
+   *
+   * @param p       the persistent object.
+   * @param session the current hibernate session.
+   * @throws HibernateException in case of hibernate exception.
+   */
   @Override
-  public void delete(Persistence p) {
+  public void delete(final Persistence p, final Session session) throws HibernateException {
     if (!(p instanceof BIB_ITM)) {
       throw new IllegalArgumentException("Argument must be a BIB_ITM");
     }
     final BIB_ITM b = (BIB_ITM) p;
-    // first check if other views exist for this bib
-    List l = find(" select count(*) from BIB_ITM as b "
-        + " where b.amicusNumber = ? and "
-        + " b.userViewString <> ? ",
-      new Object[]{b.getAmicusNumber(), b.getUserViewString()},
-      new Type[]{Hibernate.INTEGER, Hibernate.STRING});
+    session.delete(b);
+    session.delete("from " + Cache.class.getName() + " as c "
+        + " where c.bibItemNumber = ? "
+        + " and c.cataloguingView = ? ",
+      new Object[]{b.getAmicusNumber(), View.toIntView(b.getUserViewString())},
+      new Type[]{Hibernate.INTEGER, Hibernate.SHORT});
 
-    if (((Integer) l.get(0)).intValue() == 0) {
-      // if no other views then we can't have any holdings attached
-      l = find(" select count(*) from SMRY_HLDG as sh where sh.bibItemNumber = ? ",
-        new Object[]{b.getAmicusNumber()},
-        new Type[]{Hibernate.INTEGER});
-      if (((Integer) l.get(0)).intValue() > 0) {
-        throw new ReferentialIntegrityException("SMRY_HLDG", "BIB_ITM");
-      }
-      // and we can't have any orders attached
-      l = find(" select count(*) from ORDR_ITM_BIB_ITM as o where o.bibItemNumber = ? ",
-        new Object[]{b.getAmicusNumber()},
-        new Type[]{Hibernate.INTEGER});
-      if (((Integer) l.get(0)).intValue() > 0) {
-        throw new ReferentialIntegrityException("ORDR_ITM_BIT_ITM", "BIB_ITM");
-      }
-    }
+    session.delete("from FULL_CACHE as c "
+        + " where c.itemNumber = ? and c.userView = ? ",
+      new Object[]{b.getAmicusNumber(), View.toIntView(b.getUserViewString())},
+      new Type[]{Hibernate.INTEGER, Hibernate.SHORT});
 
-    new TransactionalHibernateOperation() {
-      public void doInHibernateTransaction(Session s) throws HibernateException {
-        s.delete(b);
-        s.delete("from CLCTN_ACS_PNT as c " + " where c.bibItemNumber = ? ",
-          new Object[]{b.getAmicusNumber()},
-          new Type[]{Hibernate.INTEGER});
-        s.delete("from " + Cache.class.getName() + " as c "
-            + " where c.bibItemNumber = ? "
-            + " and c.cataloguingView = ? ",
-          new Object[]{b.getAmicusNumber(), View.toIntView(b.getUserViewString())},
-          new Type[]{Hibernate.INTEGER, Hibernate.SHORT});
-      }
-    }
-      .execute();
   }
 
   /**
@@ -84,19 +60,19 @@ public class DAOBibItem extends AbstractDAO {
    */
   @SuppressWarnings("unchecked")
   public BIB_ITM load(final int id, final int userView, final Session session) throws HibernateException {
-    List<BIB_ITM> l =
+    List <BIB_ITM> l =
       session.find("from BIB_ITM as itm where itm.amicusNumber = ? "
           + " and SUBSTR(itm.userViewString, ?, 1) = '1'",
         new Object[]{id, userView},
         new Type[]{Hibernate.INTEGER, Hibernate.INTEGER});
 
-
-    if (l.stream().anyMatch(Objects::nonNull)) {
-      return (BIB_ITM) isolateView(l.stream().findFirst().get(), userView, session);
-    } else {
+    Optional <BIB_ITM> firstElement = l.stream().findFirst();
+    if (firstElement.isPresent())
+      return (BIB_ITM) isolateView(firstElement.get(), userView, session);
+    else {
       logger.debug("BIB_ITM not found");
-      logger.info("The Exception dosn't block the insert flow");
       throw new RecordNotFoundException("BIB_ITM not found");
     }
   }
+
 }

@@ -7,8 +7,6 @@ import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.PUBL_HDG;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -113,28 +111,7 @@ public class PublisherDescriptorDAO extends DAODescriptor {
   }
 
 
-  /**
-   * Calculate search term.
-   *
-   * @param term        the search term
-   * @param browseIndex the browse index
-   * @return the string
-   * @throws DataAccessException the data access exception
-   */
- /* @Override
-  public String calculateSearchTerm(final String term, final String browseIndex, final Session session)
-    throws HibernateException, SQLException {
-    String searchTerm = super.calculateSearchTerm(term, browseIndex, session);
-    final String[] parsedTerm = term.split(":");
-    if (parsedTerm.length == 2) {
-      String place = parsedTerm[0].trim();
-      String name = parsedTerm[1].trim();
-      searchTerm = new StringBuilder().append(calculateSearchTerm(place, browseIndex, session))
-        .append(" : ")
-        .append(calculateSearchTerm(name, browseIndex, session)).toString();
-    }
-    return searchTerm;
-  }*/
+
 
   /**
    * Gets the document count.

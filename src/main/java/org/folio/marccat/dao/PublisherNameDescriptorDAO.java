@@ -18,6 +18,9 @@ import java.util.List;
  */
 public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
 
+  private static final String ORDER_BY_HDG_NAME_SORT_FORM = " order by hdg.nameSortForm ";
+  private static final String HDG_PLACE_SORT_FORM = ", hdg.placeSortForm ";
+
   /**
    * Gets the persistent class.
    *
@@ -91,9 +94,9 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
             + " :place "
             + viewClause
             + filter
-            + " order by hdg.nameSortForm "
+            + ORDER_BY_HDG_NAME_SORT_FORM
             + direction
-            + ", hdg.placeSortForm "
+            + HDG_PLACE_SORT_FORM
             + direction);
       q.setString("place", place);
       q.setString("name", name);
@@ -103,7 +106,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
 
     } else if (operator.contains(">=") || operator.contains("<=")) {
       String nextOperator = operator;
-      nextOperator = nextOperator.replaceAll("=", "");
+      nextOperator = nextOperator.replace("=", "");
 
       final String select = "select distinct hdg from "
         + getPersistentClass().getName()
@@ -122,7 +125,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
         session.createQuery(select
           + viewClause
           + filter
-          + " order by hdg.nameSortForm "
+          + ORDER_BY_HDG_NAME_SORT_FORM
           + direction
           + ", hdg.placeSortForm "
           + direction);
@@ -165,7 +168,7 @@ public class PublisherNameDescriptorDAO extends PublisherDescriptorDAO {
           + " :term  "
           + viewClause
           + filter
-          + " order by hdg.nameSortForm "
+          + ORDER_BY_HDG_NAME_SORT_FORM
           + direction
           + ", hdg.placeSortForm "
           + direction);

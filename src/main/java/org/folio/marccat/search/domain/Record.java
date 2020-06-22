@@ -1,12 +1,7 @@
 package org.folio.marccat.search.domain;
 
-import org.folio.marccat.exception.XmlParserConfigurationException;
-import org.folio.marccat.exception.XslTransformerConfigurationException;
-import org.folio.marccat.exception.XslTransformerException;
 import org.w3c.dom.Document;
 
-import java.net.URL;
-import java.util.Map;
 
 /**
  * This is an interface for database records.
@@ -73,55 +68,6 @@ public interface Record {
    * @return an {@link Document} representation of the data associated with the given element set name.
    */
   Document toXmlDocument(String elementSetName);
-
-  /**
-   * Applies an XSLT transformation to this record.
-   *
-   * @param elementSetName the element set name.
-   * @param stylesheet     the stylesjeet
-   * @param xsltParameters the input parameters to the XSLT engine.
-   * @return the transformed XML {@link Document}.
-   * @throws XmlParserConfigurationException      in case of parser failure.
-   * @throws XslTransformerConfigurationException in case of transformation configuration failure.
-   * @throws XslTransformerException              in case of transformation failure.
-   */
-  Document toXmlStyledDocument(
-    String elementSetName,
-    String stylesheet,
-    Map xsltParameters);
-
-  /**
-   * Applies an XSLT transformation to this record.
-   *
-   * @param elementSetName the element set name.
-   * @param stylesheet     the stylesjeet
-   * @param xsltParameters the input parameters to the XSLT engine.
-   * @return the transformed XML {@link Document}.
-   * @throws XmlParserConfigurationException      in case of parser failure.
-   * @throws XslTransformerConfigurationException in case of transformation configuration failure.
-   * @throws XslTransformerException              in case of transformation failure.
-   */
-  Document toXmlStyledDocument(
-    String elementSetName,
-    URL stylesheet,
-    Map xsltParameters);
-
-
-  /**
-   * Applies an XSLT transformation to this record.
-   *
-   * @param elementSetName the element set name.
-   * @param stylesheet     the stylesjeet
-   * @param xsltParameters the input parameters to the XSLT engine.
-   * @return the transformed XML {@link Document}.
-   * @throws XmlParserConfigurationException      in case of parser failure.
-   * @throws XslTransformerConfigurationException in case of transformation configuration failure.
-   * @throws XslTransformerException              in case of transformation failure.
-   */
-  String toStyledDocument(
-    String elementSetName,
-    URL stylesheet,
-    Map xsltParameters);
 
   void setCountDoc(int countDoc);
 

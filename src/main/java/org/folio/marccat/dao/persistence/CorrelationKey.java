@@ -1,7 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.io.Serializable;
 
@@ -11,7 +9,6 @@ import java.io.Serializable;
  */
 public class CorrelationKey implements Serializable {
 
-  private static final Log logger = LogFactory.getLog(CorrelationKey.class);
 
   private String marcTag;
   private char marcFirstIndicator;
@@ -97,17 +94,6 @@ public class CorrelationKey implements Serializable {
     return this;
   }
 
-  public CorrelationKey changeAuthoritySourceIndicator(int source) {
-    logger.debug("changeAuthoritySource: " + getMarcSecondIndicator());
-    if (marcFirstIndicator == 'O') {
-      return changeFirstIndicator(T_AUT_HDG_SRC.toMarcIndicator(source));
-    }
-    if (marcSecondIndicator == 'O') {
-      logger.debug("changing to " + T_AUT_HDG_SRC.toMarcIndicator(source));
-      return changeSecondIndicator(T_AUT_HDG_SRC.toMarcIndicator(source));
-    }
-    return this;
-  }
 
   public CorrelationKey changeFirstIndicator(char c) {
     return new CorrelationKey(marcTag, c, marcSecondIndicator, marcTagCategoryCode);

@@ -4,8 +4,6 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.io.Serializable;
 
 /**
@@ -59,32 +57,6 @@ public abstract class Model implements Persistence, Serializable {
     this.frbrFirstGroup = frbrFirstGroup;
   }
 
-  /**
-   * Evict.
-   *
-   * @throws DataAccessException the data access exception
-   */
-  public void evict() throws DataAccessException {
-    persistenceState.evict(this);
-  }
-
-  /**
-   * Evicts.
-   *
-   * @param obj the obj
-   * @throws DataAccessException the data access exception
-   */
-  public void evict(Object obj) throws DataAccessException {
-    persistenceState.evict(obj);
-  }
-
-  /**
-   * Generate new key.
-   *
-   * @throws DataAccessException the data access exception
-   */
-  public void generateNewKey() throws DataAccessException {
-  }
 
   /**
    * Gets the id.

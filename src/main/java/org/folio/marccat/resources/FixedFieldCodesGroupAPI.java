@@ -40,7 +40,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
       parameter.put("valueField", valueField);
       injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, fixedFieldCodesGroup.getHeaderTypeCode(), lang, configuration);
       return fixedFieldCodesGroup;
-    }, tenant, okapiUrl, configurator, "bibliographic", "material");
+    }, tenant, okapiUrl, configurator);
   }
 
   @GetMapping("/fixed-fields-code-groups")
@@ -80,6 +80,6 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
           injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, headerTypeCode, lang, configuration);
           return fixedFieldCodesGroup;
         }).orElse(null);
-    }, tenant, okapiUrl, configurator, "bibliographic", "material");
+    }, tenant, okapiUrl, configurator);
   }
 }

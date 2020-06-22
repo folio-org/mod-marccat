@@ -132,15 +132,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
     this.indexingLanguage = indexingLanguage;
   }
 
-  /**
-   * Evict.
-   *
-   * @throws DataAccessException the data access exception
-   */
-  @Deprecated
-  public void evict() {
-    po.evict(this);
-  }
+
 
   /**
    * Builds the browse term.
@@ -579,6 +571,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   /**
    * Check descriptor.
    *
+   * @deprecated
    * @param allowPotentialDup the allow potential dup
    * @param session           the session
    * @throws DuplicateDescriptorException         the duplicate descriptor exception
@@ -604,6 +597,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   /**
    * Checks if is matching another heading.
    *
+   * @deprecated
    * @param session the session
    * @return true, if is matching another heading
    * @throws HibernateException the hibernate exception
@@ -617,6 +611,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   /**
    * Checks for matching sortform in another view.
    *
+   * @deprecated
    * @param session the session
    * @return true, if successful
    * @throws HibernateException the hibernate exception
@@ -641,6 +636,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
   /**
    * performs validations on the descriptor (prior to saving).
    *
+   * @deprecated
    * @throws InvalidDescriptorException the invalid descriptor exception
    * @since 1.0
    */

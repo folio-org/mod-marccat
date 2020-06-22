@@ -1,10 +1,4 @@
-/*
- * (c) LibriCore
- *
- * Created on Jun 7, 2004
- *
- * MarcRecord.java
- */
+
 package org.folio.marccat.search.domain;
 
 import org.apache.commons.logging.Log;
@@ -13,7 +7,7 @@ import org.folio.marccat.util.StringText;
 import org.marc4j.MarcException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,21 +15,36 @@ import java.util.Map;
 /**
  * This is a class for MARC records.
  *
- * @author Wim Crols
- * @version $Revision: 1.7 $, $Date: 2006/07/26 14:31:50 $
- * @since 1.0
+ * @author paulm
  */
 public class MarcRecord extends AbstractRecord {
 
+  /** The Constant logger. */
   private static final Log logger = LogFactory.getLog(MarcRecord.class);
 
+  /** The xml content. */
   private Map xmlContent = new HashMap();
+
+  /** The count doc. */
   private int countDoc;
+
+  /** The query for associated doc. */
   private String queryForAssociatedDoc;
+
+  /** The record id. */
   private int recordId;
 
+  /**
+   * Convert the binary MARC record to a MarcSlim
+   *
+   * @param elementSetName the element set name
+   * @return the document
+   */
   public Document toXmlDocument(String elementSetName) {
     Document xmlDocument = (Document) xmlContent.get(elementSetName);
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+    documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
     String marcRecord;
 
     if (xmlDocument != null) {
@@ -47,13 +56,9 @@ public class MarcRecord extends AbstractRecord {
       }
     }
 
-    /* convert the MARC record to a MarcSlim xmldocument */
     try {
-      xmlDocument =
-        DocumentBuilderFactory
-          .newInstance()
-          .newDocumentBuilder()
-          .newDocument();
+
+      xmlDocument = documentBuilderFactory.newDocumentBuilder().newDocument();
     } catch (Exception e) {
       throw new MarcException("Unable to create new xml document");
     }
@@ -95,9 +100,16 @@ public class MarcRecord extends AbstractRecord {
     return xmlDocument;
   }
 
+  /**
+   * Creates the error message.
+   *
+   * @param record the record
+   * @param elementSetName the element set name
+   * @param xmlDocument the xml document
+   * @return the document
+   */
   private Document createErrorMessage(Element record, String elementSetName,
                                       Document xmlDocument) {
-    // Marc record is in error
     logger.error("record data [" + elementSetName + "]: " + getContent(elementSetName));
     Element error = xmlDocument.createElement("error");
     record.appendChild(error);
@@ -105,31 +117,61 @@ public class MarcRecord extends AbstractRecord {
     return xmlDocument;
   }
 
+  /**
+   * Gets the count doc.
+   *
+   * @return the count doc
+   */
   @Override
   public int getCountDoc() {
     return countDoc;
   }
 
+  /**
+   * Sets the count doc.
+   *
+   * @param countDoc the new count doc
+   */
   @Override
   public void setCountDoc(int countDoc) {
     this.countDoc = countDoc;
   }
 
+  /**
+   * Gets the query for associated doc.
+   *
+   * @return the query for associated doc
+   */
   @Override
   public String getQueryForAssociatedDoc() {
     return queryForAssociatedDoc;
   }
 
+  /**
+   * Sets the query for associated doc.
+   *
+   * @param queryForAssociatedDoc the new query for associated doc
+   */
   @Override
   public void setQueryForAssociatedDoc(String queryForAssociatedDoc) {
     this.queryForAssociatedDoc = queryForAssociatedDoc;
   }
 
+  /**
+   * Gets the record id.
+   *
+   * @return the record id
+   */
   @Override
   public int getRecordId() {
     return recordId;
   }
 
+  /**
+   * Sets the record id.
+   *
+   * @param recordId the new record id
+   */
   @Override
   public void setRecordId(int recordId) {
     this.recordId = recordId;

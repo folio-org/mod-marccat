@@ -5,7 +5,6 @@ import org.folio.marccat.shared.CorrelationValues;
 import java.io.Serializable;
 
 /**
- * @author elena
  * @since 1.0
  */
 
@@ -21,7 +20,7 @@ public class Correlation implements Serializable {
     return key;
   }
 
-  private void setKey(final CorrelationKey correlation) {
+  public void setKey(final CorrelationKey correlation) {
     key = correlation;
   }
 
@@ -29,7 +28,7 @@ public class Correlation implements Serializable {
     return databaseFirstValue;
   }
 
-  private void setDatabaseFirstValue(final int s) {
+  public void setDatabaseFirstValue(final int s) {
     databaseFirstValue = s;
   }
 
@@ -37,7 +36,7 @@ public class Correlation implements Serializable {
     return databaseSecondValue;
   }
 
-  private void setDatabaseSecondValue(final int s) {
+  public void setDatabaseSecondValue(final int s) {
     databaseSecondValue = s;
   }
 
@@ -45,7 +44,7 @@ public class Correlation implements Serializable {
     return databaseThirdValue;
   }
 
-  private void setDatabaseThirdValue(final int s) {
+  public void setDatabaseThirdValue(final int s) {
     databaseThirdValue = s;
   }
 
@@ -53,7 +52,7 @@ public class Correlation implements Serializable {
     return searchIndexTypeCode;
   }
 
-  private void setSearchIndexTypeCode(final String s) {
+  public void setSearchIndexTypeCode(final String s) {
     searchIndexTypeCode = s;
   }
 

@@ -34,8 +34,8 @@ import static org.folio.marccat.config.constants.Global.HCONFIGURATION;
 @Component("MarccatHelper")
 
 public abstract class MarccatHelper {
-  private final static Properties DEFAULT_VALUES = new Properties();
-  private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
+  private static final  Properties DEFAULT_VALUES = new Properties();
+  private static final  Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
   private static SessionFactory sessionFactory =  null;
 
@@ -161,12 +161,12 @@ public abstract class MarccatHelper {
       final T result;
       final ObjectNode settings = configurator.attributes(tenant, okapiUrl,true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
-      try (final Connection connection = datasource.getConnection()) {
-        final StorageService service = new StorageService();
+      try (final Connection connection = datasource.getConnection();
+           final StorageService service = new StorageService()) {
         Session session = sessionFactory.openSession(connection);
         session.setFlushMode(FlushMode.COMMIT);
         service.setSession(session);
-        result = adapter.execute(service, configuration(settings));
+        result = adapter.execute(service, configuration(service));
         service.getSession().close();
         return result;
       } catch (final SQLException exception) {
@@ -182,17 +182,12 @@ public abstract class MarccatHelper {
   /**
    * Creates a dedicated configuration for the current service.
    *
-   * @param value the mod-configuration response.
+   * @param storageService the mod-configuration response.
    * @return a dedicated configuration for the current service.
    */
-  private static Map<String, String> configuration(final ObjectNode value) {
-    return StreamSupport.stream(value.withArray("configs").spliterator(), false)
-      .filter(node -> !"datasource".equals(node.get("configName").asText()))
-      .filter(node -> node.get("code") != null && node.get("value") != null)
-      .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+  private static Map<String, String> configuration(final StorageService storageService) {
+       return storageService.getAllGlobalVariable();
   }
-
   /**
    * Retrieves the datasource configuration from the given buffer.
    * The incoming buffer is supposed to be the result of one or more calls to the mod-configuration module.

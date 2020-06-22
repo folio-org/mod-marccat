@@ -2,8 +2,6 @@ package org.folio.marccat.business.common;
 
 import net.sf.hibernate.Lifecycle;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.io.Serializable;
 
 
@@ -13,14 +11,6 @@ import java.io.Serializable;
 public interface Persistence extends Lifecycle, Serializable {
 
 
-  /**
-   * Removes the object from the persistence session.
-   *
-   * @throws DataAccessException the data access exception
-   * @since 1.0
-   */
-  @Deprecated
-  void evict() throws DataAccessException;
 
   /**
    * Gets the update status.

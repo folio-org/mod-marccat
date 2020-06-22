@@ -19,6 +19,16 @@ import java.util.List;
  */
 public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
 
+  private static final String NME_TTL_HDG_AS_HDG = "NME_TTL_HDG as hdg, ";
+  private static final String NME_HDG_AS_NME = "NME_HDG as nme, ";
+  private static final String TTL_HDG_AS_TTL = "TTL_HDG as ttl";
+  private static final String WHERE_HDG_NAME_HEADING_NUMBER_NME_KEY_HEADING_NUMBER = " where hdg.nameHeadingNumber = nme.key.headingNumber ";
+  private static final String AND_HDG_TITLE_HEADING_NUMBER_TTL_KEY_HEADING_NUMBER = " and hdg.titleHeadingNumber = ttl.key.headingNumber ";
+  private static final String NAME = " :name ";
+  private static final String ORDER_BY_NME_SORT_FORM = " order by nme.sortForm ";
+  private static final String TTL_SORT_FORM = ", ttl.sortForm ";
+  private static final String SELECT_DISTINCT_HDG_NME_SORT_FORM_TTL_SORT_FORM_FROM = "Select distinct hdg, nme.sortForm, ttl.sortForm from ";
+
   /**
    * Gets the headings by sort form.
    *
@@ -61,15 +71,15 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
     throws HibernateException {
     final Query q = session.createQuery(
       "select distinct hdg, nme.sortForm, ttl.sortForm from "
-        + "NME_TTL_HDG as hdg, "
-        + "NME_HDG as nme, "
-        + "TTL_HDG as ttl"
-        + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-        + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
-        + " and nme.sortForm " + operator + " :name "
+        + NME_TTL_HDG_AS_HDG
+        + NME_HDG_AS_NME
+        + TTL_HDG_AS_TTL
+        + WHERE_HDG_NAME_HEADING_NUMBER_NME_KEY_HEADING_NUMBER
+        + AND_HDG_TITLE_HEADING_NUMBER_TTL_KEY_HEADING_NUMBER
+        + " and nme.sortForm " + operator + NAME
         + " and hdg.key.userViewString = '" + View.makeSingleViewString(searchingView) + "' "
         + filter
-        + " order by nme.sortForm " + direction + ", ttl.sortForm " + direction);
+        + ORDER_BY_NME_SORT_FORM + direction + TTL_SORT_FORM + direction);
     q.setString("name", name);
     q.setMaxResults(count);
     final List<NME_TTL_HDG> nameTitleHedingsList = getNameTitleHeadingsList(q.list());
@@ -105,18 +115,18 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
     }
     if (operator.equals("<")) {
       Query q = session.createQuery(
-        "Select distinct hdg, nme.sortForm, ttl.sortForm from "
-          + "NME_TTL_HDG as hdg, "
-          + "NME_HDG as nme, "
-          + "TTL_HDG as ttl"
-          + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-          + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
-          + " and (nme.sortForm " + operator + " :name "
+        SELECT_DISTINCT_HDG_NME_SORT_FORM_TTL_SORT_FORM_FROM
+          + NME_TTL_HDG_AS_HDG
+          + NME_HDG_AS_NME
+          + TTL_HDG_AS_TTL
+          + WHERE_HDG_NAME_HEADING_NUMBER_NME_KEY_HEADING_NUMBER
+          + AND_HDG_TITLE_HEADING_NUMBER_TTL_KEY_HEADING_NUMBER
+          + " and (nme.sortForm " + operator + NAME
           + " or (nme.sortForm = :name "
           + " and ttl.sortForm " + operator + " :title)) "
           + viewClause
           + filter
-          + " order by nme.sortForm " + direction + ", ttl.sortForm " + direction);
+          + ORDER_BY_NME_SORT_FORM + direction + TTL_SORT_FORM + direction);
       q.setString("name", name);
       q.setString("title", title);
       q.setMaxResults(count);
@@ -128,19 +138,19 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
 
     } else if (operator.contains(">=") || operator.contains("<=")) {
       nextOperator = operator;
-      nextOperator = nextOperator.replaceAll("=", "");
+      nextOperator = nextOperator.replace("=", "");
       final Query firstQuery = session.createQuery(
-        "Select distinct hdg, nme.sortForm, ttl.sortForm from "
-          + "NME_TTL_HDG as hdg, "
-          + "NME_HDG as nme, "
-          + "TTL_HDG as ttl"
-          + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-          + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
+        SELECT_DISTINCT_HDG_NME_SORT_FORM_TTL_SORT_FORM_FROM
+          + NME_TTL_HDG_AS_HDG
+          + NME_HDG_AS_NME
+          + TTL_HDG_AS_TTL
+          + WHERE_HDG_NAME_HEADING_NUMBER_NME_KEY_HEADING_NUMBER
+          + AND_HDG_TITLE_HEADING_NUMBER_TTL_KEY_HEADING_NUMBER
           + " and nme.sortForm = :name "
           + " and ttl.sortForm " + operator + " :title "
           + viewClause
           + filter
-          + " order by nme.sortForm " + direction + ", ttl.sortForm " + direction);
+          + ORDER_BY_NME_SORT_FORM + direction + TTL_SORT_FORM + direction);
       firstQuery.setString("name", name);
       firstQuery.setString("title", title);
       firstQuery.setMaxResults(count);
@@ -149,16 +159,16 @@ public class NameTitleNameDescriptorDAO extends NameTitleDescriptorDAO {
       loadHeadings(isolateHeadingList, searchingView, session);
 
       final Query secondQuery = session.createQuery(
-        "Select distinct hdg, nme.sortForm, ttl.sortForm from "
-          + "NME_TTL_HDG as hdg, "
-          + "NME_HDG as nme, "
-          + "TTL_HDG as ttl"
-          + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-          + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
-          + " and nme.sortForm " + nextOperator + " :name "
+        SELECT_DISTINCT_HDG_NME_SORT_FORM_TTL_SORT_FORM_FROM
+          + NME_TTL_HDG_AS_HDG
+          + NME_HDG_AS_NME
+          + TTL_HDG_AS_TTL
+          + WHERE_HDG_NAME_HEADING_NUMBER_NME_KEY_HEADING_NUMBER
+          + AND_HDG_TITLE_HEADING_NUMBER_TTL_KEY_HEADING_NUMBER
+          + " and nme.sortForm " + nextOperator + NAME
           + viewClause
           + filter
-          + " order by nme.sortForm " + direction + ", ttl.sortForm " + direction);
+          + ORDER_BY_NME_SORT_FORM + direction + TTL_SORT_FORM + direction);
       secondQuery.setString("name", name);
       secondQuery.setMaxResults(count);
       final List<NME_TTL_HDG> secondNameTitleHeadingList = getNameTitleHeadingsList(secondQuery.list());

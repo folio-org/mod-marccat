@@ -98,15 +98,6 @@ public class Cache implements Persistence {
   }
 
 
-  public void evict(Object obj) {
-    persistenceState.evict(obj);
-  }
-
-  public void evict() {
-    evict(this);
-  }
-
-
   public AbstractDAO getDAO() {
     return persistenceState.getDAO();
   }

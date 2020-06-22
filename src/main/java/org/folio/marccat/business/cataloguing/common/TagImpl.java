@@ -31,7 +31,9 @@ public abstract class TagImpl implements Serializable {
   public abstract Catalog getCatalog();
 
   /**
+   *
    * @return the MARC tag and indicators for this tag
+   * @deprecated
    */
   @Deprecated
   public abstract CorrelationKey getMarcEncoding(final Tag t) throws DataAccessException;
@@ -41,7 +43,12 @@ public abstract class TagImpl implements Serializable {
    */
   public abstract CorrelationKey getMarcEncoding(final Tag t, final Session session) throws DataAccessException;
 
-  @Deprecated
+  /**
+   *
+   * @return the validation for this tag
+   * @deprecated
+   */
+   @Deprecated
   public abstract Validation getValidation(Tag t) throws DataAccessException;
 
   public abstract Validation getValidation(final Tag t, final Session session) throws DataAccessException;

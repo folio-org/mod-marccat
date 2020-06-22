@@ -9,7 +9,6 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
-
 import java.util.List;
 
 /**
@@ -19,6 +18,11 @@ import java.util.List;
  * @author carment
  */
 public class NameDescriptorDAO extends DAODescriptor {
+
+  private static final String WHERE_REF_NAME_HEADING_NUMBER = " where ref.nameHeadingNumber = ? ";
+  private static final String AND_REF_SOURCE_HEADING_TYPE_NH = " and ref.sourceHeadingType = 'NH' ";
+  private static final String AND_REF_USER_VIEW_STRING = " and ref.userViewString = '";
+
 
   /**
    * Gets the persistent class.
@@ -56,9 +60,9 @@ public class NameDescriptorDAO extends DAODescriptor {
     int count = super.getXrefCount(source, cataloguingView, session);
     List<Integer> countList = session.find(
       "select count(*) from NME_NME_TTL_REF as ref "
-        + " where ref.nameHeadingNumber = ? "
-        + " and ref.sourceHeadingType = 'NH' "
-        + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
+        + WHERE_REF_NAME_HEADING_NUMBER
+        + AND_REF_SOURCE_HEADING_TYPE_NH
+        + AND_REF_USER_VIEW_STRING + View.makeSingleViewString(cataloguingView) + "'",
       new Object[]{
         source.getKey().getHeadingNumber()},
       new Type[]{
@@ -67,9 +71,9 @@ public class NameDescriptorDAO extends DAODescriptor {
     countList =
       session.find(
         "select count(*) from NME_TO_TTL_REF as ref "
-          + " where ref.nameHeadingNumber = ? "
-          + " and ref.sourceHeadingType = 'NH' "
-          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
+          + WHERE_REF_NAME_HEADING_NUMBER
+          + AND_REF_SOURCE_HEADING_TYPE_NH
+          + AND_REF_USER_VIEW_STRING + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -97,9 +101,9 @@ public class NameDescriptorDAO extends DAODescriptor {
     refList.addAll(
       session.find(
         "from NME_NME_TTL_REF as ref "
-          + " where ref.nameHeadingNumber = ? "
-          + " and ref.sourceHeadingType = 'NH' "
-          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
+          + WHERE_REF_NAME_HEADING_NUMBER
+          + AND_REF_SOURCE_HEADING_TYPE_NH
+          + AND_REF_USER_VIEW_STRING + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{
@@ -107,9 +111,9 @@ public class NameDescriptorDAO extends DAODescriptor {
     refList.addAll(
       session.find(
         "from NME_TO_TTL_REF as ref "
-          + " where ref.nameHeadingNumber = ? "
-          + " and ref.sourceHeadingType = 'NH' "
-          + " and ref.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
+          + WHERE_REF_NAME_HEADING_NUMBER
+          + AND_REF_SOURCE_HEADING_TYPE_NH
+          + AND_REF_USER_VIEW_STRING + View.makeSingleViewString(cataloguingView) + "'",
         new Object[]{
           source.getKey().getHeadingNumber()},
         new Type[]{

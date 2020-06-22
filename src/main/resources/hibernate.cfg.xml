@@ -12,9 +12,8 @@
 		<mapping resource="org/folio/marccat/dao/persistence/INDEX_MAIN_LIST.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/INDEX_SUB_LIST.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/IDX_LIST.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_SBJCT_ENTRY.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_SUB_DIV_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_INPT_SRC.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_AUT_HDG_SRC.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_INPT_SRC.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_DSC_CNVTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_ITM_ENCDG_LVL.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_ITM_DTE_TYP.hbm.xml"/>
@@ -118,10 +117,8 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_VR_PLYBC_CHNL_CFGTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_1ST_IND.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_2ND_IND.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_ILL.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_LVL_OF_DTL.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_LOAN_PRD.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_RTNTN.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_HLDG_LVL_OF_DTL.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_HLDG_RTNTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_STUS.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_SBCPT_STUS.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_HLDG_SRS_TRMT.hbm.xml"/>
@@ -136,25 +133,7 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_NTR_OF_CNTNT.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_ITM_REC_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_REC_MDFTN.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_BLNGL_USG.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_CLSTN_FNCTN.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_CONF_MTG.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_CTLGG_RLE.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_ENCDG_LVL.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_GOVT_AGNCY.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_HDG_STUS.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_MAIN_ADD_ENTRY.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_NON_UNQ_NME.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_REC_STUS.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_RMNZT_SCHM.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_REC_RVSN.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_REC_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_SBJCT_DSCTR.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_SRS_ENTRY.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_SRS_NBRG.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_SBJCT_SYS.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_SRS_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_VSL_TRGT_AUDNC.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_VSL_TRGT_AUDNC.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_LANG_OF_ACS_PNT.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_LANG_OF_IDXG.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_PBLTN_PRMTN_CAT.hbm.xml"/>
@@ -173,13 +152,8 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_CLCTN_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_STS_CLCTN_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_STS_AVBLE.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_CLCTN_PUBL_LVL_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_CLCTN_CST_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_CLCTN_MST_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_CLCTN_PUBL_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_ORDR_AQSTN_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_HDG_SRC.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_CURCY_TYP.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_ORDR_AQSTN_TYP.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_CURCY_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_MTRL_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_ITM_DSPLY.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_SRL_GENRETENTION.hbm.xml"/>
@@ -225,7 +199,6 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_RSI_SNSR_TPE.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_RSI_DATA_TPE.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/FULL_CACHE.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/Diacritics.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/Tags.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/MTRL_DSC.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/CF.hbm.xml"/>
@@ -281,5 +254,7 @@
     <mapping resource="org/folio/marccat/dao/persistence/T_TM_LC.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/T_TM_BMF.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/T_TM_SPC.hbm.xml"/>
-	</session-factory>
+    <mapping resource="org/folio/marccat/dao/persistence/S_SYS_GLBL_VRBL.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/S_CACHE_BIB_ITM_DSPLY.hbm.xml"/>
+</session-factory>
 </hibernate-configuration>

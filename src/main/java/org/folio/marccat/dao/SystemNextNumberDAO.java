@@ -5,7 +5,6 @@ import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import org.folio.marccat.dao.persistence.S_NXT_NBR;
-import org.folio.marccat.exception.DataAccessException;
 
 /**
  * Class representing the access to S_NXT_NBR table
@@ -16,10 +15,6 @@ import org.folio.marccat.exception.DataAccessException;
  */
 public class SystemNextNumberDAO extends AbstractDAO {
 
-  @Deprecated
-  public int getPreviouwsNumber(final String keyFieldCodeValue) throws DataAccessException {
-    throw new IllegalArgumentException("DON'T CALL ME!");
-  }
 
   /**
    * This method return the field updated nextNumber and save changes in the table.

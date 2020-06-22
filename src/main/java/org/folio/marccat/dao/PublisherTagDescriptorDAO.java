@@ -12,6 +12,7 @@ import org.folio.marccat.dao.persistence.PUBL_TAG;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -22,9 +23,9 @@ import java.util.List;
  */
 
 @SuppressWarnings("unchecked")
-public class PublisherTagDescriptorDAO extends DAODescriptor {
+public class PublisherTagDescriptorDAO extends DAODescriptor implements Serializable {
 
-
+  private static final long serialVersionUID = 1L;
   /**
    * Return persistent class associated to publisher tag descriptor.
    */

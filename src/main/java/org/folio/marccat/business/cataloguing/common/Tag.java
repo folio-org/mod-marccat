@@ -11,8 +11,6 @@ import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.T_SINGLE;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ValidationException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
@@ -20,21 +18,16 @@ import org.folio.marccat.util.StringText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
-
 import static org.folio.marccat.util.F.deepCopy;
 
 /**
  * The Class Tag.
  */
-public abstract class Tag implements Serializable, Cloneable, TagInterface {
+public abstract class Tag implements Serializable, TagInterface {
 
   /**
    * The Constant PHYSICAL_MATERIAL.
@@ -216,9 +209,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * Gets the marc encoding.
    *
    * @return the MARC tag and indicators for this tag
-   * @throws DataAccessException the data access exception
    */
-  public CorrelationKey getMarcEncoding() throws DataAccessException {
+  public CorrelationKey getMarcEncoding(){
     return correlationKey;
   }
 
@@ -227,9 +219,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    *
    * @param session the session
    * @return the MARC tag and indicators for this tag
-   * @throws DataAccessException the data access exception
    */
-  public CorrelationKey getMarcEncoding(final Session session) throws DataAccessException {
+  public CorrelationKey getMarcEncoding(final Session session) {
     correlationKey = tagImpl.getMarcEncoding(this, session);
     return correlationKey;
   }
@@ -238,9 +229,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * Sets the correlation key.
    *
    * @param correlationK the new correlation key
-   * @throws DataAccessException the data access exception
-   */
-  public void setCorrelationKey(final CorrelationKey correlationK) throws DataAccessException {
+  */
+  public void setCorrelationKey(final CorrelationKey correlationK) {
     correlationKey = correlationK;
   }
 
@@ -344,9 +334,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * 3 are recalculated and the values are reset (to the first available valid choice).
    *
    * @param s the new value1
-   * @throws DataAccessException the data access exception
    */
-  public void updateFirstCorrelation(int s) throws DataAccessException {
+  public void updateFirstCorrelation(int s) {
     setCorrelation(1, s);
     List l = getSecondCorrelationList(s);
     if (l != null) {
@@ -359,9 +348,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * are recalculated and the stringValue is reset (to the first available valid choice).
    *
    * @param s the new stringValue 2
-   * @throws DataAccessException the data access exception
    */
-  public void updateSecondCorrelation(int s) throws DataAccessException {
+  public void updateSecondCorrelation(int s) {
     setCorrelation(2, s);
     List l = getThirdCorrelationList(getCorrelation(1), getCorrelation(2));
     if (l != null) {
@@ -373,11 +361,10 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * Generate new key.
    *
    * @param session the session
-   * @throws DataAccessException the data access exception
    * @throws HibernateException  the hibernate exception
    * @throws SQLException        the SQL exception
    */
-  public void generateNewKey(final Session session) throws DataAccessException, HibernateException, SQLException {
+  public void generateNewKey(final Session session) throws HibernateException, SQLException {
   }
 
   /**
@@ -567,42 +554,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     }
   }
 
-  /**
-   * Evict.
-   *
-   * @throws DataAccessException the data access exception
-   */
-  public void evict() throws DataAccessException {
-    if (persistenceState != null) {
-      persistenceState.evict(this);
-    }
-  }
 
-  /**
-   * This method creates a XML Document as follows
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * or for a control field
-   * <controlfield tag="001">000000005581</controlfield>.
-   *
-   * @return a Document
-   */
-  public Document toXmlDocument() {
-    DocumentBuilderFactory documentBuilderFactory =
-      DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = null;
-    Document xmlDocument = null;
-    try {
-      documentBuilder = documentBuilderFactory.newDocumentBuilder();
-      xmlDocument = documentBuilder.newDocument();
-      xmlDocument.appendChild(toXmlElement(xmlDocument));
-    } catch (ParserConfigurationException parserConfigurationException) {
-      logger.error("", parserConfigurationException);
-    }
-    return xmlDocument;
-  }
 
   /**
    * This method creates a XML Element as follows
@@ -658,10 +610,7 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
   }
 
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#clone()
-   */
-  public Object clone() {
+  public Object copy() {
     return deepCopy(this);
   }
 
@@ -705,9 +654,8 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * Gets the validation.
    *
    * @return the validation
-   * @throws DataAccessException the data access exception
    */
-  public Validation getValidation() throws DataAccessException {
+  public Validation getValidation() {
     return validation;
   }
 
@@ -720,15 +668,6 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
     this.validation = validation;
   }
 
-  /**
-   * Gets the category.
-   *
-   * @return the category
-   */
-  /* (non-Javadoc)
-   * @see TagInterface#getCategory()
-   */
-  abstract public int getCategory();
 
   /**
    * Gets the display category.
@@ -758,12 +697,11 @@ public abstract class Tag implements Serializable, Cloneable, TagInterface {
    * Validate.
    *
    * @param index the index
-   * @throws ValidationException the validation exception
    */
   /* (non-Javadoc)
    * @see TagInterface#validate()
    */
-  public void validate(int index) throws ValidationException {
+  public void validate(int index) {
     // default implementation does nothing
   }
 

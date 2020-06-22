@@ -22,7 +22,6 @@ public class BibliographicGroupManager extends MarcGroupManager implements Filte
    */
   private static final TagFilter NO_TAG_FILTER = new NoTagFilter();
 
-  private static BibliographicGroupManager instance = null;
 
   public BibliographicGroupManager() {
     super();
@@ -49,13 +48,7 @@ public class BibliographicGroupManager extends MarcGroupManager implements Filte
     }
   }
 
-  @Deprecated
-  public static BibliographicGroupManager getInstance() {
-    if (instance == null) {
-      instance = new BibliographicGroupManager();
-    }
-    return instance;
-  }
+
 
   /* (non-Javadoc)
    * @see FilterManager#getFilter(Tag)

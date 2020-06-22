@@ -1,7 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DAOBibItem;
@@ -56,11 +54,6 @@ public class BIB_ITM extends ItemEntity implements PersistentObjectWithView, Ser
     }
   }
 
-  /* (non-Javadoc)
-   * @see librisuite.business.common.PersistentObject#generateNewKey()
-   */
-  public void generateNewKey(final Session session) throws HibernateException {
-  }
 
   public char getCanadianContentIndicator() {
     return canadianContentIndicator;

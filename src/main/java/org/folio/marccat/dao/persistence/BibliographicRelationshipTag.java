@@ -96,10 +96,6 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
   public void createTargetBibItem(final int userView, final Session session) throws HibernateException {
     if (getReciprocalOption(userView, session) == 1) {
       BibliographicRelationshipTagDAO relationshipTagDAO = new BibliographicRelationshipTagDAO();
-
-      if (targetRelationship != null) {
-        targetRelationship.evict();
-      }
       targetRelationship = new BibliographicRelationship();
       targetRelationship.setItemNumber(getTargetBibItemNumber());
       targetRelationship.setTargetBibItemNumber(sourceRelationship.getItemNumber());
@@ -554,7 +550,6 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
    * @throws HibernateException the hibernate exception
    */
   public void replaceTargetRelationship(final int amicusNumber, final int cataloguingView, final Session session) throws HibernateException {
-    getSourceRelationship().evict();
     setSourceRelationship((BibliographicRelationship) deepCopy(getSourceRelationship()));
     getSourceRelationship().markNew();
     setTargetBibItemNumber(amicusNumber);

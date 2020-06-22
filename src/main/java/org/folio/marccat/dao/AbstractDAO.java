@@ -8,19 +8,16 @@ import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.dao.common.HibernateUtil;
 import org.folio.marccat.dao.persistence.S_LCK_TBL;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordInUseException;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static org.folio.marccat.util.F.deepCopy;
 
-public class AbstractDAO extends HibernateUtil {
+public class AbstractDAO {
 
   /**
    * Creates a new usr_vw_ind string by setting all positions to '0' except
@@ -131,7 +128,7 @@ public class AbstractDAO extends HibernateUtil {
 
   public List<? extends PersistentObjectWithView> isolateViewForList(List<? extends PersistentObjectWithView> multiView, final int userView, final Session session) {
     if (userView == View.ANY) {
-      return multiView;
+      return  multiView;
     }
     return multiView.stream().map(po -> {
       try {
@@ -222,8 +219,8 @@ public class AbstractDAO extends HibernateUtil {
    * @param id      a valid identifier of an existing persistent instance of the class
    * @return the persistent instance or null
    */
-  @Override
-  public Object get(Session session, Class clazz, Serializable id) {
+
+  public Object get(Session session, Class<?> clazz, Serializable id) {
     try {
       return session.get(clazz, id);
     } catch (Exception exception) {

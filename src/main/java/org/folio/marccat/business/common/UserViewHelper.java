@@ -3,8 +3,6 @@ package org.folio.marccat.business.common;
 import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.io.Serializable;
 
 /**
@@ -167,22 +165,12 @@ public class UserViewHelper implements PersistentObjectWithView, Serializable {
   }
 
   /**
-   * Evict.
-   *
-   * @throws DataAccessException the data access exception
-   */
-  public void evict() throws DataAccessException {
-
-  }
-
-  /**
    * Generate new key.
    *
-   * @throws DataAccessException the data access exception
    */
 
-  public void generateNewKey() throws DataAccessException {
-
+  public void generateNewKey()  {
+    // Do nothing because it doesn't have a key to generate
   }
 
   /**

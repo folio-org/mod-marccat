@@ -12,7 +12,6 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -103,11 +102,11 @@ public class BibliographicRelationship extends VariableField implements Persiste
    * @param userView the user view
    * @return the string text
    */
-  public StringText buildStringText(int userView) throws HibernateException {
+  public StringText buildStringText(int userView, final Session session) throws HibernateException {
     StringText s;
     BibliographicRelationshipDAO b = new BibliographicRelationshipDAO();
     try {
-      s = b.buildRelationStringText(this.getTargetBibItemNumber(), userView, b.currentSession());
+      s = b.buildRelationStringText(this.getTargetBibItemNumber(), userView, session);
       s.add(getRelationshipStringText());
       return s;
     } catch (DataAccessException ex) {

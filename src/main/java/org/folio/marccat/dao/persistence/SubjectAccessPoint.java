@@ -19,10 +19,6 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
    */
   private static final long serialVersionUID = -5339141299630141762L;
 
-  /**
-   * The function code.
-   */
-  private int functionCode = -1;
 
   /**
    * The work relator code.
@@ -60,25 +56,6 @@ public class SubjectAccessPoint extends BibliographicAccessPoint implements Orde
     super(itemNbr);
   }
 
-  /**
-   * Gets the function code.
-   *
-   * @return the subject access point function code.
-   */
-  @Override
-  public int getFunctionCode() {
-    return functionCode;
-  }
-
-  /**
-   * Sets function code associated to subject access point.
-   *
-   * @param code -- the function code to set.
-   */
-  @Override
-  public void setFunctionCode(final int code) {
-    functionCode = code;
-  }
 
   /**
    * Gets the sequence number associated to access point.

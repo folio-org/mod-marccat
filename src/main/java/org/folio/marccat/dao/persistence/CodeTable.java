@@ -68,9 +68,6 @@ public abstract class CodeTable implements Persistence {
     language = string;
   }
 
-  public void evict() {
-    persistenceState.evict(this);
-  }
 
   public void generateNewKey() {
   }

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class DataAccessException extends ModMarccatException {
 
 
-  public String state;
+  private String state;
   private int errorCode;
 
   /**

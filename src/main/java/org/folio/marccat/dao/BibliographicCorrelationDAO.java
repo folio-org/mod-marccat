@@ -1,6 +1,6 @@
 package org.folio.marccat.dao;
 
-import com.google.common.base.Optional;
+
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
@@ -10,12 +10,10 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -271,21 +269,6 @@ public class BibliographicCorrelationDAO extends DAOCorrelation {
     return result.stream().findFirst().map(Correlation::getDatabaseSecondValue).orElse(-1);
   }
 
-  @SuppressWarnings("unchecked")
-  public String getClassificationIndexByShelfType(final int shelfType, final Session session) throws HibernateException {
-    List<BibliographicCorrelation> l = session.find(queryFrom
-        + " where bc.key.marcTagCategoryCode = 13 and "
-        + " bc.databaseFirstValue = ? ",
-      new Object[]{shelfType},
-      new Type[]{Hibernate.INTEGER});
-
-    if (l.size() == 1) {
-      String s = l.stream().findFirst().map(Correlation::getSearchIndexTypeCode).toString();
-      return new DAOIndexList().getIndexByEnglishAbreviation(s);
-    } else {
-      return null;
-    }
-  }
 
   /**
    * Gets correlations from selected index.

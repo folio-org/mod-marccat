@@ -1,6 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
@@ -9,9 +8,8 @@ import org.folio.marccat.dao.SubjectDescriptorDAO;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
 import java.io.Serializable;
-import java.util.Iterator;
+
 
 /**
  * Hibernate class for table SBJCT_HDG.
@@ -278,42 +276,16 @@ public class SBJCT_HDG extends Descriptor implements Serializable, SkipInFiling 
   }
 
 
-  /* (non-Javadoc)
-   * @see Descriptor#buildBrowseTerm()
-   */
-  @Deprecated
-  @Override
-  public String buildBrowseTerm() {
-    String returnString = "";
-    StringText text = new StringText(getStringText());
-    Iterator iter = text.getSubfieldList().iterator();
-    while (iter.hasNext()) {
-      Subfield aStringTextSubField = (Subfield) iter.next();
-      String content = aStringTextSubField.getContent();
-      String code = aStringTextSubField.getCode();
-      if (code.equals("v") || code.equals("x") || code.equals("y")
-        || code.equals("z")) {
-        returnString = returnString.trim();
-        returnString = returnString.concat("--");
-        returnString = returnString.concat(content);
-      } else {
-        returnString = returnString.concat(content);
-        returnString = returnString.concat(" ");
-      }
-    }
-
-    return returnString.trim();
-  }
 
   @Override
-  public void calculateAndSetSortForm() throws SortFormException {
+  public void calculateAndSetSortForm() {
     StringText st = SortformUtils.get().stripSkipInFiling(getStringText(), (short) getSkipInFiling());
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < st.getNumberOfSubfields(); i++) {
       Subfield sf = st.getSubfield(i);
       if (i > 0) {
         result.append(" ");
-        if ("vxyz".indexOf(sf.getCode()) > 0) {
+        if ("vxyz".indexOf(sf.getCode()) > -1) {
           result.append(" ");
         }
       }
