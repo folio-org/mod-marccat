@@ -90,7 +90,7 @@ public abstract class TransactionalHibernateOperation {
   private void rollback(Transaction tx) throws DataAccessException {
     if (tx != null) {
       try {
-    
+        logger.info("trying rollback");
         tx.rollback();
         logger.info("rolled back");
       } catch (HibernateException e1) {
