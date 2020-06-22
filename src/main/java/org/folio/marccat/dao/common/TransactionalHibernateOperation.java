@@ -94,6 +94,7 @@ public abstract class TransactionalHibernateOperation {
         tx.rollback();
         logger.info("rolled back");
       } catch (HibernateException e1) {
+        throw new DataAccessException(e1);
       }
     }
   }

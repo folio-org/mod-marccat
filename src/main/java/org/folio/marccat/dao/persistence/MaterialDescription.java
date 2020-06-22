@@ -937,6 +937,7 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
       try {
         getBibItm().setEnteredOnFileDate(df.parse(str.substring(0, 6)));
       } catch (ParseException e) {
+        // date not set if parse error
       }
       setItemDateTypeCode(str.charAt(6));
       setItemDateFirstPublication(str.substring(7, 11));

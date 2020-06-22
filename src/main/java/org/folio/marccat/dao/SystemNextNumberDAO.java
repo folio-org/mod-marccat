@@ -5,7 +5,6 @@ import net.sf.hibernate.LockMode;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import org.folio.marccat.dao.persistence.S_NXT_NBR;
-import org.folio.marccat.exception.DataAccessException;
 
 /**
  * Class representing the access to S_NXT_NBR table

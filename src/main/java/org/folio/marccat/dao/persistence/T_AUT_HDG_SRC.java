@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class T_AUT_HDG_SRC extends T_SINGLE {
 
-  public static final short SOURCE_IN_SUBFIELD_2 = 9;
-  public static final short SOURCE_NOT_SPECIFIED = 6;
+  public static final int SOURCE_IN_SUBFIELD_2 = 9;
+  public static final int SOURCE_NOT_SPECIFIED = 6;
   /**
    *
    */
@@ -32,7 +32,7 @@ public class T_AUT_HDG_SRC extends T_SINGLE {
     }
   }
 
-  public static short fromMarcIndicator(Character c) {
+  public static int fromMarcIndicator(Character c) {
     for (Integer i : marcSourceIndicator.keySet()) {
       if (marcSourceIndicator.get(i).equals(c)) {
         return i.shortValue();
