@@ -1,27 +1,19 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 8, 2004
- *
- * T_VIEW_LONGCHAR.java
- */
 package org.folio.marccat.dao.persistence;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.exception.DataAccessException;
 
 import java.util.Locale;
 
 /**
  * @author paulm
- * @version $Revision: 1.1 $, $Date: 2005/02/02 14:09:42 $
  * @since 1.0
  */
 public class T_VIEW_LONGCHAR extends CodeTable {
   private static final Log logger = LogFactory.getLog(T_VIEW_LONGCHAR.class);
-  private static final DAOCodeTable daoCodeTable = new DAOCodeTable();
+  private static final CodeTableDAO CODE_TABLE_DAO = new CodeTableDAO();
   private String code;
   private long translationKey;
 
@@ -74,7 +66,7 @@ public class T_VIEW_LONGCHAR extends CodeTable {
    */
   public String getLongText(Locale locale) {
     try {
-      return daoCodeTable.getTranslationString(getTranslationKey(), locale);
+      return CODE_TABLE_DAO.getTranslationString(getTranslationKey(), locale);
     } catch (DataAccessException e) {
       logger.warn("Data Exception reading translations");
       return null;

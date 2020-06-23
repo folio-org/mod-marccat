@@ -21,13 +21,15 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
 /**
+ * Data access object to code tables.
+ *
  * @author carment
  * @author cchiama
  * @since 1.0
  */
 
-public class DAOCodeTable extends AbstractDAO {
-  private Log logger = new Log(DAOCodeTable.class);
+public class CodeTableDAO extends AbstractDAO {
+  private Log logger = new Log(CodeTableDAO.class);
   private String noSessionMessege = "don't use it: session missing";
   private String unableCreateMessage = "unable to create code table object";
 
@@ -63,7 +65,7 @@ public class DAOCodeTable extends AbstractDAO {
   }
 
   /**
-   * * Return a list with the fields I need to fill the newCopy.jsp's checkboxes
+   * * Return a list with the fields
    * * the parameter class is the name of the code table I need
    *
    * @since 1.0

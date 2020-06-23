@@ -123,7 +123,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getSkipInFiling(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_SKP_IN_FLNG_CNT.class, locale(lang));
   }
 
@@ -176,7 +176,7 @@ public class StorageService implements Closeable {
    * @throws RecordNotFoundException in case nothing is found.
    */
   public String getRecordData(final int itemNumber, final int searchingView) throws RecordNotFoundException {
-    final FULL_CACHE cache = new DAOFullCache().load(session, itemNumber, searchingView);
+    final FULL_CACHE cache = new FullCacheDAO().load(session, itemNumber, searchingView);
     return cache.getRecordData();
   }
 
@@ -401,7 +401,7 @@ public class StorageService implements Closeable {
         final BibliographicInputFile bf = new BibliographicInputFile();
         bf.loadFile(input, file.getOriginalFilename(), view, startRecord, numberOfRecords, session, configuration);
 
-        final DAOCodeTable dao = new DAOCodeTable();
+        final CodeTableDAO dao = new CodeTableDAO();
         final LDG_STATS stats = dao.getStats(session, bf.getLoadingStatisticsNumber());
         if (stats.getRecordsAdded() > 0) {
           final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
@@ -575,7 +575,7 @@ public class StorageService implements Closeable {
       String index = null;
       String browseTerm = null;
       final List<Descriptor> descriptorsList;
-      final DAOIndexList daoIndex = new DAOIndexList();
+      final IndexListDAO daoIndex = new IndexListDAO();
       if (query != null) {
         index = query.substring(0, query.indexOf((" ")));
         index = F.fixedCharPadding(index, 9).toUpperCase();
@@ -587,7 +587,7 @@ public class StorageService implements Closeable {
         logger.error(Message.MOD_MARCCAT_00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
-      final DAODescriptor dao = (DAODescriptor) c.newInstance();
+      final DescriptorDAO dao = (DescriptorDAO) c.newInstance();
       String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
         filter += HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
@@ -632,7 +632,7 @@ public class StorageService implements Closeable {
       String index = null;
       String browseTerm = null;
       final List<Descriptor> descriptorsList;
-      final DAOIndexList daoIndex = new DAOIndexList();
+      final IndexListDAO daoIndex = new IndexListDAO();
       String operator = ">";
       if (query != null) {
         index = query.substring(0, query.indexOf((" ")));
@@ -646,7 +646,7 @@ public class StorageService implements Closeable {
         logger.error(Message.MOD_MARCCAT_00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
-      final DAODescriptor dao = (DAODescriptor) c.newInstance();
+      final DescriptorDAO dao = (DescriptorDAO) c.newInstance();
       String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
         filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
@@ -689,7 +689,7 @@ public class StorageService implements Closeable {
       String index = null;
       String browseTerm = null;
       final List<Descriptor> descriptorsList;
-      final DAOIndexList daoIndex = new DAOIndexList();
+      final IndexListDAO daoIndex = new IndexListDAO();
       String operator = "<";
       if (query != null) {
         index = query.substring(0, query.indexOf((" ")));
@@ -703,7 +703,7 @@ public class StorageService implements Closeable {
         logger.error(Message.MOD_MARCCAT_00119_DAO_CLASS_MAP_NOT_FOUND, key);
         return Collections.emptyList();
       }
-      final DAODescriptor dao = (DAODescriptor) c.newInstance();
+      final DescriptorDAO dao = (DescriptorDAO) c.newInstance();
       String filter = Global.FILTER_MAP.get(key);
       if (dao instanceof ShelfListDAO) {
         filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
@@ -737,7 +737,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getCodesList(final String lang, final CodeListsType codeListType) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, Global.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
   }
 
@@ -751,7 +751,7 @@ public class StorageService implements Closeable {
    * @return a map headings
    */
 
-  private List<MapHeading> getMapHeadings(int view, List<Descriptor> descriptorsList, DAODescriptor dao) throws DataAccessException {
+  private List<MapHeading> getMapHeadings(int view, List<Descriptor> descriptorsList, DescriptorDAO dao) throws DataAccessException {
     return descriptorsList.stream().map(heading -> {
       final MapHeading headingObject = new MapHeading();
       try {
@@ -867,7 +867,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getRecordTypes(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_REC_TYP.class, locale(lang));
   }
 
@@ -879,7 +879,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getEncodingLevels(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_ENCDG_LVL.class, locale(lang));
   }
 
@@ -943,7 +943,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getMultipartResourceLevels(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_LNK_REC.class, locale(lang));
   }
 
@@ -955,7 +955,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getDescriptiveCatalogForms(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_DSCTV_CTLG.class, locale(lang));
   }
 
@@ -967,7 +967,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getBibliographicLevels(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_BIB_LVL.class, locale(lang));
   }
 
@@ -979,7 +979,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getCharacterEncodingSchemas(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_CCS.class, locale(lang));
   }
 
@@ -991,7 +991,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getControlTypes(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_CNTL_TYP.class, locale(lang));
   }
 
@@ -1004,7 +1004,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getRecordStatusTypes(final String lang) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_REC_STUS.class, locale(lang));
   }
 
@@ -1018,7 +1018,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public String getHeadingTypeDescription(final int code, final String lang, final int category) throws DataAccessException {
-    final DAOCodeTable dao = new DAOCodeTable();
+    final CodeTableDAO dao = new CodeTableDAO();
     return dao.getLongText(session, code, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
   }
 
@@ -1032,7 +1032,7 @@ public class StorageService implements Closeable {
    * @throws HibernateException
    */
   public String getBrowseKey(final Descriptor descriptor, final Session session) throws HibernateException {
-    final DAOIndexList dao = new DAOIndexList();
+    final IndexListDAO dao = new IndexListDAO();
     final String result = dao.getIndexBySortFormType(descriptor.getSortFormParameters().getSortFormMainType(), descriptor.getCorrelationValues().getValue(1), session);
     return (result != null) ? result : descriptor.getBrowseKey();
   }
@@ -1066,7 +1066,7 @@ public class StorageService implements Closeable {
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           key = getBrowseKey(descriptor, session);
-          final DAODescriptor dao = (DAODescriptor) descriptor.getDAO();
+          final DescriptorDAO dao = (DescriptorDAO) descriptor.getDAO();
           String filter = Global.FILTER_MAP.get(key);
           if (dao instanceof ShelfListDAO) {
             filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
@@ -1735,7 +1735,7 @@ public class StorageService implements Closeable {
   public int createOrReplaceDescriptor(final Map <String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
     descriptor.setUserViewString(View.makeSingleViewString(view));
     descriptor.setConfigValues(configuration);
-    final Descriptor dup = ((DAODescriptor) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
+    final Descriptor dup = ((DescriptorDAO) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
     if (dup == null) {
       descriptor.generateNewKey(session);
       descriptor.getDAO().save(descriptor, session);
@@ -1752,7 +1752,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getFirstCorrelation(final String lang, final int category) throws DataAccessException {
-    final DAOCodeTable daoCT = new DAOCodeTable();
+    final CodeTableDAO daoCT = new CodeTableDAO();
     return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
   }
 
@@ -1796,7 +1796,7 @@ public class StorageService implements Closeable {
           final int skipInFiling = updateIndicatorNotNumeric(corr.getKey(), heading.getInd1(), heading.getInd2());
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
-          final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
+          final DescriptorDAO descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
           final Descriptor d = descriptorDao.load(heading.getKeyNumber(), view, session);
           if (d != null) {
             d.setSkipInFiling(skipInFiling);
@@ -1821,7 +1821,7 @@ public class StorageService implements Closeable {
    */
   public void deleteHeadingById(final Heading heading, final int view) throws DataAccessException {
     try {
-      final DAODescriptor descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
+      final DescriptorDAO descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
       final Descriptor d = descriptorDao.load(heading.getKeyNumber(), view, session);
       d.getDAO().delete(d, session);
     } catch (HibernateException exception) {

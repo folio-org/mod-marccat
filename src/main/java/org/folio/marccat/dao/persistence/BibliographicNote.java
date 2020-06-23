@@ -11,7 +11,7 @@ import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAOBibliographicNote;
+import org.folio.marccat.dao.BibliographicNoteDAO;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 import java.util.ArrayList;
@@ -158,7 +158,7 @@ public class BibliographicNote extends VariableField implements  PersistentObjec
 
   @Override
   public AbstractDAO getDAO() {
-    return new DAOBibliographicNote();
+    return new BibliographicNoteDAO();
   }
 
   /**

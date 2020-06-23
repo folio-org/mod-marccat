@@ -14,8 +14,16 @@ import java.util.List;
  * @author cchiama
  * @since 1.0
  */
-public class DAOFullCache extends AbstractDAO {
+public class FullCacheDAO extends AbstractDAO {
 
+  /**
+   * Load the xml record of the cache table.
+   *
+   * @param session the session
+   * @param itemNumber the item number
+   * @param cataloguingView the cataloguing view
+   * @return the full cache
+   */
   @SuppressWarnings("unchecked")
   public FULL_CACHE load(final Session session, final int itemNumber, final int cataloguingView) {
     final List<FULL_CACHE> list =

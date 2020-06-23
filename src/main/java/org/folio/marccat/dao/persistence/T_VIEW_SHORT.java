@@ -1,15 +1,9 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 8, 2004
- *
- * T_VIEW_SHORT.java
- */
+
 package org.folio.marccat.dao.persistence;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.exception.DataAccessException;
 
 import java.util.Locale;
@@ -21,7 +15,7 @@ import java.util.Locale;
  */
 public class T_VIEW_SHORT extends CodeTable {
   private static final Log logger = LogFactory.getLog(T_VIEW_SHORT.class);
-  private static final DAOCodeTable daoCodeTable = new DAOCodeTable();
+  private static final CodeTableDAO CODE_TABLE_DAO = new CodeTableDAO();
   private short code;
   private long translationKey;
 
@@ -74,7 +68,7 @@ public class T_VIEW_SHORT extends CodeTable {
    */
   public String getLongText(Locale locale) {
     try {
-      return daoCodeTable.getTranslationString(getTranslationKey(), locale);
+      return CODE_TABLE_DAO.getTranslationString(getTranslationKey(), locale);
     } catch (DataAccessException e) {
       logger.warn("Data Exception reading translations");
       return null;

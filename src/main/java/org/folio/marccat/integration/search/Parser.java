@@ -5,7 +5,7 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
-import org.folio.marccat.dao.DAOIndexList;
+import org.folio.marccat.dao.IndexListDAO;
 import org.folio.marccat.dao.persistence.IndexList;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
@@ -58,7 +58,7 @@ public class Parser {
   /**
    * The dao.
    */
-  private final DAOIndexList dao = new DAOIndexList();
+  private final IndexListDAO dao = new IndexListDAO();
 
   /**
    * The tokens.

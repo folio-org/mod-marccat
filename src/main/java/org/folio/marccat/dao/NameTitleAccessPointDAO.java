@@ -19,7 +19,7 @@ import org.folio.marccat.exception.DataAccessException;
  * @author nbianchini
  * @since 1.0
  */
-public class DAONameTitleAccessPoint extends AbstractDAO {
+public class NameTitleAccessPointDAO extends AbstractDAO {
 
 
   /**

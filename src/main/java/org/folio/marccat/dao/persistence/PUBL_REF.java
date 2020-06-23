@@ -1,6 +1,6 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.PublisherDescriptorDAO;
 
 /**
@@ -13,7 +13,7 @@ public class PUBL_REF extends REF {
   /**
    * The DAO.
    */
-  public DAODescriptor getTargetDAO() {
+  public DescriptorDAO getTargetDAO() {
     return new PublisherDescriptorDAO();
   }
 

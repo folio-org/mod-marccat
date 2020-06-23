@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.dao.persistence.T_AUT_DSPLY_FRMT;
 import org.folio.marccat.dao.persistence.T_BIB_DSPLY_FRMT;
 import org.folio.marccat.dao.persistence.T_ITM_DSPLY_FRMT;
@@ -236,8 +236,8 @@ public class SearchResponse {
 
   public T_ITM_DSPLY_FRMT getDisplayFormat(final Session session, final short code, final Locale locale) throws DataAccessException {
     return (isBibliographic())
-      ? (T_BIB_DSPLY_FRMT) new DAOCodeTable().load(session, T_BIB_DSPLY_FRMT.class, code, locale)
-      : (T_AUT_DSPLY_FRMT) new DAOCodeTable().load(session, T_AUT_DSPLY_FRMT.class, code, locale);
+      ? (T_BIB_DSPLY_FRMT) new CodeTableDAO().load(session, T_BIB_DSPLY_FRMT.class, code, locale)
+      : (T_AUT_DSPLY_FRMT) new CodeTableDAO().load(session, T_AUT_DSPLY_FRMT.class, code, locale);
   }
 
   public int getFrom() {

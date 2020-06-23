@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Abstract class representing the Cross References for a single heading
+ * Class representing the Cross References for a single heading
  *
  * @author paulm
  * @author carment
@@ -111,7 +111,7 @@ public class CrossReferencesDAO extends AbstractDAO {
     final Session session)
     throws HibernateException {
 
-    return ((DAODescriptor) source.getDAO()).loadReference(
+    return ((DescriptorDAO) source.getDAO()).loadReference(
       source,
       target,
       referenceType,

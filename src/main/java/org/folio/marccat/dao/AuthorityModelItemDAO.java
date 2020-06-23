@@ -1,16 +1,10 @@
-/*
- * (c) LibriCore
- *
- * Created on Dec 21, 2005
- *
- * DAOAuthorityModelItem.java
- */
+
 package org.folio.marccat.dao;
 
 import org.folio.marccat.dao.persistence.AuthorityModelItem;
 
 /**
- * The Class AuthorityModelItemDAO.
+ * The class manages the authority model item.
  *
  * @author paulm
  * @author carment

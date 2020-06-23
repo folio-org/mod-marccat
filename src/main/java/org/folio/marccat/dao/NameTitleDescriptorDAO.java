@@ -18,7 +18,7 @@ import java.util.List;
  * @author paulm
  * @author carment
  */
-public class NameTitleDescriptorDAO extends DAODescriptor {
+public class NameTitleDescriptorDAO extends DescriptorDAO {
 
   private static final String WHERE_REF_NAME_TITLE_HEADING_NUMBER = " where ref.nameTitleHeadingNumber = ? ";
   private static final String AND_REF_SOURCE_HEADING_TYPE_MH = " and ref.sourceHeadingType = 'MH' ";

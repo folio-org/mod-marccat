@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 @SuppressWarnings("unchecked")
-public class PublisherTagDescriptorDAO extends DAODescriptor implements Serializable {
+public class PublisherTagDescriptorDAO extends DescriptorDAO implements Serializable {
 
   private static final long serialVersionUID = 1L;
   /**

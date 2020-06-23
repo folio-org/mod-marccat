@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toList;
  * @author natasciab
  * @since 1.0
  */
-public class BibliographicCorrelationDAO extends DAOCorrelation {
+public class BibliographicCorrelationDAO extends CorrelationDAO {
 
 
   private final Log logger = new Log(BibliographicCorrelationDAO.class);

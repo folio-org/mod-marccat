@@ -11,7 +11,7 @@ import org.folio.marccat.business.common.SortFormException;
 import org.folio.marccat.business.descriptor.MatchedHeadingInAnotherViewException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
-import org.folio.marccat.dao.DAODescriptor;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.*;
 import org.folio.marccat.model.Subfield;
@@ -605,7 +605,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    */
   @Deprecated
   public boolean isMatchingAnotherHeading(final Session session) throws HibernateException, SQLException {
-    return ((DAODescriptor) getDAO()).isMatchingAnotherHeading(this, session);
+    return ((DescriptorDAO) getDAO()).isMatchingAnotherHeading(this, session);
   }
 
   /**
@@ -619,7 +619,7 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
    */
   @Deprecated
   public boolean hasMatchingSortformInAnotherView(final Session session) throws HibernateException, SQLException {
-    return ((DAODescriptor) getDAO())
+    return ((DescriptorDAO) getDAO())
       .hasMatchingSortformInAnotherView(this, session);
   }
 

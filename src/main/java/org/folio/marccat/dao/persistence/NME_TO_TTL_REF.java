@@ -110,7 +110,7 @@ public class NME_TO_TTL_REF extends REF {
    *
    * @return the target DAO
    */
-  public DAODescriptor getTargetDAO() {
+  public DescriptorDAO getTargetDAO() {
     if (isSourceName()) {
       return new TitleDescriptorDAO();
     } else {

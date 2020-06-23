@@ -4,7 +4,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.NameTitleComponent;
 import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
-import org.folio.marccat.dao.DAONameTitleAccessPoint;
+import org.folio.marccat.dao.NameTitleAccessPointDAO;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -21,7 +21,7 @@ public class NameTitleAccessPoint extends NameTitleComponent implements OrderedT
   /**
    * The Constant daoNameTitleAccessPoint.
    */
-  private static final DAONameTitleAccessPoint daoNameTitleAccessPoint = new DAONameTitleAccessPoint();
+  private static final NameTitleAccessPointDAO daoNameTitleAccessPoint = new NameTitleAccessPointDAO();
 
   /**
    * The descriptor.

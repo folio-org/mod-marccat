@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.dao.CatalogDAO;
-import org.folio.marccat.dao.DAOCodeTable;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.ItemEntity;
@@ -24,7 +24,7 @@ import java.util.Locale;
 
 public abstract class Catalog {
 
-  protected static final DAOCodeTable DAO_CODE_TABLE = new DAOCodeTable();
+  protected static final CodeTableDAO DAO_CODE_TABLE = new CodeTableDAO();
   private final Log logger = LogFactory.getLog(getClass());
 
   protected static Object setItemIfNecessary(final CatalogItem item, final Object o) {

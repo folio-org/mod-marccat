@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
  * @author carment
  * @since 1.0
  */
-public class DAOIndexList extends AbstractDAO {
+public class IndexListDAO extends AbstractDAO {
   private static final String FROM_INDEX_LIST_AS_A = "from IndexList as a ";
   private static final String CODE_LIBRICAT = "' and a.codeLibriCatMades = 'LC'";
   private static final String LANGUAGE = " and a.key.language = '";
