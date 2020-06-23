@@ -8,7 +8,7 @@ import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DescriptorDAO;
-import org.folio.marccat.dao.DAOPublTag;
+import org.folio.marccat.dao.PublTagDAO;
 import org.folio.marccat.dao.PublisherDescriptorDAO;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.util.StringText;
@@ -24,7 +24,7 @@ public class PUBL_TAG implements Serializable, PersistentObjectWithView {
 
   private static final long serialVersionUID = 1L;
   private static Log logger = new Log(PUBL_TAG.class);
-  private final DAOPublTag theDAO = new DAOPublTag();
+  private final PublTagDAO theDAO = new PublTagDAO();
   private final DescriptorDAO thePublisherDescriptor = new PublisherDescriptorDAO();
   private int publisherTagNumber = -1;
   private PersistenceState persistence = new PersistenceState();
