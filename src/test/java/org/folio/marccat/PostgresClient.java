@@ -20,6 +20,7 @@ public class PostgresClient {
   @Bean(destroyMethod = "stop")
   public PostgresProcess postgresProcess() throws IOException {
     EmbeddedPostgres embeddedPostgres = new EmbeddedPostgres(Version.Main.V10);
+    //TODO leggere dal .test yml
     embeddedPostgres.start("localhost", 5432, "database_for_tests", "folio_admin", "folio_admin"/*,
        Arrays.asList("-E", "UTF-8", "--locale", "en_US.UTF-8")*/);
     Runtime.getRuntime().addShutdownHook(new Thread(PostgresClient::stopEmbeddedPostgres));

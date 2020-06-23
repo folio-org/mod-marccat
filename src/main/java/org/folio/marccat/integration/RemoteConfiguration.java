@@ -54,17 +54,22 @@ public class RemoteConfiguration implements Configuration {
     if(okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
       endpoint = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     logger.info("Configuration URL : " + endpoint);
-    final HttpHeaders headers = new HttpHeaders();
-    headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
-    return client.exchange(
-      fromUriString(endpoint)
-        .queryParam(cQuery(withDatasource, safe(configurationSets)))
-        .build()
-        .toUri(),
-      HttpMethod.GET,
-      new HttpEntity<>("parameters", headers),
-      ObjectNode.class)
-      .getBody();
+    //TODO 23/06  Test url di configurazione vuota per i test, settarla vuota per i test
+    if(!endpoint.isEmpty()) {
+      final HttpHeaders headers = new HttpHeaders();
+      headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
+      return client.exchange(
+        fromUriString(endpoint)
+          .queryParam(cQuery(withDatasource, safe(configurationSets)))
+          .build()
+          .toUri(),
+        HttpMethod.GET,
+        new HttpEntity <>("parameters", headers),
+        ObjectNode.class)
+        .getBody();
+    }
+    else
+      return null;
   }
 
 

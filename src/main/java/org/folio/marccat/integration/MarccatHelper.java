@@ -143,6 +143,7 @@ public abstract class MarccatHelper {
     final Configuration configurator,
     final String... configurationSets) {
     try {
+
       final ObjectNode settings = configurator.attributes(tenant, true, configurationSets);
       final DataSource datasource = datasource(tenant, settings);
       try (final Connection connection = datasource.getConnection();
@@ -167,11 +168,13 @@ public abstract class MarccatHelper {
    * @return a dedicated configuration for the current service.
    */
   private static Map<String, String> configuration(final ObjectNode value) {
-    return StreamSupport.stream(value.withArray("configs").spliterator(), false)
+    //TODO 23/06 legge i dati dalla SYS_GBL_VRBL
+   /* return StreamSupport.stream(value.withArray("configs").spliterator(), false)
       .filter(node -> !"datasource".equals(node.get("configName").asText()))
       .filter(node -> node.get("code") != null && node.get("value") != null)
       .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));*/
+   return new HashMap<String, String>() ;
   }
 
   /**
@@ -191,7 +194,8 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+    //TODO 23/06  Test settings value is null se non esiste un modulo di configurazione
+    /*final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
       .filter(node -> "datasource".equals(node.get("configName").asText()))
       .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
       .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
@@ -203,7 +207,9 @@ public abstract class MarccatHelper {
       .username(config.get("user"))
       .password(config.get("password"))
       .url(config.get("url"))
-      .build();
+      .build();*/
+     //TODO 23/06 controllo di una nuova proprietà nell'application-test.yml test.mode=true
+    return DataSourceBuilder.create().username("marccat").password("admin").url("jdbc:postgresql://localhost:5432/test_marccat").build();
   }
 
   /**

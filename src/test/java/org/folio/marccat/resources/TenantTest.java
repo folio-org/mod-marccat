@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 public class TenantTest {
 
   //public static final String TENANT_ID = "test_tenant";
-  public static final String TENANT_ID = "test2";
+  public static final String TENANT_ID = "test";
 
   @LocalServerPort
   private int localPort;

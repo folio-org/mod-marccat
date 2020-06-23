@@ -44,7 +44,6 @@ import static io.restassured.RestAssured.given;
 })
 
 public class StorageTestSuite {
-  //public static final String TENANT_ID = "test_tenant";
   public static final String TENANT_ID = "test";
 
   @LocalServerPort

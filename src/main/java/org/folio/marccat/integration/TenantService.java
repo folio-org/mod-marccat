@@ -136,12 +136,14 @@ public class TenantService {
     logger.debug("Enable tenant" + " - Start");
     okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);
-    //TODO test sul modulo di configurazione
-    /*ObjectNode value = configuration.attributes(tenant, true, "");
-    final Map <String, String> config = getConfigurations(value);
-    if (config != null && config.size() == 0) {
-      initializeConfiguration(tenant);
-    }*/
+    ObjectNode value = configuration.attributes(tenant, true, "");
+    // TODO 23/06 test presenza del modulo di configurazione
+    if(value != null){
+      final Map <String, String> config = getConfigurations(value);
+      if (config != null && config.size() == 0) {
+        initializeConfiguration(tenant);
+      }
+    }
     logger.debug("Enable tenant" + " - End");
   }
 

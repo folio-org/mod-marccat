@@ -1,5 +1,5 @@
 configuration:
-  endpoint: http://folio.frontside.atcult.it:8085/configurations/entries
+  endpoint:
   port: 8085
   local: folio.frontside.atcult.it
   baseUrl: marccat
