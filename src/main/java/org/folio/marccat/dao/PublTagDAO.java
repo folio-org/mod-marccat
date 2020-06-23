@@ -10,7 +10,7 @@ import org.folio.marccat.dao.persistence.PUBL_TAG;
  * @since 1.0
  */
 
-public class DAOPublTag extends DescriptorDAO {
+public class PublTagDAO extends DescriptorDAO {
   /**
    * Gets the persistent class.
    *

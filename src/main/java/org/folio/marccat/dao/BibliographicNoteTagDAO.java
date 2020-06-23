@@ -40,10 +40,10 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
       aNote.getNoteStandard().markDeleted();
       persistByStatus(aNote.getNoteStandard(), session);
     }
-    Iterator iter = aNote.getOverflowList().iterator();
+    Iterator<BibliographicNoteOverflow> iter = aNote.getOverflowList().iterator();
     BibliographicNoteOverflow overflow;
     while (iter.hasNext()) {
-      overflow = (BibliographicNoteOverflow) iter.next();
+      overflow = iter.next();
       overflow.markDeleted();
       persistByStatus(overflow, session);
     }
@@ -65,10 +65,10 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
 
     BibliographicNoteTag aNote = (BibliographicNoteTag) po;
 
-    Iterator iter = aNote.getOverflowList().iterator();
+    Iterator<BibliographicNoteOverflow> iter = aNote.getOverflowList().iterator();
     BibliographicNote note = aNote.getNote();
     while (iter.hasNext()) {
-      BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next();
+      BibliographicNoteOverflow noteOverflow =  iter.next();
       noteOverflow.setBibItemNumber(note.getItemNumber());
       noteOverflow.setUserViewString(note.getUserViewString());
       noteOverflow.setNoteNbr(note.getNoteNbr());
@@ -80,7 +80,7 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
 
     iter = aNote.getDeletedOverflowList().iterator();
     while (iter.hasNext()) {
-      BibliographicNoteOverflow noteOverflow = (BibliographicNoteOverflow) iter.next();
+      BibliographicNoteOverflow noteOverflow =  iter.next();
       if (noteOverflow.isDeleted()) {
         persistByStatus(noteOverflow, session);
       }

@@ -9,6 +9,6 @@ package org.folio.marccat.dao;
  * @since 1.0
  */
 
-public abstract class DAOValidation extends AbstractDAO {
+public abstract class ValidationDAO extends AbstractDAO {
 
 }

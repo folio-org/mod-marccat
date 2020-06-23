@@ -20,7 +20,7 @@ import java.util.Optional;
  * @author cchiama
  * @since 1.0
  */
-public class BibliographicValidationDAO extends DAOValidation {
+public class BibliographicValidationDAO extends ValidationDAO {
 
   private static final Log logger = LogFactory.getLog(BibliographicValidationDAO.class);
   private String querySelect = "select distinct v from BibliographicValidation as v, ";

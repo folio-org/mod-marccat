@@ -84,11 +84,12 @@ public class IndexListDAO extends AbstractDAO {
    * @return the sort form parameters by key
    * @throws HibernateException the hibernate exception
    */
+  @SuppressWarnings("unchecked")
   public SortFormParameters getSortFormParametersByKey(final String indexKey, final Session session)
     throws HibernateException {
     SortFormParameters result = null;
     IndexListKey ilk = new IndexListKey(indexKey);
-    List l =
+    List<IndexList> l =
       session.find(
         "from IndexList as t where t.key.keyNumber = ? "
           + " and trim(t.key.typeCode) = ? "
@@ -103,7 +104,7 @@ public class IndexListDAO extends AbstractDAO {
           Hibernate.STRING,
           Hibernate.STRING});
     if (!l.isEmpty()) {
-      IndexList i = (IndexList) l.get(0);
+      IndexList i =  l.get(0);
       result =
         new SortFormParameters(
           i.getSortFormMainTypeCode(),
@@ -123,6 +124,7 @@ public class IndexListDAO extends AbstractDAO {
    * @param locale  the locale
    * @return the index by local abbreviation
    */
+  @SuppressWarnings("unchecked")
   public IndexList getIndexByLocalAbbreviation(final Session session, String s, Locale locale) throws HibernateException{
 
     List<IndexList> l = session.find(FROM_INDEX_LIST_AS_A
@@ -166,7 +168,7 @@ public class IndexListDAO extends AbstractDAO {
     final List<IndexList> indexesList = session.find(query);
     return indexesList
       .stream()
-      .map(index -> (Avp<String>) new Avp(index.getLanguageCode(), index.getLanguageDescription()))
+      .map(index -> new Avp<>(index.getLanguageCode(), index.getLanguageDescription()))
       .collect(toList());
   }
 
