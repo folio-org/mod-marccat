@@ -28,19 +28,19 @@ import static io.restassured.RestAssured.given;
 @ActiveProfiles("test")
 
 @Suite.SuiteClasses({
-  TenantTest.class/*,
+  TenantTest.class,
+  LoadFromFileTest.class,
   CountDocumentTest.class,
+  SearchTest.class,
   BibliographicRecordTest.class,
   BrowseTest.class,
   FieldTest.class,
   FieldTemplateTest.class,
-  LoadFromFileTest.class,
   FixedFieldCodesGroupTest.class,
   HeaderTypeTest.class,
-  HeadingTest.class,
-  SearchTest.class,
+  //HeadingTest.class,
   AutoSuggestionTest.class,
-  RecordTemplateTest.class*/
+  RecordTemplateTest.class
 })
 
 public class StorageTestSuite {

@@ -567,8 +567,8 @@ public class StorageService implements Closeable {
     } catch (final RecordNotFoundException | HibernateException exception) {
       countDocument.setCountDocuments(0);
       countDocument.setQuery("");
-      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
+      //logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      //throw new DataAccessException(exception);
     }
     return countDocument;
   }

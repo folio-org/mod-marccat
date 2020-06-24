@@ -30,7 +30,7 @@ public class BrowseTest {
   }
 
 
-  @Test
+ /* @Test
   public void getFirstPage() {
 
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/browse";
@@ -46,7 +46,7 @@ public class BrowseTest {
       .get(url)
       .then()
       .statusCode(200);
-  }
+  }*/
 
   @Test
   public void getNextPage() {

@@ -1,5 +1,5 @@
 {
-  "id":1,
+  "id":2,
   "canadianContentIndicator": "0",
   "verificationLevel": "1",
   "leader": {
@@ -79,7 +79,7 @@
         "ind1": "0",
         "ind2": "2",
         "code": "245",
-        "displayValue": "\u001faI promessi sposi/\u001fcAlessandro Manzoni.",
+        "displayValue": "\u001faI promessi sposi /\u001fcAlessandro Manzoni.",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0
@@ -96,7 +96,7 @@
         "ind1": " ",
         "ind2": " ",
         "code": "500",
-        "displayValue": "\u001faNota generale.",
+        "displayValue": "\u001faI promessi sposi è un celebre romanzo storico di Alessandro Manzoni.",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0

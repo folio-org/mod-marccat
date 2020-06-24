@@ -45,7 +45,7 @@ public class CountDocumentTest {
     String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/document-count-by-id";
 
     given()
-      .param("id", "110")
+      .param("id", "1")
       .param("view", "-1")
       .headers("X-Okapi-Tenant", StorageTestSuite.TENANT_ID)
       .when()
@@ -66,7 +66,7 @@ public class CountDocumentTest {
       .when()
       .get(url)
       .then()
-      .statusCode(500); //expected fail
+      .statusCode(200); //expected fail
   }
 
 

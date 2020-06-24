@@ -1,8 +1,8 @@
 {
-  "category": 4,
-  "headingNumber": 0,
-  "indicator1": "0",
-  "indicator2": "0",
-  "stringText": "\u001faManzoni, Alessandro,\u001fd1785-1873.\u001ftPromessi sposi.",
+  "categoryCode": 4,
+  "keyNumber": 0,
+  "ind1": "0",
+  "ind2": "0",
+  "displayValue": "\u001faManzoni, Alessandro,\u001fd1785-1873.",
   "tag": "600"
 }
