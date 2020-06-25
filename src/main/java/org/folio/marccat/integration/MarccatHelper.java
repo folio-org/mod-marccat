@@ -215,7 +215,6 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    //embedded
     System.out.println("02 TEST here: " + testMode);
     if (!testMode) {
       final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)

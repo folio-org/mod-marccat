@@ -49,7 +49,6 @@ public class PostgresClient {
 
   @Bean(destroyMethod = "stop")
   public PostgresProcess postgresProcess() throws IOException {
-    System.out.println(adminPassword);
     EmbeddedPostgres embeddedPostgres = new EmbeddedPostgres(Version.Main.V10);
       embeddedPostgres.start(host, port, datasourceName, adminUser, adminPassword/*,
        Arrays.asList("-E", "UTF-8", "--locale", "en_US.UTF-8")*/);
