@@ -216,22 +216,21 @@ public abstract class MarccatHelper {
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
     //embedded
-    System.out.println("02 TEST here: "+testMode);
-   /*  if(!testMode) {
-        final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+    System.out.println("02 TEST here: " + testMode);
+    if (!testMode) {
+      final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
         .filter(node -> "datasource".equals(node.get("configName").asText()))
         .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
         .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-       return DataSourceBuilder
+      return DataSourceBuilder
         .create()
         .username(config.get("user"))
         .password(config.get("password"))
         .url(config.get("url"))
         .build();
+    } else {
+      return DataSourceBuilder.create().username(marccatUser).password(marccatPassword).url(datasourceUrl).build();
     }
-    else {*/
-        return DataSourceBuilder.create().username(marccatUser).password(marccatPassword).url(datasourceUrl).build();
-     //}
   }
 
   /**
