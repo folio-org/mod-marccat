@@ -1,43 +1,24 @@
 package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.RestAssured;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
+import org.folio.marccat.TestConfiguration;
 import org.folio.marccat.resources.domain.Heading;
-import org.folio.marccat.resources.domain.RecordTemplate;
-import org.json.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-
-
-public class HeadingTest {
-
-  @LocalServerPort
-  private int localPort;
-
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
+public class HeadingTest extends TestConfiguration {
 
   @Test
   public void createTitleHeading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+    String url = getURI("/marccat/create-heading");
 
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/title.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -59,7 +40,7 @@ public class HeadingTest {
   @Test
   public void createTitle2Heading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+    String url = getURI( "/marccat/create-heading");
 
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/title2.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -81,7 +62,7 @@ public class HeadingTest {
   @Test
   public void createNameHeading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+    String url = getURI( "/marccat/create-heading");
 
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/name.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -101,7 +82,7 @@ public class HeadingTest {
   @Test
   public void createClassificationHeading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+    String url = getURI("/marccat/create-heading");
 
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/classification.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -121,7 +102,7 @@ public class HeadingTest {
   @Test
   public void createControlNumberHeading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+    String url = getURI("/marccat/create-heading");
 
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/control_number.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -141,7 +122,7 @@ public class HeadingTest {
   @Test
   public void createSubjectHeading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+    String url = getURI("/marccat/create-heading");
 
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/subject.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -161,7 +142,7 @@ public class HeadingTest {
   @Test
   public void createPublisherHeading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+    String url = getURI("/marccat/create-heading");
 
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/publisher.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -182,7 +163,7 @@ public class HeadingTest {
   @Test
   public void createNameTitleHeading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/create-heading";
+    String url = getURI("/marccat/create-heading");
 
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/name_title.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -204,7 +185,7 @@ public class HeadingTest {
   @Test
   public void updateHeading() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/update-heading";
+    String url = getURI("/marccat/update-heading");
     Heading heading = new Heading();
     heading.setTag("245");
     heading.setCategoryCode(3);
@@ -227,7 +208,7 @@ public class HeadingTest {
   @Test
   public void deleteHeading() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/delete-heading";
+    String url = getURI("/marccat/delete-heading");
     String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/title2.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     Heading heading = objectMapper.readValue(headingJson, Heading.class);

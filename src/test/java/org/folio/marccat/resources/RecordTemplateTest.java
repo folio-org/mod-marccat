@@ -1,48 +1,30 @@
 package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
+import org.folio.marccat.TestConfiguration;
 import org.folio.marccat.resources.domain.BibliographicRecord;
 import org.folio.marccat.resources.domain.RecordTemplate;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-
-
-public class RecordTemplateTest {
-
-  @LocalServerPort
-  private int localPort;
-
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
-
+public class RecordTemplateTest extends TestConfiguration {
 
   @Test
   public void getRecordTemplates() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-templates";
+    String url = getURI( "/marccat/record-templates");
 
     given()
       .param("type","B")
@@ -57,7 +39,7 @@ public class RecordTemplateTest {
   @Test
   public void getCatalogingRecordTemplatesById() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-template/1";
+    String url = getURI( "/marccat/record-template/1");
 
     given()
       .param("type","B")
@@ -72,7 +54,7 @@ public class RecordTemplateTest {
   @Test
   public void createNew_Bibliographic() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-template";
+    String url = getURI("/marccat/record-template");
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/template.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     RecordTemplate recordTemplate = objectMapper.readValue(templateJson, RecordTemplate.class);
@@ -96,7 +78,7 @@ public class RecordTemplateTest {
  /* @Test
   public void createNew_Authority() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-template";
+    String url = getURI("/marccat/record-template");
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/template.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     RecordTemplate recordTemplate = objectMapper.readValue(templateJson, RecordTemplate.class);
@@ -120,7 +102,7 @@ public class RecordTemplateTest {
   /*@Test
   public void update_Bibliographic() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-template/1";
+    String url = getURI("/marccat/record-template/1");
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/template.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     RecordTemplate recordTemplate = objectMapper.readValue(templateJson, RecordTemplate.class);
@@ -142,7 +124,7 @@ public class RecordTemplateTest {
   @Test
   public void deleteCatalogingRecordTemplatesById_Bibliographic() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-template/1";
+    String url = getURI("/marccat/record-template/1");
 
     Response response = given()
       .queryParam("type", "B")
@@ -157,7 +139,7 @@ public class RecordTemplateTest {
  /* @Test
   public void deleteCatalogingRecordTemplatesById_Authority() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-template/3";
+    String url = getURI("/marccat/record-template/3");
 
     Response response = given()
       .queryParam("type", "A")
@@ -172,7 +154,7 @@ public class RecordTemplateTest {
   @Test
   public void createFromRecord_Bibliographic() throws Exception{
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/record-template/from-record";
+    String url = getURI("/marccat/record-template/from-record");
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/template_by_record.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     BibliographicRecord bibliographicRecord = objectMapper.readValue(templateJson, BibliographicRecord.class);

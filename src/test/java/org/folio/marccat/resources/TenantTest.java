@@ -2,6 +2,7 @@ package org.folio.marccat.resources;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.folio.marccat.TestConfiguration;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,22 +20,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 
 
-public class TenantTest {
+public class TenantTest extends TestConfiguration {
 
-  //public static final String TENANT_ID = "test_tenant";
   public static final String TENANT_ID = "test";
-
-  @LocalServerPort
-  private int localPort;
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
 
   @Test
   public void create()
@@ -42,7 +33,7 @@ public class TenantTest {
     ExecutionException,
     TimeoutException,
     MalformedURLException {
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/_/tenant";
+    String url = getURI("/_/tenant");
     JSONObject jo = new JSONObject();
     String moduleFrom = "mod-marccat-2.3.0";
     String moduleTo ="";
@@ -67,5 +58,7 @@ public class TenantTest {
       response.getStatusCode(), is(201));
 
   }
+
+
 
 }

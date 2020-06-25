@@ -1,6 +1,7 @@
 package org.folio.marccat;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -16,12 +17,41 @@ import java.io.IOException;
 public class PostgresClient {
 
   private static EmbeddedPostgres embeddedPostgres;
+  /**
+   * The port.
+   */
+  @Value("${spring.datasource.port}")
+  private int port;
+
+  /**
+   * The host.
+   */
+  @Value("${spring.datasource.host}")
+  private String host;
+
+  /**
+   * The admin user.
+   */
+  @Value("${spring.datasource.username}")
+  private String adminUser;
+
+  /**
+   * The admin password.
+   */
+  @Value("${spring.datasource.password}")
+  private String adminPassword;
+
+  /**
+   * The database name.
+   */
+  @Value("${spring.datasource.name}")
+  private String datasourceName;
 
   @Bean(destroyMethod = "stop")
   public PostgresProcess postgresProcess() throws IOException {
+    System.out.println(adminPassword);
     EmbeddedPostgres embeddedPostgres = new EmbeddedPostgres(Version.Main.V10);
-    //TODO leggere dal .test yml
-    embeddedPostgres.start("localhost", 5432, "database_for_tests", "folio_admin", "folio_admin"/*,
+      embeddedPostgres.start(host, port, datasourceName, adminUser, adminPassword/*,
        Arrays.asList("-E", "UTF-8", "--locale", "en_US.UTF-8")*/);
     Runtime.getRuntime().addShutdownHook(new Thread(PostgresClient::stopEmbeddedPostgres));
     return embeddedPostgres.getProcess().get();

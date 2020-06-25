@@ -5,6 +5,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.SystemInternalFailureException;
 import org.folio.marccat.exception.UnableToCreateOrUpdateEntityException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +37,26 @@ public abstract class MarccatHelper {
   private final static Properties DEFAULT_VALUES = new Properties();
   private final static Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
+
+  /**
+   * The test mode for integration test.
+   */
+  public static boolean testMode = false;
+
+  /**
+   * The marccat user.
+   */
+  public static String marccatUser;
+
+  /**
+   * The marccat password .
+   */
+   public static String marccatPassword;
+
+  /**
+   * The datasource url .
+   */
+  public static String datasourceUrl;
 
 
   static {
@@ -194,22 +215,23 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    //TODO 23/06  Test settings value is null se non esiste un modulo di configurazione
-    /*final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
-      .filter(node -> "datasource".equals(node.get("configName").asText()))
-      .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-    logger.debug("DATABASE USER: " + config.get("user"));
-    logger.debug("DATABASE PASSWORD: " + config.get("password"));
-    logger.debug("DATABASE URL: " + config.get("url"));
-    return DataSourceBuilder
-      .create()
-      .username(config.get("user"))
-      .password(config.get("password"))
-      .url(config.get("url"))
-      .build();*/
-     //TODO 23/06 controllo di una nuova proprietà nell'application-test.yml test.mode=true
-    return DataSourceBuilder.create().username("marccat").password("admin").url("jdbc:postgresql://localhost:5432/test_marccat").build();
+    //embedded
+    System.out.println("02 TEST here: "+testMode);
+   /*  if(!testMode) {
+        final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+        .filter(node -> "datasource".equals(node.get("configName").asText()))
+        .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
+        .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+       return DataSourceBuilder
+        .create()
+        .username(config.get("user"))
+        .password(config.get("password"))
+        .url(config.get("url"))
+        .build();
+    }
+    else {*/
+        return DataSourceBuilder.create().username(marccatUser).password(marccatPassword).url(datasourceUrl).build();
+     //}
   }
 
   /**

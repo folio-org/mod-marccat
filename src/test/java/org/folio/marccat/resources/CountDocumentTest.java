@@ -1,48 +1,23 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.StorageTestSuite;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.folio.marccat.TestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import io.restassured.RestAssured;
-
 import static io.restassured.RestAssured.*;
 
+
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-
-
-public class CountDocumentTest {
-
-  @LocalServerPort
-  private int localPort;
-
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
-
+public class CountDocumentTest  extends TestConfiguration {
 
   @Test
   public void getDocumentCountById() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/document-count-by-id";
+    String url = getURI("/marccat/document-count-by-id");
 
     given()
       .param("id", "1")
@@ -57,7 +32,7 @@ public class CountDocumentTest {
   @Test
   public void getDocumentCountById_failed() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/document-count-by-id";
+    String url = getURI("/marccat/document-count-by-id");
 
     given()
       .param("id", "-1")

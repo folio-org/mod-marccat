@@ -1,39 +1,21 @@
 package org.folio.marccat.resources;
 
-import io.restassured.RestAssured;
 import org.folio.marccat.StorageTestSuite;
-import org.junit.Before;
+import org.folio.marccat.TestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-
-
-public class FieldTemplateTest {
-
-  @LocalServerPort
-  private int localPort;
-
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
-
+public class FieldTemplateTest extends TestConfiguration {
 
   @Test
   public void getFieldTemplate() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/field-template";
+    String url = getURI("/marccat/field-template");
 
     given()
       .param("categoryCode", "3")

@@ -1,39 +1,24 @@
 package org.folio.marccat.resources;
 
-import io.restassured.RestAssured;
+
 import org.folio.marccat.StorageTestSuite;
-import org.junit.Before;
+import org.folio.marccat.TestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 
 
-public class SearchTest {
-
-  @LocalServerPort
-  private int localPort;
-
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
-
+public class SearchTest extends TestConfiguration {
 
   @Test
   public void mergedSearch() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/mergedSearch";
+    String url = getURI( "/marccat/mergedSearch");
 
     given()
       .param("qbib", "TI I promessi sposi")
@@ -48,7 +33,7 @@ public class SearchTest {
   @Test
   public void search() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/search";
+    String url = getURI("/marccat/search");
 
     given()
       .param("q", "TI Storia")
@@ -62,7 +47,7 @@ public class SearchTest {
    @Test
   public void searchVertical() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/searchVertical";
+    String url = getURI("/marccat/searchVertical");
 
     given()
       .param("q", "TI I promessi sposi")
@@ -78,7 +63,7 @@ public class SearchTest {
   @Test
   public void countSearch() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/countSearch";
+    String url = getURI( "/marccat/countSearch");
 
     given()
       .param("q", "TI I promessi sposi")

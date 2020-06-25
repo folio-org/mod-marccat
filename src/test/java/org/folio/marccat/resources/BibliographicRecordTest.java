@@ -4,41 +4,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
+import org.folio.marccat.TestConfiguration;
 import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.FixedField;
-import org.folio.marccat.resources.domain.LockEntityType;
-import org.folio.marccat.resources.domain.RecordTemplate;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-
-
-public class BibliographicRecordTest {
-
-  @LocalServerPort
-  private int localPort;
-
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
+public class BibliographicRecordTest extends TestConfiguration {
 
   /*@Test
   public void getRecord() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/2";
+    String url = getURI("/marccat/bibliographic-record/2");
 
     given()
       .param("view", "1")
@@ -52,7 +34,7 @@ public class BibliographicRecordTest {
   @Test
   public void getRecord_failed() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/100";
+    String url = getURI("/marccat/bibliographic-record/100");
 
     given()
       .param("view", "1")
@@ -66,7 +48,7 @@ public class BibliographicRecordTest {
   @Test
   public void getEmptyRecord() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/from-template/1";
+    String url = getURI("/marccat/bibliographic-record/from-template/1");
 
     given()
       .param("lang", "ita")
@@ -81,7 +63,7 @@ public class BibliographicRecordTest {
 
   @Test
   public void save() throws Exception {
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record";
+    String url = getURI("/marccat/bibliographic-record");
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/record.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     ContainerRecordTemplate containerRecordTemplate = objectMapper.readValue(templateJson, ContainerRecordTemplate.class);
@@ -102,7 +84,7 @@ public class BibliographicRecordTest {
   @Test
   public void getFixedFieldWithDisplayValue() throws Exception {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/fixed-field-display-value";
+    String url = getURI("/marccat/bibliographic-record/fixed-field-display-value");
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/fixed_field.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     FixedField fixedField = objectMapper.readValue(templateJson, FixedField.class);
@@ -122,7 +104,7 @@ public class BibliographicRecordTest {
   @Test
   public void delete() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/1";
+    String url = getURI( "/marccat/bibliographic-record/1");
 
     given()
       .param("view", "1")
@@ -136,7 +118,7 @@ public class BibliographicRecordTest {
   /*@Test
   public void unlock() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/unlock/1";
+    String url = getURI("/marccat/bibliographic-record/unlock/1");
 
     given()
       .param("uuid", "1")
@@ -152,7 +134,7 @@ public class BibliographicRecordTest {
   @Test
   public void lock() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/lock/1";
+    String url = getURI( "/marccat/bibliographic-record/lock/1");
 
     given()
       .param("uuid", "1")
@@ -168,7 +150,7 @@ public class BibliographicRecordTest {
  /* @Test
   public void duplicate() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/bibliographic-record/duplicate";
+    String url = getURI("/marccat/bibliographic-record/duplicate");
 
     given()
       .param("id", new Integer(2))

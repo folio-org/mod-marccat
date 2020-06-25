@@ -1,39 +1,24 @@
 package org.folio.marccat.resources;
 
-import io.restassured.RestAssured;
+
 import org.folio.marccat.StorageTestSuite;
-import org.junit.Before;
+import org.folio.marccat.TestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 
-
-public class BrowseTest {
-
-  @LocalServerPort
-  private int localPort;
-
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
+public class BrowseTest extends TestConfiguration {
 
 
  /* @Test
   public void getFirstPage() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/browse";
+    String url = getURI( "/marccat/browse");
 
     given()
       .param("query", "TI I promessi sposi")
@@ -51,7 +36,7 @@ public class BrowseTest {
   @Test
   public void getNextPage() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/next-page";
+    String url = getURI( "/marccat/next-page");
 
     given()
       .param("query", "TI I promessi sposi")
@@ -69,7 +54,7 @@ public class BrowseTest {
   @Test
   public void getPreviousPage() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/previous-page";
+    String url = getURI("/marccat/previous-page");
 
     given()
       .param("query", "TI I promessi sposi")
@@ -87,7 +72,7 @@ public class BrowseTest {
   @Test
   public void getHeadingsByTag() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/headings-by-tag";
+    String url = getURI("/marccat/headings-by-tag");
 
     given()
       .param("tag", "245")

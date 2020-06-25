@@ -1,39 +1,22 @@
 package org.folio.marccat.resources;
 
-import io.restassured.RestAssured;
+
 import org.folio.marccat.StorageTestSuite;
-import org.junit.Before;
+import org.folio.marccat.TestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
+public class HeaderTypeTest extends TestConfiguration {
 
-
-public class HeaderTypeTest {
-
-  @LocalServerPort
-  private int localPort;
-
-
-  @Before
-  public void setUp() {
-    RestAssured.port = localPort;
-  }
-
-
-  @Test
+ @Test
   public void getDocumentCountById() {
 
-    String url = RestAssured.baseURI + ":" + RestAssured.port + "/marccat/header-types";
+    String url = getURI( "/marccat/header-types");
 
     given()
       .param("code", "1")

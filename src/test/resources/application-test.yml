@@ -1,7 +1,7 @@
 configuration:
   endpoint:
   port: 8085
-  local: folio.frontside.atcult.it
+  local:
   baseUrl: marccat
 
 logging:
@@ -18,9 +18,10 @@ spring:
   datasource:
     platform: postgres
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/okapi_modules
-    port: 5432
+    url: jdbc:postgresql://localhost:5432/database_for_tests
     host: localhost
+    port: 5432
+    name: database_for_tests
     username: folio_admin
     password: folio_admin
 
@@ -28,6 +29,11 @@ marccat:
   username: marccat
   password: admin
   database:
+    url: jdbc:postgresql://localhost:5432/test_marccat
+    host: localhost
+    port: 5432
+    name: test_marccat
+    prefix: test
     suffix: _marccat
 
 admin:
@@ -39,3 +45,4 @@ patch:
     procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
 
 local.server.port: 8081
+test.mode: true

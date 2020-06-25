@@ -2,6 +2,7 @@ package org.folio.marccat;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.folio.marccat.integration.MarccatHelper;
 import org.folio.marccat.resources.*;
 import org.json.JSONObject;
 import org.junit.After;
@@ -13,6 +14,7 @@ import org.junit.runners.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.MalformedURLException;
@@ -23,6 +25,8 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static io.restassured.RestAssured.given;
 
+
+
 @RunWith(Suite.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
@@ -30,7 +34,7 @@ import static io.restassured.RestAssured.given;
 @Suite.SuiteClasses({
   TenantTest.class,
   LoadFromFileTest.class,
-  CountDocumentTest.class,
+  CountDocumentTest.class/*,
   SearchTest.class,
   BibliographicRecordTest.class,
   BrowseTest.class,
@@ -38,9 +42,9 @@ import static io.restassured.RestAssured.given;
   FieldTemplateTest.class,
   FixedFieldCodesGroupTest.class,
   HeaderTypeTest.class,
-  //HeadingTest.class,
+  HeadingTest.class,
   AutoSuggestionTest.class,
-  RecordTemplateTest.class
+  RecordTemplateTest.class*/
 })
 
 public class StorageTestSuite {
@@ -53,6 +57,13 @@ public class StorageTestSuite {
     throw new UnsupportedOperationException("Cannot instantiate utility class.");
   }
 
+ /* @BeforeClass
+  public static void beforeClass()throws InterruptedException,
+    ExecutionException,
+    TimeoutException,
+    MalformedURLException {
+    MarccatHelper.testMode = true;
+  }*/
 
   @AfterClass
   public static void afterClass()
