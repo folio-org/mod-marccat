@@ -1,14 +1,54 @@
+configuration:
+  endpoint:
+  port: 8085
+  local:
+  baseUrl: marccat
+
 logging:
   level:
     root: ERROR
-    net.sf: ERROR
     org.springframework: ERROR
-    org.hibernate: ERROR
+    net.sf.hibernate: ERROR
+    net.sf.hibernate.SQL: DEBUG
+    org.folio.marccat.integration.search: DEBUG
     ru.yandex: ERROR
     org.folio.marccat: INFO
 
-db:
-  username: amicus
-  password: oracle
-  name: folio_marccat_test1
-  port: 5433
+spring:
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/database_for_tests
+    host: localhost
+    port: 5432
+    name: database_for_tests
+    username: folio_admin
+    password: folio_admin
+    external: false
+
+marccat:
+  username: marccat
+  password: admin
+  database:
+    url: jdbc:postgresql://localhost:5432/test_marccat
+    host: localhost
+    port: 5432
+    name: test_marccat
+    prefix: test
+    suffix: _marccat
+
+admin:
+  username: folio_admin
+  password: folio_admin
+
+
+patch:
+  database: /database-setup/patches/MARCCAT_DB/1.2
+  database2: /database-setup/patches/MARCCAT_DB/1.3
+  database3: /database-setup/patches/MARCCAT_DB/1.4
+  database4: /database-setup/patches/MARCCAT_DB/1.5
+  procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
+
+local.server.port: 8081
+test.mode: true
+

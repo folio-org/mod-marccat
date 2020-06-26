@@ -163,9 +163,12 @@ public class TenantService {
     okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);
     ObjectNode value = configuration.attributes(tenant, okapiUrl, true, "");
-    final Map <String, String> config = getConfigurations(value);
-    if (config != null && config.size() == 0) {
-      initializeConfiguration(tenant);
+    //TODO test su un oggetto vuoto, modificare il valore di ritorno del metodo attributes()
+    if (value != null) {
+      final Map <String, String> config = getConfigurations(value);
+      if (config != null && config.size() == 0) {
+        initializeConfiguration(tenant);
+      }
     }
     logger.debug("Enable tenant" + " - End");
   }

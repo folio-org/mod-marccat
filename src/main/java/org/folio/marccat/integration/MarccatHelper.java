@@ -38,7 +38,10 @@ public abstract class MarccatHelper {
   private static final  Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
   private static SessionFactory sessionFactory =  null;
-
+  public static boolean testMode = false;
+  public static String marccatUser;
+  public static String marccatPassword;
+  public static String datasourceUrl;
 
   static {
     try {
@@ -205,19 +208,21 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
-      .filter(node -> "datasource".equals(node.get("configName").asText()))
-      .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
-    logger.debug("DATABASE USER: " + config.get("user"));
-    logger.debug("DATABASE PASSWORD: " + config.get("password"));
-    logger.debug("DATABASE URL: " + config.get("url"));
-    return DataSourceBuilder
-      .create()
-      .username(config.get("user"))
-      .password(config.get("password"))
-      .url(config.get("url"))
-      .build();
+    if (!testMode) {
+      final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
+        .filter(node -> "datasource".equals(node.get("configName").asText()))
+        .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
+        .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+      logger.debug("DATABASE URL: " + config.get("url"));
+      return DataSourceBuilder
+        .create()
+        .username(config.get("user"))
+        .password(config.get("password"))
+        .url(config.get("url"))
+        .build();
+    } else {
+      return DataSourceBuilder.create().username(marccatUser).password(marccatPassword).url(datasourceUrl).build();
+    }
   }
 
   /**

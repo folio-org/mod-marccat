@@ -33,7 +33,8 @@ public class TenantAPI {
   ) throws SQLException, IOException {
     addHeaders(tenant, okapiUrl, okapiUrlTo);
     tenantService.createTenant(tenant, okapiUrl);
-    tenantRefService.loadData(attributes, okapiHeaders);
+    if(!okapiUrl.isEmpty())
+      tenantRefService.loadData(attributes, okapiHeaders);
     return new ResponseEntity("Success", CREATED);
   }
 

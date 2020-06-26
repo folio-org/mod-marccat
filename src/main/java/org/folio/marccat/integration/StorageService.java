@@ -550,10 +550,15 @@ public class StorageService implements Closeable {
   public CountDocument getCountDocumentByAutNumber(final int id, final int view) throws HibernateException {
     final CountDocument countDocument = new CountDocument();
     final AutDAO dao = new AutDAO();
+    try{
     final AUT aut = dao.load(session, id);
     final Class accessPoint = Global.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
     countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session));
     countDocument.setQuery(Global.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getHeadingNumber());
+    } catch (final RecordNotFoundException | HibernateException exception) {
+      countDocument.setCountDocuments(0);
+      countDocument.setQuery("");
+    }
     return countDocument;
   }
 
