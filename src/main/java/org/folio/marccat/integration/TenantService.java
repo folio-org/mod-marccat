@@ -163,8 +163,7 @@ public class TenantService {
     okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);
     ObjectNode value = configuration.attributes(tenant, okapiUrl, true, "");
-    //TODO test su un oggetto vuoto, modificare il valore di ritorno del metodo attributes()
-    if (value != null) {
+     if (value != null) {
       final Map <String, String> config = getConfigurations(value);
       if (config != null && config.size() == 0) {
         initializeConfiguration(tenant);

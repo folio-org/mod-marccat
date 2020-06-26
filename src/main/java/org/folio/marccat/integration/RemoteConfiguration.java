@@ -55,7 +55,6 @@ public class RemoteConfiguration implements Configuration {
     if (okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
       endpoint = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     logger.debug("Configuration URL : " + endpoint);
-    //TODO non c'è il modulo di configurazione nei test
     if (!endpoint.isEmpty()) {
       final HttpHeaders headers = new HttpHeaders();
       headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
@@ -69,8 +68,7 @@ public class RemoteConfiguration implements Configuration {
         ObjectNode.class)
         .getBody();
     } else {
-      //TODO gestione oggetto vuoto
-      return null;
+       return null;
     }
   }
 
