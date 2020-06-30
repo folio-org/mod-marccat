@@ -38,10 +38,44 @@ public abstract class MarccatHelper {
   private static final  Map<String, DataSource> DATASOURCES = new HashMap<>();
   private static final Log logger = new Log(MarccatHelper.class);
   private static SessionFactory sessionFactory =  null;
-  public static boolean testMode = false;
-  public static String marccatUser;
-  public static String marccatPassword;
-  public static String datasourceUrl;
+  private static boolean testMode = false;
+  private static String marccatUser;
+  private static String marccatPassword;
+  private static String datasourceUrl;
+
+  public static boolean isTestMode() {
+    return testMode;
+  }
+
+  public static void setTestMode(boolean testMode) {
+    MarccatHelper.testMode = testMode;
+  }
+
+  public static String getMarccatUser() {
+    return marccatUser;
+  }
+
+  public static void setMarccatUser(String marccatUser) {
+    MarccatHelper.marccatUser = marccatUser;
+  }
+
+  public static String getMarccatPassword() {
+    return marccatPassword;
+  }
+
+  public static void setMarccatPassword(String marccatPassword) {
+    MarccatHelper.marccatPassword = marccatPassword;
+  }
+
+
+  public static String getDatasourceUrl() {
+    return datasourceUrl;
+  }
+
+  public static void setDatasourceUrl(String datasourceUrl) {
+    MarccatHelper.datasourceUrl = datasourceUrl;
+  }
+
 
   static {
     try {
@@ -208,7 +242,7 @@ public abstract class MarccatHelper {
    * @return a new datasource reference.
    */
   private static DataSource newDataSourceInstance(final ObjectNode value) {
-    if (!testMode) {
+    if (!isTestMode()) {
       final Map <String, String> config = StreamSupport.stream(value.withArray("configs").spliterator(), false)
         .filter(node -> "datasource".equals(node.get("configName").asText()))
         .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
@@ -221,7 +255,7 @@ public abstract class MarccatHelper {
         .url(config.get("url"))
         .build();
     } else {
-      return DataSourceBuilder.create().username(marccatUser).password(marccatPassword).url(datasourceUrl).build();
+      return DataSourceBuilder.create().username(getMarccatUser()).password(getMarccatPassword()).url(getDatasourceUrl()).build();
     }
   }
 

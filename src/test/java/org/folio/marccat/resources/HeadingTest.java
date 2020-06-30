@@ -3,8 +3,7 @@ package org.folio.marccat.resources;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
-import org.folio.marccat.TestConfiguration;
-import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.TestBase;
 import org.folio.marccat.resources.domain.Heading;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +16,7 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-public class HeadingTest extends TestConfiguration {
+public class HeadingTest extends TestBase {
 
   @Test
   public void createTitleHeading() throws Exception{

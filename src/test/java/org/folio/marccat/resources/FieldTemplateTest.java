@@ -1,8 +1,7 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.StorageTestSuite;
-import org.folio.marccat.TestConfiguration;
-import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.TestBase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -14,7 +13,7 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-public class FieldTemplateTest extends TestConfiguration {
+public class FieldTemplateTest extends TestBase {
 
   @Test
   public void getFieldTemplate() {

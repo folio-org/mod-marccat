@@ -2,13 +2,12 @@ package org.folio.marccat.resources;
 
 
 import org.folio.marccat.StorageTestSuite;
-import org.folio.marccat.TestConfiguration;
-import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.TestBase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import java.net.URL;
+
 import java.util.Map;
 
 
@@ -16,7 +15,7 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-public class AutoSuggestionTest extends TestConfiguration {
+public class AutoSuggestionTest extends TestBase {
 
   @Test
   public void getFilteredTagsList() {

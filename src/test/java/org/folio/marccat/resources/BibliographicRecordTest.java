@@ -1,11 +1,9 @@
 package org.folio.marccat.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.RestAssured;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
-import org.folio.marccat.TestConfiguration;
-import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.TestBase;
 import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.LockEntityType;
@@ -20,7 +18,7 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-public class BibliographicRecordTest extends TestConfiguration {
+public class BibliographicRecordTest extends TestBase {
 
   @Test
   public void getRecord() {
@@ -71,6 +69,27 @@ public class BibliographicRecordTest extends TestConfiguration {
 
   @Test
   public void save() throws Exception {
+    String url = getURI("/marccat/bibliographic-record");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/record.json"), "UTF-8");
+    ObjectMapper objectMapper = new ObjectMapper();
+    ContainerRecordTemplate containerRecordTemplate = objectMapper.readValue(templateJson, ContainerRecordTemplate.class);
+
+    given()
+      .headers("Content-Type", "application/json")
+      .headers(headers)
+      .queryParam("view", "1")
+      .queryParam("lang", "ita")
+      .body(containerRecordTemplate)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
+
+  }
+
+  @Test
+  public void update() throws Exception {
     String url = getURI("/marccat/bibliographic-record");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/record.json"), "UTF-8");

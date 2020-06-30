@@ -3,14 +3,13 @@ package org.folio.marccat.resources;
 
 import io.restassured.response.Response;
 import org.folio.marccat.StorageTestSuite;
-import org.folio.marccat.TestConfiguration;
+import org.folio.marccat.TestBase;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -22,7 +21,7 @@ import static org.junit.Assert.assertThat;
 @ActiveProfiles("test")
 
 
-public class TenantTest extends TestConfiguration {
+public class TenantTest extends TestBase {
 
 
   @Test

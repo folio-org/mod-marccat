@@ -1,13 +1,11 @@
 package org.folio.marccat.resources;
 
 import org.folio.marccat.StorageTestSuite;
-import org.folio.marccat.TestConfiguration;
-import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.TestBase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import io.restassured.RestAssured;
 
 import java.util.Map;
 
@@ -16,7 +14,7 @@ import static io.restassured.RestAssured.*;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-public class CountDocumentTest  extends TestConfiguration {
+public class CountDocumentTest  extends TestBase {
 
   @Test
   public void getDocumentCountById() {

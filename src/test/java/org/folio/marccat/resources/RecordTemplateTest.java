@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
-import org.folio.marccat.TestConfiguration;
-import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.TestBase;
 import org.folio.marccat.resources.domain.BibliographicRecord;
 import org.folio.marccat.resources.domain.RecordTemplate;
 import org.json.JSONArray;
@@ -23,7 +22,7 @@ import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-public class RecordTemplateTest extends TestConfiguration {
+public class RecordTemplateTest extends TestBase {
 
   @Test
   public void getRecordTemplates() {

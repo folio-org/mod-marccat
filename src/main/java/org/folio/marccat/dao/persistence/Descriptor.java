@@ -17,12 +17,9 @@ import org.folio.marccat.exception.*;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.Map;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 

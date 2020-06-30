@@ -1,6 +1,5 @@
 package org.folio.marccat;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +12,16 @@ import org.postgresql.ds.PGPoolingDataSource;
 import javax.sql.DataSource;
 import java.io.IOException;
 
+/**
+ * The Class PostgresClient.
+ *
+ * @author carment
+ * @since 1.0
+ */
 @Configuration
 public class PostgresClient {
 
+  /** The embedded postgres. */
   private static EmbeddedPostgres embeddedPostgres;
   /**
    * The port.
@@ -47,16 +53,28 @@ public class PostgresClient {
   @Value("${spring.datasource.name}")
   private String datasourceName;
 
+  /**
+   * Postgres process.
+   *
+   * @return the postgres process
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   @Bean(destroyMethod = "stop")
   public PostgresProcess postgresProcess() throws IOException {
     EmbeddedPostgres embeddedPostgres = new EmbeddedPostgres(Version.Main.V10);
-      embeddedPostgres.start(host, port, datasourceName, adminUser, adminPassword/*,
+    embeddedPostgres.start(host, port, datasourceName, adminUser, adminPassword/*,
        Arrays.asList("-E", "UTF-8", "--locale", "en_US.UTF-8")*/);
     Runtime.getRuntime().addShutdownHook(new Thread(PostgresClient::stopEmbeddedPostgres));
     return embeddedPostgres.getProcess().get();
 
   }
 
+  /**
+   * Data source.
+   *
+   * @param postgresProcess the postgres process
+   * @return the data source
+   */
   @Bean(destroyMethod = "close")
   @DependsOn("postgresProcess")
   DataSource dataSource(PostgresProcess postgresProcess) {
@@ -67,12 +85,15 @@ public class PostgresClient {
     dataSource.setPortNumber(postgresConfig.net().port());
     dataSource.setServerName(postgresConfig.net().host());
     dataSource.setDatabaseName(postgresConfig.storage().dbName());
-     return dataSource;
+    return dataSource;
   }
 
+  /**
+   * Stop embedded postgres.
+   */
   public static void stopEmbeddedPostgres() {
     if (embeddedPostgres != null) {
-     embeddedPostgres.stop();
+      embeddedPostgres.stop();
       embeddedPostgres = null;
 
     }

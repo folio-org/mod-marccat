@@ -2,31 +2,30 @@ package org.folio.marccat;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.folio.marccat.integration.MarccatHelper;
 import org.folio.marccat.resources.*;
 import org.json.JSONObject;
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import java.net.MalformedURLException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
-
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static io.restassured.RestAssured.given;
 
 
 
+
+/**
+ * The Class StorageTestSuite.
+ *
+ * @author carment
+ * @since 1.0
+ */
 @RunWith(Suite.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
@@ -48,16 +47,30 @@ import static io.restassured.RestAssured.given;
 })
 
 public class StorageTestSuite {
+
+  /** The Constant TENANT_ID. */
   public static final String TENANT_ID = "test";
 
+  /** The local port. */
   @LocalServerPort
   private int localPort;
 
-   private StorageTestSuite() {
+  /**
+   * Instantiates a new storage test suite.
+   */
+  private StorageTestSuite() {
     throw new UnsupportedOperationException("Cannot instantiate utility class.");
   }
 
 
+  /**
+   * After class.
+   *
+   * @throws InterruptedException the interrupted exception
+   * @throws ExecutionException the execution exception
+   * @throws TimeoutException the timeout exception
+   * @throws MalformedURLException the malformed URL exception
+   */
   @AfterClass
   public static void afterClass()
     throws InterruptedException,
@@ -69,6 +82,16 @@ public class StorageTestSuite {
 
   }
 
+  /**
+   * Prepare tenant.
+   *
+   * @param tenantId the tenant id
+   * @param loadSample the load sample
+   * @throws InterruptedException the interrupted exception
+   * @throws ExecutionException the execution exception
+   * @throws TimeoutException the timeout exception
+   * @throws MalformedURLException the malformed URL exception
+   */
   static void prepareTenant(String tenantId, boolean loadSample)
     throws InterruptedException,
     ExecutionException,
@@ -77,6 +100,18 @@ public class StorageTestSuite {
     prepareTenant(tenantId, null, "mod-marccat-2.3.0", loadSample);
   }
 
+  /**
+   * Prepare tenant.
+   *
+   * @param tenantId the tenant id
+   * @param moduleFrom the module from
+   * @param moduleTo the module to
+   * @param loadSample the load sample
+   * @throws InterruptedException the interrupted exception
+   * @throws ExecutionException the execution exception
+   * @throws TimeoutException the timeout exception
+   * @throws MalformedURLException the malformed URL exception
+   */
   static void prepareTenant(String tenantId, String moduleFrom, String moduleTo, boolean loadSample)
     throws InterruptedException,
     ExecutionException,
@@ -106,6 +141,15 @@ public class StorageTestSuite {
   }
 
 
+  /**
+   * Removes the tenant.
+   *
+   * @param tenantId the tenant id
+   * @throws InterruptedException the interrupted exception
+   * @throws ExecutionException the execution exception
+   * @throws TimeoutException the timeout exception
+   * @throws MalformedURLException the malformed URL exception
+   */
   static void removeTenant(String tenantId)
     throws InterruptedException,
     ExecutionException,
