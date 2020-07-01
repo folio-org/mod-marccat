@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.config.constants.Global.BASE_URI;
-import static org.folio.marccat.enumaration.CatalogingEntityType.A;
 import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 import static org.folio.marccat.resources.shared.MappingUtils.toRecordTemplate;
@@ -30,11 +29,7 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
-      final List<Avp<Integer>> templates =
-        type == A
-          ? storageService.getAuthorityRecordTemplates()
-          : storageService.getBibliographicRecordTemplates();
-
+      final List<Avp<Integer>> templates = storageService.getBibliographicRecordTemplates();
       final RecordTemplateCollection collection = new RecordTemplateCollection();
       collection.setRecordTemplates(templates.stream().map(toRecordTemplate).collect(toList()));
       return collection;
@@ -50,9 +45,7 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) ->
-        type == A
-          ? storageService.getAuthorityRecordRecordTemplatesById(id)
-          : storageService.getBibliographicRecordRecordTemplatesById(id)
+         storageService.getBibliographicRecordRecordTemplatesById(id)
       , tenant, okapiUrl, configurator);
   }
 
@@ -64,13 +57,10 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPost((storageService, configuration) -> {
-      if ("A".equals(template.getType())) {
-        storageService.saveAuthorityRecordTemplate(template);
-      } else {
         storageService.saveBibliographicRecordTemplate(template);
+        return template;
       }
-      return template;
-    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(template.getName()));
+   , tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(template.getName()));
   }
 
 
@@ -84,11 +74,7 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doPut((storageService, configuration) -> {
       try {
-        if ("A".equals(template.getType())) {
-          storageService.updateAuthorityRecordTemplate(template);
-        } else {
-          storageService.updateBibliographicRecordTemplate(template);
-        }
+        storageService.updateBibliographicRecordTemplate(template);
         return template;
       } catch (final Exception exception) {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -107,13 +93,7 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doDelete((storageService, configuration) -> {
-      switch (type) {
-        case A:
-          storageService.deleteAuthorityRecordTemplate(id);
-          break;
-        case B:
-          storageService.deleteBibliographicRecordTemplate(id);
-      }
+      storageService.deleteBibliographicRecordTemplate(id);
       return id;
     }, tenant, okapiUrl, configurator);
   }

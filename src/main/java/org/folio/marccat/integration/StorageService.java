@@ -207,50 +207,6 @@ public class StorageService implements Closeable {
     }
   }
 
-  /**
-   * Return a Authority Record Template by id
-   *
-   * @param id the record template id.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public RecordTemplate getAuthorityRecordRecordTemplatesById(final Integer id) throws DataAccessException {
-    try {
-      final ObjectMapper objectMapper = new ObjectMapper();
-      return objectMapper.readValue(
-        new AuthorityModelDAO().load(id, session).getRecordFields(),
-        RecordTemplate.class);
-    } catch (final HibernateException exception) {
-      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    } catch (final IOException exception) {
-      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
-      throw new DataAccessException(exception);
-    }
-  }
-
-  /**
-   * Save the new Authority record template.
-   *
-   * @param template the record template.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public void saveAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
-    try {
-      final ObjectMapper mapper = new ObjectMapper();
-      final AuthorityModelDAO dao = new AuthorityModelDAO();
-      final AuthorityModel model = new AuthorityModel();
-      model.setLabel(template.getName());
-      model.setFrbrFirstGroup(template.getGroup());
-      model.setRecordFields(mapper.writeValueAsString(template));
-      dao.save(model, session);
-    } catch (final HibernateException exception) {
-      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    } catch (final JsonProcessingException exception) {
-      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
-      throw new DataAccessException(exception);
-    }
-  }
 
   /**
    * Deletes a Bibliographic record template.
@@ -269,22 +225,6 @@ public class StorageService implements Closeable {
     }
   }
 
-  /**
-   * Delete an Authority record template.
-   *
-   * @param id the record template id.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public void deleteAuthorityRecordTemplate(final String id) throws DataAccessException {
-    try {
-      final AuthorityModelDAO dao = new AuthorityModelDAO();
-      final Model model = dao.load(Integer.valueOf(id), session);
-      dao.delete(model, session);
-    } catch (final HibernateException exception) {
-      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    }
-  }
 
   /**
    * Update the Bibliographic Record Template.
@@ -311,30 +251,7 @@ public class StorageService implements Closeable {
     }
   }
 
-  /**
-   * Update the Authority Record Template.
-   *
-   * @param template the record template.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public void updateAuthorityRecordTemplate(final RecordTemplate template) throws DataAccessException {
-    try {
-      final ObjectMapper mapper = new ObjectMapper();
-      final AuthorityModelDAO dao = new AuthorityModelDAO();
-      final AuthorityModel model = new AuthorityModel();
-      model.setId(template.getId());
-      model.setLabel(template.getName());
-      model.setFrbrFirstGroup(template.getGroup());
-      model.setRecordFields(mapper.writeValueAsString(template));
-      dao.update(model, session);
-    } catch (final HibernateException exception) {
-      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    } catch (final JsonProcessingException exception) {
-      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
-      throw new DataAccessException(exception);
-    }
-  }
+
 
   /**
    * Save the new Bibliographic Record Template.
@@ -493,21 +410,6 @@ public class StorageService implements Closeable {
     return session.connection();
   }
 
-  /**
-   * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
-   *
-   * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
-   * @throws DataAccessException in case of data access failure.
-   */
-  public List<Avp<Integer>> getAuthorityRecordTemplates() throws DataAccessException {
-    final AuthorityModelDAO dao = new AuthorityModelDAO();
-    try {
-      return dao.getAuthorityModelList(session);
-    } catch (final HibernateException exception) {
-      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-      throw new DataAccessException(exception);
-    }
-  }
 
   /**
    * Creates a valid statement from the given connection.
@@ -550,10 +452,15 @@ public class StorageService implements Closeable {
   public CountDocument getCountDocumentByAutNumber(final int id, final int view) throws HibernateException {
     final CountDocument countDocument = new CountDocument();
     final AutDAO dao = new AutDAO();
+    try{
     final AUT aut = dao.load(session, id);
     final Class accessPoint = Global.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
     countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session));
     countDocument.setQuery(Global.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getHeadingNumber());
+    } catch (final RecordNotFoundException | HibernateException exception) {
+      countDocument.setCountDocuments(0);
+      countDocument.setQuery("");
+    }
     return countDocument;
   }
 

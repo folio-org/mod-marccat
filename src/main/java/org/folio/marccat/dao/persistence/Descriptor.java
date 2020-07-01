@@ -17,12 +17,9 @@ import org.folio.marccat.exception.*;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.Map;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 
@@ -633,27 +630,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
     getKey().setHeadingNumber(dao.getNextNumber(getNextNumberKeyFieldCode(), session));
   }
 
-  /**
-   * performs validations on the descriptor (prior to saving).
-   *
-   * @deprecated
-   * @throws InvalidDescriptorException the invalid descriptor exception
-   * @since 1.0
-   */
-  @Deprecated
-  public void validate() {
-    StringText st = new StringText(getStringText());
-    if (st.getSubfieldList().isEmpty()) {
-      throw new DescriptorHasNoSubfieldsException();
-    }
-    Iterator iter = st.getSubfieldList().iterator();
-    while (iter.hasNext()) {
-      Subfield s = (Subfield) iter.next();
-      if (s.getContent() == null || EMPTY_STRING.equals(s.getContent())) {
-        throw new DescriptorHasEmptySubfieldsException();
-      }
-    }
-  }
 
   /**
    * Gets the authority source text.

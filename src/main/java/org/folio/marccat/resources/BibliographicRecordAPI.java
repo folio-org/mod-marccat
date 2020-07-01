@@ -37,9 +37,11 @@ public class BibliographicRecordAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final ContainerRecordTemplate container = storageService.getBibliographicRecordById(id, view);
-      final BibliographicRecord record = container.getBibliographicRecord();
-      if (record != null)
-        resetStatus(record);
+      if(container != null) {
+        final BibliographicRecord record = container.getBibliographicRecord();
+        if (record != null)
+          resetStatus(record);
+      }
       else {
         return new ResponseEntity<>(container, HttpStatus.NOT_FOUND);
       }

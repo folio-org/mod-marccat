@@ -50,22 +50,26 @@ public class RemoteConfiguration implements Configuration {
 
   @Override
   public ObjectNode attributes(final String tenant, final String okapiUrl, final boolean withDatasource, final String... configurationSets) {
-    if(okapiUrl != null)
+    if (okapiUrl != null)
       okapiClient.setOkapiUrl(okapiUrl);
-    if(okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
+    if (okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION) != null)
       endpoint = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
     logger.debug("Configuration URL : " + endpoint);
-    final HttpHeaders headers = new HttpHeaders();
-    headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
-    return client.exchange(
-      fromUriString(endpoint)
-        .queryParam(cQuery(withDatasource, safe(configurationSets)))
-        .build()
-        .toUri(),
-      HttpMethod.GET,
-      new HttpEntity<>("parameters", headers),
-      ObjectNode.class)
-      .getBody();
+    if (!endpoint.isEmpty()) {
+      final HttpHeaders headers = new HttpHeaders();
+      headers.add(Global.OKAPI_TENANT_HEADER_NAME, tenant);
+      return client.exchange(
+        fromUriString(endpoint)
+          .queryParam(cQuery(withDatasource, safe(configurationSets)))
+          .build()
+          .toUri(),
+        HttpMethod.GET,
+        new HttpEntity <>("parameters", headers),
+        ObjectNode.class)
+        .getBody();
+    } else {
+       return null;
+    }
   }
 
 
