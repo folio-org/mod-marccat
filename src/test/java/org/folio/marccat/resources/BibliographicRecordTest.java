@@ -47,7 +47,7 @@ public class BibliographicRecordTest extends TestBase {
       .when()
       .get(url)
       .then()
-      .statusCode(500); //expected fail
+      .statusCode(404); //expected fail
   }
 
   @Test

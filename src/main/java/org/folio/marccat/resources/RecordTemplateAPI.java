@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 import static org.folio.marccat.config.constants.Global.BASE_URI;
-import static org.folio.marccat.enumaration.CatalogingEntityType.A;
 import static org.folio.marccat.integration.MarccatHelper.*;
 import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 import static org.folio.marccat.resources.shared.MappingUtils.toRecordTemplate;
@@ -45,9 +44,8 @@ public class RecordTemplateAPI extends BaseResource {
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
-    return doGet((storageService, configuration) -> {
-        return storageService.getBibliographicRecordRecordTemplatesById(id);
-      }
+    return doGet((storageService, configuration) ->
+         storageService.getBibliographicRecordRecordTemplatesById(id)
       , tenant, okapiUrl, configurator);
   }
 
