@@ -12,6 +12,7 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -525,15 +526,18 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
   @SuppressWarnings("unchecked")
   public List<REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
     throws HibernateException {
-    return session.find("from "
-        + source.getReferenceClass(source.getClass()).getName()
-        + " as ref " + queryWhereRefSource
-        + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
-        + " order by ref.key.target, ref.key.type",
-      new Object[]{
-        source.getKey().getHeadingNumber()},
-      new Type[]{
-        Hibernate.INTEGER});
+    if (supportsCrossReferences()) {
+      return session.find("from "
+          + source.getReferenceClass(source.getClass()).getName()
+          + " as ref " + queryWhereRefSource
+          + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
+          + " order by ref.key.target, ref.key.type",
+        new Object[]{
+          source.getKey().getHeadingNumber()},
+        new Type[]{
+          Hibernate.INTEGER});
+    }
+    return new ArrayList<>();
   }
 
 

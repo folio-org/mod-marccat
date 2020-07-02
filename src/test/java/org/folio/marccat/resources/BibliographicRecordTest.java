@@ -150,7 +150,7 @@ public class BibliographicRecordTest extends TestBase {
   @Test
   public void delete() {
 
-    String url = getURI( "/marccat/bibliographic-record/2");
+    String url = getURI( "/marccat/bibliographic-record/3");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -181,6 +181,23 @@ public class BibliographicRecordTest extends TestBase {
       .statusCode(200);
   }
 
+  @Test
+  public void reLock() {
+
+    String url = getURI( "/marccat/bibliographic-record/lock/1");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("id", "1")
+      .param("uuid", "1")
+      .param("userName", "test2")
+      .param("type",  LockEntityType.R)
+      .headers(headers)
+      .when()
+      .put(url)
+      .then()
+      .statusCode(200);
+  }
   @Test
   public void unlock() {
 

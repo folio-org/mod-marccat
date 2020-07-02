@@ -1,6 +1,6 @@
 {
   "bibliographicRecord": {
-    "id":2,
+    "id":3,
     "canadianContentIndicator": "0",
     "verificationLevel": "1",
     "leader": {
@@ -16,7 +16,7 @@
           "categoryCode": 1,
           "headerTypeCode": 39,
           "code": "001",
-          "displayValue": "00000000001",
+          "displayValue": "00000000003",
           "sequenceNumber": 0,
           "attributes": {}
         },

@@ -3,8 +3,6 @@ package org.folio.marccat.business.common.group;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.regexp.RESyntaxException;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.filter.*;
 
 
 /**
@@ -12,7 +10,7 @@ import org.folio.marccat.business.common.filter.*;
  *
  * @author carment
  */
-public class BibliographicGroupManager extends MarcGroupManager implements FilterManager {
+public class BibliographicGroupManager extends MarcGroupManager  {
   private static final Log logger =
     LogFactory.getLog(BibliographicGroupManager.class);
 
@@ -20,7 +18,6 @@ public class BibliographicGroupManager extends MarcGroupManager implements Filte
    * Filter by tags that can not be ordered. The behavior is always the same
    * for all non-orderable tags
    */
-  private static final TagFilter NO_TAG_FILTER = new NoTagFilter();
 
 
   public BibliographicGroupManager() {
@@ -49,18 +46,5 @@ public class BibliographicGroupManager extends MarcGroupManager implements Filte
   }
 
 
-
-  /* (non-Javadoc)
-   * @see FilterManager#getFilter(Tag)
-   */
-  public TagFilter getFilter(Tag tag) {
-    TagGroup group = getGroup(tag);
-    if (group == null) return NO_TAG_FILTER;
-    else if (group.isCanSort() && group.isSingleSort()) {
-      return new SingleTagFilter(tag);
-    } else if (group.isCanSort() && !group.isSingleSort()) {
-      return new GroupTagFilter(group);
-    } else return NO_TAG_FILTER;
-  }
 
 }

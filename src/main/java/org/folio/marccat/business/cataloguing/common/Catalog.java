@@ -119,15 +119,7 @@ public abstract class Catalog {
       new CorrelationValues(correlationValue1, correlationValue2, correlationValue3));
   }
 
-  /**
-   * Ensures that after creating a new Item (usually from a model) that the
-   * item has at least the required mandatory tags.
-   *
-   * @since 1.0
-   */
-  public abstract void addRequiredTags(CatalogItem item);
 
-  public abstract void addRequiredTagsForModel(CatalogItem item);
 
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
     getCatalogDao().deleteCatalogItem(item, session);

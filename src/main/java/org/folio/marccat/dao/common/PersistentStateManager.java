@@ -3,9 +3,7 @@ package org.folio.marccat.dao.common;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.common.PersistenceState;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class PersistentStateManager {
@@ -26,25 +24,6 @@ public class PersistentStateManager {
     states = new ArrayList/*<PersistenceState>*/();
   }
 
-  public void commit() {
-    Iterator it = states.iterator();
-    while (it.hasNext()) {
-      PersistenceState element = (PersistenceState) it.next();
-      element.confirmChanges();
-    }
-    logger.debug("PersistentStateManager " + states.size() + " items committed");
-    reset();
-  }
-
-  public void rollback() {
-    logger.warn("PersistentStateManager rollback");
-    // do nothing
-  }
-
-  public void reset() {
-    logger.debug("PersistentStateManager reset: unregister " + states.size() + " items");
-    unregisterAll();
-  }
 
   /**
    * Register the time shifted persistent state of an object
@@ -58,21 +37,6 @@ public class PersistentStateManager {
     } else newPersistenceState.confirmChanges();
   }
 
-  /**
-   * Remove all registered time shifted persistent states
-   */
-  private void unregisterAll() {
-    states.clear();
-  }
-
-  public void begin() {
-    reset();
-    acceptRegistrations = true;
-  }
-
-  public void end() {
-    acceptRegistrations = false;
-  }
 
 
 }
