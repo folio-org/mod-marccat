@@ -1731,7 +1731,7 @@ public class StorageService implements Closeable {
       final DescriptorDAO descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
       final Descriptor d = descriptorDao.load(heading.getKeyNumber(), view, session);
       d.getDAO().delete(d, session);
-    } catch (HibernateException exception) {
+    } catch (HibernateException | ReferentialIntegrityException exception ) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }

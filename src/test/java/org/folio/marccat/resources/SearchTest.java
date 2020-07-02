@@ -35,6 +35,75 @@ public class SearchTest extends TestBase {
   }
 
   @Test
+  public void mergedSearchSortByTitle() {
+
+    String url = getURI( "/marccat/mergedSearch");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("qbib", "TI Devoto-Oli dei sinonimi e contrari")
+      .param("lang", "ita")
+      .param("sortBy", "4")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+
+  @Test
+  public void mergedSearchSortBySubject() {
+
+    String url = getURI( "/marccat/mergedSearch");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("qbib", "TI Devoto-Oli dei sinonimi e contrari")
+      .param("lang", "ita")
+      .param("sortBy", "4")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+  @Test
+  public void mergedSearchByOperatorAnd() {
+
+    String url = getURI( "/marccat/mergedSearch");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("qbib", "TI Devoto-Oli dei sinonimi e contrari AND LAN ita")
+      .param("lang", "ita")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+  @Test
+  public void mergedSearchForAuthority() {
+
+    String url = getURI( "/marccat/mergedSearch");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("qbib", "TI I promessi sposi")
+      .param("lang", "ita")
+      .param("view", "-1")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+
+  @Test
   public void search() {
 
     String url = getURI("/marccat/search");

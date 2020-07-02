@@ -59,40 +59,7 @@ public class BibliographicCatalog extends Catalog {
     return DAO_CODE_TABLE.getOptionListOrderAlphab(T_BIB_TAG_CAT.class, locale);
   }
 
-  /**
-   * Ensures that after creating a new BibItem (usually from a model) that the
-   * item has at least the required mandatory tags
-   *
-   * @since 1.0
-   */
-  public void addRequiredTags(final CatalogItem item) {
-    final BibliographicLeader leader = createRequiredLeaderTag(item);
-    if (!item.getTags().contains(leader)) {
-      item.addTag(leader);
-    }
 
-    final ControlNumberTag controlnumber = createRequiredControlNumberTag(item);
-    if (!item.getTags().contains(controlnumber)) {
-      item.addTag(controlnumber);
-    }
-
-    final DateOfLastTransactionTag dateTag = createRequiredDateOfLastTransactionTag(item);
-    if (!item.getTags().contains(dateTag)) {
-      item.addTag(dateTag);
-    }
-
-    final MaterialDescription mdTag = createRequiredMaterialDescriptionTag(item);
-    if (!item.getTags().contains(mdTag)) {
-      item.addTag(mdTag);
-    }
-
-    final CataloguingSourceTag source = createRequiredCataloguingSourceTag(item);
-    if (!item.getTags().contains(source)) {
-      item.addTag(source);
-    }
-
-    item.sortTags();
-  }
 
   public DateOfLastTransactionTag createRequiredDateOfLastTransactionTag(CatalogItem item) {
     return
@@ -105,28 +72,6 @@ public class BibliographicCatalog extends Catalog {
   }
 
 
-  public void addRequiredTagsForModel(final CatalogItem item) {
-    BibliographicLeader leader = createRequiredLeaderTag(item);
-    if (!item.getTags().contains(leader)) {
-      item.addTag(leader);
-    }
-
-    ControlNumberTag controlnumber = createRequiredControlNumberTag(item);
-    if (!item.getTags().contains(controlnumber)) {
-      item.addTag(controlnumber);
-    }
-
-    MaterialDescription mdTag = createRequiredMaterialDescriptionTag(item);
-    if (!item.getTags().contains(mdTag)) {
-      item.addTag(mdTag);
-
-    }
-
-    CataloguingSourceTag source = createRequiredCataloguingSourceTag(item);
-    if (!item.getTags().contains(source)) {
-      item.addTag(source);
-    }
-  }
 
   public CataloguingSourceTag createRequiredCataloguingSourceTag(final CatalogItem item) {
     return

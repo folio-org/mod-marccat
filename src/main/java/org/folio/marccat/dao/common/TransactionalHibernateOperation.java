@@ -1,14 +1,9 @@
 package org.folio.marccat.dao.common;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
+
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.config.log.Log;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ReferentialIntegrityException;
-import java.io.IOException;
-import java.sql.SQLException;
+
 
 public abstract class TransactionalHibernateOperation {
 
@@ -45,60 +40,5 @@ public abstract class TransactionalHibernateOperation {
     getPersistentStateManager().register(newPersistenceState);
   }
 
-  public void execute(final Session session) throws DataAccessException {
-    Transaction tx = null;
-    try {
-      tx = session.beginTransaction();
-      setNestingLevel(getNestingLevel() + 1);
-      if (getNestingLevel() == 1) {
-        getPersistentStateManager().begin();
-      }
-      doInHibernateTransaction(session);
-      if (getNestingLevel() == 1) {
-        tx.commit();
-        getPersistentStateManager().commit();
-        getPersistentStateManager().end();
-      }
-      setNestingLevel((getNestingLevel() - 1));
-    } catch (HibernateException | SQLException | IOException | ReferentialIntegrityException e) {
-      cleanup(tx);
-    }  catch (DataAccessException e) {
-      cleanup(tx);
-      throw e;
-    } catch (Throwable e) {
-      cleanup(tx);
-    }
-  }
 
-
-  private void cleanup(Transaction tx) throws DataAccessException {
-    logger.error(
-      "Cleaning up after HibernateException in the middle of a Transaction");
-    try {
-      rollback(tx);
-      getPersistentStateManager().rollback();
-    } finally {
-       if (getNestingLevel() > 1) {
-        setNestingLevel((getNestingLevel() - 1));
-      } else {
-        setNestingLevel(0);
-        getPersistentStateManager().end();
-      }
-    }
-  }
-
-  private void rollback(Transaction tx) throws DataAccessException {
-    if (tx != null) {
-      try {
-        logger.info("trying rollback");
-        tx.rollback();
-        logger.info("rolled back");
-      } catch (HibernateException e1) {
-        throw new DataAccessException(e1);
-      }
-    }
-  }
-
- public abstract void doInHibernateTransaction(Session session)
-    throws HibernateException, SQLException, DataAccessException, IOException;
 }

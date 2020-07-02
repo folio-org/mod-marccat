@@ -36,12 +36,12 @@ import static io.restassured.RestAssured.given;
   CountDocumentTest.class,
   SearchTest.class,
   BibliographicRecordTest.class,
+  HeadingTest.class,
   BrowseTest.class,
   FieldTest.class,
   FieldTemplateTest.class,
   FixedFieldCodesGroupTest.class,
   HeaderTypeTest.class,
-  HeadingTest.class,
   AutoSuggestionTest.class,
   RecordTemplateTest.class
 })
