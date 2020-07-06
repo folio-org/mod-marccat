@@ -182,23 +182,6 @@ public class TitleDescriptorDAO extends DescriptorDAO {
 
 
 
-  /**
-   * Compare the headings by authority source.
-   *
-   * @param descriptorFrom the heading to insert
-   * @param descriptorTo   descriptor already present
-   * @return true, if successful
-   */
-  private boolean compareHeading(Descriptor descriptorFrom, Descriptor descriptorTo) {
-    if (descriptorFrom.getAuthoritySourceCode() == descriptorTo.getAuthoritySourceCode()) {
-      if (descriptorFrom.getAuthoritySourceCode() == T_AUT_HDG_SRC.SOURCE_IN_SUBFIELD_2) {
-        return descriptorFrom.getAuthoritySourceText().equals(descriptorTo.getAuthoritySourceText());
-      } else {
-        return true;
-      }
-    }
-    return false;
-  }
 
 
 }
