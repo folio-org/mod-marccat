@@ -180,43 +180,7 @@ public class TitleDescriptorDAO extends DescriptorDAO {
     super.delete(p, session);
   }
 
-  /**
-   * Checks if is matching another heading(TTL_HDG).
-   *
-   * @param desc    the desc
-   * @param session the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean isMatchingAnotherHeading(final Descriptor desc, final Session session)
-    throws HibernateException {
 
-    final TTL_HDG titleHeading = (TTL_HDG) desc;
-    final List<TTL_HDG> titleHeadingList = session.find(" from "
-        + getPersistentClass().getName()
-        + " as c "
-        + " where c.stringText= ? "
-        + " and c.indexingLanguage = ? "
-        + " and c.accessPointLanguage = ?"
-        + " and c.key.userViewString = ?"
-        + " and c.key.headingNumber <> ?",
-      new Object[]{
-        titleHeading.getStringText(),
-        titleHeading.getIndexingLanguage(),
-        titleHeading.getAccessPointLanguage(),
-        titleHeading.getUserViewString(),
-        titleHeading.getKey().getHeadingNumber()},
-      new Type[]{Hibernate.STRING,
-        Hibernate.INTEGER,
-        Hibernate.STRING,
-        Hibernate.INTEGER});
-    titleHeadingList.forEach((TTL_HDG descriptor) ->
-      compareHeading(titleHeading, descriptor));
-    return false;
-
-  }
 
   /**
    * Compare the headings by authority source.

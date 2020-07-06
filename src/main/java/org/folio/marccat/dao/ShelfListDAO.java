@@ -177,39 +177,6 @@ public class ShelfListDAO extends DescriptorDAO {
     return firstElement.isPresent() ? firstElement.get() : null;
   }
 
-  /**
-   * Checks if is matching another heading(SHLF_LIST).
-   *
-   * @param descriptor the descriptor
-   * @param session    the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
-    throws HibernateException {
-    SHLF_LIST shelf = (SHLF_LIST) descriptor;
-    final List<Integer> countList = session.find(
-      "select count(*) from "
-        + getPersistentClass().getName()
-        + " as c"
-        + " where c.stringText = ? and c.mainLibraryNumber = ?"
-        + " and c.typeCode = ?"
-        + " and c.shelfListKeyNumber <> ?",
-      new Object[]{
-        shelf.getStringText(),
-        shelf.getMainLibraryNumber(),
-        shelf.getTypeCode(),
-        shelf.getShelfListKeyNumber()},
-      new Type[]{
-        Hibernate.STRING,
-        Hibernate.INTEGER,
-        Hibernate.CHARACTER,
-        Hibernate.INTEGER});
-    return countList.stream().filter(Objects::nonNull).anyMatch(count -> count > 0);
-
-  }
 
 
   /**

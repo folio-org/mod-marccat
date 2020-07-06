@@ -74,44 +74,6 @@ public class ControlNumberDescriptorDAO extends DescriptorDAO {
     return firstElement.isPresent() ? firstElement.get() : null;
   }
 
-  /**
-   * The sort forms included "extra" information to help
-   * in identifying uniqueness (some headings added a code for "language of
-   * access point" so that otherwise identical headings could be
-   * differentiated if they had different languages). Now, the only example I
-   * can think of is the Dewey Decimal classification where the sort form
-   * includes the Dewey Edition Number so that identical numbers from
-   * different editions will have different sortforms.
-   *
-   * @param descriptor the descriptor
-   * @param session    the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
-    throws HibernateException {
-    CNTL_NBR controlNumber = (CNTL_NBR) descriptor;
-    List<Integer> countList = session.find(
-      "select count(*) from "
-        + getPersistentClass().getName()
-        + " as c "
-        + " where  c.stringText = ? "
-        + " and c.typeCode = ?"
-        + " and c.key.userViewString = ?"
-        + " and c.key.headingNumber <> ?",
-      new Object[]{
-        controlNumber.getStringText(),
-        controlNumber.getTypeCode(),
-        controlNumber.getUserViewString(),
-        controlNumber.getKey().getHeadingNumber()},
-      new Type[]{Hibernate.STRING,
-        Hibernate.INTEGER,
-        Hibernate.STRING, Hibernate.INTEGER});
-    return countList.stream().filter(Objects::nonNull).anyMatch(count -> count > 0);
-
-  }
 
   /**
    * Gets the doc count.

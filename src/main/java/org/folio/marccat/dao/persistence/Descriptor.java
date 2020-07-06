@@ -566,61 +566,6 @@ public abstract class Descriptor implements PersistentObjectWithView, SortFormOb
 
 
   /**
-   * Check descriptor.
-   *
-   * @deprecated
-   * @param allowPotentialDup the allow potential dup
-   * @param session           the session
-   * @throws DuplicateDescriptorException         the duplicate descriptor exception
-   * @throws MatchedHeadingInAnotherViewException the matched heading in another view exception
-   * @throws HibernateException                   the hibernate exception
-   * @throws SQLException                         the SQL exception
-   */
-  @Deprecated
-  public void checkDescriptor(boolean allowPotentialDup, final Session session)
-    throws HibernateException, SQLException {
-
-    if (isDeleted()) { // no check needed
-      return;
-    }
-    if (isMatchingAnotherHeading(session)) {
-      throw new DuplicateDescriptorException(this);
-    }
-    if (!allowPotentialDup && hasMatchingSortformInAnotherView(session)) {
-      throw new MatchedHeadingInAnotherViewException();
-    }
-  }
-
-  /**
-   * Checks if is matching another heading.
-   *
-   * @deprecated
-   * @param session the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   * @throws SQLException       the SQL exception
-   */
-  @Deprecated
-  public boolean isMatchingAnotherHeading(final Session session) throws HibernateException, SQLException {
-    return ((DescriptorDAO) getDAO()).isMatchingAnotherHeading(this, session);
-  }
-
-  /**
-   * Checks for matching sortform in another view.
-   *
-   * @deprecated
-   * @param session the session
-   * @return true, if successful
-   * @throws HibernateException the hibernate exception
-   * @throws SQLException       the SQL exception
-   */
-  @Deprecated
-  public boolean hasMatchingSortformInAnotherView(final Session session) throws HibernateException, SQLException {
-    return ((DescriptorDAO) getDAO())
-      .hasMatchingSortformInAnotherView(this, session);
-  }
-
-  /**
    * Generate new key.
    *
    * @throws DataAccessException the data access exception

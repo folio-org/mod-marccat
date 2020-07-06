@@ -111,13 +111,5 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
   }
 
 
-  @Override
-  public void update(final Persistence p, final Session session) {
-    try {
-      save(p, session);
-    } catch (HibernateException e) {
-      throw new DataAccessException(e);
-    }
-  }
-
+ 
 }

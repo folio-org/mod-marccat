@@ -361,39 +361,6 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
     }
   }
 
-  /**
-   * In the past some sortforms included "extra" information to help
-   * in identifying uniqueness (some headings added a code for "language of
-   * access point" so that otherwise identical headings could be
-   * differentiated if they had different languages). Now, the only example I
-   * can think of is the Dewey Decimal classification where the sortform
-   * includes the Dewey Edition Number so that identical numbers from
-   * different editions will have different sortforms.
-   *
-   * @param descriptor the descriptor
-   * @param session    the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   * @throws SQLException       the SQL exception
-   */
-  @SuppressWarnings("unchecked")
-  public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
-    final String sortForm = calculateSortForm(descriptor, session);
-    final List<Integer> countList = session.find(
-      querySelectCount + getPersistentClass().getName()
-        + queryAsC
-        + " where c.sortForm = ? and c.stringText = ? "
-        + " and c.key.userViewString = ?"
-        + " and c.key.headingNumber <> ?",
-      new Object[]{sortForm, descriptor.getStringText(),
-        descriptor.getUserViewString(),
-        descriptor.getKey().getHeadingNumber()},
-      new Type[]{
-        Hibernate.STRING, Hibernate.STRING,
-        Hibernate.STRING, Hibernate.INTEGER});
-    return countList.get(0) > 0;
-
-  }
 
   /**
    * Gets the matching heading.
@@ -749,31 +716,6 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
     return result;
   }
 
-  /**
-   * Return true if the given descriptor duplicates the sortform of another
-   * descriptor in a different view.
-   *
-   * @param descriptor the descriptor
-   * @param session    the session
-   * @return true, if successful
-   * @throws HibernateException the hibernate exception
-   * @throws SQLException       the SQL exception
-   */
-  @SuppressWarnings("unchecked")
-  public boolean hasMatchingSortformInAnotherView(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
-    final String sortForm = calculateSortForm(descriptor, session);
-    final List<Integer> countList = session.find(
-      querySelectCount + getPersistentClass().getName()
-        + queryAsC + " where c.sortForm = ? "
-        + " and c.key.userViewString <> ?",
-      new Object[]{
-        sortForm,
-        descriptor.getUserViewString()},
-      new Type[]{
-        Hibernate.STRING,
-        Hibernate.STRING});
-    return countList.get(0) > 0;
-  }
 
   /**
    * Load cross reference through a specific sql query.

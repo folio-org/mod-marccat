@@ -196,48 +196,6 @@ public class NameDescriptorDAO extends DescriptorDAO {
     persistByStatus(p, session);
   }
 
-  /**
-   * Checks if is matching another heading(NME_HDG).
-   *
-   * @param desc    the desc
-   * @param session the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean isMatchingAnotherHeading(final Descriptor desc, final Session session)
-    throws HibernateException {
-    final NME_HDG nameHeading = (NME_HDG) desc;
-    final List<NME_HDG> nameHeadingList = session.find(" from "
-        + getPersistentClass().getName()
-        + " as c "
-        + " where c.stringText= ? "
-        + " and c.indexingLanguage = ? "
-        + " and c.accessPointLanguage = ?"
-        + " and c.typeCode =? "
-        + " and c.subTypeCode =? "
-        + " and c.key.userViewString = ?"
-        + " and c.key.headingNumber <> ?",
-      new Object[]{
-        nameHeading.getStringText(),
-        nameHeading.getIndexingLanguage(),
-        nameHeading.getAccessPointLanguage(),
-        nameHeading.getTypeCode(),
-        nameHeading.getSubTypeCode(),
-        nameHeading.getUserViewString(),
-        nameHeading.getKey().getHeadingNumber()},
-      new Type[]{Hibernate.STRING,
-        Hibernate.INTEGER,
-        Hibernate.INTEGER,
-        Hibernate.INTEGER,
-        Hibernate.INTEGER,
-        Hibernate.STRING,
-        Hibernate.INTEGER});
-    nameHeadingList.stream().forEach((NME_HDG descriptor) ->
-      compareHeading(nameHeading, descriptor));
-    return false;
-  }
 
   /**
    * Compare the headings by authority source.

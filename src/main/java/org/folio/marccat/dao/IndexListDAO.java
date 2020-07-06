@@ -1,17 +1,13 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
+
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.codetable.IndexListElement;
-import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.dao.persistence.IndexList;
-import org.folio.marccat.dao.persistence.IndexListKey;
 import java.util.*;
 import java.util.stream.Collectors;
-import static java.util.stream.Collectors.toList;
+
 
 /**
  * Provides data access to IDX_LIST table
@@ -24,25 +20,6 @@ public class IndexListDAO extends AbstractDAO {
   private static final String CODE_LIBRICAT = "' and a.codeLibriCatMades = 'LC'";
   private static final String LANGUAGE = " and a.key.language = '";
 
-  /**
-   * Returns the browse indexes types associated to the given language.
-   *
-   * @param session the session of hibernate
-   * @param locale  the Locale, used here as a filter criterion.
-   * @return the browse indexes
-   * @throws HibernateException
-   */
-  public List<Avp<String>> getBrowseIndex(final Locale locale, final Session session) throws HibernateException {
-    final String query =
-      FROM_INDEX_LIST_AS_A
-        + "where SUBSTR(a.browseCode, 1, 1) = 'B' "
-        + "and a.key.language = '"
-        + locale.getISO3Language()
-        + CODE_LIBRICAT
-        + " order by a.languageDescription";
-
-    return getIndexBrowseByQuery(query, session);
-  }
 
   /**
    * Return the language independent (key) index value to be used when
@@ -76,45 +53,6 @@ public class IndexListDAO extends AbstractDAO {
   }
 
 
-  /**
-   * Gets the sort form parameters by key.
-   *
-   * @param indexKey the index key
-   * @param session  the session
-   * @return the sort form parameters by key
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  public SortFormParameters getSortFormParametersByKey(final String indexKey, final Session session)
-    throws HibernateException {
-    SortFormParameters result = null;
-    IndexListKey ilk = new IndexListKey(indexKey);
-    List<IndexList> l =
-      session.find(
-        "from IndexList as t where t.key.keyNumber = ? "
-          + " and trim(t.key.typeCode) = ? "
-          + " and t.codeLibriCatMades = 'LC'"
-          + " and t.key.language = ? ",
-        new Object[]{
-          ilk.getKeyNumber(),
-          ilk.getTypeCode(),
-          ilk.getLanguage()},
-        new Type[]{
-          Hibernate.INTEGER,
-          Hibernate.STRING,
-          Hibernate.STRING});
-    if (!l.isEmpty()) {
-      IndexList i =  l.get(0);
-      result =
-        new SortFormParameters(
-          i.getSortFormMainTypeCode(),
-          i.getSortFormSubTypeCode(),
-          i.getSortFormTypeCode(),
-          i.getSortFormFunctionCode(),
-          i.getSortFormSkipInFiling());
-    }
-    return result;
-  }
 
   /**
    * Gets the index by local abbreviation.
@@ -155,22 +93,6 @@ public class IndexListDAO extends AbstractDAO {
     ).collect(Collectors.toList());
   }
 
-
-  /**
-   * Get the index browse e for a expecific query
-   *
-   * @param query
-   * @param session
-   * @throws HibernateException
-   */
-  @SuppressWarnings("unchecked")
-  public List<Avp<String>> getIndexBrowseByQuery(final String query, final Session session) throws HibernateException {
-    final List<IndexList> indexesList = session.find(query);
-    return indexesList
-      .stream()
-      .map(index -> new Avp<>(index.getLanguageCode(), index.getLanguageDescription()))
-      .collect(toList());
-  }
 
 
 
