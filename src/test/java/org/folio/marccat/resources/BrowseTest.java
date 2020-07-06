@@ -101,7 +101,26 @@ public class BrowseTest extends TestBase {
     Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
-      .param("query", "NTN Alessandro Manzoni")
+      .param("query", "NTN Alessandro Manzoni. Promessi sposi")
+      .param("view", "1")
+      .param("mainLibrary", "172")
+      .param("pageSize", "10")
+      .param("lang", "ita")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+  @Test
+  public void getFirstPageByNameTitleTitle() {
+
+    String url = getURI("/marccat/browse");
+    Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("query", "NTN Alessandro Manzoni. Promessi sposi")
       .param("view", "1")
       .param("mainLibrary", "172")
       .param("pageSize", "10")
@@ -121,6 +140,25 @@ public class BrowseTest extends TestBase {
 
     given()
       .param("query", "PU Bologna : Zanichelli")
+      .param("view", "1")
+      .param("mainLibrary", "172")
+      .param("pageSize", "10")
+      .param("lang", "ita")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+  @Test
+  public void getFirstPageByPublisherPlace() {
+
+    String url = getURI("/marccat/browse");
+    Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("query", "PP Bologna : Zanichelli")
       .param("view", "1")
       .param("mainLibrary", "172")
       .param("pageSize", "10")

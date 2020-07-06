@@ -11,16 +11,11 @@ import org.folio.marccat.dao.persistence.T_BIB_DSPLY_FRMT;
 import org.folio.marccat.dao.persistence.T_ITM_DSPLY_FRMT;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
-import org.folio.marccat.search.domain.MarcRecord;
 import org.folio.marccat.search.domain.Record;
 import org.folio.marccat.search.engine.SearchEngine;
-
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 import java.util.OptionalInt;
-
-import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.util.F.safe;
 
@@ -63,26 +58,6 @@ public class SearchResponse {
     this.idSet = safe(idSet);
   }
 
-  /**
-   * Constructor for list of variants for a single record.
-   *
-   * @param recordId     the record identifier.
-   * @param variantViews the list of variant views.
-   */
-  public SearchResponse(final int recordId, final List<Integer> variantViews) {
-    this.searchingView = Integer.MIN_VALUE;
-    this.displayQuery = Global.EMPTY_STRING;
-    this.record =
-      safe(variantViews)
-        .stream()
-        .map(view -> {
-          final Record record = new MarcRecord();
-          record.setRecordView(view);
-          return record;
-        })
-        .toArray(Record[]::new);
-    this.idSet = stream(record).mapToInt(record -> recordId).toArray();
-  }
 
   /**
    * Returns the id set wrapped by this instance.

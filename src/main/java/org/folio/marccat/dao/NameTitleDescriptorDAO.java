@@ -231,36 +231,6 @@ public class NameTitleDescriptorDAO extends DescriptorDAO {
     return null;
   }
 
-  /**
-   * Checks if is matching another heading.
-   *
-   * @param desc    the desc
-   * @param session the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean isMatchingAnotherHeading(final Descriptor desc, final Session session)
-    throws HibernateException {
-
-    final NME_TTL_HDG nameTitleHeading = (NME_TTL_HDG) desc;
-    final int view = View.toIntView(nameTitleHeading.getUserViewString());
-    final Query q = session.createQuery("select distinct hdg from "
-      + "NME_TTL_HDG as hdg, "
-      + " where hdg.nameHeadingNumber = :nameKey "
-      + " and hdg.titleHeadingNumber = :titleKey "
-      + " and c.key.headingNumber <> :currHdgNbr "
-      + " and hdg.key.userViewString = '" + View.makeSingleViewString(view) + "'");
-    q.setInteger("nameKey", nameTitleHeading.getNameHeadingNumber());
-    q.setInteger("titleKey", nameTitleHeading.getTitleHeadingNumber());
-    q.setInteger("currHdgNbr", nameTitleHeading.getHeadingNumber());
-    List<NME_TTL_HDG> nameTitleHeadingList = (List<NME_TTL_HDG>) q.list();
-    nameTitleHeadingList = (List<NME_TTL_HDG>) isolateViewForList(nameTitleHeadingList, view, session);
-    nameTitleHeadingList.forEach((NME_TTL_HDG descriptor) -> compareHeading(nameTitleHeading, descriptor));
-    return false;
-
-  }
 
   /**
    * Compare the headings by authority source.

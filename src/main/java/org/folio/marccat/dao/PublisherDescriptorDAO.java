@@ -69,46 +69,6 @@ public class PublisherDescriptorDAO extends DescriptorDAO {
 
   }
 
-  /**
-   * Checks if is matching another heading.
-   *
-   * @param descriptor the descriptor
-   * @param session    the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session)
-    throws HibernateException {
-    final PUBL_HDG publisher = (PUBL_HDG) descriptor;
-    final List<Integer> publisherList = session.find(
-      "select count(*) from "
-        + getPersistentClass().getName()
-        + " as c "
-        + " where c.nameStringText = ?"
-        + " and c.placeStringText = ? "
-        + " and c.indexingLanguage = ? "
-        + " and c.accessPointLanguage = ?"
-        + " and c.key.userViewString = ? "
-        + " and c.key.headingNumber <> ?",
-      new Object[]{
-        publisher.getNameStringText(),
-        publisher.getPlaceStringText(),
-        publisher.getIndexingLanguage(),
-        publisher.getAccessPointLanguage(),
-        publisher.getUserViewString(),
-        descriptor.getKey().getHeadingNumber()},
-      new Type[]{Hibernate.STRING,
-        Hibernate.STRING,
-        Hibernate.INTEGER,
-        Hibernate.INTEGER,
-        Hibernate.STRING,
-        Hibernate.INTEGER
-      });
-    return publisherList.get(0) > 0;
-
-  }
 
 
 

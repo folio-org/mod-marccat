@@ -78,39 +78,7 @@ public class ClassificationDescriptorDAO extends DescriptorDAO {
     return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
   }
 
-  /**
-   * Checks if a heading(CLSTN) is matching another heading(CLSTN).
-   *
-   * @param descriptor the descriptor
-   * @param session    the session
-   * @return true, if is matching another heading
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean isMatchingAnotherHeading(final Descriptor descriptor, final Session session) throws HibernateException {
-    final CLSTN d = (CLSTN) descriptor;
-    final List<Integer> countList =
-      session.find(
-        "select count(*) from "
-          + getPersistentClass().getName()
-          + " as c "
-          + " where c.stringText = ?"
-          + " and c.typeCode = ?"
-          + " and c.key.userViewString = ? "
-          + " and c.key.headingNumber <> ?",
-        new Object[]{
-          d.getStringText(),
-          d.getTypeCode(),
-          d.getUserViewString(),
-          d.getKey().getHeadingNumber()},
-        new Type[]{
-          Hibernate.STRING,
-          Hibernate.INTEGER,
-          Hibernate.STRING,
-          Hibernate.INTEGER});
-    return countList.stream().filter(Objects::nonNull).anyMatch(count -> count > 0);
-  }
+
 
   /**
    * Gets the headings by sortform.
