@@ -8,17 +8,14 @@ import org.folio.marccat.business.cataloguing.common.SortFormObject;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.SortFormException;
-import org.folio.marccat.business.descriptor.MatchedHeadingInAnotherViewException;
 import org.folio.marccat.business.descriptor.SortFormParameters;
 import org.folio.marccat.business.descriptor.SortformUtils;
-import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.*;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.Map;
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 

@@ -8,8 +8,6 @@ import org.folio.marccat.dao.persistence.BibliographicNote;
 import org.folio.marccat.dao.persistence.BibliographicNoteOverflow;
 import org.folio.marccat.dao.persistence.BibliographicNoteTag;
 import org.folio.marccat.dao.persistence.StandardNoteAccessPoint;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.util.Iterator;
 
 /**
@@ -111,5 +109,5 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
   }
 
 
- 
+
 }
