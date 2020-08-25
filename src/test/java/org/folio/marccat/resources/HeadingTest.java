@@ -239,7 +239,7 @@ public class HeadingTest extends TestBase {
       .when()
       .delete(url)
       .then()
-      .statusCode(204);
+      .statusCode(200);
   }
 
   @Test
