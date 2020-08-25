@@ -3,6 +3,7 @@ package org.folio.marccat.resources;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.ErrorCollection;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.shared.RecordUtils;
@@ -54,18 +55,17 @@ public class HeadingAPI extends BaseResource {
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/delete-heading")
-  public void deleteHeading(
+  public ResponseEntity deleteHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
-    doDelete((storageService, configuration) -> {
+    return doDeleteWithResponse((storageService, configuration) -> {
       try {
         storageService.deleteHeadingById(heading, view);
-        return heading;
+        return new ResponseEntity(heading, HttpStatus.OK);
       } catch (final Exception exception) {
-        logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-        return null;
+        return new ResponseEntity(heading, HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }, tenant, okapiUrl, configurator);
   }

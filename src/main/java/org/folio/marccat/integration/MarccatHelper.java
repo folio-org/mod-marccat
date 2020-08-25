@@ -180,6 +180,24 @@ public abstract class MarccatHelper {
   }
 
   /**
+   * Executes a DELETE request.
+   *
+   * @param adapter           the bridge that carries on the existing logic.
+   * @param tenant            the tenant associated with the current request.
+   * @param okapiUrl          the okapi url.
+   * @param configurator      the configuration client.
+   * @param configurationSets the requested configuration attributes sets.
+   */
+  public static <T> T doDeleteWithResponse(
+    final PieceOfExistingLogicAdapter<T> adapter,
+    final String tenant,
+    final String okapiUrl,
+    final Configuration configurator,
+    final String... configurationSets) {
+    return exec(adapter, tenant, okapiUrl, configurator, configurationSets);
+   }
+
+  /**
    * Provides a unified approach (within the cataloging module) for wrapping an existing blocking flow.
    *
    * @param adapter           the bridge that carries on the existing logic.
