@@ -4,9 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**

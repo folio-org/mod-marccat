@@ -124,7 +124,7 @@ public class ProjectedGraphic extends PhysicalDescription {
     soundOnMediumOrSeparateCode = c;
   }
 
-
+ @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
     if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));
