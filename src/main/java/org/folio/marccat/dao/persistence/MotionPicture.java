@@ -4,9 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
@@ -234,51 +231,7 @@ public class MotionPicture extends PhysicalDescription {
     obsolete1 = c;
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
-      content.setAttribute("presentationFormatCode", EMPTY_STRING + getPresentationFormatCode());
-      content.setAttribute("includesSoundCode", EMPTY_STRING + getIncludesSoundCode());
-      content.setAttribute("mediumForSoundCode", EMPTY_STRING + getMediumForSoundCode());
-      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
-      content.setAttribute("configurationCode", EMPTY_STRING + getConfigurationCode());
-      content.setAttribute("productionElementsCode", EMPTY_STRING + getProductionElementsCode());
-      content.setAttribute("polarityCode", EMPTY_STRING + getPolarityCode());
-      content.setAttribute("generationCode", EMPTY_STRING + getGenerationCode());
-      content.setAttribute("baseOfFilmCode", EMPTY_STRING + getBaseOfFilmCode());
-      content.setAttribute("refinedCategoriesOfColourCode", EMPTY_STRING + getRefinedCategoriesOfColourCode());
-      content.setAttribute("kindOfColourStockCode", EMPTY_STRING + getKindOfColourStockCode());
-      content.setAttribute("deteriorationStageCode", EMPTY_STRING + getDeteriorationStageCode());
-      content.setAttribute("completenessCode", EMPTY_STRING + getCompletenessCode());
-      content.setAttribute("inspectionDate", EMPTY_STRING + getInspectionDate());
-    }
-    return content;
-  }
 
-  public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
-    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
-    setColourCode(content.getAttribute("colourCode").charAt(0));
-    setPresentationFormatCode(content.getAttribute("presentationFormatCode").charAt(0));
-    setIncludesSoundCode(content.getAttribute("includesSoundCode").charAt(0));
-    setMediumForSoundCode(content.getAttribute("mediumForSoundCode").charAt(0));
-    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
-    setConfigurationCode(content.getAttribute("configurationCode").charAt(0));
-    setProductionElementsCode(content.getAttribute("productionElementsCode").charAt(0));
-    setPolarityCode(content.getAttribute("polarityCode").charAt(0));
-    setGenerationCode(content.getAttribute("generationCode").charAt(0));
-    setBaseOfFilmCode(content.getAttribute("baseOfFilmCode").charAt(0));
-    setRefinedCategoriesOfColourCode(content.getAttribute("refinedCategoriesOfColourCode").charAt(0));
-    setKindOfColourStockCode(content.getAttribute("kindOfColourStockCode").charAt(0));
-    setDeteriorationStageCode(content.getAttribute("deteriorationStageCode").charAt(0));
-    setCompletenessCode(content.getAttribute("completenessCode").charAt(0));
-    setInspectionDate(content.getAttribute("inspectionDate"));
-  }
 
   @Override
   public void setContentFromMarcString(final String s) {

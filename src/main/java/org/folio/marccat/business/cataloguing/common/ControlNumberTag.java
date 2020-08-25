@@ -2,9 +2,6 @@ package org.folio.marccat.business.cataloguing.common;
 
 import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
 import org.folio.marccat.shared.CorrelationValues;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.text.DecimalFormat;
 
 
@@ -76,26 +73,5 @@ public abstract class ControlNumberTag extends FixedFieldUsingItemEntity {
     return v.isValueDefined(1) && (v.getValue(1) != getHeaderType());
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("amicusNumber", "" + "000000000000");
-    }
-    return content;
-  }
 
-  public void parseModelXmlElementContent(Element xmlElement) {
-    xmlElement.getChildNodes().item(0);
-  }
-
-  @Override
-  public void setContentFromMarcString(final String s) {
-    try {
-      int controlNumber = Integer.parseInt(s);
-      getItemEntity().setAmicusNumber(controlNumber);
-    } catch (NumberFormatException e) {
-      // not a number so don't set AMICUS number
-    }
-  }
 }

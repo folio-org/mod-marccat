@@ -4,9 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
@@ -127,35 +124,7 @@ public class ProjectedGraphic extends PhysicalDescription {
     soundOnMediumOrSeparateCode = c;
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
-      content.setAttribute("baseOfEmulsionCode", EMPTY_STRING + getBaseOfEmulsionCode());
-      content.setAttribute("soundOnMediumOrSeparateCode", EMPTY_STRING + getSoundOnMediumOrSeparateCode());
-      content.setAttribute("mediumForSoundCode", EMPTY_STRING + getMediumForSoundCode());
-      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
-      content.setAttribute("secondarySupportMaterialCode", EMPTY_STRING + getSecondarySupportMaterialCode());
-    }
-    return content;
-  }
 
-  public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
-    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
-    setColourCode(content.getAttribute("colourCode").charAt(0));
-    setBaseOfEmulsionCode(content.getAttribute("baseOfEmulsionCode").charAt(0));
-    setSoundOnMediumOrSeparateCode(content.getAttribute("soundOnMediumOrSeparateCode").charAt(0));
-    setMediumForSoundCode(content.getAttribute("mediumForSoundCode").charAt(0));
-    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
-    setSecondarySupportMaterialCode(content.getAttribute("secondarySupportMaterialCode").charAt(0));
-  }
-
-  @Override
   public void setContentFromMarcString(final String s) {
     setGeneralMaterialDesignationCode(s.charAt(0));
     if (s.length() > 1) setSpecificMaterialDesignationCode(s.charAt(1));

@@ -176,17 +176,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
     return getPersistenceState().getDAO();
   }
 
-  /**
-   * Creates and sets string text from xml element content.
-   *
-   * @param xmlElement -- the xml element content.
-   */
-  @Override
-  public void parseModelXmlElementContent(final Element xmlElement) {
-    final StringText s = StringText.parseModelXmlElementContent(xmlElement);
-    setStringText(s);
-    setDescriptorStringText(s);
-  }
+
 
   /**
    * HashCode function of access point.

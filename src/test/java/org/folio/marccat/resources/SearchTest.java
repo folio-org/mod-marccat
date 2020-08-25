@@ -7,9 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.Map;
-
 import static io.restassured.RestAssured.given;
 
 @RunWith(SpringRunner.class)
@@ -27,6 +25,23 @@ public class SearchTest extends TestBase {
     given()
       .param("qbib", "TI I promessi sposi")
       .param("lang", "ita")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+  @Test
+  public void mergedSearch1() {
+
+    String url = getURI( "/marccat/mergedSearch");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("qbib", "TI I promessi sposi")
+      .param("lang", "ita")
+      .param("view", 0)
       .headers(headers)
       .when()
       .get(url)
@@ -93,8 +108,9 @@ public class SearchTest extends TestBase {
 
     given()
       .param("qbib", "TI I promessi sposi")
+      .param("qauth", "TI I promessi sposi")
       .param("lang", "ita")
-      .param("view", "-1")
+      .param("view", -1)
       .headers(headers)
       .when()
       .get(url)

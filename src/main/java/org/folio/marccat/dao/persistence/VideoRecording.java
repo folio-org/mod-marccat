@@ -4,9 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
@@ -123,33 +120,7 @@ public class VideoRecording extends PhysicalDescription {
     obsolete1 = c;
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
-      content.setAttribute("formatCode", EMPTY_STRING + getFormatCode());
-      content.setAttribute("includesSoundCode", EMPTY_STRING + getIncludesSoundCode());
-      content.setAttribute("mediumForSoundCode", EMPTY_STRING + getMediumForSoundCode());
-      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
-      content.setAttribute("configurationCode", EMPTY_STRING + getConfigurationCode());
-    }
-    return content;
-  }
 
-  public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
-    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
-    setColourCode(content.getAttribute("colourCode").charAt(0));
-    setFormatCode(content.getAttribute("formatCode").charAt(0));
-    setIncludesSoundCode(content.getAttribute("includesSoundCode").charAt(0));
-    setMediumForSoundCode(content.getAttribute("mediumForSoundCode").charAt(0));
-    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
-    setConfigurationCode(content.getAttribute("configurationCode").charAt(0));
-  }
 
   @Override
   public void setContentFromMarcString(final String s) {
