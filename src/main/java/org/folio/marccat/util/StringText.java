@@ -15,7 +15,7 @@ public class StringText implements Serializable {
    * The Constant serialVersionUID.
    */
   private static final long serialVersionUID = 1L;
-  private static final String SUBFIELD = "subfield";
+  
 
   /**
    * The subfield list.

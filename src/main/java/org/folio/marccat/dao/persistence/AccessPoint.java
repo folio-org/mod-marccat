@@ -10,8 +10,6 @@ import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.util.StringText;
-import org.w3c.dom.Element;
-
 import java.sql.SQLException;
 import java.util.Set;
 

@@ -1,7 +1,5 @@
 package org.folio.marccat.business.cataloguing.common;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +7,6 @@ import java.text.SimpleDateFormat;
 
 public abstract class DateOfLastTransactionTag extends FixedFieldUsingItemEntity {
 
-  private transient Log logger = LogFactory.getLog(DateOfLastTransactionTag.class);
   private String formatDat = "yyyyMMddHHmmss.S";
 
   public DateOfLastTransactionTag() {
