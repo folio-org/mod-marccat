@@ -16,10 +16,12 @@ import static io.restassured.RestAssured.given;
 
 public class SearchTest extends TestBase {
 
-  @Test
-  public void mergedSearch() {
+  private static final String MERGED_SEARCH_URL = "/marccat/mergedSearch";
 
-    String url = getURI( "/marccat/mergedSearch");
+  @Test
+  public void getMergedSearch_return200Status() {
+
+    String url = getURI(MERGED_SEARCH_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -33,9 +35,9 @@ public class SearchTest extends TestBase {
   }
 
   @Test
-  public void mergedSearch1() {
+  public void getMergedSearchWithAnyView_return200Status() {
 
-    String url = getURI( "/marccat/mergedSearch");
+    String url = getURI( MERGED_SEARCH_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -50,9 +52,9 @@ public class SearchTest extends TestBase {
   }
 
   @Test
-  public void mergedSearchSortByTitle() {
+  public void getMergedSearchSortByTitle_return200Status() {
 
-    String url = getURI( "/marccat/mergedSearch");
+    String url = getURI( MERGED_SEARCH_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -68,15 +70,15 @@ public class SearchTest extends TestBase {
 
 
   @Test
-  public void mergedSearchSortBySubject() {
+  public void getMergedSearchSortBySubject_return200Status() {
 
-    String url = getURI( "/marccat/mergedSearch");
+    String url = getURI( MERGED_SEARCH_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
-      .param("qbib", "TI Devoto-Oli dei sinonimi e contrari")
+      .param("qbib", "SU Manzoni, Alessandro, 1785-1873")
       .param("lang", "ita")
-      .param("sortBy", "4")
+      .param("sortBy", "21")
       .headers(headers)
       .when()
       .get(url)
@@ -85,9 +87,9 @@ public class SearchTest extends TestBase {
   }
 
   @Test
-  public void mergedSearchByOperatorAnd() {
+  public void getMergedSearchByOperatorAnd_return200Status() {
 
-    String url = getURI( "/marccat/mergedSearch");
+    String url = getURI( MERGED_SEARCH_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -101,9 +103,9 @@ public class SearchTest extends TestBase {
   }
 
   @Test
-  public void mergedSearchForAuthority() {
+  public void getMergedSearchForAuthority_return200Status() {
 
-    String url = getURI( "/marccat/mergedSearch");
+    String url = getURI( MERGED_SEARCH_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -120,7 +122,7 @@ public class SearchTest extends TestBase {
 
 
   @Test
-  public void search() {
+  public void getSearch_return200Status() {
 
     String url = getURI("/marccat/search");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
@@ -135,7 +137,7 @@ public class SearchTest extends TestBase {
   }
 
    @Test
-  public void searchVertical() {
+  public void getSearchVertica_return200Statusl() {
 
     String url = getURI("/marccat/searchVertical");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
@@ -152,7 +154,7 @@ public class SearchTest extends TestBase {
   }
 
   @Test
-  public void countSearch() {
+  public void getCountSearch_return200Status() {
 
     String url = getURI( "/marccat/countSearch");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);

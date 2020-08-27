@@ -16,8 +16,10 @@ import static io.restassured.RestAssured.given;
 @ActiveProfiles("test")
 public class FixedFieldCodesGroupTest extends TestBase {
 
+  private static final String FIXED_FIELDS_CODE_GROUPS_URL = "/marccat/fixed-fields-code-groups";
+
   @Test
-  public void getFixedFieldCodesGroupsByLeader() {
+  public void getFixedFieldsByLeader_return200Status() {
 
     String url = getURI("/marccat/fixed-fields-code-groups-by-leader");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
@@ -34,9 +36,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsFromLeader() {
+  public void getFixedFieldsFromLeader_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -54,9 +56,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
 
 
   @Test
-  public void getFixedFieldCodesGroupsOfGlobe() {
+  public void getFixedFieldsOfGlobe_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -72,9 +74,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfMap() {
+  public void getFixedFieldsOfMap_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -90,9 +92,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfMicroform() {
+  public void getFixedFieldsOfMicroform_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -108,9 +110,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfMotionPicture() {
+  public void getFixedFieldsOfMotionPicture_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -126,9 +128,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfNonProjecteGraphic() {
+  public void getFixedFieldsOfNonProjecteGraphic_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -144,9 +146,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfProjecteGraphic() {
+  public void getFixedFieldsOfProjecteGraphic_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -162,9 +164,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfSoundRecording() {
+  public void getFixedFieldsOfSoundRecording_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -180,9 +182,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfVideoRecording() {
+  public void getFixedFieldsOfVideoRecording_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -198,9 +200,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfElectronicResource() {
+  public void getFixedFieldsOfElectronicResourc_return200Statuse() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -216,9 +218,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfRemoteSensingImage() {
+  public void getFixedFieldsOfRemoteSensingImage_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -234,9 +236,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfText() {
+  public void getFixedFieldsOfText() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -252,9 +254,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfUnspecified() {
+  public void getFixedFieldsOfUnspecified_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -270,9 +272,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfTactileMaterial() {
+  public void getFixedFieldsOfTactileMaterial_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -288,9 +290,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfKit() {
+  public void getFixedFieldsOfKit_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -306,9 +308,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfNotedMusic() {
+  public void getFixedFieldsOfNotedMusic_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -324,9 +326,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfComputerFile() {
+  public void getFixedFieldsOfComputerFile_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -343,9 +345,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
 
 
   @Test
-  public void getFixedFieldCodesGroupsOfMixedMaterial(){
+  public void getFixedFieldsOfMixedMaterial_return200Status(){
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -361,9 +363,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfMaps() {
+  public void getFixedFieldsOfMaps_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -379,9 +381,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfMusic() {
+  public void getFixedFieldsOfMusic() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -397,9 +399,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfSerial() {
+  public void getFixedFieldsOfSerial_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -415,9 +417,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
   }
 
   @Test
-  public void getFixedFieldCodesGroupsOfVisualMaterial() {
+  public void getFixedFieldsOfVisualMaterial_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -436,9 +438,9 @@ public class FixedFieldCodesGroupTest extends TestBase {
 
 
   @Test
-  public void getFixedFieldCodesGroupsByTag008() {
+  public void getFixedFieldsByTag008_return200Status() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -455,7 +457,7 @@ public class FixedFieldCodesGroupTest extends TestBase {
 
   public void getFixedFieldCodesGroups_failed() {
 
-    String url = getURI("/marccat/fixed-fields-code-groups");
+    String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
