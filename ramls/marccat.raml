@@ -100,7 +100,7 @@ resourceTypes:
             500:
               description: "Internal server error"
   /searchAuth:
-    displayName: Search marc authority's records
+    displayName: Search marc authority records
     type:
       collection-item:
         exampleItem: !include examples/searchAuthResult.json
@@ -110,10 +110,10 @@ resourceTypes:
           searchable: {description: "using CCL query in q parameter",
           example: "q=na \"giannini\"}
           ]
-      description: Return a list of marc authority's records and search metadata
+      description: Return a list of marc authority records and search metadata
       responses:
         200:
-          description: "Return a list of marc authority's records and search metadata"
+          description: "Return a list of marc authority records and search metadata"
         400:
           description: "Bad request"
           body:
