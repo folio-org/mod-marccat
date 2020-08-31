@@ -1,0 +1,58 @@
+{
+  "results": [
+    {
+      "searchingView": -1,
+      "displayQuery": "na \"giannini\"",
+      "from": 1,
+      "to": 1,
+      "numFound": 2,
+      "docs": [
+        {
+          "recordView": -1,
+          "countDoc": 0,
+          "queryForAssociatedDoc": "NK 1",
+          "tagHighlighted": null,
+          "data": {
+            "leader": "00000nam  2200000 i 4500",
+            "fields": [
+              {
+                "001": "000000000001"
+              },
+              {
+                "005": "20200220080126.0"
+              },
+              {
+                "008": "200729 n annnnabbn n2ann und u"
+              },
+              {
+                "040": {
+                  "subfields": [
+                    {
+                      "a": "SCA"
+                    },
+                    {
+                      "b": "eng"
+                    }
+                  ],
+                  "ind1": " ",
+                  "ind2": " "
+                }
+              },
+              {
+                "100": {
+                  "subfields": [
+                    {
+                      "a": "Giannini, Luca."
+                    }
+                  ],
+                  "ind1": "1",
+                  "ind2": " "
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

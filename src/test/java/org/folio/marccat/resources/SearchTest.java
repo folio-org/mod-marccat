@@ -152,4 +152,21 @@ public class SearchTest extends TestBase {
       .statusCode(200);
   }
 
+  @Test
+  public void searchAuthority() {
+
+    String url = getURI( "/marccat/searchAuth");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("q", "NA giannini")
+      .param("lang", "eng")
+      .param("view", "-1")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
 }

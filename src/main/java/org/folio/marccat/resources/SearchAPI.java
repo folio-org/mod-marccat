@@ -58,6 +58,37 @@ public class SearchAPI extends BaseResource {
     }, tenant, okapiUrl, configurator);
   }
 
+  @GetMapping("/searchAuth")
+  public SearchResponse searchAuth(
+    @RequestParam(name = "lang", defaultValue = "eng") final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl,
+    @RequestParam("q") final String q,
+    @RequestParam(name = "from", defaultValue = "1") final int from,
+    @RequestParam(name = "to", defaultValue = "10") final int to,
+    @RequestParam(name = "ml", defaultValue = "170") final int mainLibraryId,
+    @RequestParam(name = "dpo", defaultValue = "1") final int databasePreferenceOrder,
+    @RequestParam(name = "sortBy", required = false) final String[] sortAttributes,
+    @RequestParam(name = "sortOrder", required = false) final String[] sortOrders) {
+    return doGet((StorageService storageService, Map<String, String> configuration) -> {
+       final SearchEngine searchEngine =
+        SearchEngineFactory.create(
+          SearchEngineFactory.EngineType.LIGHTWEIGHT,
+          mainLibraryId,
+          databasePreferenceOrder,
+          storageService);
+      SearchResponse response;
+
+      response = searchEngine.fetchRecords(
+        searchEngine.expertSearch(q, locale(lang), View.AUTHORITY, from, to, sortAttributes, sortOrders),
+        "F",
+        1,
+        ((to - from) + 1));
+
+      searchEngine.injectDocCount(response, storageService);
+      return response;
+    }, tenant, okapiUrl, configurator);
+  }  
 
   @GetMapping("/mergedSearch")
   public List<SearchResponse> mergedSearch(

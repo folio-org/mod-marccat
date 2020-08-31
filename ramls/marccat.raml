@@ -14,6 +14,7 @@ types:
   searchResult: !include schema/searchResult.json
   searchResultVertical: !include schema/searchResultVertical.json
   searchResultCollection: !include schema/searchResultCollection.json
+  searchAuthResult: !include schema/searchAuthResult.json
 
 
 traits:
@@ -98,3 +99,28 @@ resourceTypes:
               description: "Return a list of marc records in text format"
             500:
               description: "Internal server error"
+  /searchAuth:
+    displayName: Search marc authority's records
+    type:
+      collection-item:
+        exampleItem: !include examples/searchAuthResult.json
+        schema: searchResult
+    get:
+      is: [pageable,
+          searchable: {description: "using CCL query in q parameter",
+          example: "q=na \"giannini\"}
+          ]
+      description: Return a list of marc authority's records and search metadata
+      responses:
+        200:
+          description: "Return a list of marc authority's records and search metadata"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Query not supported"
