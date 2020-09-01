@@ -20,6 +20,11 @@
           "permissionsRequired": []
         },{
           "methods": ["GET"],
+          "pathPattern": "/marccat/searchAuth",
+          "modulePermissions": ["configuration.all"],
+          "permissionsRequired": []
+        },{
+          "methods": ["GET"],
           "pathPattern": "/marccat/mergedSearch",
           "modulePermissions": ["configuration.all"],
           "permissionsRequired": []
