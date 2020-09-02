@@ -4,9 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
@@ -186,43 +183,7 @@ public class SoundRecording extends PhysicalDescription {
     tapeWidthCode = c;
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
-      content.setAttribute("speedCode", EMPTY_STRING + getSpeedCode());
-      content.setAttribute("configurationCode", EMPTY_STRING + getConfigurationCode());
-      content.setAttribute("grooveWidthCode", EMPTY_STRING + getGrooveWidthCode());
-      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
-      content.setAttribute("tapeWidthCode", EMPTY_STRING + getTapeWidthCode());
-      content.setAttribute("tapeConfigurationCode", EMPTY_STRING + getTapeConfigurationCode());
-      content.setAttribute("discTypeCode", EMPTY_STRING + getDiscTypeCode());
-      content.setAttribute("sndMaterialTypeCode", EMPTY_STRING + getSndMaterialTypeCode());
-      content.setAttribute("cuttingTypeCode", EMPTY_STRING + getCuttingTypeCode());
-      content.setAttribute("specialPlaybackCharacteristicsCode", EMPTY_STRING + getSpecialPlaybackCharacteristicsCode());
-      content.setAttribute("storageTechniqueCode", EMPTY_STRING + getStorageTechniqueCode());
-    }
-    return content;
-  }
 
-  public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
-    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
-    setSpeedCode(content.getAttribute("speedCode").charAt(0));
-    setConfigurationCode(content.getAttribute("configurationCode").charAt(0));
-    setGrooveWidthCode(content.getAttribute("grooveWidthCode").charAt(0));
-    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
-    setTapeWidthCode(content.getAttribute("tapeWidthCode").charAt(0));
-    setTapeConfigurationCode(content.getAttribute("tapeConfigurationCode").charAt(0));
-    setDiscTypeCode(content.getAttribute("discTypeCode").charAt(0));
-    setSndMaterialTypeCode(content.getAttribute("sndMaterialTypeCode").charAt(0));
-    setCuttingTypeCode(content.getAttribute("cuttingTypeCode").charAt(0));
-    setSpecialPlaybackCharacteristicsCode(content.getAttribute("specialPlaybackCharacteristicsCode").charAt(0));
-    setStorageTechniqueCode(content.getAttribute("storageTechniqueCode").charAt(0));
-  }
 
   @Override
   public void setContentFromMarcString(final String s) {

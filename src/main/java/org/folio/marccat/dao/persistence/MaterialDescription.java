@@ -10,16 +10,12 @@ import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.shared.CorrelationValues;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
@@ -792,13 +788,6 @@ public class MaterialDescription extends FixedFieldUsingItemEntity implements Pe
     return getPersistenceState().getDAO();
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    return null;
-  }
-
-  public void parseModelXmlElementContent(Element xmlElement) {
-    // Do nothing because it is not used in the model
-  }
 
   public String getUserViewString() {
     return userViewHelper.getUserViewString();

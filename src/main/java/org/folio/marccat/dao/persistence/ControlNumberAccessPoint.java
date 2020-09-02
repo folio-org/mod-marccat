@@ -5,10 +5,6 @@ import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import static java.util.Optional.ofNullable;
 
 /**
  * Persistent class for  CNTL_NBR_ACS_PNT.
@@ -158,18 +154,7 @@ public class ControlNumberAccessPoint extends BibliographicAccessPoint implement
     validationCode = c;
   }
 
-  /**
-   * Generates an element content from document.
-   *
-   * @param xmlDocument -- the xml document.
-   * @return an element content.
-   */
-  @Override
-  public Element generateModelXmlElementContent(final Document xmlDocument) {
-    return ofNullable(xmlDocument).map(content -> {
-      return getStringText().generateModelXmlElementContent(xmlDocument);
-    }).orElse(null);
-  }
+
 
   /**
    * Compares an object with another one.

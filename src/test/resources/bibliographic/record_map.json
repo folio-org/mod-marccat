@@ -1,0 +1,247 @@
+{
+  "bibliographicRecord": {
+    "id": 5,
+    "canadianContentIndicator": "0",
+    "verificationLevel": "2",
+    "leader": {
+      "code": "000",
+      "value": "00000nem  2200000   4500"
+    },
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000444",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200818120615.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 33,
+          "code": "008",
+          "displayValue": "200818s        enk       u     1   eng r",
+          "dateEnteredOnFile": "200818",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "formOfItemCode": " ",
+          "governmentPublicationCode": " ",
+          "cartographicReliefCode1": " ",
+          "cartographicReliefCode2": " ",
+          "cartographicReliefCode3": " ",
+          "cartographicReliefCode4": " ",
+          "cartographicProjectionCode": "  ",
+          "cartographicMaterial": "u",
+          "cartographicIndexAvailabilityCode": "1",
+          "cartographicFormatCode1": " ",
+          "cartographicFormatCode2": " ",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "dateFirstPublication": "    ",
+            "formOfItemCode": " ",
+            "dateTypeCode": "s",
+            "governmentPublicationCode": " ",
+            "cartographicMaterial": "u",
+            "cartographicIndexAvailabilityCode": "1",
+            "cartographicFormatCode1": " ",
+            "cartographicFormatCode2": " ",
+            "languageCode": "eng",
+            "dateEnteredOnFile": "200818",
+            "dateLastPublication": "    ",
+            "cartographicReliefCode3": " ",
+            "cartographicReliefCode4": " ",
+            "recordModifiedCode": " ",
+            "cartographicReliefCode1": " ",
+            "recordCataloguingSourceCode": "r",
+            "cartographicReliefCode2": " ",
+            "placeOfPublication": "enk",
+            "cartographicProjectionCode": "  "
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "245",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 1,
+          "categoryCode": 3,
+          "headingTypeCode": "1",
+          "itemTypeCode": "2",
+          "functionCode": "-1",
+          "ind1": "0",
+          "ind2": "2",
+          "code": "245",
+          "displayValue": "\u001faI promessi sposi /\u001fcAlessandro Manzoni.",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 2
+        },
+        "added": false
+      }
+    ],
+    "recordView": 0
+  },
+  "recordTemplate": {
+    "id": 1,
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000444",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200818120615.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 33,
+          "code": "008",
+          "displayValue": "200818s        enk       u     1   eng r",
+          "dateEnteredOnFile": "200818",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "formOfItemCode": " ",
+          "governmentPublicationCode": " ",
+          "cartographicReliefCode1": " ",
+          "cartographicReliefCode2": " ",
+          "cartographicReliefCode3": " ",
+          "cartographicReliefCode4": " ",
+          "cartographicProjectionCode": "  ",
+          "cartographicMaterial": "u",
+          "cartographicIndexAvailabilityCode": "1",
+          "cartographicFormatCode1": " ",
+          "cartographicFormatCode2": " ",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "dateFirstPublication": "    ",
+            "formOfItemCode": " ",
+            "dateTypeCode": "s",
+            "governmentPublicationCode": " ",
+            "cartographicMaterial": "u",
+            "cartographicIndexAvailabilityCode": "1",
+            "cartographicFormatCode1": " ",
+            "cartographicFormatCode2": " ",
+            "languageCode": "eng",
+            "dateEnteredOnFile": "200818",
+            "dateLastPublication": "    ",
+            "cartographicReliefCode3": " ",
+            "cartographicReliefCode4": " ",
+            "recordModifiedCode": " ",
+            "cartographicReliefCode1": " ",
+            "recordCataloguingSourceCode": "r",
+            "cartographicReliefCode2": " ",
+            "placeOfPublication": "enk",
+            "cartographicProjectionCode": "  "
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ]
+  }
+}

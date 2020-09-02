@@ -1,0 +1,17 @@
+{
+  "categoryOfMaterial": "h",
+  "specificMaterialDesignationCode": "u",
+  "polarityCode": "u",
+  "dimensionCode": "u",
+  "reductionRatioRangeCode": "u",
+  "colorCode": "u",
+  "emulsionOnFilmCode": "u",
+  "generationCode": "u",
+  "baseOfFilmCode": "u",
+  "reductionRatioCode": "---",
+  "keyNumber": 0,
+  "code": "007",
+  "categoryCode": 1,
+  "headerTypeCode": "25",
+  "sequenceNumber": 0
+}

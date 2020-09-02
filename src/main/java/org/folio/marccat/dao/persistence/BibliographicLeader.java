@@ -1,8 +1,6 @@
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.config.constants.Global;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 
 public class BibliographicLeader extends Leader {
@@ -30,33 +28,6 @@ public class BibliographicLeader extends Leader {
     return result;
   }
 
-  public Element generateModelXmlElementContent(final Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("recordStatusCode", "" + getRecordStatusCode());
-      content.setAttribute("itemRecordTypeCode", "" + getItemRecordTypeCode());
-      content.setAttribute("itemBibliographicLevelCode", "" + getItemBibliographicLevelCode());
-      content.setAttribute("CONTROL_TYPE_CODE", "" + getControlTypeCode());
-      content.setAttribute("CHARACTER_CODING_SCHEME_CODE", "" + getCharacterCodingSchemeCode());
-      content.setAttribute("ENCODING_LEVEL", "" + getEncodingLevel());
-      content.setAttribute("DESCRIPTIVE_CATALOGUING_CODE", "" + getDescriptiveCataloguingCode());
-      content.setAttribute("LINKED_RECORD_CODE", "" + getLinkedRecordCode());
-    }
-    return content;
-  }
-
-  public void parseModelXmlElementContent(final Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setRecordStatusCode(content.getAttribute("recordStatusCode").charAt(0));
-    setItemRecordTypeCode(content.getAttribute("itemRecordTypeCode").charAt(0));
-    setItemBibliographicLevelCode(content.getAttribute("itemBibliographicLevelCode").charAt(0));
-    setControlTypeCode(content.getAttribute("CONTROL_TYPE_CODE").charAt(0));
-    setCharacterCodingSchemeCode(content.getAttribute("CHARACTER_CODING_SCHEME_CODE").charAt(0));
-    setEncodingLevel(content.getAttribute("ENCODING_LEVEL").charAt(0));
-    setDescriptiveCataloguingCode(content.getAttribute("DESCRIPTIVE_CATALOGUING_CODE").charAt(0));
-    setLinkedRecordCode(content.getAttribute("LINKED_RECORD_CODE").charAt(0));
-  }
 
   private BIB_ITM getBibItm() {
     return (BIB_ITM) getItemEntity();

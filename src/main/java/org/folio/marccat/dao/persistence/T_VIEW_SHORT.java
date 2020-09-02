@@ -85,13 +85,6 @@ public class T_VIEW_SHORT extends CodeTable {
     translationKey = i;
   }
 
-  public void setExternalCode(Object extCode) {
-    if (extCode instanceof String) {
-      code = Short.parseShort((String) extCode);
-    } else if (extCode instanceof Short) {
-      code = ((Short) extCode).shortValue();
-    }
-  }
 
   public int getNextNumber() throws DataAccessException {
 

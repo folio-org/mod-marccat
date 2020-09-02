@@ -42,6 +42,27 @@ public class HeadingTest extends TestBase {
   }
 
   @Test
+  public void saveTitleHeading() throws Exception{
+
+    String url = getURI("/marccat/save-heading");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/title.json"), "UTF-8");
+    ObjectMapper objectMapper = new ObjectMapper();
+    Heading heading = objectMapper.readValue(headingJson, Heading.class);
+
+    given()
+      .headers(headers)
+      .queryParam("view", "1")
+      .body(heading)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
+
+    //Test response keyNumber!=0
+  }
+
+  @Test
   public void createTitle2Heading() throws Exception{
 
     String url = getURI( "/marccat/create-heading");
@@ -218,7 +239,7 @@ public class HeadingTest extends TestBase {
       .when()
       .delete(url)
       .then()
-      .statusCode(204);
+      .statusCode(200);
   }
 
   @Test

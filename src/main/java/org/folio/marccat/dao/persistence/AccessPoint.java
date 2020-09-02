@@ -10,8 +10,6 @@ import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.util.StringText;
-import org.w3c.dom.Element;
-
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -176,17 +174,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
     return getPersistenceState().getDAO();
   }
 
-  /**
-   * Creates and sets string text from xml element content.
-   *
-   * @param xmlElement -- the xml element content.
-   */
-  @Override
-  public void parseModelXmlElementContent(final Element xmlElement) {
-    final StringText s = StringText.parseModelXmlElementContent(xmlElement);
-    setStringText(s);
-    setDescriptorStringText(s);
-  }
+
 
   /**
    * HashCode function of access point.

@@ -3,9 +3,6 @@ package org.folio.marccat.business.cataloguing.bibliographic;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.util.StringText;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -119,33 +116,6 @@ public abstract class VariableField extends Tag {
     return false;
   }
 
-  /**
-   * Sets default implementation.
-   *
-   * @return true.
-   */
-  public boolean isWorksheetEditable() {
-    return true;
-  }
-
-  /**
-   * Generates an element content from document.
-   *
-   * @param xmlDocument -- the xml document.
-   * @return an element content.
-   */
-  public Element generateModelXmlElementContent(final Document xmlDocument) {
-    return ofNullable(xmlDocument).map(content -> getStringText().generateModelXmlElementContent(xmlDocument)).orElse(null);
-  }
-
-  /**
-   * Converts an xml element to string text.
-   *
-   * @param xmlElement -- the xml element content.
-   */
-  public void parseModelXmlElementContent(final Element xmlElement) {
-    setStringText(StringText.parseModelXmlElementContent(xmlElement));
-  }
 
   /**
    * Checks if string text is null or empty.
