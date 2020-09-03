@@ -3,9 +3,6 @@ package org.folio.marccat.dao.persistence;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
@@ -160,39 +157,7 @@ public class ElectronicResource extends PhysicalDescription {
     reformattingQualityCode = c;
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", EMPTY_STRING + getColourCode());
-      content.setAttribute("dimensionsCode", EMPTY_STRING + getDimensionsCode());
-      content.setAttribute("includesSoundCode", EMPTY_STRING + getIncludesSoundCode());
-      content.setAttribute("imageBitDepth", getImageBitDepth());
-      content.setAttribute("fileFormatsCode", EMPTY_STRING + getFileFormatsCode());
-      content.setAttribute("qualityAssuranceTargetCode", EMPTY_STRING + getQualityAssuranceTargetCode());
-      content.setAttribute("antecedentSourceCode", EMPTY_STRING + getAntecedentSourceCode());
-      content.setAttribute("levelOfCompressionCode", EMPTY_STRING + getLevelOfCompressionCode());
-      content.setAttribute("reformattingQualityCode", EMPTY_STRING + getReformattingQualityCode());
-    }
-    return content;
-  }
 
-  public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
-    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
-    setColourCode(content.getAttribute("colourCode").charAt(0));
-    setDimensionsCode(content.getAttribute("dimensionsCode").charAt(0));
-    setIncludesSoundCode(content.getAttribute("includesSoundCode").charAt(0));
-    setImageBitDepth(content.getAttribute("imageBitDepth"));
-    setFileFormatsCode(content.getAttribute("fileFormatsCode").charAt(0));
-    setQualityAssuranceTargetCode(content.getAttribute("qualityAssuranceTargetCode").charAt(0));
-    setAntecedentSourceCode(content.getAttribute("antecedentSourceCode").charAt(0));
-    setLevelOfCompressionCode(content.getAttribute("levelOfCompressionCode").charAt(0));
-    setReformattingQualityCode(content.getAttribute("reformattingQualityCode").charAt(0));
-  }
 
   @Override
   public void setContentFromMarcString(final String content) {

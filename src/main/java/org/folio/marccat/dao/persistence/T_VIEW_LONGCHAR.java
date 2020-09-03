@@ -83,11 +83,6 @@ public class T_VIEW_LONGCHAR extends CodeTable {
     translationKey = i;
   }
 
-  public void setExternalCode(Object extCode) {
-    if (extCode instanceof String) {
-      code = (String) extCode;
-    }
-  }
 
   public int getNextNumber() throws DataAccessException {
 

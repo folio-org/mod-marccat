@@ -1,18 +1,12 @@
-/*
- * (c) LibriCore
- *
- * Created on 06-jul-2004
- *
- * T_SINGLE_CHAR.java
- */
 package org.folio.marccat.dao.persistence;
 
 import org.folio.marccat.exception.DataAccessException;
 
 
 /**
- * @author elena
- * @version $Revision: 1.11 $, $Date: 2007/05/04 08:14:58 $
+ * Superclass for single char Codetables (char code)
+ *
+ * @author paulm
  * @since 1.0
  */
 public class T_SINGLE_CHAR extends CodeTable {
@@ -50,13 +44,6 @@ public class T_SINGLE_CHAR extends CodeTable {
     return getCode() + getLanguage().hashCode();
   }
 
-  public void setExternalCode(Object extCode) {
-    if (extCode instanceof String) {
-      code = ((String) extCode).charAt(0);
-    } else if (extCode instanceof Character) {
-      code = ((Character) extCode).charValue();
-    }
-  }
 
   public int getNextNumber() throws DataAccessException {
 

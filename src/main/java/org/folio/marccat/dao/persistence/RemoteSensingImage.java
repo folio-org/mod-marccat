@@ -4,9 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
@@ -133,35 +130,7 @@ public class RemoteSensingImage extends PhysicalDescription {
     sensorTypeCode = c;
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
-      content.setAttribute("altitudeOfSensorCode", EMPTY_STRING + getAltitudeOfSensorCode());
-      content.setAttribute("attitudeOfSensorCode", "" + getAttitudeOfSensorCode());
-      content.setAttribute("cloudCoverCode", "" + getCloudCoverCode());
-      content.setAttribute("platformConstructionTypeCode", "" + getPlatformConstructionTypeCode());
-      content.setAttribute("platformUseCode", "" + getPlatformUseCode());
-      content.setAttribute("sensorTypeCode", "" + getSensorTypeCode());
-      content.setAttribute("dataTypeCode", "" + getDataTypeCode());
-    }
-    return content;
-  }
 
-  public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
-    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
-    setAltitudeOfSensorCode(content.getAttribute("altitudeOfSensorCode").charAt(0));
-    setAttitudeOfSensorCode(content.getAttribute("attitudeOfSensorCode").charAt(0));
-    setCloudCoverCode(content.getAttribute("cloudCoverCode").charAt(0));
-    setPlatformConstructionTypeCode(content.getAttribute("platformConstructionTypeCode").charAt(0));
-    setPlatformUseCode(content.getAttribute("platformUseCode").charAt(0));
-    setSensorTypeCode(content.getAttribute("sensorTypeCode").charAt(0));
-    setDataTypeCode(content.getAttribute("dataTypeCode"));
-  }
 
   @Override
   public void setContentFromMarcString(final String s) {

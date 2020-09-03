@@ -2,10 +2,6 @@ package org.folio.marccat.util;
 
 import org.folio.marccat.business.common.SubfieldCodeComparator;
 import org.folio.marccat.model.Subfield;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 import java.io.Serializable;
 import java.util.*;
 
@@ -19,7 +15,7 @@ public class StringText implements Serializable {
    * The Constant serialVersionUID.
    */
   private static final long serialVersionUID = 1L;
-  private static final String SUBFIELD = "subfield";
+
 
   /**
    * The subfield list.
@@ -88,36 +84,6 @@ public class StringText implements Serializable {
     return set;
   }
 
-  /**
-   * Parses the model xml element content.
-   *
-   * @param xmlElement the xml element
-   * @return the string text
-   */
-  public static StringText parseModelXmlElementContent(Element xmlElement) {
-    String subfieldContent;
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    StringText stringText = new StringText();
-    NodeList subfieldList =
-      content.getElementsByTagName(SUBFIELD);
-    for (int subfieldIndex = 0;
-         subfieldIndex < subfieldList.getLength();
-         subfieldIndex++) {
-      Element subfieldElement =
-        (Element) subfieldList.item(subfieldIndex);
-      if (subfieldElement.getChildNodes().item(0) == null) {
-        subfieldContent = "";
-      } else {
-        subfieldContent = subfieldElement.getChildNodes().item(0).getNodeValue();
-      }
-      Subfield subfield =
-        new Subfield(
-          subfieldElement.getAttribute("code"),
-          subfieldContent);
-      stringText.addSubfield(subfield);
-    }
-    return stringText;
-  }
 
   /**
    * Parses the.
@@ -350,61 +316,6 @@ public class StringText implements Serializable {
     return getSubfields(null, codes);
   }
 
-  /**
-   * Generate model xml element content.
-   *
-   * @param xmlDocument the xml document
-   * @return the element
-   */
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("stringText");
-      List subfields = getSubfieldList();
-      Iterator<Subfield> subfieldIterator = subfields.iterator();
-      while (subfieldIterator.hasNext()) {
-        Subfield subfield =  subfieldIterator.next();
-        Element subfieldElement =
-          xmlDocument.createElement(SUBFIELD);
-        content.appendChild(subfieldElement);
-        subfieldElement.setAttribute(
-          "code",
-          subfield.getCode());
-        Text text =
-          xmlDocument.createTextNode(subfield.getContent());
-        subfieldElement.appendChild(text);
-      }
-    }
-    return content;
-  }
-
-  /**
-   * Generate marc xml element content.
-   *
-   * @param datafield   the datafield
-   * @param xmlDocument the xml document
-   * @param cclQuery    the ccl query
-   */
-  public void generateMarcXmlElementContent(Element datafield, Document xmlDocument, String cclQuery) {
-    if (xmlDocument != null) {
-      List subfields = getSubfieldList();
-      Iterator<Subfield> subfieldIterator = subfields.iterator();
-      while (subfieldIterator.hasNext()) {
-        Subfield subfield =  subfieldIterator.next();
-        Element subfieldElement =
-          xmlDocument.createElement(SUBFIELD);
-        datafield.appendChild(subfieldElement);
-        subfieldElement.setAttribute(
-          "code",
-          subfield.getCode());
-
-        Text text =
-          xmlDocument.createTextNode(subfield.getContent());
-        subfieldElement.appendChild(text);
-
-      }
-    }
-  }
 
 
   /**

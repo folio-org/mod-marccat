@@ -4,9 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 
 /**
@@ -117,31 +114,7 @@ public class Map extends PhysicalDescription {
     setKeyNumber(dao.getNextNumber("X2", session));
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", EMPTY_STRING + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", EMPTY_STRING + getSpecificMaterialDesignationCode());
-      content.setAttribute("mapColourCode", EMPTY_STRING + getMapColourCode());
-      content.setAttribute("mapPhysicalMediumCode", EMPTY_STRING + getMapPhysicalMediumCode());
-      content.setAttribute("mapTypeOfReproductionCode", EMPTY_STRING + getMapTypeOfReproductionCode());
-      content.setAttribute("mapProductionDetailsCode", EMPTY_STRING + getMapProductionDetailsCode());
-      content.setAttribute("mapPolarityCode", EMPTY_STRING + getMapPolarityCode());
-    }
-    return content;
-  }
 
-  public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
-    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
-    setMapColourCode(content.getAttribute("mapColourCode").charAt(0));
-    setMapPhysicalMediumCode(content.getAttribute("mapPhysicalMediumCode").charAt(0));
-    setMapTypeOfReproductionCode(content.getAttribute("mapTypeOfReproductionCode").charAt(0));
-    setMapProductionDetailsCode(content.getAttribute("mapProductionDetailsCode").charAt(0));
-    setMapPolarityCode(content.getAttribute("mapPolarityCode").charAt(0));
-  }
 
   //@paulm, us_bbl_loading
   @Override

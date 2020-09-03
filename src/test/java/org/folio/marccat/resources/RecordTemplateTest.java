@@ -9,6 +9,8 @@ import org.folio.marccat.resources.domain.BibliographicRecord;
 import org.folio.marccat.resources.domain.RecordTemplate;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -80,16 +82,39 @@ public class RecordTemplateTest extends TestBase {
     assertThat(displayValue, is("00000000000"));
   }
 
+  @Test
+  public void createNew_Bibliographic2() throws Exception{
 
-  /*@Test
-  public void update_Bibliographic() throws Exception{
-
-    String url = getURI("/marccat/record-template/1");
+    String url = getURI("/marccat/record-template");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/template.json"), "UTF-8");
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/template2.json"), "UTF-8");
     ObjectMapper objectMapper = new ObjectMapper();
     RecordTemplate recordTemplate = objectMapper.readValue(templateJson, RecordTemplate.class);
-    recordTemplate.setId(2);
+
+    Response response = given()
+      .queryParam("type", "B")
+      .queryParam("lang", "ita")
+      .headers(headers)
+      .body(recordTemplate)
+      .when()
+      .post(url);
+    assertThat(response.getStatusCode(), is(201));
+
+    JSONObject  responseJson = new JSONObject(response.getBody().asString());
+    JSONArray fields = responseJson.getJSONArray("fields");
+    String displayValue = String.valueOf((((JSONObject)fields.getJSONObject(0).get("fixedField")).get("displayValue")));
+    assertThat(displayValue, is("00000000000"));
+  }
+
+
+ /* @Test
+  public void update_Bibliographic() throws Exception{
+
+    String url = getURI("/marccat/record-template/2");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/bibliographic/template2.json"), "UTF-8");
+    ObjectMapper objectMapper = new ObjectMapper();
+    RecordTemplate recordTemplate = objectMapper.readValue(templateJson, RecordTemplate.class);
 
     Response response = given()
       .queryParam("type", "B")

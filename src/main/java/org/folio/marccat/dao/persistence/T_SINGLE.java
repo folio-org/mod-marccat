@@ -6,7 +6,6 @@ import org.folio.marccat.exception.DataAccessException;
  * Superclass for single table Codetables (short code)
  *
  * @author paulm
- * @version $Revision: 1.7 $, $Date: 2006/01/11 13:36:22 $
  * @since 1.0
  */
 public abstract class T_SINGLE extends CodeTable {
@@ -37,18 +36,7 @@ public abstract class T_SINGLE extends CodeTable {
     return getCode() + getLanguage().hashCode();
   }
 
-  public void setExternalCode(Object extCode) {
-    if (extCode instanceof String) {
-      if (((String) extCode).trim().length() > 0) {
-        code = Short.parseShort((String) extCode);
-      } else {
-        code = 1;
-      }
 
-    } else if (extCode instanceof Short) {
-      code = ((Short) extCode).shortValue();
-    }
-  }
 
   public int getNextNumber() throws DataAccessException {
     return 0;

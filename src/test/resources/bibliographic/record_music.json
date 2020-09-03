@@ -1,0 +1,239 @@
+{
+  "bibliographicRecord": {
+    "id": 475,
+    "canadianContentIndicator": "0",
+    "verificationLevel": "2",
+    "leader": {
+      "code": "000",
+      "value": "00000ndm  2200000   4500"
+    },
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000475",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200819111207.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 35,
+          "code": "008",
+          "displayValue": "200819s        enkuuuu           u eng r",
+          "dateEnteredOnFile": "200819",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "targetAudienceCode": " ",
+          "formOfItemCode": " ",
+          "musicFormOfCompositionCode": "uu",
+          "musicFormatCode": "u",
+          "musicPartsCode": "u",
+          "musicTextualMaterialCode1": " ",
+          "musicTextualMaterialCode2": " ",
+          "musicTextualMaterialCode3": " ",
+          "musicTextualMaterialCode4": " ",
+          "musicTextualMaterialCode5": " ",
+          "musicTextualMaterialCode6": " ",
+          "musicLiteraryTextCode1": " ",
+          "musicLiteraryTextCode2": " ",
+          "musicTranspositionArrangementCode": "u",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "musicTextualMaterialCode1": " ",
+            "dateFirstPublication": "    ",
+            "formOfItemCode": " ",
+            "dateTypeCode": "s",
+            "musicFormatCode": "u",
+            "musicLiteraryTextCode1": " ",
+            "musicLiteraryTextCode2": " ",
+            "languageCode": "eng",
+            "dateEnteredOnFile": "200819",
+            "dateLastPublication": "    ",
+            "musicFormOfCompositionCode": "uu",
+            "recordModifiedCode": " ",
+            "recordCataloguingSourceCode": "r",
+            "placeOfPublication": "enk",
+            "targetAudienceCode": " ",
+            "musicTextualMaterialCode6": " ",
+            "musicPartsCode": "u",
+            "musicTextualMaterialCode5": " ",
+            "musicTextualMaterialCode4": " ",
+            "musicTextualMaterialCode3": " ",
+            "musicTextualMaterialCode2": " ",
+            "musicTranspositionArrangementCode": "u"
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ],
+    "recordView": 0
+  },
+  "recordTemplate": {
+    "id": 1,
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000475",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200819111207.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 35,
+          "code": "008",
+          "displayValue": "200819s        enkuuuu           u eng r",
+          "dateEnteredOnFile": "200819",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "targetAudienceCode": " ",
+          "formOfItemCode": " ",
+          "musicFormOfCompositionCode": "uu",
+          "musicFormatCode": "u",
+          "musicPartsCode": "u",
+          "musicTextualMaterialCode1": " ",
+          "musicTextualMaterialCode2": " ",
+          "musicTextualMaterialCode3": " ",
+          "musicTextualMaterialCode4": " ",
+          "musicTextualMaterialCode5": " ",
+          "musicTextualMaterialCode6": " ",
+          "musicLiteraryTextCode1": " ",
+          "musicLiteraryTextCode2": " ",
+          "musicTranspositionArrangementCode": "u",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "musicTextualMaterialCode1": " ",
+            "dateFirstPublication": "    ",
+            "formOfItemCode": " ",
+            "dateTypeCode": "s",
+            "musicFormatCode": "u",
+            "musicLiteraryTextCode1": " ",
+            "musicLiteraryTextCode2": " ",
+            "languageCode": "eng",
+            "dateEnteredOnFile": "200819",
+            "dateLastPublication": "    ",
+            "musicFormOfCompositionCode": "uu",
+            "recordModifiedCode": " ",
+            "recordCataloguingSourceCode": "r",
+            "placeOfPublication": "enk",
+            "targetAudienceCode": " ",
+            "musicTextualMaterialCode6": " ",
+            "musicPartsCode": "u",
+            "musicTextualMaterialCode5": " ",
+            "musicTextualMaterialCode4": " ",
+            "musicTextualMaterialCode3": " ",
+            "musicTextualMaterialCode2": " ",
+            "musicTranspositionArrangementCode": "u"
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ]
+  }
+}

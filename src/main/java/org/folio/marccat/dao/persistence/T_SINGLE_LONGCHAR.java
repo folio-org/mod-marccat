@@ -1,17 +1,11 @@
-/*
- * (c) LibriCore
- *
- * Created on 11-ago-2004
- *
- * T_SINGLE_LONGCHAR.java
- */
 package org.folio.marccat.dao.persistence;
 
 /**
- * @author Maite
- * @version $Revision: 1.6 $, $Date: 2007/05/04 08:14:58 $
+  * Superclass for single LONGCHAR Codetables (string code)
+  *
+  * @author paulm
  * @since 1.0
- */
+  */
 public class T_SINGLE_LONGCHAR extends CodeTable {
 
   private String code;
@@ -47,11 +41,7 @@ public class T_SINGLE_LONGCHAR extends CodeTable {
     return getCode().hashCode() + getLanguage().hashCode();
   }
 
-  public void setExternalCode(Object extCode) {
-    if (extCode instanceof String) {
-      code = (String) extCode;
-    }
-  }
+
 
   public int getNextNumber() {
     return 0;

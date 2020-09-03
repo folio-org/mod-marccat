@@ -1,0 +1,235 @@
+{
+  "bibliographicRecord": {
+    "id": 8,
+    "canadianContentIndicator": "0",
+    "verificationLevel": "2",
+    "leader": {
+      "code": "000",
+      "value": "00000nas  2200000   4500"
+    },
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000470",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200818163112.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 36,
+          "code": "008",
+          "displayValue": "200818s        enkuu         0    0eng r",
+          "dateEnteredOnFile": "200818",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "formOfItemCode": " ",
+          "natureOfEntireWork": " ",
+          "natureOfContent1": " ",
+          "natureOfContent2": " ",
+          "natureOfContent3": " ",
+          "governmentPublicationCode": " ",
+          "conferencePublicationCode": "0",
+          "serialFrequencyCode": "u",
+          "serialRegularityCode": "u",
+          "serialTypeCode": " ",
+          "serialFormOriginalItemCode": " ",
+          "serialOriginalAlphabetOfTitleCode": " ",
+          "serialSuccessiveLatestCode": "0",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "dateFirstPublication": "    ",
+            "formOfItemCode": " ",
+            "serialOriginalAlphabetOfTitleCode": " ",
+            "dateTypeCode": "s",
+            "governmentPublicationCode": " ",
+            "conferencePublicationCode": "0",
+            "natureOfContent3": " ",
+            "natureOfContent2": " ",
+            "natureOfContent1": " ",
+            "serialRegularityCode": "u",
+            "serialTypeCode": " ",
+            "serialFrequencyCode": "u",
+            "languageCode": "eng",
+            "serialSuccessiveLatestCode": "0",
+            "dateEnteredOnFile": "200818",
+            "dateLastPublication": "    ",
+            "recordModifiedCode": " ",
+            "recordCataloguingSourceCode": "r",
+            "placeOfPublication": "enk",
+            "serialFormOriginalItemCode": " ",
+            "natureOfEntireWork": " "
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ],
+    "recordView": 0
+  },
+  "recordTemplate": {
+    "id": 1,
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000470",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200818163112.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 36,
+          "code": "008",
+          "displayValue": "200818s        enkuu         0    0eng r",
+          "dateEnteredOnFile": "200818",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "formOfItemCode": " ",
+          "natureOfEntireWork": " ",
+          "natureOfContent1": " ",
+          "natureOfContent2": " ",
+          "natureOfContent3": " ",
+          "governmentPublicationCode": " ",
+          "conferencePublicationCode": "0",
+          "serialFrequencyCode": "u",
+          "serialRegularityCode": "u",
+          "serialTypeCode": " ",
+          "serialFormOriginalItemCode": " ",
+          "serialOriginalAlphabetOfTitleCode": " ",
+          "serialSuccessiveLatestCode": "0",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "dateFirstPublication": "    ",
+            "formOfItemCode": " ",
+            "serialOriginalAlphabetOfTitleCode": " ",
+            "dateTypeCode": "s",
+            "governmentPublicationCode": " ",
+            "conferencePublicationCode": "0",
+            "natureOfContent3": " ",
+            "natureOfContent2": " ",
+            "natureOfContent1": " ",
+            "serialRegularityCode": "u",
+            "serialTypeCode": " ",
+            "serialFrequencyCode": "u",
+            "languageCode": "eng",
+            "serialSuccessiveLatestCode": "0",
+            "dateEnteredOnFile": "200818",
+            "dateLastPublication": "    ",
+            "recordModifiedCode": " ",
+            "recordCataloguingSourceCode": "r",
+            "placeOfPublication": "enk",
+            "serialFormOriginalItemCode": " ",
+            "natureOfEntireWork": " "
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ]
+  }
+}

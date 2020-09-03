@@ -323,15 +323,7 @@ public class PublisherManager extends VariableField implements PersistentObjectW
     return daoPublisherTag;
   }
 
-  /**
-   * Gets default implementation.
-   *
-   * @return false.
-   */
-  @Override
-  public boolean isWorksheetEditable() {
-    return false;
-  }
+
 
   /**
    * Gets default implementation.
