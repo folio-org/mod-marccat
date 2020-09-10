@@ -210,7 +210,7 @@ public class ShelfListDAO extends DescriptorDAO {
    * @param session    the session
    * @throws HibernateException the hibernate exception
    */
-  @Override
+
   public void persist(final Descriptor descriptor, final Session session) throws HibernateException {
     if (descriptor.isNew()) {
       ((SHLF_LIST) descriptor).setShelfListKeyNumber(

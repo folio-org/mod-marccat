@@ -53,7 +53,7 @@ public class HeadingAPI extends BaseResource {
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/delete-heading")
-  public ResponseEntity deleteHeading(
+  public ResponseEntity<Object> deleteHeading(
     @RequestBody final Heading heading,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,

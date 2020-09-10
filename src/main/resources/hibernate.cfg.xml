@@ -27,7 +27,6 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_TTL_FNCTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_TTL_SCDRY_FNCTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_BIB_NTE_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_SHLF_LIST_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_CLSTN_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_CLSTN_FNCTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_CNTL_NBR_TYP.hbm.xml"/>
@@ -66,8 +65,7 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_MSC_TXTL_MTR.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_MSC_PRT.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_SRL_FORM_ORGNL_ITM.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_SRL_ISDS_CNTR.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_SRL_TTL_ALPBT.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_SRL_TTL_ALPBT.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_SRL_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_SRL_SCSV_LTST.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_SRL_FREQ.hbm.xml"/>
@@ -136,10 +134,7 @@
     <mapping resource="org/folio/marccat/dao/persistence/T_VSL_TRGT_AUDNC.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_LANG_OF_ACS_PNT.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_LANG_OF_IDXG.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_PBLTN_PRMTN_CAT.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_PBLTN_STG.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_PBLTN_AVBTY.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_REC_CTLGG_SRC.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/T_REC_CTLGG_SRC.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_ITM_DSCTV_CTLG.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_GEOG_AREA.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_VRFTN_LVL.hbm.xml"/>
@@ -152,11 +147,8 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_CLCTN_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_STS_CLCTN_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_STS_AVBLE.hbm.xml"/>
-    <mapping resource="org/folio/marccat/dao/persistence/T_ORDR_AQSTN_TYP.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/T_CURCY_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_MTRL_TYP.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_ITM_DSPLY.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/T_SRL_GENRETENTION.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_BIB_TAG_CAT.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/S_BIB_MARC_IND_DB_CRLTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_NME_TTL_FNCTN.hbm.xml"/>
