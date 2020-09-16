@@ -446,7 +446,7 @@ public class FixedFieldCodesGroupTest extends TestBase {
     given()
       .param("leader", "01657nam a22002057i 4500")
       .param("code", "008")
-      .param("headerTypeCode", "1")
+      .param("headerTypeCode", "31")
       .param("lang", "ita")
       .headers(headers)
       .when()

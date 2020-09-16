@@ -2,19 +2,12 @@ package org.folio.marccat.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.dao.CodeTableDAO;
-import org.folio.marccat.dao.persistence.T_AUT_DSPLY_FRMT;
-import org.folio.marccat.dao.persistence.T_BIB_DSPLY_FRMT;
-import org.folio.marccat.dao.persistence.T_ITM_DSPLY_FRMT;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.search.domain.Record;
 import org.folio.marccat.search.engine.SearchEngine;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.OptionalInt;
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.util.F.safe;
@@ -209,11 +202,6 @@ public class SearchResponse {
     searchEngine.sort(this, attributes, directions);
   }
 
-  public T_ITM_DSPLY_FRMT getDisplayFormat(final Session session, final short code, final Locale locale) throws DataAccessException {
-    return (isBibliographic())
-      ? (T_BIB_DSPLY_FRMT) new CodeTableDAO().load(session, T_BIB_DSPLY_FRMT.class, code, locale)
-      : (T_AUT_DSPLY_FRMT) new CodeTableDAO().load(session, T_AUT_DSPLY_FRMT.class, code, locale);
-  }
 
   public int getFrom() {
     return from;

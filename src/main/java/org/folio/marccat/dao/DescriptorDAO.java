@@ -36,18 +36,12 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    */
   private static final String BLANK_SORTFORM = " ";
   private static final String FROM = " from ";
-  private String queryAccessPoint = " AND hdg.accessPointLanguage=? ";
-  private String queryTarget = " AND ref.key.target=hdg.key.headingNumber ";
-  private String queryType = " AND ref.key.type=5 ";
   private String queryAndHdg = " and hdg.key.userViewString = '";
   private String queryAndRef = " and ref.key.userViewString = '";
   private String queryAsApf = " as apf ";
   private String queryAsC = " as c ";
-  private String queryAsHdg = " as hdg ";
-  private String queryAsRef = " as ref, ";
   private String queryWhereRefSource = " where ref.key.source = ? ";
   private String querySelectCount = "select count(*) from ";
-  private String querySelectRefFrom = "select ref from ";
 
 
   /**
@@ -245,80 +239,9 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
   }
 
 
-  /**
-   * Gets the document list.
-   *
-   * @param descriptor    the descriptor
-   * @param searchingView the searching view
-   * @param session       the session
-   * @return the doc list
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  public List<Integer> getDocList(final Descriptor descriptor, final int searchingView, final Session session) throws HibernateException {
-    final List<Integer> documentList;
-    if (searchingView == View.ANY) {
-      documentList = session.find(
-        " select apf.bibItemNumber from "
-          + descriptor.getAccessPointClass().getName() + queryAsApf
-          + " where apf.headingNumber = ?",
-        new Object[]{
-          descriptor.getKey().getHeadingNumber()},
-        new Type[]{Hibernate.INTEGER});
-    } else {
-      documentList = session.find(" select apf.bibItemNumber from "
-          + descriptor.getAccessPointClass().getName() + queryAsApf
-          + " where apf.headingNumber = ? and "
-          + " apf.userViewString = '" + View.makeSingleViewString(searchingView) + "'",
-        new Object[]{
-          descriptor.getKey().getHeadingNumber()},
-        new Type[]{
-          Hibernate.INTEGER});
-    }
-    return documentList;
-  }
-
-
-  /**
-   * Persist by status(new, update...) a descriptor.
-   *
-   * @param descriptor the descriptor
-   * @param session    the session
-   * @throws HibernateException the hibernate exception
-   */
-  public void persist(final Descriptor descriptor, final Session session) throws HibernateException {
-    if (descriptor.isNew()) {
-      final int headingNumber = (new SystemNextNumberDAO())
-        .getNextNumber(descriptor.getNextNumberKeyFieldCode(), session);
-      descriptor.setKey(new DescriptorKey(headingNumber, descriptor
-        .getKey().getUserViewString()));
-      descriptor.setHeadingNumber(headingNumber);
-    }
-    if (descriptor.isChanged() && descriptor.changeAffectsCacheTable()) {
-      persistByStatus(descriptor, session);
-      updateCacheTable(descriptor, session);
-    } else {
-      persistByStatus(descriptor, session);
-    }
-  }
 
 
 
-  /**
-   * Updates the cache table for each of the documents attached to the descriptor.
-   *
-   * @param descriptor -- the descriptor related to heading/tag.
-   * @param session    -- the hibernate current session.
-   * @throws HibernateException in case of hibernate exception.
-   */
-  public void updateCacheTable(final Descriptor descriptor, final Session session) throws HibernateException {
-    final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
-    int cataloguingView = View.toIntView(descriptor.getUserViewString());
-    List<Integer> ids = getDocList(descriptor, cataloguingView, session);
-    ids.stream().forEach(amicusNumber -> {
-      dao.updateCacheTable(amicusNumber, cataloguingView);
-    });
-  }
 
   /**
    * Allows individual dao's (especially publisher) to override the descriptor
@@ -549,136 +472,8 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
   }
 
 
-  /**
-   * Gets the cross references with language.
-   *
-   * @param source           the source
-   * @param cataloguingView  the cataloguing view
-   * @param indexingLanguage the indexing language
-   * @param session          the session
-   * @return the cross references with language
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  public REF getCrossReferencesWithLanguage(final Descriptor source, final int cataloguingView, final short indexingLanguage, final Session session)
-    throws HibernateException {
-    REF result;
-    final List<REF> refList;
-    if (source instanceof SBJCT_HDG) {
-      refList = session.find(querySelectRefFrom
-          + source.getReferenceClass(source.getClass()).getName()
-          + queryAsRef + source.getClass().getName() + queryAsHdg
-          + queryWhereRefSource
-          + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
-          + queryType
-          + queryTarget
-          + queryAccessPoint,
-        new Object[]{
-          source.getKey().getHeadingNumber(),
-          indexingLanguage}, new Type[]{
-          Hibernate.INTEGER, Hibernate.INTEGER,
-          Hibernate.SHORT});
 
-    } else if (source instanceof NME_TTL_HDG) {
-      refList = session.find(querySelectRefFrom
-          + source.getReferenceClass(source.getClass()).getName()
-          + queryAsRef + "" + source.getClass().getName()
-          + " as hdg, " + " NME_HDG as nme, " + " TTL_HDG as ttl "
-          + " where hdg.nameHeadingNumber = nme.key.headingNumber "
-          + " and hdg.titleHeadingNumber = ttl.key.headingNumber "
-          + " and ref.key.source = ? "
-          + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
-          + queryType
-          + queryTarget
-          + " AND nme.indexingLanguage=? "
-          + " AND ttl.indexingLanguage=? ", new Object[]{
-          source.getKey().getHeadingNumber(),
-          indexingLanguage,
-          indexingLanguage},
-        new Type[]{
-          Hibernate.INTEGER, Hibernate.SHORT,
-          Hibernate.SHORT});
-    } else {
-      refList = session.find(querySelectRefFrom
-          + source.getReferenceClass(source.getClass()).getName()
-          + queryAsRef + source.getClass().getName() + queryAsHdg
-          + queryWhereRefSource
-          + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
-          + queryType
-          + queryTarget
-          + queryAccessPoint,
-        new Object[]{
-          source.getKey().getHeadingNumber(),
-          indexingLanguage}, new Type[]{
-          Hibernate.INTEGER,
-          Hibernate.SHORT});
 
-    }
-    if (refList.size() == 1) {
-      result = refList.get(0);
-      result = (REF) isolateView(result, cataloguingView, session);
-    } else {
-      result = getSourceHeadingNumberByTarget(source, cataloguingView,
-        indexingLanguage, session);
-    }
-    return result;
-
-  }
-
-  /**
-   * Gets the source heading number by target.
-   *
-   * @param source           the source
-   * @param cataloguingView  the cataloguing view
-   * @param indexingLanguage the indexing language
-   * @param session          the session
-   * @return the source heading number by target
-   * @throws HibernateException the hibernate exception
-   */
-  @SuppressWarnings("unchecked")
-  private REF getSourceHeadingNumberByTarget(final Descriptor source, final int cataloguingView, final short indexingLanguage, final Session session)
-    throws HibernateException {
-    final List<REF> firstList;
-    final List<REF> secondList;
-    REF result = null;
-    int targetHeadingNumber = 0;
-
-    secondList = session.find(querySelectRefFrom
-        + source.getReferenceClass(source.getClass()).getName()
-        + queryAsRef + source.getClass().getName() + queryAsHdg
-        + queryWhereRefSource
-        + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
-        + queryTarget
-        + queryType, new Object[]{
-        source.getKey().getHeadingNumber()},
-      new Type[]{
-        Hibernate.INTEGER});
-
-    if (secondList.size() == 1) {
-      targetHeadingNumber = secondList.get(0).getTarget();
-      firstList = session.find(querySelectRefFrom
-          + source.getReferenceClass(source.getClass()).getName()
-          + queryAsRef + source.getClass().getName() + queryAsHdg
-          + queryWhereRefSource
-          + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
-          + queryType
-          + queryTarget
-          + queryAccessPoint,
-
-        new Object[]{
-          targetHeadingNumber,
-          indexingLanguage},
-        new Type[]{
-          Hibernate.INTEGER,
-          Hibernate.SHORT});
-      if (firstList.size() == 1) {
-        result = firstList.get(0);
-        result = (REF) isolateView(result, cataloguingView, session);
-      }
-    }
-    return result;
-
-  }
 
   /**
    * Gets the document count for the name/title descriptor.

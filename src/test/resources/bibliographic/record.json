@@ -88,7 +88,7 @@
       {
         "code": "050",
         "mandatory": false,
-        "fieldStatus": "new",
+        "fieldStatus": "changed",
         "variableField": {
           "keyNumber": 1,
           "code": "050",
@@ -179,7 +179,7 @@
       {
         "code": "600",
         "mandatory": false,
-        "fieldStatus": "new",
+        "fieldStatus": "changed",
         "variableField": {
           "keyNumber": 1,
           "code": "600",

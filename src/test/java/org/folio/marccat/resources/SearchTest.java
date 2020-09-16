@@ -37,11 +37,11 @@ public class SearchTest extends TestBase {
   @Test
   public void getMergedSearchWithAnyView_return200Status() {
 
-    String url = getURI( MERGED_SEARCH_URL);
+    String url = getURI("/marccat/search");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
-      .param("qbib", "TI I promessi sposi")
+      .param("q", "AN 1")
       .param("lang", "ita")
       .param("view", 0)
       .headers(headers)
