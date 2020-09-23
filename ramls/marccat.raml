@@ -12,6 +12,7 @@ types:
   error: !include raml-storage/raml-util/schemas/error.schema
   errors: !include raml-storage/raml-util/schemas/errors.schema
   searchResult: !include schema/searchResult.json
+  searchAuthResult: !include schema/searchAuthResult.json
   searchResultVertical: !include schema/searchResultVertical.json
   searchResultCollection: !include schema/searchResultCollection.json
 
@@ -98,3 +99,29 @@ resourceTypes:
               description: "Return a list of marc records in text format"
             500:
               description: "Internal server error"
+
+  /searchAuth:
+    displayName: Search authority marc records
+    type:
+      collection-item:
+        exampleItem: !include examples/searchAuthResult.json
+        schema: searchResult
+    get:
+      is: [pageable,
+          searchable: {description: "using CCL query in q parameter",
+          example: "q=na \"giannini\""}
+          ]
+      description: Return a list of marc authority records and search metadata
+      responses:
+        200:
+          description: "Return a list of marc authority records and search metadata"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Query not supported"
