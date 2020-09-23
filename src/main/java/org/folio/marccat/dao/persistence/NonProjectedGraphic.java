@@ -4,8 +4,6 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.exception.DataAccessException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * @author paulm
@@ -95,27 +93,6 @@ public class NonProjectedGraphic extends PhysicalDescription {
     obsolete1 = c;
   }
 
-  public Element generateModelXmlElementContent(Document xmlDocument) {
-    Element content = null;
-    if (xmlDocument != null) {
-      content = xmlDocument.createElement("content");
-      content.setAttribute("generalMaterialDesignationCode", "" + getGeneralMaterialDesignationCode());
-      content.setAttribute("specificMaterialDesignationCode", "" + getSpecificMaterialDesignationCode());
-      content.setAttribute("colourCode", "" + getColourCode());
-      content.setAttribute("primarySupportMaterialCode", "" + getPrimarySupportMaterialCode());
-      content.setAttribute("secondarySupportMaterialCode", "" + getSecondarySupportMaterialCode());
-    }
-    return content;
-  }
-
-  public void parseModelXmlElementContent(Element xmlElement) {
-    Element content = (Element) xmlElement.getChildNodes().item(0);
-    setGeneralMaterialDesignationCode(content.getAttribute("generalMaterialDesignationCode").charAt(0));
-    setSpecificMaterialDesignationCode(content.getAttribute("specificMaterialDesignationCode").charAt(0));
-    setColourCode(content.getAttribute("colourCode").charAt(0));
-    setPrimarySupportMaterialCode(content.getAttribute("primarySupportMaterialCode").charAt(0));
-    setSecondarySupportMaterialCode(content.getAttribute("secondarySupportMaterialCode").charAt(0));
-  }
 
   //@paulm, us_bbl_loading
   @Override

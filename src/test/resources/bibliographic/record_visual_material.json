@@ -1,0 +1,207 @@
+{
+  "bibliographicRecord": {
+    "id": 9,
+    "canadianContentIndicator": "0",
+    "verificationLevel": "2",
+    "leader": {
+      "code": "000",
+      "value": "00000ngs  2200000   4500"
+    },
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000471",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200818164212.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 37,
+          "code": "008",
+          "displayValue": "200818s        enk---            zueng r",
+          "dateEnteredOnFile": "200818",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "targetAudienceCode": " ",
+          "formOfItemCode": " ",
+          "governmentPublicationCode": " ",
+          "visualRunningTime": "---",
+          "visualMaterialTypeCode": "z",
+          "visualTechniqueCode": "u",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "dateFirstPublication": "    ",
+            "formOfItemCode": " ",
+            "dateTypeCode": "s",
+            "governmentPublicationCode": " ",
+            "languageCode": "eng",
+            "dateEnteredOnFile": "200818",
+            "dateLastPublication": "    ",
+            "recordModifiedCode": " ",
+            "recordCataloguingSourceCode": "r",
+            "placeOfPublication": "enk",
+            "visualRunningTime": "---",
+            "targetAudienceCode": " ",
+            "visualMaterialTypeCode": "z",
+            "visualTechniqueCode": "u"
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ],
+    "recordView": 0
+  },
+  "recordTemplate": {
+    "id": 1,
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000471",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200818164212.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 37,
+          "code": "008",
+          "displayValue": "200818s        enk---            zueng r",
+          "dateEnteredOnFile": "200818",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "targetAudienceCode": " ",
+          "formOfItemCode": " ",
+          "governmentPublicationCode": " ",
+          "visualRunningTime": "---",
+          "visualMaterialTypeCode": "z",
+          "visualTechniqueCode": "u",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "dateFirstPublication": "    ",
+            "formOfItemCode": " ",
+            "dateTypeCode": "s",
+            "governmentPublicationCode": " ",
+            "languageCode": "eng",
+            "dateEnteredOnFile": "200818",
+            "dateLastPublication": "    ",
+            "recordModifiedCode": " ",
+            "recordCataloguingSourceCode": "r",
+            "placeOfPublication": "enk",
+            "visualRunningTime": "---",
+            "targetAudienceCode": " ",
+            "visualMaterialTypeCode": "z",
+            "visualTechniqueCode": "u"
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ]
+  }
+}

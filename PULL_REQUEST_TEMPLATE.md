@@ -1,6 +1,7 @@
 <!--
   If you have a relevant JIRA issue number, please put it in the issue title.
   Example: MDEXP-6 Create Inventory Instance to MARC Bib record mapping rules
+
   TL;DR
     - https://www.youtube.com/watch?v=5aHmO_S8FQ4
     - http://www.olitreadwell.com/2016/05/22/how-to-write-great-pull-requests/
@@ -15,10 +16,12 @@
   statements like "the purpose is to update the schema." and
   instead provide an explanation like "there is more data to be provided and stored for Purchase Orders 
   which is currently missing in the schema"
+
   The purpose may seem self-evident to you now, but the standard to
   hold yourself to should be "can a developer parachuting into this
   project reconstruct the necessary context merely by reading this
   section."
+
   If you have a relevant JIRA issue, add a link directly to the issue URL here.
   Example: https://issues.folio.org/browse/MDEXP-6
  -->
@@ -27,6 +30,7 @@
 <!--
  How does this change fulfill the purpose? It's best to talk
  high-level strategy and avoid code-splaining the commit history.
+
  The goal is not only to explain what you did, but help other
  developers *work* with your solution in the future.
 -->
@@ -56,7 +60,7 @@ Before merging this PR, please go through the following list and take appropriat
   - [ ] Were permissions changed, added, or removed?
   - [ ] Are there new interface dependencies?
   - [ ] There are no breaking changes in this PR.
-
+  
 If there are breaking changes, please **STOP** and consider the following:
 
 - What other modules will these changes impact?

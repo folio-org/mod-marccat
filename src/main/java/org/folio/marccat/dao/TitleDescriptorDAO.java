@@ -9,10 +9,8 @@ import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.TTL_HDG;
-import org.folio.marccat.dao.persistence.T_AUT_HDG_SRC;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ReferentialIntegrityException;
-
 import java.util.List;
 
 /**

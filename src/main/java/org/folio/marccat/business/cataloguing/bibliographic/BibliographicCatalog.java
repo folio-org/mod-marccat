@@ -11,18 +11,14 @@ import org.folio.marccat.dao.BibliographicModelDAO;
 import org.folio.marccat.dao.CatalogDAO;
 import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.ModMarccatException;
-import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.shared.CorrelationValues;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import static org.folio.marccat.util.F.isNotNull;
 
 /**
@@ -416,30 +412,6 @@ public class BibliographicCatalog extends Catalog {
     return null;
   }
 
-  @Override
-  public void addDefaultTags(final CatalogItem item) {
-    try {
-      item.addTag(getNewTag(item, (short) 1, new ControlNumberAccessPoint().getCorrelationValues()));
-      item.addTag(getNewTag(item, (short) 1, new ClassificationAccessPoint().getCorrelationValues()));
-    } catch (NewTagException e) {
-      throw new ModMarccatException("error creating bibliographic leader");
-    }
-  }
-
-  @Override
-  public void addDefaultTag(final CatalogItem item) {
-    try {
-      item.addTag(
-        getNewTag(
-          item,
-          (short) 1,
-          new BibliographicLeader().getCorrelationValues()));
-      item.addTag(getNewTag(item, (short) 1, new BibliographicLeader().getCorrelationValues()));
-    } catch (NewTagException e) {
-      throw new ModMarccatException("error creating bibliographic leader");
-    }
-
-  }
 
   @Override
   public String getMarcTypeCode() {

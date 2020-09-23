@@ -10,7 +10,6 @@ import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.persistence.CorrelationKey;
-import org.folio.marccat.dao.persistence.T_SINGLE;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.shared.Validation;
@@ -20,8 +19,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
 import static org.folio.marccat.util.F.deepCopy;
 
 /**
@@ -329,33 +326,7 @@ public abstract class Tag implements Serializable, TagInterface {
     return getItemNumber();
   }
 
-  /**
-   * After a change in correlation stringValue 1, the available choices for values 2 and
-   * 3 are recalculated and the values are reset (to the first available valid choice).
-   *
-   * @param s the new value1
-   */
-  public void updateFirstCorrelation(int s) {
-    setCorrelation(1, s);
-    List l = getSecondCorrelationList(s);
-    if (l != null) {
-      updateSecondCorrelation(((T_SINGLE) l.get(0)).getCode());
-    }
-  }
 
-  /**
-   * After a change in correlation stringValue 2, the available choices for values 3
-   * are recalculated and the stringValue is reset (to the first available valid choice).
-   *
-   * @param s the new stringValue 2
-   */
-  public void updateSecondCorrelation(int s) {
-    setCorrelation(2, s);
-    List l = getThirdCorrelationList(getCorrelation(1), getCorrelation(2));
-    if (l != null) {
-      setCorrelation(3, ((T_SINGLE) l.get(0)).getCode());
-    }
-  }
 
   /**
    * Generate new key.
@@ -555,59 +526,6 @@ public abstract class Tag implements Serializable, TagInterface {
   }
 
 
-
-  /**
-   * This method creates a XML Element as follows
-   * <datafield tag="100" ind1="1" ind2="@">
-   * <subfield code="a">content</subfield>
-   * <subfield code="b">content</subfield>
-   * </datafield>
-   * or for a control field
-   * <controlfield tag="001">000000005581</controlfield>.
-   *
-   * @param xmlDocument the xml document
-   * @return an Element
-   */
-  public Element toXmlElement(Document xmlDocument) {
-    CorrelationKey marcEncoding = null;
-    try {
-      marcEncoding = getMarcEncoding();
-    } catch (Exception exception) {
-      throw new RuntimeException("Invalid tag found in Tag.toXmlElement");
-    }
-
-    String marcTag = marcEncoding.getMarcTag();
-    String marcFirstIndicator = "" + marcEncoding.getMarcFirstIndicator();
-    String marcSecondIndicator = "" + marcEncoding.getMarcSecondIndicator();
-
-    Element field;
-    if (isFixedField()) {
-      if (marcTag.equals("000"))
-        field = xmlDocument.createElement("leader");
-      else
-        field = xmlDocument.createElement("controlfield");
-    } else {
-      field = xmlDocument.createElement("datafield");
-    }
-    field.setAttribute("tag", marcTag);
-    if (!isFixedField()) {
-      field.setAttribute("ind1", marcFirstIndicator);
-      field.setAttribute("ind2", marcSecondIndicator);
-      for (Iterator subfieldIterator =
-           ((VariableField) this)
-             .getStringText()
-             .getSubfieldList()
-             .iterator();
-           subfieldIterator.hasNext();
-      ) {
-        Subfield subfield = (Subfield) subfieldIterator.next();
-        field.appendChild(subfield.toXmlElement(xmlDocument));
-      }
-    }
-    return field;
-
-
-  }
 
 
   public Object copy() {

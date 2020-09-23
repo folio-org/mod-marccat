@@ -52,6 +52,24 @@
         "added": true
       },
       {
+        "code": "020",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 1,
+          "code": "020",
+          "ind1": " ",
+          "ind2": " ",
+          "displayValue": "\u001fa9788824731041",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 5
+        },
+        "added": true
+      },
+      {
         "code": "040",
         "mandatory": true,
         "fieldStatus": "unchanged",
@@ -64,6 +82,42 @@
           "subfields": [],
           "sequenceNumber": 0,
           "skipInFiling": 0
+        },
+        "added": true
+      },
+      {
+        "code": "050",
+        "mandatory": false,
+        "fieldStatus": "changed",
+        "variableField": {
+          "keyNumber": 1,
+          "code": "050",
+          "ind1": "0",
+          "ind2": "0",
+          "displayValue": "\u001faQA37",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 6
+        },
+        "added": true
+      },
+      {
+        "code": "100",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 1,
+          "code": "100",
+          "ind1": "1",
+          "ind2": " ",
+          "displayValue": "\u001faAlessandro Manzoni,\u001fd1785-1873.",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 2
         },
         "added": true
       },
@@ -88,6 +142,24 @@
         "added": false
       },
       {
+        "code": "260",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 1,
+          "code": "260",
+          "ind1": " ",
+          "ind2": " ",
+          "displayValue": "\u001faBologna :\u001fbZanichelli,\u001fc1977",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 7
+        },
+        "added": true
+      },
+      {
         "code": "500",
         "mandatory": false,
         "fieldStatus": "new",
@@ -103,6 +175,60 @@
           "skipInFiling": 0
         },
         "added": false
+      },
+      {
+        "code": "600",
+        "mandatory": false,
+        "fieldStatus": "changed",
+        "variableField": {
+          "keyNumber": 1,
+          "code": "600",
+          "ind1": "0",
+          "ind2": "0",
+          "displayValue": "\u001faManzoni, Alessandro,\u001fd1785-1873.",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 4
+        },
+        "added": true
+      },
+      {
+        "code": "700",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 1,
+          "code": "700",
+          "ind1": "1",
+          "ind2": " ",
+          "displayValue": "\u001faAlessandro Manzoni.\u001ftPromessi sposi",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 11
+        },
+        "added": true
+      },
+      {
+        "code": "773",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 0,
+          "code": "773",
+          "ind1": "1",
+          "ind2": " ",
+          "displayValue": "\u001faRelazione cieca",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 8
+        },
+        "added": true
       }
 
 

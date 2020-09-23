@@ -2,8 +2,6 @@ package org.folio.marccat.business.cataloguing.common;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.dao.CatalogDAO;
 import org.folio.marccat.dao.CodeTableDAO;
@@ -11,10 +9,7 @@ import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.dao.persistence.Model;
-import org.folio.marccat.exception.NewTagException;
 import org.folio.marccat.shared.CorrelationValues;
-import org.w3c.dom.Element;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -25,7 +20,6 @@ import java.util.Locale;
 public abstract class Catalog {
 
   protected static final CodeTableDAO DAO_CODE_TABLE = new CodeTableDAO();
-  private final Log logger = LogFactory.getLog(getClass());
 
   protected static Object setItemIfNecessary(final CatalogItem item, final Object o) {
     if (o instanceof PersistsViaItem) {
@@ -72,14 +66,6 @@ public abstract class Catalog {
    */
   public abstract String getMarcTypeCode();
 
-  /**
-   * Called when a new Catalogue item requires at least one tag (new models)
-   *
-   * @since 1.0
-   */
-  public abstract void addDefaultTag(CatalogItem item);
-
-  public abstract void addDefaultTags(CatalogItem item);
 
   public abstract Tag getNewTag(CatalogItem item, int category,
                                 CorrelationValues correlationValues);
@@ -133,40 +119,7 @@ public abstract class Catalog {
   public void saveCatalogItem(CatalogItem item) {
   }
 
-  /**
-   * This method is used to generate tags from a model
-   *
-   * @since 1.0
-   */
-  public Tag parseModelXmlElementAddToItem(final Element xmlElement, final CatalogItem item) {
-    final Tag tag = parseModelXmlElement(xmlElement, item);
-    if (tag != null) {
-      item.addTag(tag);
-      setItemIfNecessary(item, tag);
-    }
-    return tag;
-  }
 
-  /**
-   * This method is used to generate tags from a model
-   *
-   * @since 1.0
-   */
-  public Tag parseModelXmlElement(Element xmlElement, CatalogItem item) {
-    Tag tag = null;
-    try {
-      tag = getNewTag(
-        item,
-        Short.parseShort(xmlElement.getAttribute("categoryCode")),
-        Short.parseShort(xmlElement.getAttribute("firstCorrelationValue")),
-        Short.parseShort(xmlElement.getAttribute("secondCorrelationValue")),
-        Short.parseShort(xmlElement.getAttribute("thirdCorrelationValue")));
-      tag.parseModelXmlElementContent(xmlElement);
-    } catch (final NewTagException newTagException) {
-      logger.error("", newTagException);
-    }
-    return tag;
-  }
 
   protected abstract CatalogItem getNewItem();
 

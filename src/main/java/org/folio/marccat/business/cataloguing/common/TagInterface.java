@@ -6,9 +6,6 @@ import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.T_SINGLE;
 import org.folio.marccat.shared.CorrelationValues;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -38,17 +35,6 @@ public interface TagInterface {
    */
   boolean equals(Object obj);
 
-
-
-
-  /**
-   * This method is used to generated the tags content in the model xml.
-   *
-   * @param xmlDocument the xml document
-   * @return the element
-   * @since 1.0
-   */
-  Element generateModelXmlElementContent(Document xmlDocument);
 
   /**
    * Gets the category.
@@ -336,30 +322,7 @@ public interface TagInterface {
    */
   boolean onUpdate(Session arg0) throws CallbackException;
 
-  /**
-   * This method is used to generate the tags content from a model.
-   *
-   * @param xmlElement the xml element
-   * @since 1.0
-   */
-  void parseModelXmlElementContent(Element xmlElement);
 
-
-  /**
-   * After a change in correlation value 1, the available choices for values 2 and
-   * 3 are recalculated and the values are reset (to the first available valid choice).
-   *
-   * @param s the new value1
-    */
-  void updateFirstCorrelation(int s) ;
-
-  /**
-   * After a change in correlation value 2, the available choices for values 3
-   * are recalculated and the value is reset (to the first available valid choice).
-   *
-   * @param s the new value 2
-   */
-  void updateSecondCorrelation(int s) ;
 
   /**
    * Validate.

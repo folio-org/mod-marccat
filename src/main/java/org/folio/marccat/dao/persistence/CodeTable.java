@@ -131,7 +131,7 @@ public abstract class CodeTable implements Persistence {
   // END Persistence and LifeCycle
   //-------------------------------
 
-  public abstract void setExternalCode(Object extCode);
+
 
   public int hashCode() {
     final int prime = 31;
