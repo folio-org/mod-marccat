@@ -109,6 +109,14 @@ public abstract class Global {
   public static final int BIB_NOTE_CATEGORY = 7;
   public static final int NAME_TITLE_CATEGORY = 11;
   public static final int RELATION_CATEGORY = 8;
+  public static final int AUT_VAL_NAME = 17;
+  public static final int AUT_VAL_TITLE = 22;
+  public static final int AUT_VAL_SUBJECT = 18;
+  public static final int AUT_VAL_NAME_TITLE = 11;
+  public static final String NAME_TYPE_HDG = "NH";
+  public static final String TITLE_TYPE_HDG = "TH";
+  public static final String SUBJECT_TYPE_HDG = "SH";
+  public static final String NAME_TITLE_TYPE_HDG = "MH";
   public static final String TITLE_REQUIRED_PERMISSION = "editTitle";
   public static final String NAME_REQUIRED_PERMISSION = "editName";
   public static final String CNTL_NBR_REQUIRED_PERMISSION = "editControlNumber";
@@ -134,10 +142,10 @@ public abstract class Global {
   public static final int STANDARD_NOTE_MAX_LENGHT = 1024;
   public static final int OVERFLOW_NOTE_MAX_LENGHT = 1000;
   public static final String NAME_TITLE_VARIANT_CODES = "3v5";
-  public static final Map<String, Class> MAP_CODE_LISTS = new HashMap<>();
-  public static final Map<String, Class> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<>();
+  public static final Map<String, Class<?>> MAP_CODE_LISTS = new HashMap<>();
+  public static final Map<String, Class<?>> BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP = new HashMap<>();
   public static final Map<String, String> INDEX_AUTHORITY_TYPE_MAP = new HashMap<>();
-  public static final Map<String, Class> DAO_CLASS_MAP = new HashMap<>();
+  public static final Map<String, Class<?>> DAO_CLASS_MAP = new HashMap<>();
   public static final Map<String, String> FILTER_MAP = new HashMap<>();
   public static final String SPECIFIC_MATERIAL_DESIGNAION_ON_CODE = "specificMaterialDesignationCode";
   public static final String COLOR_CODE = "colorCode";
@@ -174,7 +182,7 @@ public abstract class Global {
   public static final String OTHER_TERMINAL_PUNCTUATION = ".?!)]-";
   public static final String SUBFIELD_DELIMITER = "\u001f";
   public static final Configuration HCONFIGURATION = new Configuration();
-  public static final Map<String, String> TAGS = new HashMap<>();
+  protected static final Map<String, String> TAGS = new HashMap<>();
   private static final String UNASSIGNED = "unassigned";
   private static final String TAG_9XX = "9XX";
   public static final List<String> SKIP_IN_FILING_CODES = Arrays.asList("0","1","2","3","4","5","6","7","8","9");

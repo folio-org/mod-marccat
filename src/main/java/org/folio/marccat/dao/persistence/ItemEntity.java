@@ -22,7 +22,7 @@ public abstract class ItemEntity implements Persistence, Serializable {
   protected String cataloguingSourceStringText;
   protected char characterCodingSchemeCode = ' ';
   protected Date dateOfLastTransaction = new Date();
-  protected char encodingLevel = ' ';
+  protected char encodingLevel = 'n';
   protected Date enteredOnFileDate = new Date();
   protected String geographicAreaStringText;
   protected String languageOfCataloguing;

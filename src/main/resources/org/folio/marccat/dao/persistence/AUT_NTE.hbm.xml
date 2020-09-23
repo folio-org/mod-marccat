@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping
+	package="org.folio.marccat.dao.persistence">
+	<class name="AuthorityNote" table="AUT_NTE">
+		<composite-id>
+			<key-property name="noteNumber" column="AUT_NTE_NBR" />
+			<key-property name="itemNumber" column="AUT_NBR" />
+		</composite-id>
+		<property name="stringText">
+			<column name="AUT_NTE_STRNG_TXT" />
+		</property>
+		<property name="noteType">
+			<column name="AUT_NTE_TYP_CDE" />
+		</property>
+	</class>
+</hibernate-mapping>
+
+

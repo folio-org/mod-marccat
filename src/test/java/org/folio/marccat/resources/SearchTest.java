@@ -171,7 +171,7 @@ public class SearchTest extends TestBase {
   }
 
   @Test
-  public void searchAuth() {
+  public void searchAuth_return200Status() {
 
     String url = getURI( "/marccat/searchAuth");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);

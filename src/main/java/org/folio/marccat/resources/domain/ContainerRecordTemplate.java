@@ -19,6 +19,10 @@ public class ContainerRecordTemplate {
   @JsonProperty("bibliographicRecord")
   private BibliographicRecord bibliographicRecord;
 
+  @JsonProperty("authorityRecord")
+  private AuthorityRecord authorityRecord;
+
+  
   @JsonProperty("recordTemplate")
   private RecordTemplate recordTemplate;
 
@@ -36,6 +40,21 @@ public class ContainerRecordTemplate {
     this.bibliographicRecord = bibliographicRecord;
   }
 
+  /**
+   * @return the authorityRecord record.
+   */
+  public AuthorityRecord getAuthorityRecord() {
+    return authorityRecord;
+  }
+
+  /**
+   * @param authorityRecord the authority record.
+   */
+  public void setAuthorityRecord(AuthorityRecord authorityRecord) {
+    this.authorityRecord = authorityRecord;
+  }
+
+  
   /**
    * @return the record template.
    */
