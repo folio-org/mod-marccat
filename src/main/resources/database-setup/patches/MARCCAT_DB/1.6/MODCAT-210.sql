@@ -14,7 +14,7 @@ CREATE TABLE olisuite.s_aut_marc_ind_db_crltn
     marc_tag_ind_vlu_3_cde integer NOT NULL,
     srch_idx_typ_cde character(2)  NOT NULL);
 
-ALTER TABLE olisuite.s_aut_marc_ind_db_crltn OWNER TO :user_name;
+--ALTER TABLE olisuite.s_aut_marc_ind_db_crltn OWNER TO :user_name;
 
 --
 -- Name: TABLE s_aut_marc_ind_db_crltn; Type: COMMENT; Schema: olisuite; Owner: -
@@ -39,7 +39,7 @@ CREATE UNIQUE INDEX s_aut_marc_ind_db_crltn_marc_tag_cat_cde_marc_tag_ind_vlu_1_
 -- Name: TABLE s_aut_marc_ind_db_crltn; Type: ACL; Schema: olisuite; Owner: -
 --
 
-GRANT ALL ON TABLE olisuite.s_aut_marc_ind_db_crltn TO :user_name;
+--GRANT ALL ON TABLE olisuite.s_aut_marc_ind_db_crltn TO :user_name;
 
 
 
