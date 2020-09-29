@@ -45,7 +45,7 @@ public class AuthorityTagImpl extends TagImpl {
 	public CorrelationKey getMarcEncoding(final Tag t, final Session session) {
 		CorrelationKey key = null;
 		try {
-			key = daoCorrelation.getMarcEncoding(t.getCategory(), t.getHeadingType(), t.getCorrelation(1),
+			key = daoCorrelation.getMarcEncoding(t.getCategory(), t.getCorrelation(1),
 					t.getCorrelation(2), t.getCorrelation(3), session);
 		} catch (HibernateException e) {
 			throw new DataAccessException();

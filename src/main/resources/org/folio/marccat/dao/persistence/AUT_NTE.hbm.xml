@@ -6,7 +6,7 @@
 	package="org.folio.marccat.dao.persistence">
 	<class name="AuthorityNote" table="AUT_NTE">
 		<composite-id>
-			<key-property name="noteNumber" column="AUT_NTE_NBR" />
+			<key-property name="noteNbr" column="AUT_NTE_NBR" />
 			<key-property name="itemNumber" column="AUT_NBR" />
 		</composite-id>
 		<property name="stringText">
