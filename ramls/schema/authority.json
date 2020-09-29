@@ -1,6 +1,8 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+ "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "authority schema",
   "type": "object",
+  "description": "authority metadata",
   "properties": {
     "id": {
       "type": "integer"
