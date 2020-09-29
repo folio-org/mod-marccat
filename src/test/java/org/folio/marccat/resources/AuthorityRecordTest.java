@@ -42,6 +42,22 @@ public class AuthorityRecordTest  extends TestBase {
 	      .statusCode(201);
 
 	  }
+	 
+	 @Test
+	  public void getDocumentCountById() {
+
+	    String url = getURI("/marccat/document-count-by-id");
+	    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+	    given()
+	      .param("id", "11")
+	      .param("view", "-1")
+	      .headers(headers)
+	      .when()
+	      .get(url)
+	      .then()
+	      .statusCode(200);
+	  }
 
 	
 }

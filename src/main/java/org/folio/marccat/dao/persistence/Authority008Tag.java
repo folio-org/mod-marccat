@@ -1,13 +1,9 @@
 package org.folio.marccat.dao.persistence;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.folio.marccat.business.cataloguing.authority.AuthorityHeaderFieldHelper;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 
 /**
@@ -15,6 +11,11 @@ import org.w3c.dom.Element;
  *
  */
 public class Authority008Tag extends FixedFieldUsingItemEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3552697623964822985L;
 
 	public Authority008Tag() {
 		super();
@@ -51,86 +52,6 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
 				+ getCataloguingSourceCode();
 
 		return str;
-	}
-
-	public void parseModelXmlElementContent(Element xmlElement) {
-		Element content = (Element) xmlElement.getChildNodes().item(0);
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-		Date date =
-			formatter.parse(
-				content.getAttribute("enteredOnFileDateYYYYMMDD"),
-				new ParsePosition(0));
-		setEnteredOnFileDate(date);
-		setSubjectDescriptor(
-			content.getAttribute("subjectDescriptor").charAt(0));
-		setRomanizationScheme(
-			content.getAttribute("romanizationScheme").charAt(0));
-		setBilingualUsage(content.getAttribute("bilingualUsage").charAt(0));
-		setRecordType(content.getAttribute("recordType").charAt(0));
-		setCataloguingRules(content.getAttribute("cataloguingRules").charAt(0));
-		setSubjectSystem(content.getAttribute("subjectSystem").charAt(0));
-		setSeriesType(content.getAttribute("seriesType").charAt(0));
-		setSeriesNumbering(content.getAttribute("seriesNumbering").charAt(0));
-		setMainAddedEntryIndicator(
-			content.getAttribute("mainAddedEntryIndicator").charAt(0));
-		setSeriesEntryIndicator(
-			content.getAttribute("seriesEntryIndicator").charAt(0));
-		setSubDivisionType(content.getAttribute("subDivisionType").charAt(0));
-		setGovernmentAgency(content.getAttribute("governmentAgency").charAt(0));
-		setReferenceStatus(content.getAttribute("referenceStatus").charAt(0));
-		setRecordRevision(content.getAttribute("recordRevision").charAt(0));
-		setNonUniqueName(content.getAttribute("nonUniqueName").charAt(0));
-		setHeadingStatus(content.getAttribute("headingStatus").charAt(0));
-		setRecordModification(
-			content.getAttribute("recordModification").charAt(0));
-		setCataloguingSourceCode(
-			content.getAttribute("cataloguingSourceCode").charAt(0));
-	}
-
-	public Element generateModelXmlElementContent(Document xmlDocument) {
-		Element content = null;
-		if (xmlDocument != null) {
-			content = xmlDocument.createElement("content");
-			content.setAttribute(
-				"enteredOnFileDateYYYYMMDD",
-				getEnteredOnFileDateYYYYMMDD());
-			content.setAttribute(
-				"subjectDescriptor",
-				"" + getSubjectDescriptor());
-
-			content.setAttribute(
-				"romanizationScheme",
-				"" + getRomanizationScheme());
-			content.setAttribute("bilingualUsage", "" + getBilingualUsage());
-			content.setAttribute("recordType", "" + getRecordType());
-			content.setAttribute(
-				"cataloguingRules",
-				"" + getCataloguingRules());
-			content.setAttribute("subjectSystem", "" + getSubjectSystem());
-			content.setAttribute("seriesType", "" + getSeriesType());
-			content.setAttribute("seriesNumbering", "" + getSeriesNumbering());
-			content.setAttribute(
-				"mainAddedEntryIndicator",
-				"" + getMainAddedEntryIndicator());
-			content.setAttribute(
-				"seriesEntryIndicator",
-				"" + getSeriesEntryIndicator());
-			content.setAttribute("subDivisionType", "" + getSubDivisionType());
-			content.setAttribute(
-				"governmentAgency",
-				"" + getGovernmentAgency());
-			content.setAttribute("referenceStatus", "" + getReferenceStatus());
-			content.setAttribute("recordRevision", "" + getRecordRevision());
-			content.setAttribute("nonUniqueName", "" + getNonUniqueName());
-			content.setAttribute("headingStatus", "" + getHeadingStatus());
-			content.setAttribute(
-				"recordModification",
-				"" + getRecordModification());
-			content.setAttribute(
-				"cataloguingSourceCode",
-				"" + getCataloguingSourceCode());
-		}
-		return content;
 	}
 
 	public char getCataloguingRules() {
