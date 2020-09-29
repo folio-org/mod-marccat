@@ -8,7 +8,6 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
-import org.folio.marccat.integration.AuthorityStorageService;
 import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
 import org.folio.marccat.shared.GeneralInformation;
@@ -39,8 +38,6 @@ public class AuthorityRecordAPI extends BaseResource {
 
 		return doPost((storageService, configuration) -> {
 			try {
-				AuthorityStorageService authorityStorageService = new AuthorityStorageService();
-				authorityStorageService.setStorageService(storageService);
 
 				record.getFields().forEach(field -> setCategory(field, storageService));
 				
@@ -54,7 +51,7 @@ public class AuthorityRecordAPI extends BaseResource {
 						.forEach(field -> {
 						});
 
-				authorityStorageService.saveAuthorityRecord(record, view, lang, configuration);
+				storageService.saveAuthorityRecord(record, view, lang, configuration);
 				return new ResponseEntity<>("1", HttpStatus.CREATED);
 
 			} catch (final Exception exception) {
