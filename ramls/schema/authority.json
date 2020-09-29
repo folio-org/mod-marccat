@@ -13,10 +13,12 @@
  	  "description": "marc leader of the record",
       "properties": {
         "code": {
-          "type": "string"
+          "type": "string",
+		  "description": "marc leader code (000)"
         },
         "value": {
-          "type": "string"
+          "type": "string",
+          "description": "marc leader value"
         }
       },
       "required": [
