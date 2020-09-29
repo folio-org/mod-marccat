@@ -13,7 +13,7 @@
         "fieldStatus": "unchanged",
         "fixedField": {
           "categoryCode": 1,
-          "headerTypeCode": 39,
+          "headerTypeCode": 11,
           "code": "001",
           "displayValue": "00000000100",
           "sequenceNumber": 0,
