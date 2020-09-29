@@ -1,26 +1,24 @@
 {
- "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "authority schema",
   "type": "object",
   "description": "authority metadata",
   "properties": {
     "id": {
-      "type": "integer"
-    },
-    "canadianContentIndicator": {
-      "type": "string"
-    },
-    "verificationLevel": {
-      "type": "string"
+      "type": "integer",
+	  "description": "authority id"
     },
     "leader": {
       "type": "object",
+ 	  "description": "marc leader of the record",
       "properties": {
         "code": {
-          "type": "string"
+          "type": "string",
+		  "description": "marc leader code (000)"
         },
         "value": {
-          "type": "string"
+          "type": "string",
+          "description": "marc leader value"
         }
       },
       "required": [
@@ -29,333 +27,17 @@
       ]
     },
     "fields": {
+	  "description": "fields of record",
       "type": "array",
-      "items": [
-        {
+      "items": {
           "type": "object",
-          "properties": {
-            "code": {
-              "type": "string"
-            },
-            "mandatory": {
-              "type": "boolean"
-            },
-            "fieldStatus": {
-              "type": "string"
-            },
-            "fixedField": {
-              "type": "object",
-              "properties": {
-                "categoryCode": {
-                  "type": "integer"
-                },
-                "headerTypeCode": {
-                  "type": "integer"
-                },
-                "code": {
-                  "type": "string"
-                },
-                "displayValue": {
-                  "type": "string"
-                },
-                "sequenceNumber": {
-                  "type": "integer"
-                },
-                "attributes": {
-                  "type": "object"
-                }
-              },
-              "required": [
-                "categoryCode",
-                "headerTypeCode",
-                "code",
-                "displayValue",
-                "sequenceNumber",
-                "attributes"
-              ]
-            },
-            "added": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "code",
-            "mandatory",
-            "fieldStatus",
-            "fixedField",
-            "added"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "code": {
-              "type": "string"
-            },
-            "mandatory": {
-              "type": "boolean"
-            },
-            "fieldStatus": {
-              "type": "string"
-            },
-            "fixedField": {
-              "type": "object",
-              "properties": {
-                "categoryCode": {
-                  "type": "integer"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "headerTypeCode": {
-                  "type": "integer"
-                },
-                "code": {
-                  "type": "string"
-                },
-                "displayValue": {
-                  "type": "string"
-                },
-                "sequenceNumber": {
-                  "type": "integer"
-                },
-                "attributes": {
-                  "type": "object"
-                }
-              },
-              "required": [
-                "categoryCode",
-                "description",
-                "headerTypeCode",
-                "code",
-                "displayValue",
-                "sequenceNumber",
-                "attributes"
-              ]
-            },
-            "added": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "code",
-            "mandatory",
-            "fieldStatus",
-            "fixedField",
-            "added"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "code": {
-              "type": "string"
-            },
-            "mandatory": {
-              "type": "boolean"
-            },
-            "fieldStatus": {
-              "type": "string"
-            },
-            "fixedField": {
-              "type": "object",
-              "properties": {
-                "categoryCode": {
-                  "type": "integer"
-                },
-                "headerTypeCode": {
-                  "type": "integer"
-                },
-                "code": {
-                  "type": "string"
-                },
-                "displayValue": {
-                  "type": "string"
-                },
-                "sequenceNumber": {
-                  "type": "integer"
-                },
-                "attributes": {
-                  "type": "object"
-                }
-              },
-              "required": [
-                "categoryCode",
-                "headerTypeCode",
-                "code",
-                "displayValue",
-                "sequenceNumber",
-                "attributes"
-              ]
-            },
-            "added": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "code",
-            "mandatory",
-            "fieldStatus",
-            "fixedField",
-            "added"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "code": {
-              "type": "string"
-            },
-            "mandatory": {
-              "type": "boolean"
-            },
-            "fieldStatus": {
-              "type": "string"
-            },
-            "variableField": {
-              "type": "object",
-              "properties": {
-                "categoryCode": {
-                  "type": "integer"
-                },
-                "ind1": {
-                  "type": "string"
-                },
-                "ind2": {
-                  "type": "string"
-                },
-                "code": {
-                  "type": "string"
-                },
-                "displayValue": {
-                  "type": "string"
-                },
-                "subfields": {
-                  "type": "array",
-                  "items": {}
-                },
-                "sequenceNumber": {
-                  "type": "integer"
-                },
-                "skipInFiling": {
-                  "type": "integer"
-                }
-              },
-              "required": [
-                "categoryCode",
-                "ind1",
-                "ind2",
-                "code",
-                "displayValue",
-                "subfields",
-                "sequenceNumber",
-                "skipInFiling"
-              ]
-            },
-            "added": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "code",
-            "mandatory",
-            "fieldStatus",
-            "variableField",
-            "added"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "code": {
-              "type": "string"
-            },
-            "mandatory": {
-              "type": "boolean"
-            },
-            "fieldStatus": {
-              "type": "string"
-            },
-            "variableField": {
-              "type": "object",
-              "properties": {
-                "keyNumber": {
-                  "type": "integer"
-                },
-                "categoryCode": {
-                  "type": "integer"
-                },
-                "headingTypeCode": {
-                  "type": "string"
-                },
-                "itemTypeCode": {
-                  "type": "string"
-                },
-                "functionCode": {
-                  "type": "string"
-                },
-                "ind1": {
-                  "type": "string"
-                },
-                "ind2": {
-                  "type": "string"
-                },
-                "code": {
-                  "type": "string"
-                },
-                "displayValue": {
-                  "type": "string"
-                },
-                "subfields": {
-                  "type": "array",
-                  "items": {}
-                },
-                "sequenceNumber": {
-                  "type": "integer"
-                },
-                "skipInFiling": {
-                  "type": "integer"
-                }
-              },
-              "required": [
-                "keyNumber",
-                "categoryCode",
-                "headingTypeCode",
-                "itemTypeCode",
-                "functionCode",
-                "ind1",
-                "ind2",
-                "code",
-                "displayValue",
-                "subfields",
-                "sequenceNumber",
-                "skipInFiling"
-              ]
-            },
-            "added": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "code",
-            "mandatory",
-            "fieldStatus",
-            "variableField",
-            "added"
-          ]
-        }
-      ]
-    },
-    "recordView": {
-      "type": "integer"
+          "$ref": "field.json"
+      }
     }
   },
   "required": [
     "id",
-    "canadianContentIndicator",
-    "verificationLevel",
     "leader",
-    "fields",
-    "recordView"
+    "fields"
   ]
 }
