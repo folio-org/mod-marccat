@@ -43,7 +43,8 @@ import static io.restassured.RestAssured.given;
   FixedFieldCodesGroupTest.class,
   HeaderTypeTest.class,
   AutoSuggestionTest.class,
-  RecordTemplateTest.class
+  RecordTemplateTest.class,
+  AuthorityRecordTest.class
 })
 
 public class StorageTestSuite {
