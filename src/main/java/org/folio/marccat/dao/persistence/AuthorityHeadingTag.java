@@ -6,7 +6,6 @@ import java.util.TreeSet;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
-import org.folio.marccat.exception.NoHeadingSetException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
@@ -114,13 +113,6 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
 
 	public void setWorkDescriptorStringtext(String workDescriptorStringtext) {
 		this.workDescriptorStringtext = workDescriptorStringtext;
-	}
-
-	@Override
-	public void validate(int index) {
-		if (getDescriptor().isNew()) {
-			throw new NoHeadingSetException(index);
-		}
 	}
 
 	@Override

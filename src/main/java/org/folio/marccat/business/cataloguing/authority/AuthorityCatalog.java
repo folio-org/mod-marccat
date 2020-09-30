@@ -33,10 +33,7 @@ import org.folio.marccat.dao.persistence.AuthorityControlNumberTag;
 import org.folio.marccat.dao.persistence.AuthorityDateOfLastTransactionTag;
 import org.folio.marccat.dao.persistence.AuthorityHeadingTag;
 import org.folio.marccat.dao.persistence.AuthorityLeader;
-import org.folio.marccat.dao.persistence.AuthorityModel;
 import org.folio.marccat.dao.persistence.AuthorityNameHeadingTag;
-import org.folio.marccat.dao.persistence.AuthoritySubjectHeadingTag;
-import org.folio.marccat.dao.persistence.AuthorityTitleHeadingTag;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
@@ -85,8 +82,6 @@ public class AuthorityCatalog extends Catalog {
 	private static final Map<Object, Object> HEADING_TAG_BY_AUT_TYPE = new HashMap<>();
 	static {
 		HEADING_TAG_BY_AUT_TYPE.put(Global.NAME_TYPE_HDG, AuthorityNameHeadingTag.class);
-		HEADING_TAG_BY_AUT_TYPE.put(Global.TITLE_TYPE_HDG, AuthorityTitleHeadingTag.class);
-		HEADING_TAG_BY_AUT_TYPE.put(Global.SUBJECT_TYPE_HDG, AuthoritySubjectHeadingTag.class);
 	}
 
 	protected static AbstractMapBackedFactory tagFactory;
@@ -214,11 +209,6 @@ public class AuthorityCatalog extends Catalog {
 	}
 
 	@Override
-	public Model newModel(CatalogItem item) {
-		return new AuthorityModel();
-	}
-
-	@Override
 	public Tag getNewTag(CatalogItem item, int category, CorrelationValues correlationValues) {
 		Tag tag = (Tag) getTagFactory().create(category);
 		tag = (Tag) setItemIfNecessary(item, tag);
@@ -293,6 +283,12 @@ public class AuthorityCatalog extends Catalog {
 			((AUT) item.getItemEntity()).setHeadingType(authorityType);
 			item.getTags().set(index, newTag);
 		}
+	}
+
+	@Override
+	public Model newModel(CatalogItem item) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

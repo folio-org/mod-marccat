@@ -12,14 +12,16 @@ import org.folio.marccat.shared.ValidationKey;
  */
 public class AuthorityValidation extends Validation implements Serializable {
 
-  private AuthorityValidationKey key;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 396288864587566593L;
 
-  public ValidationKey getKey() {
-    return key;
-  }
+	@Override
+	public ValidationKey getKey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public void setKey(AuthorityValidationKey validation) {
-    key = validation;
-  }
 
 }

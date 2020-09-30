@@ -14,7 +14,6 @@ import org.folio.marccat.dao.persistence.AuthorityAuthenticationCodeTag;
 import org.folio.marccat.dao.persistence.AuthorityCataloguingSourceTag;
 import org.folio.marccat.dao.persistence.AuthorityControlNumberTag;
 import org.folio.marccat.dao.persistence.AuthorityDateOfLastTransactionTag;
-import org.folio.marccat.dao.persistence.AuthorityGeographicAreaTag;
 import org.folio.marccat.dao.persistence.AuthorityLeader;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.FULL_CACHE;
@@ -35,72 +34,6 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 
 	public AuthorityCatalogDAO() {
 		super();
-	}
-
-	/**
-	 * Gets bibliographic item corresponding to bibliographic record.
-	 *
-	 * @param amicusNumber -- the amicus number of item.
-	 * @param userView     -- user view associated.
-	 * @param session      -- the current session hibernate.
-	 * @return the bibliographic item by amicus number.
-	 * @throws HibernateException in case of hibernate exception.
-	 */
-	public AuthorityItem getAuthorityItemByAmicusNumber(final int amicusNumber, final int userView,
-			final Session session) throws HibernateException {
-
-		AuthorityItem item = getAuthorityItem(amicusNumber, session);
-		item.getTags().addAll(getHeaderFields(item));
-		item.getTags().forEach(tag -> {
-			tag.setTagImpl(new AuthorityTagImpl());
-			tag.setCorrelationKey(tag.getTagImpl().getMarcEncoding(tag, session));
-		});
-		item.sortTags();
-		return item;
-	}
-
-	private AuthorityItem getAuthorityItem(int id, Session session) throws HibernateException {
-		AuthorityItem item = new AuthorityItem();
-		AUT autItm = new AutDAO().load(session, id);
-		item.setAutItmData(autItm);
-		return item;
-	}
-
-	private List<Tag> getHeaderFields(final AuthorityItem item) {
-
-		final AUT autItemData = item.getAutItmData();
-		final List<Tag> result = new ArrayList<>();
-		result.add(new AuthorityLeader());
-		result.add(new AuthorityControlNumberTag());
-		result.add(new AuthorityDateOfLastTransactionTag());
-		result.add(new Authority008Tag());
-		result.add(new AuthorityCataloguingSourceTag());
-
-		if (item.getItemEntity().getAuthenticationCenterStringText() != null) {
-			result.add(new AuthorityAuthenticationCodeTag());
-		}
-		if (item.getItemEntity().getGeographicAreaStringText() != null) {
-			result.add(new AuthorityGeographicAreaTag());
-		}
-		return result.stream().map(tag -> {
-			if (tag instanceof PersistsViaItem)
-				((PersistsViaItem) tag).setItemEntity(autItemData);
-
-			return tag;
-		}).collect(Collectors.toList());
-
-	}
-
-	@Override
-	public CatalogItem getCatalogItemByKey(Session session, int... key) {
-		int id = key[0];
-		int cataloguingView = key[1];
-
-		try {
-			return getAuthorityItemByAmicusNumber(id, cataloguingView, session);
-		} catch (final HibernateException exception) {
-			throw new DataAccessException(exception);
-		}
 	}
 
 	@Override
@@ -129,6 +62,12 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 	@Override
 	protected void updateItemDisplayCacheTable(CatalogItem item, Session session) throws HibernateException {
 		updateFullRecordCacheTable(session, item);
+	}
+
+	@Override
+	public CatalogItem getCatalogItemByKey(Session session, int... key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
