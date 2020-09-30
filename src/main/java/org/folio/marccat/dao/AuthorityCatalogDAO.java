@@ -1,23 +1,7 @@
 package org.folio.marccat.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
-import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
-import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.dao.persistence.AUT;
-import org.folio.marccat.dao.persistence.Authority008Tag;
-import org.folio.marccat.dao.persistence.AuthorityAuthenticationCodeTag;
-import org.folio.marccat.dao.persistence.AuthorityCataloguingSourceTag;
-import org.folio.marccat.dao.persistence.AuthorityControlNumberTag;
-import org.folio.marccat.dao.persistence.AuthorityDateOfLastTransactionTag;
-import org.folio.marccat.dao.persistence.AuthorityLeader;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.FULL_CACHE;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.util.XmlUtils;
 

@@ -12,7 +12,6 @@ import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.business.common.SubfieldCodeComparator;
 import org.folio.marccat.dao.AuthorityCorrelationDAO;
-import org.folio.marccat.dao.AuthorityValidationDAO;
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
@@ -27,9 +26,13 @@ import net.sf.hibernate.Session;
  *
  */
 public class AuthorityTagImpl extends TagImpl {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1006497560481032279L;
+
 	private static final Log logger = LogFactory.getLog(AuthorityTagImpl.class);
 
-	private static final AuthorityValidationDAO daoValidation = new AuthorityValidationDAO();
 	private static final AuthorityCorrelationDAO daoCorrelation = new AuthorityCorrelationDAO();
 
 	/**
@@ -61,14 +64,6 @@ public class AuthorityTagImpl extends TagImpl {
 
 	public String getHeadingType(Tag t) {
 		return ((AUT) ((PersistsViaItem) t).getItemEntity()).getHeadingType();
-	}
-
-	public Validation getValidation(Tag t, final Session session) {
-		try {
-			return daoValidation.load(session, t.getCategory(), t.getHeadingType(), t.getCorrelationValues());
-		} catch (HibernateException e) {
-			throw new DataAccessException(e);
-		}
 	}
 
 	/*
@@ -124,6 +119,12 @@ public class AuthorityTagImpl extends TagImpl {
 
 	@Deprecated
 	public Validation getValidation(Tag t) {
+		return null;
+	}
+
+	@Override
+	public Validation getValidation(Tag t, Session session) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

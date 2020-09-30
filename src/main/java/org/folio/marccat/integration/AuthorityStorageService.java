@@ -2,13 +2,7 @@ package org.folio.marccat.integration;
 
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
@@ -24,24 +18,18 @@ import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.AuthorityCatalogDAO;
-import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.Authority008Tag;
 import org.folio.marccat.dao.persistence.AuthorityLeader;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.Descriptor;
-import org.folio.marccat.dao.persistence.LDG_STATS;
-import org.folio.marccat.dao.persistence.LOADING_MARC_RECORDS;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ModMarccatException;
-import org.folio.marccat.integration.record.BibliographicInputFile;
 import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.resources.shared.RecordUtils;
 import org.folio.marccat.util.StringText;
-import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.hibernate.HibernateException;
 
@@ -74,21 +62,6 @@ public class AuthorityStorageService {
 	}
 
 	/**
-	 * Updates the full record cache table with the given item.
-	 *
-	 * @param item the catalog item.
-	 * @param view the related view.
-	 */
-	public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
-		try {
-			new AuthorityCatalogDAO().updateFullRecordCacheTable(getStorageService().getSession(), item);
-		} catch (final HibernateException exception) {
-			throw new DataAccessException(exception);
-		}
-
-	}
-
-	/**
 	 * Checks if authority record is new then execute insert or update.
 	 *
 	 * @param record             -- the authority record to save.
@@ -111,7 +84,8 @@ public class AuthorityStorageService {
 			if (item == null || item.getTags().isEmpty()) {
 				item = insertAuthorityRecord(record, view, lang, configuration);
 			} else {
-				updateAuthorityRecord(record, item, view, configuration);
+				// Actualizar la autoridad
+				// updateAuthorityRecord(record, item, view, configuration);
 			}
 
 			final AuthorityCatalogDAO dao = new AuthorityCatalogDAO();
@@ -223,58 +197,4 @@ public class AuthorityStorageService {
 		return item;
 	}
 
-	/**
-	 * Updates a bibliographic record.
-	 *
-	 * @param record             -- the record to update.
-	 * @param item               -- the catalog item associated to record.
-	 * @param view               -- the current view associated to record.
-	 * @param generalInformation -- {@linked GeneralInformation} for default values.
-	 * @throws DataAccessException in case of data access exception.
-	 */
-	private void updateAuthorityRecord(final AuthorityRecord record, final CatalogItem item, final int view,
-			final Map<String, String> configuration) {
-		// It is not implemented
-	}
-
-	/**
-	 * Load records from files uploaded.
-	 *
-	 * @param file            -- the current file.
-	 * @param startRecord     -- the number start record.
-	 * @param numberOfRecords -- the number of records to load.
-	 * @param view            -- the cataloguing view associated.
-	 * @return map with loading result.
-	 */
-	public Map<String, Object> loadAuthRecords(final MultipartFile file, final int startRecord,
-			final int numberOfRecords, final int view, final Map<String, String> configuration) {
-		final Map<String, Object> result = new HashMap<>();
-		List<Integer> ids = new ArrayList<>();
-		try {
-			if (!file.isEmpty()) {
-				final InputStream input = file.getInputStream();
-				final BibliographicInputFile bf = new BibliographicInputFile();
-				bf.loadFile(input, file.getOriginalFilename(), view, startRecord, numberOfRecords,
-						getStorageService().getSession(), configuration);
-
-				final CodeTableDAO dao = new CodeTableDAO();
-				final LDG_STATS stats = dao.getStats(getStorageService().getSession(), bf.getLoadingStatisticsNumber());
-				if (stats.getRecordsAdded() > 0) {
-					final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(getStorageService().getSession(),
-							bf.getLoadingStatisticsNumber()));
-					ids = lmr.stream().map(LOADING_MARC_RECORDS::getBibItemNumber).collect(Collectors.toList());
-				}
-				result.put(Global.LOADING_FILE_FILENAME, file.getName());
-				result.put(Global.LOADING_FILE_IDS, ids);
-				result.put(Global.LOADING_FILE_REJECTED, stats.getRecordsRejected());
-				result.put(Global.LOADING_FILE_ADDED, stats.getRecordsAdded());
-				result.put(Global.LOADING_FILE_ERRORS, stats.getErrorCount());
-
-			}
-		} catch (IOException e) {
-			throw new ModMarccatException(e);
-		}
-
-		return result;
-	}
 }

@@ -50,7 +50,7 @@ public class AuthorityRecordTest  extends TestBase {
 	    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
 	    given()
-	      .param("id", "11")
+	      .param("id", "1")
 	      .param("view", "-1")
 	      .headers(headers)
 	      .when()
