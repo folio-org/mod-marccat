@@ -1,11 +1,5 @@
 package org.folio.marccat.dao;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.AuthorityCorrelation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 
@@ -19,7 +13,6 @@ import net.sf.hibernate.Session;
  * @since 1.0
  */
 public class AuthorityCorrelationDAO extends RecordCorrelationDAO {
-	private final Log logger = new Log(AuthorityCorrelationDAO.class);
 	private String queryFrom = " from AuthorityCorrelation as c ";
 
 	/**
@@ -42,31 +35,6 @@ public class AuthorityCorrelationDAO extends RecordCorrelationDAO {
 	}
 
 	/**
-	 * Gets correlations using tag and indicators.
-	 *
-	 * @param session         -- current hibernate session.
-	 * @param tag             -- the tag number.
-	 * @param firstIndicator  -- the 1st. indicator.
-	 * @param secondIndicator -- the 2nd. indicator.
-	 * @return a list of authority correlation.
-	 * @throws HibernateException in case of hibernate exception.
-	 */
-	public List<AuthorityCorrelation> getCategoryCorrelation(
-			final Session session, 
-			final String tag,
-			final char firstIndicator, 
-			final char secondIndicator) throws HibernateException {
-
-		try {
-			return super.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator, queryFrom).stream().map(s -> (AuthorityCorrelation) s).collect(Collectors.toList());
-
-		} catch (final HibernateException exception) {
-			logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-			return Collections.emptyList();
-		}
-	}
-
-	/**
 	 * Returns the MARC encoding based on the input database encodings.
 	 *
 	 * @param category          -- the database category (1-name, etc...)
@@ -80,20 +48,6 @@ public class AuthorityCorrelationDAO extends RecordCorrelationDAO {
 			final int secondCorrelation, final int thirdCorrelation, final Session session) throws HibernateException {
 		
 		return super.getMarcEncoding(category, firstCorrelation, secondCorrelation, thirdCorrelation, session, queryFrom);
-	}
-
-
-	/**
-	 * Loads the indicators and the subfields of a tag.
-	 *
-	 * @param session   the session of hibernate
-	 * @param tagNumber the tag number used as filter criterion.
-	 * @return
-	 * @throws HibernateException
-	 */
-	public List<CorrelationKey> getFilteredTag(final String tagNumber, final Session session)
-			throws HibernateException {
-		return super.getFilteredTag(tagNumber, " select c.key from AuthorityCorrelation as ac, AuthorityValidation as v   ", session);
 	}
 
 

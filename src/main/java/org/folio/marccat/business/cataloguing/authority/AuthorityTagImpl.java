@@ -1,8 +1,6 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import java.util.Arrays;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,7 +8,6 @@ import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Catalog;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.SubfieldCodeComparator;
 import org.folio.marccat.dao.AuthorityCorrelationDAO;
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.dao.persistence.Correlation;
@@ -75,26 +72,6 @@ public class AuthorityTagImpl extends TagImpl {
 		return new AuthorityCatalog();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see TagImpl#getValidEditableSubfields(short)
-	 */
-	public Set<String> getValidEditableSubfields(int category) {
-		Set<String> set = new TreeSet<>(new SubfieldCodeComparator());
-		switch (category) {
-		case 6:
-			set.addAll(Arrays.asList("d"));
-			break;
-		case 15:
-			set.addAll(Arrays.asList("d", "5"));
-			break;
-		default:
-			return set;
-		}
-		return set;
-	}
-
 	public Correlation getCorrelation(String tagNumber, char indicator1, char indicator2, final int category,
 			final Session session) {
 		try {
@@ -124,6 +101,12 @@ public class AuthorityTagImpl extends TagImpl {
 
 	@Override
 	public Validation getValidation(Tag t, Session session) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set getValidEditableSubfields(int category) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -17,7 +17,6 @@ import org.folio.marccat.util.StringText;
 public class AuthorityHeadingTag extends VariableField implements PersistsViaItem, Browsable, HasHeadingType {
 	private AUT autItm;
 	Descriptor descriptor;
-	private String workDescriptorStringtext;
 
 	public AuthorityHeadingTag(Descriptor d) {
 		setDescriptor(d);
@@ -65,15 +64,6 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
 		return true;
 	}
 
-	public Integer getHeadingNumber() {
-		int result = getAutItm().getHeadingNumber();
-		if (result > 0) {
-			return result;
-		} else {
-			return null;
-		}
-	}
-
 	public void setHeadingNumber(Integer i) {
 		int setting;
 		if (i == null) {
@@ -107,18 +97,21 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
 		getDescriptor().setStringText(tagStringText.toString());
 	}
 
-	public String getWorkDescriptorStringtext() {
-		return workDescriptorStringtext;
-	}
-
-	public void setWorkDescriptorStringtext(String workDescriptorStringtext) {
-		this.workDescriptorStringtext = workDescriptorStringtext;
-	}
-
 	@Override
 	public int getCategory() {
 		return 0;
 	}
+	
+	@Override
+	public boolean equals(Object anObject) {
+		if (anObject instanceof AuthorityHeadingTag) {
+			AuthorityHeadingTag aKey = (AuthorityHeadingTag) anObject;
+			return (super.equals(aKey) && autItm == aKey.getAutItm() && descriptor == aKey.getDescriptor());
+		} else {
+			return false;
+		}
+	}
+
 
 	@Override
 	public String getVariantCodes() {
@@ -130,19 +123,14 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
 		return getDescriptor().buildBrowseTerm();
 	}
 
-	@Override
-	public boolean equals(Object anObject) {
-		if (anObject instanceof AuthorityHeadingTag) {
-			AuthorityHeadingTag aKey = (AuthorityHeadingTag) anObject;
-			return (super.equals(aKey) && autItm == aKey.getAutItm() && descriptor == aKey.getDescriptor()
-					&& workDescriptorStringtext == aKey.getWorkDescriptorStringtext());
-		} else {
-			return false;
-		}
-	}
-
 	@Override	
 	public int hashCode() {
-return super.hashCode()+ getDescriptor().getHeadingNumber();
+		return super.hashCode()+ getDescriptor().getHeadingNumber();
+	}
+
+	@Override
+	public Integer getHeadingNumber() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

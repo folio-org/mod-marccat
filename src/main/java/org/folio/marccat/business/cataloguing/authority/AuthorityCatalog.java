@@ -16,11 +16,8 @@ import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.config.log.Message;
-import org.folio.marccat.dao.AuthorityCatalogDAO;
 import org.folio.marccat.dao.AuthorityModelDAO;
 import org.folio.marccat.dao.CatalogDAO;
-import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.NameDescriptorDAO;
 import org.folio.marccat.dao.NameTitleDescriptorDAO;
@@ -31,7 +28,6 @@ import org.folio.marccat.dao.persistence.Authority008Tag;
 import org.folio.marccat.dao.persistence.AuthorityCataloguingSourceTag;
 import org.folio.marccat.dao.persistence.AuthorityControlNumberTag;
 import org.folio.marccat.dao.persistence.AuthorityDateOfLastTransactionTag;
-import org.folio.marccat.dao.persistence.AuthorityHeadingTag;
 import org.folio.marccat.dao.persistence.AuthorityLeader;
 import org.folio.marccat.dao.persistence.AuthorityNameHeadingTag;
 import org.folio.marccat.dao.persistence.CatalogItem;
@@ -40,7 +36,6 @@ import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.dao.persistence.Model;
 import org.folio.marccat.dao.persistence.T_AUT_TAG_CAT;
-import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.shared.CorrelationValues;
 
 /**
@@ -75,8 +70,6 @@ public class AuthorityCatalog extends Catalog {
 		AUT_TYPE_BY_DESCRIPTOR_VALIDATION_TYPE.put(Global.AUT_VAL_NAME_TITLE, Global.NAME_TITLE_TYPE_HDG);
 	}
 
-	private static final AuthorityCatalogDAO DAO_CATALOG = new AuthorityCatalogDAO();
-
 	protected static AbstractMapBackedFactory fixedFieldFactory;
 
 	private static final Map<Object, Object> HEADING_TAG_BY_AUT_TYPE = new HashMap<>();
@@ -92,75 +85,6 @@ public class AuthorityCatalog extends Catalog {
 		builder.load("/org/folio/marccat/business/cataloguing/authority/tagFactory.properties", tagFactory);
 		builder.load("/org/folio/marccat/business/cataloguing/authority/fixedFieldFactory.properties",
 				fixedFieldFactory);
-	}
-
-	public static AuthorityHeadingTag createHeadingTagByType(String type) {
-		AuthorityHeadingTag result = null;
-		try {
-			result = (AuthorityHeadingTag) ((Class<?>) HEADING_TAG_BY_AUT_TYPE.get(type)).newInstance();
-		} catch (Exception e) {
-			throw new ModMarccatException(String.format(Message.MOD_MARCCAT_00036_NOT_CREATE_OBJECT));
-		}
-		return result;
-	}
-
-	public static DescriptorDAO getDaoByType(String type) {
-		DescriptorDAO result = null;
-		try {
-			result = (DescriptorDAO) ((Class<?>) DAO_BY_AUT_TYPE.get(type)).newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw new ModMarccatException(String.format(Message.MOD_MARCCAT_00036_NOT_CREATE_OBJECT));
-		}
-		return result;
-	}
-
-	public static String getAutTypeByDescriptorType(int descriptorType) {
-		return AUT_TYPE_BY_DESCRIPTOR_TYPE.get(descriptorType);
-	}
-
-	public static String getAutTypeByDescriptorValidationType(int descriptorType) {
-		return (String) AUT_TYPE_BY_DESCRIPTOR_VALIDATION_TYPE.get(Integer.valueOf(descriptorType));
-	}
-
-	public void addRequiredTags(CatalogItem item) {
-		AuthorityLeader leader = (AuthorityLeader) getNewTag(item, (short) 1, new CorrelationValues(
-				new AuthorityLeader().getHeaderType(), CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
-		if (!item.getTags().contains(leader)) {
-			item.addTag(leader);
-		}
-
-		ControlNumberTag controlnumber = (ControlNumberTag) getNewTag(item, (short) 1,
-				new CorrelationValues(new AuthorityControlNumberTag().getHeaderType(), CorrelationValues.UNDEFINED,
-						CorrelationValues.UNDEFINED));
-		if (!item.getTags().contains(controlnumber)) {
-			item.addTag(controlnumber);
-		}
-
-		DateOfLastTransactionTag dateTag = (DateOfLastTransactionTag) getNewTag(item, (short) 1,
-				new CorrelationValues(new AuthorityDateOfLastTransactionTag().getHeaderType(),
-						CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED));
-		if (!item.getTags().contains(dateTag)) {
-			item.addTag(dateTag);
-		}
-
-		Authority008Tag ffTag = (Authority008Tag) getNewTag(item, (short) 1, new Authority008Tag().getHeaderType(),
-				CorrelationValues.UNDEFINED, CorrelationValues.UNDEFINED);
-		if (!item.getTags().contains(ffTag)) {
-			item.addTag(ffTag);
-		}
-
-		CataloguingSourceTag source = (CataloguingSourceTag) getNewTag(item, (short) 1,
-				new CorrelationValues(new AuthorityCataloguingSourceTag().getHeaderType(), CorrelationValues.UNDEFINED,
-						CorrelationValues.UNDEFINED));
-		if (!item.getTags().contains(source)) {
-			item.addTag(source);
-		}
-
-		item.sortTags();
-	}
-
-	public CatalogDAO getCatalogDao() {
-		return DAO_CATALOG;
 	}
 
 	public AbstractMapBackedFactory getFixedFieldFactory() {
@@ -275,20 +199,21 @@ public class AuthorityCatalog extends Catalog {
 	}
 
 	@Override
-	public void changeDescriptorType(CatalogItem item, int index, int descriptorType) {
-		Tag t = item.getTag(index);
-		if (t instanceof AuthorityHeadingTag) {
-			String authorityType = getAutTypeByDescriptorType(descriptorType);
-			Tag newTag = getNewTag(item, descriptorType);
-			((AUT) item.getItemEntity()).setHeadingType(authorityType);
-			item.getTags().set(index, newTag);
-		}
-	}
-
-	@Override
 	public Model newModel(CatalogItem item) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public CatalogDAO getCatalogDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void changeDescriptorType(CatalogItem item, int index, int descriptorType) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

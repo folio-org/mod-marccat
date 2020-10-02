@@ -44,10 +44,26 @@ public class AuthorityRecordTest  extends TestBase {
 	  }
 	 
 	 @Test
-	  public void getDocumentCountById() {
+	  public void getDocumentCountById() throws IOException {
+		 
+		 String url = getURI("/marccat/authority-record");
+		    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+		    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),String.valueOf(StandardCharsets.UTF_8));
+		  
 
-	    String url = getURI("/marccat/document-count-by-id");
-	    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+		    given()
+		      .headers("Content-Type", "application/json")
+		      .headers(headers)
+		      .queryParam("view", "-1")
+		      .queryParam("lang", "eng")
+		      .body(templateJson)
+		      .when()
+		      .post(url)
+		      .then()
+		      .statusCode(201);
+
+	    url = getURI("/marccat/document-count-by-id");
+	    headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
 	    given()
 	      .param("id", "1")

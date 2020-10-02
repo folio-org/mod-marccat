@@ -5,7 +5,6 @@ import org.folio.marccat.business.cataloguing.common.OrderedTag;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
-import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
@@ -41,11 +40,8 @@ public class RecordNote extends VariableField implements PersistentObjectWithVie
 	public int hashCode() {
 		return getNoteNbr();
 	}
-
-	  /* (non-Javadoc)
-	   * @see java.lang.Object#equals(java.lang.Object)
-	   */
-	  @Override
+	
+	@Override
 	  public boolean equals(final Object obj) {
 	    if (!(obj instanceof RecordNote)) {
 	      return false;
@@ -127,17 +123,6 @@ public class RecordNote extends VariableField implements PersistentObjectWithVie
 		return null;
 	}
 	
-	@Override
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		if (v.getValue(1) == Global.PUBLISHER_DEFAULT_NOTE_TYPE) {
-			return true;
-		} else if (v.getValue(1) == 381) {
-			return true;
-		} else
-			return v.getValue(1) == 382;
-	}
-	
-
 	public void setContent(String text) {
 		this.content = text;
 	}

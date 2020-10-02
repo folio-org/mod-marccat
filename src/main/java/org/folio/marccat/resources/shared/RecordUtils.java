@@ -39,19 +39,6 @@ public class RecordUtils {
       Global.FIXED_LEADER_PORTION;
   }
 
-  /**
-   * Reset status fields to UNCHANGED.
-   *
-   * @param newRecord -- the new record created.
-   */
-  public static void resetStatus(AuthorityRecord newRecord) {
-    newRecord.getFields().forEach(field -> {
-      if (Global.MANDATORY_FIELDS.contains(field.getCode()))
-        field.setMandatory(true);
-      field.setFieldStatus(Field.FieldStatus.UNCHANGED);
-    });
-  }
-
 
   /**
    * Reset status fields to UNCHANGED.
