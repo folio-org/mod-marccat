@@ -149,7 +149,9 @@
 		<mapping resource="org/folio/marccat/dao/persistence/T_STS_AVBLE.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/T_CURCY_TYP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_MTRL_TYP.hbm.xml"/>
+		<mapping resource="org/folio/marccat/dao/persistence/T_AUT_TAG_CAT.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_BIB_TAG_CAT.hbm.xml"/>
+		<mapping resource="org/folio/marccat/dao/persistence/S_AUT_MARC_IND_DB_CRLTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/S_BIB_MARC_IND_DB_CRLTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_NME_TTL_FNCTN.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/T_ITM_LNK_REC.hbm.xml"/>
@@ -210,6 +212,7 @@
 		<mapping resource="org/folio/marccat/dao/persistence/VR.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/MSCL_INSTM_OR_VOICE.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/RLTSP.hbm.xml"/>
+		<mapping resource="org/folio/marccat/dao/persistence/AUT_NTE.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/BIB_NTE_OVRFW.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/STD_NTE_ACS_PNT.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/S_NXT_NBR.hbm.xml"/>

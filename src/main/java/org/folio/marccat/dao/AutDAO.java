@@ -1,14 +1,15 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
+import java.util.List;
+
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
 
-import java.util.List;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * The Class AutDAO used for authority record.
@@ -47,8 +48,8 @@ public class AutDAO extends AbstractDAO {
    * @return the count of bibliographic records
    * @throws HibernateException
    */
-  public Integer getDocCountByAutNumber(final int headingNumber, final Class accessPoint, final Integer searchingView, final Session session) throws HibernateException {
-    final List countDoc = session.find(" select count(distinct apf.bibItemNumber) from "
+  public Integer getDocCountByAutNumber(final int headingNumber, final Class<?> accessPoint, final Integer searchingView, final Session session) throws HibernateException {
+    final List<?> countDoc = session.find(" select count(distinct apf.bibItemNumber) from "
       + accessPoint.getName() + " as apf "
       + " where apf.headingNumber = ? and "
       + " substr(apf.userViewString, ?, 1) = '1'", new Object[]{

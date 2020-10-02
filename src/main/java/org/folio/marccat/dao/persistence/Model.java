@@ -1,10 +1,12 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
-import java.io.Serializable;
+
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 /**
  * Base class for template models
@@ -12,7 +14,7 @@ import java.io.Serializable;
  * @author paulm
  * @author carment
  * @since 1.0
- */
+ */	
 public abstract class Model implements Persistence, Serializable {
 
   private int id;
@@ -219,4 +221,7 @@ public abstract class Model implements Persistence, Serializable {
   public boolean onUpdate(final Session session) throws CallbackException {
     return persistenceState.onUpdate(session);
   }
+  
+
+
 }
