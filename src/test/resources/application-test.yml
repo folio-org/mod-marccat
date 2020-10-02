@@ -30,8 +30,8 @@ marccat:
   username: marccat
   password: admin
   database:
-    url: jdbc:postgresql://localhost:5432/test_marccat
-    host: localhost
+    url: jdbc:postgresql://folio2:5432/test_marccat
+    host: folio2
     port: 5432
     name: test_marccat
     prefix: test

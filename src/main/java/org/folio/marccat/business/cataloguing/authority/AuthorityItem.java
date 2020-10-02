@@ -25,11 +25,6 @@ public class AuthorityItem extends CatalogItem implements Serializable {
 		super();
 	}
 
-	public AuthorityItem(Integer id) {
-		super();
-		this.autItmData.setAmicusNumber(id);
-	}
-
 	public AUT getAutItmData() {
 		return autItmData;
 	}
@@ -51,10 +46,6 @@ public class AuthorityItem extends CatalogItem implements Serializable {
 	@Override
 	public TagImpl getTagImpl() {
 		return new AuthorityTagImpl();
-	}
-
-	public String getAuthorityType() {
-		return getAutItmData().getHeadingType();
 	}
 
 	public ItemEntity getItemEntity() {

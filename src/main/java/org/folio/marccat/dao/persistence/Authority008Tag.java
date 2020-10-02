@@ -1,7 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import java.util.Date;
-
 import org.folio.marccat.business.cataloguing.authority.AuthorityHeaderFieldHelper;
 import org.folio.marccat.business.cataloguing.bibliographic.FixedFieldUsingItemEntity;
 
@@ -62,16 +60,8 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
 		return getAutItm().getCataloguingSourceCode();
 	}
 
-	public Date getEnteredOnFileDate() {
-		return getAutItm().getEnteredOnFileDate();
-	}
-
 	public String getEnteredOnFileDateYYMMDD() {
 		return getAutItm().getEnteredOnFileDateYYMMDD();
-	}
-
-	public String getEnteredOnFileDateYYYYMMDD() {
-		return getAutItm().getEnteredOnFileDateYYYYMMDD();
 	}
 
 	public char getGovernmentAgency() {
@@ -80,10 +70,6 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
 
 	public char getHeadingStatus() {
 		return getAutItm().getHeadingStatus();
-	}
-
-	public String getLanguageOfCataloguing() {
-		return getAutItm().getLanguageOfCataloguing();
 	}
 
 	public char getMainAddedEntryIndicator() {
@@ -100,10 +86,6 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
 
 	public char getRecordRevision() {
 		return getAutItm().getRecordRevision();
-	}
-
-	public char getRecordStatusCode() {
-		return getAutItm().getRecordStatusCode();
 	}
 
 	public char getRecordType() {

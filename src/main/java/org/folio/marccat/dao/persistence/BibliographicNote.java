@@ -16,6 +16,11 @@ import java.util.List;
  * @author janick
  */
 public class BibliographicNote extends RecordNote {
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8857348340760744618L;
+	
   private List<BibliographicNoteOverflow> overflowList = new ArrayList<>();
   /**
    * The content is all or a part of the stringText.toString() result.
@@ -25,13 +30,6 @@ public class BibliographicNote extends RecordNote {
 
   public BibliographicNote() {
     super();
-  }
-
-  /**
-   *
-   */
-  public BibliographicNote(final int itemNbr) {
-    super(itemNbr);
   }
   
   @Override

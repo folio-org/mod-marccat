@@ -27,15 +27,6 @@ public class RecordNote extends VariableField implements PersistentObjectWithVie
 		setPersistenceState(new PersistenceState());
 	}
 	
-	public RecordNote(final int itemNbr) {
-		super(itemNbr);
-	}
-	
-	@Override
-	public boolean isBrowsable() {
-		return false;
-	}
-	
 	@Override
 	public int hashCode() {
 		return getNoteNbr();
@@ -143,7 +134,6 @@ public class RecordNote extends VariableField implements PersistentObjectWithVie
 	@Override
 	public void setUserViewString(String s) {
 		// Do nothing
-		
 	}
 	
 }

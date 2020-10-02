@@ -80,10 +80,6 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
 		return new StringText();
 	}
 
-	public StringText getFixedSubfields() {
-		return new StringText();
-	}
-
 	@Override
 	public boolean isAbleToBeDeleted() {
 		return false;
@@ -111,7 +107,6 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
 			return false;
 		}
 	}
-
 
 	@Override
 	public String getVariantCodes() {
