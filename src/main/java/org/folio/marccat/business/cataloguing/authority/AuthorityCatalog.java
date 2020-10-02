@@ -16,7 +16,6 @@ import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.config.constants.Global;
-import org.folio.marccat.dao.AuthorityModelDAO;
 import org.folio.marccat.dao.CatalogDAO;
 import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.NameDescriptorDAO;
@@ -43,8 +42,6 @@ import org.folio.marccat.shared.CorrelationValues;
  *
  */
 public class AuthorityCatalog extends Catalog {
-
-	private static final ModelDAO MODEL_DAO = new AuthorityModelDAO();
 
 	private static final Map<String, Class<?>> DAO_BY_AUT_TYPE = new HashMap<>();
 	static {
@@ -114,10 +111,6 @@ public class AuthorityCatalog extends Catalog {
 	public CatalogItem applyKeyToItem(CatalogItem item, Object[] key) {
 		// no key elements to apply for Authorities
 		return item;
-	}
-
-	public ModelDAO getModelDAO() {
-		return MODEL_DAO;
 	}
 
 	public String getMarcTypeCode() {
@@ -214,6 +207,12 @@ public class AuthorityCatalog extends Catalog {
 	public void changeDescriptorType(CatalogItem item, int index, int descriptorType) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ModelDAO getModelDAO() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -50,9 +50,7 @@ public class AuthorityRecordAPI extends BaseResource {
 				gi.setDefaultValues(configuration);
 
 				record.getFields().stream().filter(FixedFieldUtils::isFixedField)
-						.filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)
-								|| field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)
-								|| field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE))
+						.filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
 						.forEach(field -> {
 						});
 

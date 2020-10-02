@@ -47,13 +47,6 @@ public class ContainerRecordTemplate {
     return authorityRecord;
   }
 
-  /**
-   * @param authorityRecord the authority record.
-   */
-  public void setAuthorityRecord(AuthorityRecord authorityRecord) {
-    this.authorityRecord = authorityRecord;
-  }
-
   
   /**
    * @return the record template.

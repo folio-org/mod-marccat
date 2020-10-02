@@ -19,16 +19,6 @@ public class AuthorityCorrelationKey extends CorrelationKey {
 		super();
 	}
 
-	/**
-	 * Class constructor
-	 *
-	 */
-	public AuthorityCorrelationKey(String marcTag, String headingType, char marcTag1, char marcTag2,
-			short marcTagCategory) {
-		super(marcTag, marcTag1, marcTag2, marcTagCategory);
-		this.headingType = headingType;
-	}
-
 	public String getHeadingType() {
 		return headingType;
 	}
