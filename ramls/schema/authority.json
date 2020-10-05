@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "authority schema",
+  "type": "object",
+  "description": "authority metadata",
+  "properties": {
+    "id": {
+      "type": "integer",
+	  "description": "authority id"
+    },
+    "leader": {
+      "type": "object",
+ 	  "description": "marc leader of the record",
+      "properties": {
+        "code": {
+          "type": "string",
+		  "description": "marc leader code (000)"
+        },
+        "value": {
+          "type": "string",
+          "description": "marc leader value"
+        }
+      },
+      "required": [
+        "code",
+        "value"
+      ]
+    },
+    "fields": {
+	  "description": "fields of record",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "$ref": "field.json"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "leader",
+    "fields"
+  ]
+}

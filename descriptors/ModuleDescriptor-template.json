@@ -136,6 +136,12 @@
           "modulePermissions": ["configuration.all"],
           "permissionsRequired": []
         },
+	    {
+          "methods": ["POST"],
+          "pathPattern": "/marccat/authority-record",
+          "modulePermissions": ["configuration.all"],
+          "permissionsRequired": []
+        },
         {
           "methods": ["POST"],
           "pathPattern": "/marccat/bibliographic-record",

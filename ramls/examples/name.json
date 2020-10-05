@@ -1,0 +1,34 @@
+{
+    "id":0,
+    "leader": {
+      "code": "000",
+      "value": "00215nz   2200097n  4500"
+    },
+    "fields": [
+      {
+        "code": "008",
+        "fixedField": {
+          "code": "008",
+          "displayValue": "201001 n acanaaabn           n aaa     u"
+        }
+      },
+      {
+        "code": "040",
+        "variableField": {
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faSCA\u001fbeng"
+        }
+      },
+      {
+        "code": "100",
+        "variableField": {
+          "ind1": "1",
+          "ind2": " ",
+          "code": "100",
+          "displayValue": "\u001faIbaiScanbit"
+        }
+      }
+    ]
+}
