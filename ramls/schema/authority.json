@@ -81,7 +81,8 @@
       ]
     },
     "recordView": {
-      "type": "integer"
+      "type": "integer",
+      "description": "view of the record"
     }
   },
   "required": [
