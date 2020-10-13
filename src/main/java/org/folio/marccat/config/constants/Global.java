@@ -109,10 +109,10 @@ public abstract class Global {
   public static final int BIB_NOTE_CATEGORY = 7;
   public static final int NAME_TITLE_CATEGORY = 11;
   public static final int RELATION_CATEGORY = 8;
-  public static final int AUT_VAL_NAME = 17;
-  public static final int AUT_VAL_TITLE = 22;
-  public static final int AUT_VAL_SUBJECT = 18;
-  public static final int AUT_VAL_NAME_TITLE = 11;
+  public static final int AUT_NAME_CATEGORY = 17;
+  public static final int AUT_TITLE_CATEGORY = 22;
+  public static final int AUT_SUBJECT_CATEGORY = 18;
+  public static final int AUT_NAME_TITLE_CATEOGRY = 11;
   public static final String NAME_TYPE_HDG = "NH";
   public static final String TITLE_TYPE_HDG = "TH";
   public static final String SUBJECT_TYPE_HDG = "SH";
