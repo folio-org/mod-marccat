@@ -12,7 +12,7 @@ public final class Message {
   public static final String MOD_MARCCAT_00012_NULL_RESULT = "<" + MODULE_NAME + "-00012> : Not well known failure. The service did return a nullable (not allowed) stringValue.";
   public static final String MOD_MARCCAT_00013_IO_FAILURE = "<" + MODULE_NAME + "-00013> : I/O failure. Please check the stacktrace below for further details.";
   public static final String MOD_MARCCAT_00014_NO_VALIDATION_FOUND = "<" + MODULE_NAME + "-00014> : Not well known failure. No validation found for category %s and values %s.";
-  public static final String MOD_MARCCAT_00015_NO_VALIDATION_FOUND = "<" + MODULE_NAME + "-00014> : Not well known failure. No validation found for category %s and values %s.";
+  public static final String MOD_MARCCAT_00015_NO_VALIDATION_FOUND = "<" + MODULE_NAME + "-00015> : Not well known failure. No validation found for category %s and values %s.";
   public static final String MOD_MARCCAT_00016_NO_HEADING_FOUND = "<" + MODULE_NAME + "-00016> : No heading found for heading number: %s";
   public static final String MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID = "<" + MODULE_NAME + "-00016> : Unable to retrieve field template for invalid parameters. Category %s and code %s.";
   public static final String MOD_MARCCAT_00017_CODES_GROUPS_NOT_AVAILABLE = "<" + MODULE_NAME + "-00017> : No codes groups available for this tag/field. Code %s.";

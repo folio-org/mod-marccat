@@ -188,7 +188,7 @@ public class AuthorityStorageService {
 				}
 
 				((AuthorityItem) item).getAutItmData().setHeadingNumber(headingNumber);
-				((AuthorityItem) item).getAutItmData().setHeadingType("NH");
+				((AuthorityItem) item).getAutItmData().setHeadingType(Global.NAME_TYPE_HDG);
 				item.addTag(newTag);
 			}
 
