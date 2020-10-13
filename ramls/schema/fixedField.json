@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "fixedField",
+  "description": "The control field values",
+  "properties": {
+ 	"categoryCode": {
+    	"type": "integer",
+       	"description": "marc category"
+    },
+    "headerTypeCode": {
+    	"type": "integer",
+       	"description": "header type code"
+    },
+    "code": {
+    	"type": "string",
+        "description": "marc tag"    	
+     },
+     "displayValue": {
+     	"type": "string",
+       	"description": "the tag value"
+     },
+     "sequenceNumber": {
+     	"type": "integer",
+      	"description": "order in the record"
+     },
+     "attributes": {
+     	"type": "object",
+       	"description": "attributes"
+     },
+     "required": [
+     	"categoryCode",
+        "headerTypeCode",
+        "code",
+        "displayValue",
+        "sequenceNumber",
+        "attributes"
+      ]
+  },
+  "additionalProperties": false,
+  "metadata": {
+    "description": "Metadata about creation and changes to subfields, provided by the server (client should not provide)",
+    "type": "object",
+    "$ref": "../raml-storage/raml-util/schemas/metadata.schema"
+  }
+}

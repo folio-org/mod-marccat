@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "variableField",
+  "description": "The variable field values",
+  "properties": {
+    "keyNumber":{
+    	"type": "integer",
+       	"description": "number of tag"
+    },
+ 	"categoryCode": {
+    	"type": "integer",
+       	"description": "marc category"
+    },
+    "headingTypeCode": {
+    	"type": "string",
+       	"description": "heading type code"
+    },
+    "itemTypeCode": {
+    	"type": "string",
+      	"description": "item type code"
+    },
+    "functionCode": {
+    	"type": "string",
+       	"description": "function code"
+    },
+   "ind1": {
+		"type": "string",
+        "description": "marc indicator1"
+   },
+   "ind2": {
+   		"type": "string",
+    	"description": "marc indicator2"
+    },
+    "code": {
+    	"type": "string",
+        "description": "marc tag"    	
+     },
+     "displayValue": {
+     	"type": "string",
+       	"description": "the tag value"
+     },
+     "sequenceNumber": {
+     	"type": "integer",
+     	"description": "order in the record"
+     },
+	 "subfields": {
+     	"type": "object",
+        "$ref": "subfield.json"
+     },
+     "skipInFiling": {
+          "type": "integer",
+          "description": "the skip in filing"
+     },
+     "required": [
+        "keyNumber",
+        "categoryCode",
+        "headingTypeCode",
+        "itemTypeCode",
+        "functionCode",
+        "ind1",
+        "ind2",
+        "code",
+        "displayValue",
+        "subfields",
+        "sequenceNumber",
+        "skipInFiling"
+      ]
+  },
+  "additionalProperties": false,
+  "metadata": {
+    "description": "Metadata about creation and changes to subfields, provided by the server (client should not provide)",
+    "type": "object",
+    "$ref": "../raml-storage/raml-util/schemas/metadata.schema"
+  }
+}

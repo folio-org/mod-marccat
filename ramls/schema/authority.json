@@ -8,6 +8,14 @@
       "type": "integer",
 	  "description": "authority id"
     },
+    "canadianContentIndicator": {
+      "type": "string",
+	  "description": "MARC organization codes: 0-LOC, 1-Canadian"
+    },
+    "verificationLevel": {
+      "type": "string",
+	  "description": "verification level"
+    },
     "leader": {
       "type": "object",
  	  "description": "marc leader of the record",
@@ -29,15 +37,59 @@
     "fields": {
 	  "description": "fields of record",
       "type": "array",
-      "items": {
+      "items": [
+        {
           "type": "object",
-          "$ref": "field.json"
-      }
+          "description": "tag description",
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "marc tag"
+            },
+            "mandatory": {
+              "type": "boolean",
+              "description": "tag mandatory or not"
+            },
+            "fieldStatus": {
+              "type": "string",
+              "description": "status of the tag: unchanged, changed, new, deleted"
+            },
+            "oneOf" : [
+              {
+              "fixedField": {
+ 			  	"type": "object",
+              	"$ref": "fixedField.json"
+              },
+              "variableField": {
+               	"type": "object",
+              	"$ref": "variableField.json"
+              }
+            }
+            ],
+            "added": {
+              "type": "boolean",
+              "description": "tag is new or not"
+            }
+          },
+          "required": [
+            "code",
+            "mandatory",
+            "fieldStatus",
+            "added"
+          ]
+        }
+      ]
+    },
+    "recordView": {
+      "type": "integer"
     }
   },
   "required": [
     "id",
+    "canadianContentIndicator",
+    "verificationLevel",
     "leader",
-    "fields"
+    "fields",
+    "recordView"
   ]
 }
