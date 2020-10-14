@@ -54,20 +54,14 @@
               "type": "string",
               "description": "status of the tag: unchanged, changed, new, deleted"
             },
-            "oneOf" : [
-              {
-              "fixedField": {
- 			  	"type": "object",
- 			  	"description": "control field values",
+            "fixedField": {
+ 				"type": "object",
                 "$ref": "fixedField.json"
-              },
-              "variableField": {
+            },
+            "variableField": {
                	"type": "object",
-               	"description": "variable field values",
               	"$ref": "variableField.json"
-              }
-            }
-            ],
+            },
             "added": {
               "type": "boolean",
               "description": "tag is new or not"

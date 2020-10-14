@@ -28,6 +28,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
   private char cataloguingSourceCode = 'u';
   private char conferenceOrMeeting = '2';
   private char governmentAgency = ' ';
+  protected char encodingLevel = 'n';
   private String headingLanguage = "und"; // no longer used in authorities
 
   private int headingNumber = -1;
