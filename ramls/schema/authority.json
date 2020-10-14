@@ -56,10 +56,12 @@
             },
             "fixedField": {
  				"type": "object",
+ 				"description": "control field values",
                 "$ref": "fixedField.json"
             },
             "variableField": {
                	"type": "object",
+               	"description": "variable field values",
               	"$ref": "variableField.json"
             },
             "added": {

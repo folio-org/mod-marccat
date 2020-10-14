@@ -27,15 +27,7 @@
      "attributes": {
      	"type": "object",
        	"description": "attributes"
-     },
-     "required": [
-     	"categoryCode",
-        "headerTypeCode",
-        "code",
-        "displayValue",
-        "sequenceNumber",
-        "attributes"
-      ]
+     }
   },
   "additionalProperties": false,
   "metadata": {
