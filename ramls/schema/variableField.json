@@ -52,21 +52,7 @@
      "skipInFiling": {
           "type": "integer",
           "description": "the skip in filing"
-     },
-     "required": [
-        "keyNumber",
-        "categoryCode",
-        "headingTypeCode",
-        "itemTypeCode",
-        "functionCode",
-        "ind1",
-        "ind2",
-        "code",
-        "displayValue",
-        "subfields",
-        "sequenceNumber",
-        "skipInFiling"
-      ]
+     }
   },
   "additionalProperties": false,
   "metadata": {
