@@ -46,6 +46,7 @@
      },
 	 "subfields": {
      	"type": "object",
+     	"description": "tag subfields",
         "$ref": "subfield.json"
      },
      "skipInFiling": {
