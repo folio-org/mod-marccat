@@ -136,7 +136,7 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
   public String getSubfieldsTag (final String tagNumber, final Session session) throws HibernateException {
     final StringBuilder sqlFilter = new StringBuilder(" select distinct v.marcValidSubfieldStringCode  from BibliographicValidation as v ")
       .append(" where v.key.marcTag = ?");
-      Optional optional  = session.find(sqlFilter.toString(),
+      Optional<?> optional  = session.find(sqlFilter.toString(),
       new Object[]{tagNumber},
       new Type[]{Hibernate.STRING}).stream().findFirst();
       return optional.isPresent() ?  optional.get().toString() :  "a";

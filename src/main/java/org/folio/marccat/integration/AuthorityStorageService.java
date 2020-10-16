@@ -2,6 +2,7 @@ package org.folio.marccat.integration;
 
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
@@ -26,6 +27,7 @@ import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.AuthorityRecord;
+import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.resources.shared.RecordUtils;
@@ -83,9 +85,6 @@ public class AuthorityStorageService {
 
 			if (item == null || item.getTags().isEmpty()) {
 				item = insertAuthorityRecord(record, view, lang, configuration);
-			} else {
-				// Actualizar la autoridad
-				// updateAuthorityRecord(record, item, view, configuration);
 			}
 
 			final AuthorityCatalogDAO dao = new AuthorityCatalogDAO();
@@ -150,51 +149,62 @@ public class AuthorityStorageService {
 			}
 
 			if (Global.NAMES.contains(tagNbr)) {
-				final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
-				Heading heading = new Heading();
-				heading.setTag(tagNbr);
-				heading.setInd1(variableField.getInd1());
-				heading.setInd2(variableField.getInd2());
-				heading.setDisplayValue(variableField.getValue());
-
-				heading.setCategoryCode(RecordUtils.getTagCategory(heading, this.getStorageService()));
-				int headingNumber = 0;
-				final boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_VALUE);
-				final boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
-				final Correlation corr = tagImpl.getCorrelation(heading.getTag(),
-						(isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0),
-						(isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), heading.getCategoryCode(),
-						getStorageService().getSession());
-				final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
-				if (newTag != null) {
-					newTag.getMarcEncoding(getStorageService().getSession());
-					final StringText st = new StringText(heading.getDisplayValue());
-					((VariableField) newTag).setStringText(st);
-					if (newTag instanceof Browsable) {
-						final int skipInFiling = getStorageService().updateIndicatorNotNumeric(corr.getKey(),
-								heading.getInd1(), heading.getInd2());
-						((Browsable) newTag).setDescriptorStringText(st);
-						final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
-						descriptor.setSkipInFiling(skipInFiling);
-						try {
-							headingNumber = getStorageService().createOrReplaceDescriptor(configuration, descriptor,
-									View.DEFAULT_BIBLIOGRAPHIC_VIEW);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						heading.setKeyNumber(headingNumber);
-					}
-
+				try {
+					processNameTag(field, tagImpl, item, catalog, configuration);
+				} catch (HibernateException | SQLException e) {
+					throw new DataAccessException(e);
 				}
-
-				((AuthorityItem) item).getAutItmData().setHeadingNumber(headingNumber);
-				((AuthorityItem) item).getAutItmData().setHeadingType(Global.NAME_TYPE_HDG);
-				item.addTag(newTag);
 			}
 
 
 		});
 		return item;
+	}
+	
+	private void processNameTag(
+			Field field, 
+			AuthorityTagImpl tagImpl, 
+			CatalogItem item, 
+			AuthorityCatalog catalog, 
+			final Map<String, String> configuration) throws HibernateException, SQLException {
+		final String tagNbr = field.getCode();
+		final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
+		Heading heading = new Heading();
+		heading.setTag(tagNbr);
+		heading.setInd1(variableField.getInd1());
+		heading.setInd2(variableField.getInd2());
+		heading.setDisplayValue(variableField.getValue());
+
+		heading.setCategoryCode(RecordUtils.getTagCategory(heading, this.getStorageService()));
+		int headingNumber = 0;
+		final boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_VALUE);
+		final boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
+		final Correlation corr = tagImpl.getCorrelation(heading.getTag(),
+				(isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0),
+				(isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), heading.getCategoryCode(),
+				getStorageService().getSession());
+		final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
+		if (newTag != null) {
+			newTag.getMarcEncoding(getStorageService().getSession());
+			final StringText st = new StringText(heading.getDisplayValue());
+			((VariableField) newTag).setStringText(st);
+			if (newTag instanceof Browsable) {
+				final int skipInFiling = getStorageService().updateIndicatorNotNumeric(corr.getKey(),
+						heading.getInd1(), heading.getInd2());
+				((Browsable) newTag).setDescriptorStringText(st);
+				final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
+				descriptor.setSkipInFiling(skipInFiling);
+					headingNumber = getStorageService().createOrReplaceDescriptor(configuration, descriptor,
+							View.DEFAULT_BIBLIOGRAPHIC_VIEW);
+				heading.setKeyNumber(headingNumber);
+			}
+
+		}
+
+		((AuthorityItem) item).getAutItmData().setHeadingNumber(headingNumber);
+		((AuthorityItem) item).getAutItmData().setHeadingType(Global.NAME_TYPE_HDG);
+		item.addTag(newTag);
+	
 	}
 
 }

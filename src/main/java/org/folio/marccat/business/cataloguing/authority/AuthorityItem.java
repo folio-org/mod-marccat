@@ -2,7 +2,6 @@ package org.folio.marccat.business.cataloguing.authority;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
@@ -77,9 +76,9 @@ public class AuthorityItem extends CatalogItem implements Serializable {
 	  public void sortTags() {
 	    final Session session = this.session;
 
-	    Collections.sort(getTags(), (Comparator) (o1, o2) -> {
-	      Tag t1 = (Tag) o1;
-	      Tag t2 = (Tag) o2;
+	    Collections.sort(getTags(), (o1, o2) -> {
+	      Tag t1 = o1;
+	      Tag t2 = o2;
 	      try {
 	        return t1.getMarcEncoding(session).getMarcTag().
 	          compareTo(t2.getMarcEncoding().getMarcTag());
