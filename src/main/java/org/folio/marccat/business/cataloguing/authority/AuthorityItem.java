@@ -19,72 +19,73 @@ import net.sf.hibernate.Session;
  *
  */
 public class AuthorityItem extends CatalogItem implements Serializable {
-	private static final long serialVersionUID = 8676099561229020012L;
-	private AUT autItmData;
+  private static final long serialVersionUID = 8676099561229020012L;
+  private AUT autItmData;
 
-	public AuthorityItem() {
-		super();
-	}
+  public AuthorityItem() {
+    super();
+  }
 
-	public AUT getAutItmData() {
-		return autItmData;
-	}
+  public AUT getAutItmData() {
+    return autItmData;
+  }
 
-	public void setAutItmData(AUT autItm) {
-		autItmData = autItm;
-		/*
-		 * Set all PersistsViaBibItem tags
-		 */
-		Iterator<?> iter = getTags().iterator();
-		while (iter.hasNext()) {
-			Tag aTag = (Tag) iter.next();
-			if (aTag instanceof PersistsViaItem) {
-				((PersistsViaItem) aTag).setItemEntity(autItm);
-			}
-		}
-	}
+  public void setAutItmData(AUT autItm) {
+    autItmData = autItm;
+    /*
+     * Set all PersistsViaBibItem tags
+     */
+    Iterator<?> iter = getTags().iterator();
+    while (iter.hasNext()) {
+      Tag aTag = (Tag) iter.next();
+      if (aTag instanceof PersistsViaItem) {
+        ((PersistsViaItem) aTag).setItemEntity(autItm);
+      }
+    }
+  }
 
-	@Override
-	public TagImpl getTagImpl() {
-		return new AuthorityTagImpl();
-	}
+  @Override
+  public TagImpl getTagImpl() {
+    return new AuthorityTagImpl();
+  }
 
-	public ItemEntity getItemEntity() {
-		return getAutItmData();
-	}
+  public ItemEntity getItemEntity() {
+    return getAutItmData();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see CatalogItem#setItemEntity(ItemEntity)
-	 */
-	public void setItemEntity(ItemEntity item) {
-		setAutItmData((AUT) item);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see CatalogItem#setItemEntity(ItemEntity)
+   */
+  public void setItemEntity(ItemEntity item) {
+    setAutItmData((AUT) item);
+  }
 
-	@Override
-	public int getUserView() {
-		return View.AUTHORITY;
-	}
+  @Override
+  public int getUserView() {
+    return View.AUTHORITY;
+  }
 
-	@Override
-	public void checkForMandatoryTags(Session session) {
-		// TODO Auto-generated method stub
-		
-	}
-	  @Override
-	  public void sortTags() {
-	    final Session session = this.session;
+  @Override
+  public void checkForMandatoryTags(Session session) {
+    // TODO It is an abstract class that should be implemented. At the moment this
+    // function is not used.
 
-	    Collections.sort(getTags(), (o1, o2) -> {
-	      Tag t1 = o1;
-	      Tag t2 = o2;
-	      try {
-	        return t1.getMarcEncoding(session).getMarcTag().
-	          compareTo(t2.getMarcEncoding().getMarcTag());
-	      } catch (Exception e) {
-	        return 0;
-	      }
-	    });
-	  }
+  }
+
+  @Override
+  public void sortTags() {
+    final Session session = this.session;
+
+    Collections.sort(getTags(), (o1, o2) -> {
+      Tag t1 = o1;
+      Tag t2 = o2;
+      try {
+        return t1.getMarcEncoding(session).getMarcTag().compareTo(t2.getMarcEncoding().getMarcTag());
+      } catch (Exception e) {
+        return 0;
+      }
+    });
+  }
 }
