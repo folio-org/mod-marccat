@@ -10,7 +10,6 @@ import net.sf.hibernate.Session;
  * The class manages the authority record
  *
  * @author elena
- * @since 1.0
  */
 public class AuthorityCorrelationDAO extends RecordCorrelationDAO {
   private String queryFrom = " from AuthorityCorrelation as c ";
