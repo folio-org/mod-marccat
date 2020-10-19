@@ -1043,7 +1043,6 @@ Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('411', '2', ' ', 'MH', 11, 
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('411', '2', ' ', 'NH', 2, 4, 8, 2, 'NA');
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('411', '2', ' ', 'NH', 11, 4, 8, 2, ' ');
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('411', '2', ' ', 'SH', 4, 14, 2, -1, 'SU');
-COMMIT;
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('411', '2', ' ', 'TH', 11, 4, 8, 2, ' ');
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('411', '@', ' ', 'MH', 2, 4, 1, 2, 'NA');
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('411', '@', ' ', 'MH', 11, 4, 1, 2, ' ');
@@ -1140,3 +1139,4 @@ Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('511', '1', ' ', 'NH', 2, 4
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('511', '1', ' ', 'NH', 11, 4, 7, 4, ' ');
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('511', '1', ' ', 'SH', 4, 13, 4, -1, 'SU');
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('511', '1', ' ', 'TH', 11, 4, 7, 4, ' ');
+COMMIT;
