@@ -1,5 +1,6 @@
 package org.folio.marccat.dao.persistence;
 
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.shared.CorrelationValues;
 
 /**
@@ -19,7 +20,7 @@ public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
 
   @Override
   public int getCategory() {
-    return 2;
+    return Global.NAME_CATEGORY;
   }
 
   @Override
