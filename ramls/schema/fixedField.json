@@ -4,30 +4,30 @@
   "title": "fixedField",
   "description": "The control field values",
   "properties": {
- 	"categoryCode": {
-    	"type": "integer",
-       	"description": "marc category"
+    "categoryCode": {
+      "type": "integer",
+      "description": "marc category"
     },
     "headerTypeCode": {
-    	"type": "integer",
-       	"description": "header type code"
+      "type": "integer",
+      "description": "header type code"
     },
     "code": {
-    	"type": "string",
-        "description": "marc tag"    	
-     },
-     "displayValue": {
-     	"type": "string",
-       	"description": "the tag value"
-     },
-     "sequenceNumber": {
-     	"type": "integer",
-      	"description": "order in the record"
-     },
-     "attributes": {
-     	"type": "object",
-       	"description": "attributes"
-     }
+      "type": "string",
+      "description": "marc tag"
+    },
+    "displayValue": {
+      "type": "string",
+      "description": "the tag value"
+    },
+    "sequenceNumber": {
+      "type": "integer",
+      "description": "order in the record"
+    },
+    "attributes": {
+      "type": "object",
+      "description": "attributes"
+    }
   },
   "additionalProperties": false,
   "metadata": {

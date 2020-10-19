@@ -4,55 +4,55 @@
   "title": "variableField",
   "description": "The variable field values",
   "properties": {
-    "keyNumber":{
-    	"type": "integer",
-       	"description": "number of tag"
+    "keyNumber": {
+      "type": "integer",
+      "description": "number of tag"
     },
- 	"categoryCode": {
-    	"type": "integer",
-       	"description": "marc category"
+    "categoryCode": {
+      "type": "integer",
+      "description": "marc category"
     },
     "headingTypeCode": {
-    	"type": "string",
-       	"description": "heading type code"
+      "type": "string",
+      "description": "heading type code"
     },
     "itemTypeCode": {
-    	"type": "string",
-      	"description": "item type code"
+      "type": "string",
+      "description": "item type code"
     },
     "functionCode": {
-    	"type": "string",
-       	"description": "function code"
+      "type": "string",
+      "description": "function code"
     },
-   "ind1": {
-		"type": "string",
-        "description": "marc indicator1"
-   },
-   "ind2": {
-   		"type": "string",
-    	"description": "marc indicator2"
+    "ind1": {
+      "type": "string",
+      "description": "marc indicator1"
+    },
+    "ind2": {
+      "type": "string",
+      "description": "marc indicator2"
     },
     "code": {
-    	"type": "string",
-        "description": "marc tag"    	
-     },
-     "displayValue": {
-     	"type": "string",
-       	"description": "the tag value"
-     },
-     "sequenceNumber": {
-     	"type": "integer",
-     	"description": "order in the record"
-     },
-	 "subfields": {
-     	"type": "object",
-     	"description": "tag subfields",
-        "$ref": "subfield.json"
-     },
-     "skipInFiling": {
-          "type": "integer",
-          "description": "the skip in filing"
-     }
+      "type": "string",
+      "description": "marc tag"
+    },
+    "displayValue": {
+      "type": "string",
+      "description": "the tag value"
+    },
+    "sequenceNumber": {
+      "type": "integer",
+      "description": "order in the record"
+    },
+    "subfields": {
+      "type": "object",
+      "description": "tag subfields",
+      "$ref": "subfield.json"
+    },
+    "skipInFiling": {
+      "type": "integer",
+      "description": "the skip in filing"
+    }
   },
   "additionalProperties": false,
   "metadata": {

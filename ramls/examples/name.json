@@ -1,91 +1,96 @@
 {
-    "id":0,
-    "canadianContentIndicator": "0",
-    "verificationLevel": "1",
-    "leader": {
-      "code": "000",
-      "value": "00215nz   2200097n  4500"
-    },
-    "fields": [
-      {
+  "id": 0,
+  "canadianContentIndicator": "0",
+  "verificationLevel": "1",
+  "leader": {
+    "code": "000",
+    "value": "00215nz   2200097n  4500"
+  },
+  "fields": [
+    {
+      "code": "001",
+      "mandatory": true,
+      "fieldStatus": "unchanged",
+      "fixedField": {
+        "categoryCode": 1,
+        "headerTypeCode": 11,
         "code": "001",
-        "mandatory": true,
-        "fieldStatus": "unchanged",
-        "fixedField": {
-          "categoryCode": 1,
-          "headerTypeCode": 11,
-          "code": "001",
-          "displayValue": "00000000100",
-          "sequenceNumber": 0,
-          "attributes": {}
-        },
-        "added": true
+        "displayValue": "00000000100","sequenceNumber":0,
+        "attributes": {
+          
+        }
       },
-      {
+      "added": true
+    },
+    {
+      "code": "005",
+      "mandatory": true,
+      "fieldStatus": "unchanged",
+      "fixedField": {
+        "categoryCode": 1,
+        "description": "005 Data/hour of transaction",
+        "headerTypeCode": 41,
         "code": "005",
-        "mandatory": true,
-        "fieldStatus": "unchanged",
-        "fixedField": {
-          "categoryCode": 1,
-          "description": "005 Data/hour of transaction",
-          "headerTypeCode": 41,
-          "code": "005",
-          "displayValue": "20200901111027.",
-          "sequenceNumber": 0,
-          "attributes": {}
-        },
-        "added": false
+        "displayValue": "20200901111027.",
+        "sequenceNumber": 0,
+        "attributes": {
+          
+        }
       },
-      {
+      "added": false
+    },
+    {
+      "code": "008",
+      "mandatory": true,
+      "fieldStatus": "unchanged",
+      "fixedField": {
+        "categoryCode": 1,
+        "headerTypeCode": 31,
         "code": "008",
-        "mandatory": true,
-        "fieldStatus": "unchanged",
-        "fixedField": {
-          "categoryCode": 1,
-          "headerTypeCode": 31,
-          "code": "008",
-          "displayValue": "201001 n acanaaabn           n aaa     u",
-          "sequenceNumber": 0,
-          "attributes": {}
-        },
-        "added": true
+        "displayValue": "201001 n acanaaabn           n aaa     u",
+        "sequenceNumber": 0,
+        "attributes": {
+          
+        }
       },
-      {
+      "added": true
+    },
+    {
+      "code": "040",
+      "mandatory": true,
+      "fieldStatus": "unchanged",
+      "variableField": {
+        "categoryCode": 1,
+        "ind1": " ",
+        "ind2": " ",
         "code": "040",
-        "mandatory": true,
-        "fieldStatus": "unchanged",
-        "variableField": {
-          "categoryCode": 1,
-          "ind1": " ",
-          "ind2": " ",
-          "code": "040",
-          "displayValue": "\u001faSCA\u001fbeng",
-          "subfields": [],
-          "sequenceNumber": 0,
-          "skipInFiling": 0
-        },
-        "added": true
+        "displayValue": "\u001faSCA\u001fbeng",
+        "subfields": [],
+        "sequenceNumber": 0,
+        "skipInFiling": 0
       },
-      {
+      "added": true
+    },
+    {
+      "code": "100",
+      "mandatory": false,
+      "fieldStatus": "new",
+      "variableField": {
+        "keyNumber": -1,
+        "categoryCode": 2,
+        "headingTypeCode": "1",
+        "itemTypeCode": "2",
+        "functionCode": "-1",
+        "ind1": "1",
+        "ind2": " ",
         "code": "100",
-        "mandatory": false,
-        "fieldStatus": "new",
-        "variableField": {
-          "keyNumber": -1,
-          "categoryCode": 2,
-          "headingTypeCode": "1",
-          "itemTypeCode": "2",
-          "functionCode": "-1",
-          "ind1": "1",
-          "ind2": " ",
-          "code": "100",
-          "displayValue": "\u001faIbaiScanbit",
-          "subfields": [],
-          "sequenceNumber": 0,
-          "skipInFiling": 0
-        },
-        "added": false
-      }
-    ],
-    "recordView": 0
+        "displayValue": "\u001faIbaiScanbit",
+        "subfields": [],
+        "sequenceNumber": 0,
+        "skipInFiling": 0
+      },
+      "added": false
+    }
+  ],
+  "recordView": 0
 }
