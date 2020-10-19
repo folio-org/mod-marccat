@@ -10,6 +10,7 @@ public class View {
   public static final int DEFAULT_BIBLIOGRAPHIC_VIEW = 1;
   public static final String DEFAULT_AUTHORITY_VIEW_AS_STRING = "" + AUTHORITY;
   public static final String DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING = "" + DEFAULT_BIBLIOGRAPHIC_VIEW;
+  public static final String VIEW_EMPTY_AS_STRING = "0000000000000000";
 
   private View() {
   }
@@ -66,9 +67,9 @@ public class View {
 
   public static String makeSingleViewString(int cataloguingView) {
     if (cataloguingView > 0) {
-      return maskOnViewString("0000000000000000", cataloguingView);
+      return maskOnViewString(VIEW_EMPTY_AS_STRING, cataloguingView);
     } else {
-      return "0000000000000000";
+      return VIEW_EMPTY_AS_STRING;
     }
 
   }
