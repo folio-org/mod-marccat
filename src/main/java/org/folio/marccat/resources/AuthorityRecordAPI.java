@@ -39,9 +39,9 @@ public class AuthorityRecordAPI extends BaseResource {
     return doPost((storageService, configuration) -> {
       try {
 
-        AuthorityStorageService ass = new AuthorityStorageService();
+        AuthorityStorageService authorityStorageService = new AuthorityStorageService();
 
-        ass.setStorageService(storageService);
+        authorityStorageService.setStorageService(storageService);
 
         record.getFields().forEach(field -> setCategory(field, storageService));
 
@@ -52,7 +52,7 @@ public class AuthorityRecordAPI extends BaseResource {
             .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)).forEach(field -> {
             });
 
-        ass.saveAuthorityRecord(record, view, lang, configuration);
+        authorityStorageService.saveAuthorityRecord(record, view, lang, configuration);
         return new ResponseEntity<>("1", HttpStatus.CREATED);
 
       } catch (final Exception exception) {
