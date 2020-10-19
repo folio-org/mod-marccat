@@ -122,9 +122,9 @@ public class RecordParser {
           if (field.getFieldStatus() == Field.FieldStatus.CHANGED) {
             noteTag.setCorrelationValues(correlationValues);
             noteTag.setStringText(new StringText(field.getVariableField().getValue()));
-            noteTag.markChanged();
+            noteTag.getNote().markChanged();
           } else {
-            noteTag.markDeleted();
+            noteTag.getNote().markDeleted();
             item.getDeletedTags().add(noteTag);
           }
         }

@@ -6,7 +6,6 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.PUBL_HDG;
-
 import java.util.List;
 
 
@@ -49,17 +48,11 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
   @Override
   public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term, String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
-
-    final String[] parsedTerm = term.split(" : ");
-    if (parsedTerm.length < 2) {
-      return getSortformByOneSearchTerm(operator, direction, term, filter, cataloguingView, count, session);
-    } else {
-      return getSortformByTwoSearchTerms(operator, direction, filter, cataloguingView, count, parsedTerm, session);
-    }
-  }
+      return getSortformBySearchTerm(operator, direction, term, filter, cataloguingView, count, session);
+     }
 
   /**
-   * Gets the sortform by one search term.
+   * Gets the sortform by  search term.
    *
    * @param operator        the operator
    * @param direction       the direction
@@ -71,7 +64,7 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
    * @return the sortform by one search term
    * @throws HibernateException the hibernate exception
    */
-  private List<Descriptor> getSortformByOneSearchTerm(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
+  private List<Descriptor> getSortformBySearchTerm(final String operator, final String direction, final String term, final String filter, final int cataloguingView, final int count, final Session session)
     throws HibernateException {
     Query q =
       session.createQuery(
@@ -93,89 +86,6 @@ public class PublisherPlaceDescriptorDAO extends PublisherDescriptorDAO {
     return publisherList;
   }
 
-
-  /**
-   * Gets the sortform by two search terms.
-   *
-   * @param operator        the operator
-   * @param direction       the direction
-   * @param filter          the filter
-   * @param cataloguingView the cataloguing view
-   * @param count           the count
-   * @param parsedTerm      the parsed term
-   * @param session         the session
-   * @return the sortform by two search terms
-   * @throws HibernateException the hibernate exception
-   */
-  private List<Descriptor> getSortformByTwoSearchTerms(final String operator, final String direction, final String filter, final int cataloguingView, final int count, final String[] parsedTerm, final Session session)
-    throws HibernateException {
-    final String name;
-    final String place;
-    place = parsedTerm[0].trim();
-    name = parsedTerm[1].trim();
-    List<Descriptor> publisherList = null;
-    String viewClause = "";
-
-    if (cataloguingView != View.ANY) {
-      viewClause = " and SUBSTR(hdg.key.userViewString, " + cataloguingView + ", 1) = '1' ";
-    }
-    if (operator.equals("<")) {
-      final Query q =
-        session.createQuery(
-          "from "
-            + getPersistentClass().getName()
-            + " as hdg where hdg.nameSortForm "
-            + operator
-            + " :name  and "
-            + " hdg.placeSortForm "
-            + (operator.equals("<") ? "<=" : operator)
-            + " :place "
-            + viewClause
-            + filter
-            + ORDER_BY_HDG_PLACE_SORT_FORM
-            + direction
-            + HDG_NAME_SORT_FORM
-            + direction);
-      q.setString("place", place);
-      q.setString("name", name);
-      q.setMaxResults(count);
-      publisherList = q.list();
-      publisherList = (List<Descriptor>) isolateViewForList(publisherList, cataloguingView, session);
-      return publisherList;
-
-    } else if (operator.contains(">=") || operator.contains("<=")) {
-      String nextOperator = operator;
-      nextOperator = nextOperator.replace("=", "");
-
-      final String select = "select distinct hdg from "
-        + getPersistentClass().getName()
-        + " as hdg where "
-        + " (hdg.placeSortForm = "
-        + " :place  and "
-        + " hdg.nameSortForm "
-        + operator
-        + " :name)"
-        + " or "
-        + "hdg.placeSortForm "
-        + nextOperator
-        + " :place ";
-
-      final Query firstQuery =
-        session.createQuery(select
-          + viewClause
-          + filter
-          + ORDER_BY_HDG_PLACE_SORT_FORM
-          + direction
-          + HDG_NAME_SORT_FORM
-          + direction);
-      firstQuery.setString("place", place);
-      firstQuery.setString("name", name);
-      firstQuery.setMaxResults(count);
-      publisherList = firstQuery.list();
-      return publisherList;
-    }
-    return publisherList;
-  }
 
 
   /**

@@ -1,8 +1,10 @@
 package org.folio.marccat.resources;
 
 
+import io.restassured.response.Response;
 import org.folio.marccat.StorageTestSuite;
 import org.folio.marccat.TestBase;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -94,6 +96,26 @@ public class BrowseTest extends TestBase {
       .statusCode(200);
   }
 
+
+  @Test
+  public void getFirstPageBySegnature() {
+
+    String url = getURI("/marccat/browse");
+    Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("query", "LL QA37")
+      .param("view", "1")
+      .param("mainLibrary", "172")
+      .param("pageSize", "10")
+      .param("lang", "ita")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
   @Test
   public void getFirstPageByNameTitle() {
 
@@ -170,6 +192,25 @@ public class BrowseTest extends TestBase {
       .statusCode(200);
   }
 
+  @Test
+  public void getNextPageByPublisherPlace() {
+
+    String url = getURI("/marccat/next-page");
+    Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("query", "PP Bologna : Zanichelli")
+      .param("view", "1")
+      .param("mainLibrary", "172")
+      .param("pageSize", "10")
+      .param("lang", "ita")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
 
   @Test
   public void getNextPage() {
@@ -231,6 +272,5 @@ public class BrowseTest extends TestBase {
       .statusCode(200);
   }
 
-
-
+ 
 }

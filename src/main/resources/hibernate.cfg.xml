@@ -211,8 +211,7 @@
 		<mapping resource="org/folio/marccat/dao/persistence/MSCL_INSTM_OR_VOICE.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/RLTSP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/BIB_NTE_OVRFW.hbm.xml"/>
-    <mapping resource="org/folio/marccat/dao/persistence/STD_NTE_ACS_PNT.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/S_NXT_NBR.hbm.xml"/>
+ 		<mapping resource="org/folio/marccat/dao/persistence/S_NXT_NBR.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/TTL_HDG.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/TTL_REF.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/TTL_NME_TTL_REF.hbm.xml"/>

@@ -7,9 +7,6 @@ import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.shared.CorrelationValues;
 
-import java.util.List;
-
-
 public abstract class FixedField extends Tag implements HeaderField {
   private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 
@@ -46,21 +43,6 @@ public abstract class FixedField extends Tag implements HeaderField {
 
   public int getCategory() {
     return headerField.getCategory();
-  }
-
-
-  public List getFirstCorrelationList() {
-    return headerField.getFirstCorrelationList();
-  }
-
-
-  public List getSecondCorrelationList(int value1) {
-    return headerField.getSecondCorrelationList(value1);
-  }
-
-
-  public List getThirdCorrelationList(int value1, int value2) {
-    return headerField.getThirdCorrelationList(value1, value2);
   }
 
 

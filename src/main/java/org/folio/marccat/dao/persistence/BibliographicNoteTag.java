@@ -66,10 +66,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
    */
   private transient Avp<String> valueElement;
 
-  /**
-   * The note standard.
-   */
-  private StandardNoteAccessPoint noteStandard;
 
   /**
    * Instantiates a new bibliographic note tag.
@@ -123,32 +119,6 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
   }
 
 
-  /**
-   * Checks if is standard note type.
-   *
-   * @return true, if is standard note type
-   */
-  public final boolean isStandardNoteType() {
-    return noteStandard != null;
-  }
-
-  /**
-   * Return the standard note access point.
-   *
-   * @return noteStandard.
-   */
-  public StandardNoteAccessPoint getNoteStandard() {
-    return noteStandard;
-  }
-
-  /**
-   * Sets the standard note access point to note tag.
-   *
-   * @param noteStandard -- the standard note to set.
-   */
-  public void setNoteStandard(final StandardNoteAccessPoint noteStandard) {
-    this.noteStandard = noteStandard;
-  }
 
   /**
    * Gets the value element.

@@ -7,7 +7,6 @@ import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.common.Catalog;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.SubfieldCodeComparator;
 import org.folio.marccat.dao.BibliographicCorrelationDAO;
 import org.folio.marccat.dao.BibliographicValidationDAO;
 import org.folio.marccat.dao.persistence.Correlation;
@@ -15,13 +14,9 @@ import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.Validation;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class BibliographicTagImpl extends TagImpl {
   private static final Log logger = LogFactory.getLog(BibliographicTagImpl.class);
-
   private static final BibliographicValidationDAO daoValidation = new BibliographicValidationDAO();
   private static final BibliographicCorrelationDAO daoCorrelation = new BibliographicCorrelationDAO();
 
@@ -69,15 +64,8 @@ public class BibliographicTagImpl extends TagImpl {
     }
   }
 
-  /**
-   * @deprecated the tag validation is not used
-   */
-  @Deprecated
-  public Validation getValidation(Tag t) {
-    return null;
-  }
 
-  /*
+   /*
    * (non-Javadoc)
    *
    * @see TagImpl#getCatalog()
@@ -86,44 +74,7 @@ public class BibliographicTagImpl extends TagImpl {
     return new BibliographicCatalog();
   }
 
-  /**
-   * @deprecated the correlation key is not used
-   */
-  @Deprecated
-  public CorrelationKey getMarcEncoding(Tag t) {
-    return null;
-  }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see TagImpl#getValidEditableSubfields(short)
-   */
-  public Set getValidEditableSubfields(int category) {
-    Set set = new TreeSet(new SubfieldCodeComparator());
-    switch (category) {
-      case 2:
-        set.addAll(Arrays.asList("e", "i", "o", "u", "x",
-          "3", "4", "5"));
-        break;
-      case 3:
-        set.addAll(Arrays.asList("c", "i", "v", "x", "3",
-          "5"));
-        break;
-      case 4:
-        set.addAll(Arrays.asList("e", "u", "3", "4"));
-        break;
-      case 11:
-        set.addAll(Arrays.asList("v", "3", "5"));
-        break;
-      case 12:
-        set.addAll(Arrays.asList("v", "3", "5"));
-        break;
-      default:
-        return set;
-    }
-    return set;
-  }
 
   public Correlation getCorrelation(String tagNumber, char indicator1, char indicator2, final int category, final Session session) {
     try {

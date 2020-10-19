@@ -62,28 +62,6 @@ public abstract class VariableHeader extends VariableField implements HeaderFiel
     return headerField.getCategory();
   }
 
-  /* (non-Javadoc)
-   * @see VariableField#getFirstCorrelationList()
-   */
-  public List getFirstCorrelationList() throws DataAccessException {
-    return headerField.getFirstCorrelationList();
-  }
-
-  /* (non-Javadoc)
-   * @see VariableField#getSecondCorrelationList(short)
-   */
-  public List getSecondCorrelationList(int value1)
-    throws DataAccessException {
-    return headerField.getSecondCorrelationList(value1);
-  }
-
-  /* (non-Javadoc)
-   * @see VariableField#getThirdCorrelationList(short, short)
-   */
-  public List getThirdCorrelationList(int value1, int value2)
-    throws DataAccessException {
-    return headerField.getThirdCorrelationList(value1, value2);
-  }
 
   /* (non-Javadoc)
    * @see VariableField#isHeaderField()
