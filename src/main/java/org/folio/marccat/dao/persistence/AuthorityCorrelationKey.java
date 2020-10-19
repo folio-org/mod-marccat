@@ -4,8 +4,12 @@ package org.folio.marccat.dao.persistence;
  * @author elena
  *
  */
-@SuppressWarnings("serial")
 public class AuthorityCorrelationKey extends CorrelationKey {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 4941686027748096172L;
 
   private String headingType;
 

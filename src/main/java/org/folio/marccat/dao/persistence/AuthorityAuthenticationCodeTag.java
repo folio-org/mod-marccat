@@ -7,8 +7,12 @@ import org.folio.marccat.business.cataloguing.common.AuthenticationCodeTag;
  * @author elena
  *
  */
-@SuppressWarnings("serial")
 public class AuthorityAuthenticationCodeTag extends AuthenticationCodeTag {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 4233818442270977878L;
 
   public AuthorityAuthenticationCodeTag() {
     super();
