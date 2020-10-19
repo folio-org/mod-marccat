@@ -68,12 +68,12 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
     return true;
   }
 
-  public void setHeadingNumber(Integer i) {
+  public void setHeadingNumber(Integer headingNumber) {
     int setting;
-    if (i == null) {
+    if (headingNumber == null) {
       setting = -1;
     } else {
-      setting = i.intValue();
+      setting = headingNumber.intValue();
     }
     if (getAutItm() != null) {
       getAutItm().setHeadingNumber(setting);
