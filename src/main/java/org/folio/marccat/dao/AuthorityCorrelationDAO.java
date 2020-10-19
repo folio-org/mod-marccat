@@ -49,7 +49,4 @@ public class AuthorityCorrelationDAO extends RecordCorrelationDAO {
 		
 		return super.getMarcEncoding(category, firstCorrelation, secondCorrelation, thirdCorrelation, session, queryFrom);
 	}
-
-
-
 }
