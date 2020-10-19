@@ -6,8 +6,12 @@ import org.folio.marccat.shared.CorrelationValues;
  * @author elena
  *
  */
-@SuppressWarnings("serial")
 public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -515607833095661985L;
 
   public AuthorityNameHeadingTag() {
     super(new NME_HDG());

@@ -13,8 +13,12 @@ import org.folio.marccat.util.StringText;
  * @author elena
  *
  */
-@SuppressWarnings("serial")
 public class AuthorityHeadingTag extends VariableField implements PersistsViaItem, Browsable, HasHeadingType {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 7750657387655445001L;
+
   private AUT autItm;
   Descriptor descriptor;
 
