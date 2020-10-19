@@ -1,7 +1,25 @@
 package org.folio.marccat.integration;
 
+import static java.util.stream.Collectors.toMap;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.AbstractMap;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.StreamSupport;
+
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
@@ -11,16 +29,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.net.URI;
-import java.sql.*;
-import java.util.*;
-import java.util.stream.StreamSupport;
-
-import static java.util.stream.Collectors.toMap;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * TenantService  the class for Tenants management.
+ * TenantService the class for Tenants management.
  *
  * @author ctrazza
  * @since 1.0
@@ -130,7 +142,6 @@ public class TenantService {
   @Value("${patch.database2}")
   private String patchDatabase2;
 
-
   /**
    * The database patch.
    */
@@ -168,8 +179,8 @@ public class TenantService {
     okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);
     ObjectNode value = configuration.attributes(tenant, okapiUrl, true, "");
-     if (value != null) {
-      final Map <String, String> config = getConfigurations(value);
+    if (value != null) {
+      final Map<String, String> config = getConfigurations(value);
       if (config != null && config.size() == 0) {
         initializeConfiguration(tenant);
       }
@@ -187,7 +198,6 @@ public class TenantService {
     // Do nothing because deleted a database
   }
 
-
   /**
    * Initialize configuration.
    *
@@ -195,11 +205,12 @@ public class TenantService {
    */
   private void initializeConfiguration(final String tenant) {
     final String databaseName = tenant + marccatSuffix;
-    final String configurationUrl = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION, Global.SUB_PATH_CONFIGURATION);
+    final String configurationUrl = okapiClient.getModuleUrl(Global.MODULE_CONFIGURATION,
+        Global.SUB_PATH_CONFIGURATION);
     final URI uri = URI.create(configurationUrl);
     final String pathScript = getPathScript(DATABASE_SETUP + "setup-conf.sh", tenant, false);
-    final List <String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(),
-      String.valueOf(uri.getPort()), tenant, host, port, databaseName, marccatUser, marccatPassword);
+    final List<String> commands = Arrays.asList(BIN_SH, pathScript, uri.getHost(), String.valueOf(uri.getPort()),
+        tenant, host, port, databaseName, marccatUser, marccatPassword);
     executeCommand(commands, "", adminPassword);
   }
 
@@ -211,7 +222,7 @@ public class TenantService {
    */
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName = tenant + marccatSuffix;
-    final Map <String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
+    final Map<String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
     if (!env.isEmpty() && external.equals("false")) {
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
@@ -239,12 +250,13 @@ public class TenantService {
    * @throws SQLException the SQL exception
    */
   private void createRole() throws SQLException {
-    final String queryRole = "DO $$ BEGIN  CREATE ROLE " + marccatUser + " PASSWORD '" + marccatPassword + "' SUPERUSER CREATEDB INHERIT LOGIN;  EXCEPTION WHEN duplicate_object THEN  RAISE NOTICE 'Role % already exists', 'marccat'; END $$";
+    final String queryRole = "DO $$ BEGIN  CREATE ROLE " + marccatUser + " PASSWORD '" + marccatPassword
+        + "' SUPERUSER CREATEDB INHERIT LOGIN;  EXCEPTION WHEN duplicate_object THEN  RAISE NOTICE 'Role % already exists', 'marccat'; END $$";
     final String queryAlterRole = "ALTER ROLE " + marccatUser + " SET search_path TO amicus,olisuite,public";
     logger.debug("Start role");
     try (Connection connection = getConnection(POSTGRES, adminUser, adminPassword);
-         Statement stmRole = connection.createStatement();
-         Statement stmAlterRole = connection.createStatement()) {
+        Statement stmRole = connection.createStatement();
+        Statement stmAlterRole = connection.createStatement()) {
       stmRole.execute(queryRole);
       stmAlterRole.execute(queryAlterRole);
       logger.debug("End role");
@@ -265,7 +277,7 @@ public class TenantService {
 
     logger.debug("Start database " + databaseName);
     try (Connection connection = getConnection(POSTGRES, adminUser, adminPassword);
-         Statement statement = connection.createStatement()) {
+        Statement statement = connection.createStatement()) {
       statement.execute(queryDatabase);
       logger.debug("End database " + databaseName);
 
@@ -294,7 +306,6 @@ public class TenantService {
     }
   }
 
-
   /**
    * Execute patch.
    *
@@ -304,11 +315,12 @@ public class TenantService {
    * @param errorMessage the error message
    * @throws SQLException the SQL exception
    */
-  private void executePatch(final String databaseName, final String patch, final String message, final String errorMessage) throws SQLException {
+  private void executePatch(final String databaseName, final String patch, final String message,
+      final String errorMessage) throws SQLException {
     try {
       logger.debug(message);
       final InputStream inputStream = getClass().getResourceAsStream(patch + "/env.conf");
-      final List <String> ls = IOUtils.readLines(inputStream, "utf-8");
+      final List<String> ls = IOUtils.readLines(inputStream, "utf-8");
       final String patchRel = getVersionNumber(ls.get(1), "patch_rel_nbr=");
       final String patchSp = getVersionNumber(ls.get(2), "patch_sp_nbr=");
       final String patchComp = getVersionNumber(ls.get(3), "patch_comp_typ=");
@@ -321,8 +333,6 @@ public class TenantService {
     }
   }
 
-
-
   /**
    * Return the version of the patch.
    *
@@ -331,7 +341,7 @@ public class TenantService {
    * @return the version number
    */
   private String getVersionNumber(final String line, final String variable) {
-    return  (line.indexOf(variable) != -1) ?  line.substring(line.indexOf("=") + 1) :  null;
+    return (line.indexOf(variable) != -1) ? line.substring(line.indexOf("=") + 1) : null;
   }
 
   /**
@@ -342,9 +352,9 @@ public class TenantService {
    * @param pgPassword the pg password
    * @return the exit code
    */
-  private int executeCommand(final List <String> commands, final String messageLog, final String pgPassword) {
+  private int executeCommand(final List<String> commands, final String messageLog, final String pgPassword) {
     final ProcessBuilder builder = new ProcessBuilder(commands);
-    final Map <String, String> mp = builder.environment();
+    final Map<String, String> mp = builder.environment();
     int exitCode = 0;
     mp.put("PGPASSWORD", pgPassword);
     Process process = null;
@@ -365,8 +375,7 @@ public class TenantService {
   }
 
   /**
-   * Causes the current thread to wait
-   * until the end of the process.
+   * Causes the current thread to wait until the end of the process.
    *
    * @param process the process
    * @return the exit code
@@ -396,7 +405,6 @@ public class TenantService {
     return (file != null) ? file.getAbsolutePath() : null;
   }
 
-
   /**
    * Gets the resource as a temporary file.
    *
@@ -405,7 +413,8 @@ public class TenantService {
    * @param isReplaceVariables the is replace variables
    * @return the resource as file
    */
-  private File getResourceAsFile(final String resourcePath, final String databaseName, final boolean isReplaceVariables) {
+  private File getResourceAsFile(final String resourcePath, final String databaseName,
+      final boolean isReplaceVariables) {
     try {
       final InputStream inputStream = getClass().getResourceAsStream(resourcePath);
       if (inputStream == null) {
@@ -415,10 +424,8 @@ public class TenantService {
       tempFile.deleteOnExit();
       String stringInputStream = IOUtils.toString(inputStream, UTF_8);
       if (isReplaceVariables) {
-        stringInputStream = stringInputStream
-          .replaceAll(":user_name", marccatUser)
-          .replaceAll("password", marccatPassword)
-          .replaceAll("database_name", databaseName);
+        stringInputStream = stringInputStream.replaceAll(":user_name", marccatUser)
+            .replaceAll("password", marccatPassword).replaceAll("database_name", databaseName);
       }
       final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
@@ -438,9 +445,10 @@ public class TenantService {
    * @return the resource as file
    * @throws SQLException the SQL exception
    */
-  private void executeScript(final String resourcePath, final String fileName, final String databaseName) throws SQLException {
+  private void executeScript(final String resourcePath, final String fileName, final String databaseName)
+      throws SQLException {
     try (Connection connection = getConnection(databaseName, marccatUser, marccatPassword)) {
-      final List <String> ls = IOUtils.readLines(getClass().getResourceAsStream(resourcePath + fileName), "utf-8");
+      final List<String> ls = IOUtils.readLines(getClass().getResourceAsStream(resourcePath + fileName), "utf-8");
       for (String line : ls) {
         if (line.startsWith("\\ir ")) {
           final String fileNameChild = line.substring(4);
@@ -455,7 +463,6 @@ public class TenantService {
     }
   }
 
-
   /**
    * Return true if schema exists.
    *
@@ -466,8 +473,8 @@ public class TenantService {
   private boolean schemaExists(final String databaseName) throws SQLException {
     final String querySchema = "select count(*) from pg_catalog.pg_namespace where nspname in ('amicus', 'olisuite')";
     try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
-         Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery(querySchema)) {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(querySchema)) {
       resultSet.next();
       final int count = resultSet.getInt(1);
       if (count != 0)
@@ -489,8 +496,8 @@ public class TenantService {
   private boolean databaseExists(final String databaseName) throws SQLException {
     final String queryDatabase = "SELECT count(*) from pg_database WHERE datname='" + databaseName + "'";
     try (Connection connection = getConnection(POSTGRES, adminUser, adminPassword);
-         Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery(queryDatabase)) {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(queryDatabase)) {
       resultSet.next();
       final int count = resultSet.getInt(1);
       if (count != 0)
@@ -501,7 +508,6 @@ public class TenantService {
       throw exception;
     }
   }
-
 
   /**
    * Return true if patch exists.
@@ -514,15 +520,13 @@ public class TenantService {
    * @return true if patch exists
    * @throws SQLException the SQL exception
    */
-  private boolean patchExists(final String databaseName, final String patchRel, final String patchSp, final String patchComp, final String errorMessage) throws SQLException {
-    final String queryPatch = " select count(*) " +
-      " from olisuite.s_patch_history" +
-      " where release_number = " + patchRel +
-      " and service_pack_number = " + patchSp +
-      " and component_typ = " + patchComp;
+  private boolean patchExists(final String databaseName, final String patchRel, final String patchSp,
+      final String patchComp, final String errorMessage) throws SQLException {
+    final String queryPatch = " select count(*) " + " from olisuite.s_patch_history" + " where release_number = "
+        + patchRel + " and service_pack_number = " + patchSp + " and component_typ = " + patchComp;
     try (Connection connection = getConnection(databaseName, adminUser, adminPassword);
-         Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery(queryPatch)) {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(queryPatch)) {
       resultSet.next();
       final int count = resultSet.getInt(1);
       if (count != 0)
@@ -543,7 +547,8 @@ public class TenantService {
    * @return the connection
    * @throws SQLException the SQL exception
    */
-  private Connection getConnection(final String databaseName, final String username, final String password) throws SQLException {
+  private Connection getConnection(final String databaseName, final String username, final String password)
+      throws SQLException {
     final StringBuilder jdbcUrl = new StringBuilder();
     jdbcUrl.append("jdbc:postgresql://").append(host).append(":").append(port).append("/").append(databaseName);
     logger.debug("URL JDBC: " + jdbcUrl);
@@ -556,12 +561,11 @@ public class TenantService {
    * @param value the value of the object node
    * @return the map of the configurations
    */
-  public Map <String, String> getConfigurations(ObjectNode value) {
+  public Map<String, String> getConfigurations(ObjectNode value) {
     return StreamSupport.stream(value.withArray("configs").spliterator(), false)
-      .filter(node -> "datasource".equals(node.get("configName").asText()))
-      .map(node -> new AbstractMap.SimpleEntry <>(node.get("code").asText(), node.get("value").asText()))
-      .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+        .filter(node -> "datasource".equals(node.get("configName").asText()))
+        .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
+        .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
   }
-
 
 }

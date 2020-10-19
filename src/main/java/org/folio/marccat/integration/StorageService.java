@@ -148,11 +148,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 
-
 /**
- * Storage layer service.
- * This is the interface towards our storage service. Any R/W access to the persistence layer needs to pass through
- * this interface.
+ * Storage layer service. This is the interface towards our storage service. Any
+ * R/W access to the persistence layer needs to pass through this interface.
  *
  * @author cchiama
  * @author carment
@@ -200,7 +198,7 @@ public class StorageService implements Closeable {
     THIRD_CORRELATION_HEADING_CLASS_MAP.put(11, NameSubType.class);
   }
 
-  private  Session session;
+  private Session session;
 
   public void setSession(Session session) {
     this.session = session;
@@ -210,19 +208,18 @@ public class StorageService implements Closeable {
     return session;
   }
 
-
   /**
    * Returns the skip in filing associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the skip in filing associated with the requested language.
+   * @return a list of code / description tuples representing the skip in filing
+   *         associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List<Avp<String>> getSkipInFiling(final String lang)  {
+  public List<Avp<String>> getSkipInFiling(final String lang) {
     final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_SKP_IN_FLNG_CNT.class, locale(lang));
   }
-
 
   @Override
   public void close() throws IOException {
@@ -233,31 +230,32 @@ public class StorageService implements Closeable {
     }
   }
 
-
   /**
    * Returns the preferred view associated with the input data.
    *
    * @param itemNumber              the record identifier.
-   * @param databasePreferenceOrder the database preference order (for choosing among views).
+   * @param databasePreferenceOrder the database preference order (for choosing
+   *                                among views).
    * @return the preferred view associated with the input data.
    * @throws DataAccessException in case of data access failure.
    */
-  public int getPreferredView(final int itemNumber, final int databasePreferenceOrder){
+  public int getPreferredView(final int itemNumber, final int databasePreferenceOrder) {
     return new CacheDAO().getPreferredView(session, itemNumber, databasePreferenceOrder);
   }
 
   /**
-   * Sorts a given {@link SearchResponse} instance.
-   * The sort actually happens at docids level, if some record has been already fetched in the input response, it will
-   * be removed.
+   * Sorts a given {@link SearchResponse} instance. The sort actually happens at
+   * docids level, if some record has been already fetched in the input response,
+   * it will be removed.
    *
    * @param rs         the search response.
    * @param attributes the sort attributes.
    * @param directions the sort orders.
-   * @return a search response wrapping a docid array ordered according with the given criteria.
+   * @return a search response wrapping a docid array ordered according with the
+   *         given criteria.
    * @throws DataAccessException in case of data access failure.
    */
-  public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions)  {
+  public SearchResponse sortResults(final SearchResponse rs, final String[] attributes, final String[] directions) {
     new SortResultSetsDAO().sort(session, rs, attributes, directions);
     rs.clearRecords();
     return rs;
@@ -271,7 +269,7 @@ public class StorageService implements Closeable {
    * @return the content of a record associated with the given data.
    * @throws RecordNotFoundException in case nothing is found.
    */
-  public String getRecordData(final int itemNumber, final int searchingView)  {
+  public String getRecordData(final int itemNumber, final int searchingView) {
     final FULL_CACHE cache = new FullCacheDAO().load(session, itemNumber, searchingView);
     return cache.getRecordData();
   }
@@ -284,17 +282,19 @@ public class StorageService implements Closeable {
    * @return the {@link CatalogItem} associated with the given data.
    */
   public CatalogItem getCatalogItemByKey(final int itemNumber, final int searchingView) {
-	  if (searchingView == View.AUTHORITY) {
-		  return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
-	  } else {
-		  return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
-	  }
+    if (searchingView == View.AUTHORITY) {
+      return new AuthorityCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
+    } else {
+      return new BibliographicCatalogDAO().getCatalogItemByKey(session, itemNumber, searchingView);
+    }
   }
 
   /**
-   * Returns a list of {@link Avp} which represents a short version of the available bibliographic templates.
+   * Returns a list of {@link Avp} which represents a short version of the
+   * available bibliographic templates.
    *
-   * @return a list of {@link Avp} which represents a short version of the available bibliographic templates.
+   * @return a list of {@link Avp} which represents a short version of the
+   *         available bibliographic templates.
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<Integer>> getBibliographicRecordTemplates() {
@@ -307,14 +307,13 @@ public class StorageService implements Closeable {
     }
   }
 
-
   /**
    * Deletes a Bibliographic record template.
    *
    * @param id the record template id.
    * @throws DataAccessException in case of data access failure.
    */
-  public void deleteBibliographicRecordTemplate(final String id)  {
+  public void deleteBibliographicRecordTemplate(final String id) {
     try {
       final BibliographicModelDAO dao = new BibliographicModelDAO();
       final Model model = dao.load(Integer.valueOf(id), session);
@@ -324,7 +323,6 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-
 
   /**
    * Update the Bibliographic Record Template.
@@ -350,8 +348,6 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-
-
 
   /**
    * Save the new Bibliographic Record Template.
@@ -387,9 +383,8 @@ public class StorageService implements Closeable {
   public RecordTemplate getBibliographicRecordRecordTemplatesById(final Integer id) {
     try {
       final ObjectMapper objectMapper = new ObjectMapper();
-      return objectMapper.readValue(
-        new BibliographicModelDAO().load(id, session).getRecordFields(),
-        RecordTemplate.class);
+      return objectMapper.readValue(new BibliographicModelDAO().load(id, session).getRecordFields(),
+          RecordTemplate.class);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
@@ -409,7 +404,7 @@ public class StorageService implements Closeable {
    * @return map with loading result.
    */
   public Map<String, Object> loadRecords(final MultipartFile file, final int startRecord, final int numberOfRecords,
-                                         final int view, final Map<String, String> configuration) {
+      final int view, final Map<String, String> configuration) {
     final Map<String, Object> result = new HashMap<>();
     List<Integer> ids = new ArrayList<>();
     try {
@@ -422,7 +417,7 @@ public class StorageService implements Closeable {
         final LDG_STATS stats = dao.getStats(session, bf.getLoadingStatisticsNumber());
         if (stats.getRecordsAdded() > 0) {
           final List<LOADING_MARC_RECORDS> lmr = (dao.getResults(session, bf.getLoadingStatisticsNumber()));
-          ids = lmr.stream().map(LOADING_MARC_RECORDS :: getBibItemNumber).collect(Collectors.toList());
+          ids = lmr.stream().map(LOADING_MARC_RECORDS::getBibItemNumber).collect(Collectors.toList());
         }
         result.put(Global.LOADING_FILE_FILENAME, file.getName());
         result.put(Global.LOADING_FILE_IDS, ids);
@@ -437,7 +432,6 @@ public class StorageService implements Closeable {
 
     return result;
   }
-
 
   /**
    * Generate a new keyNumber for keyFieldCodeValue specified.
@@ -462,11 +456,11 @@ public class StorageService implements Closeable {
    * @param view the related view.
    */
   public void updateFullRecordCacheTable(final CatalogItem item, final int view) {
-      try {
-        new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
-      } catch (final HibernateException exception) {
-        throw new DataAccessException(exception);
-      }
+    try {
+      new BibliographicCatalogDAO().updateFullRecordCacheTable(session, item);
+    } catch (final HibernateException exception) {
+      throw new DataAccessException(exception);
+    }
 
   }
 
@@ -481,10 +475,13 @@ public class StorageService implements Closeable {
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale, final int searchingView, final int firstRecord, final int lastRecord, final String[] attributes, String[] directions) {
+  public List<Integer> executeQuery(final String cclQuery, final int mainLibraryId, final Locale locale,
+      final int searchingView, final int firstRecord, final int lastRecord, final String[] attributes,
+      String[] directions) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
     try (final Statement sql = stmt(connection());
-         final ResultSet rs = executeQuery(sql, parser.parse(cclQuery, firstRecord, lastRecord, attributes, directions))) {
+        final ResultSet rs = executeQuery(sql,
+            parser.parse(cclQuery, firstRecord, lastRecord, attributes, directions))) {
       final ArrayList<Integer> results = new ArrayList<>();
       while (rs.next()) {
         results.add(rs.getInt(1));
@@ -499,7 +496,6 @@ public class StorageService implements Closeable {
     }
   }
 
-
   /**
    * Returns a valid database connection associated with this service.
    *
@@ -509,7 +505,6 @@ public class StorageService implements Closeable {
   public Connection connection() throws HibernateException {
     return session.connection();
   }
-
 
   /**
    * Creates a valid statement from the given connection.
@@ -540,7 +535,6 @@ public class StorageService implements Closeable {
     }
   }
 
-
   /**
    * returns the number of bibliographic records linked to an authority record
    *
@@ -552,11 +546,11 @@ public class StorageService implements Closeable {
   public CountDocument getCountDocumentByAutNumber(final int id, final int view) throws HibernateException {
     final CountDocument countDocument = new CountDocument();
     final AutDAO dao = new AutDAO();
-    try{
-    final AUT aut = dao.load(session, id);
-    final Class<?> accessPoint = Global.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
-    countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session));
-    countDocument.setQuery(Global.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getHeadingNumber());
+    try {
+      final AUT aut = dao.load(session, id);
+      final Class<?> accessPoint = Global.BIBLIOGRAPHIC_ACCESS_POINT_CLASS_MAP.get(aut.getHeadingType());
+      countDocument.setCountDocuments(dao.getDocCountByAutNumber(aut.getHeadingNumber(), accessPoint, view, session));
+      countDocument.setQuery(Global.INDEX_AUTHORITY_TYPE_MAP.get(aut.getHeadingType()) + " " + aut.getHeadingNumber());
     } catch (final RecordNotFoundException | HibernateException exception) {
       countDocument.setCountDocuments(0);
       countDocument.setQuery("");
@@ -576,7 +570,8 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List<MapHeading> getFirstPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
+  public List<MapHeading> getFirstPage(final String query, final int view, final int mainLibrary, final int pageSize,
+      final String lang) {
     String key = null;
     try {
       String index = null;
@@ -599,8 +594,9 @@ public class StorageService implements Closeable {
       if (dao instanceof ShelfListDAO) {
         filter += HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
-      Descriptor descriptor = ((Descriptor)dao.getPersistentClass().newInstance());
-      descriptor.setStringText(new StringBuilder().append(Global.SUBFIELD_DELIMITER).append("a").append(browseTerm).toString());
+      Descriptor descriptor = ((Descriptor) dao.getPersistentClass().newInstance());
+      descriptor.setStringText(
+          new StringBuilder().append(Global.SUBFIELD_DELIMITER).append("a").append(browseTerm).toString());
       descriptor.calculateAndSetSortForm();
       browseTerm = descriptor.getSortForm();
 
@@ -609,7 +605,8 @@ public class StorageService implements Closeable {
         browseTerm = dao.getBrowsingSortForm(descriptorsList.get(0));
         descriptorsList.clear();
       }
-      descriptorsList.addAll(dao.getHeadingsBySortform(">=", EMPTY_STRING, browseTerm, filter, view, pageSize, session));
+      descriptorsList
+          .addAll(dao.getHeadingsBySortform(">=", EMPTY_STRING, browseTerm, filter, view, pageSize, session));
       return getMapHeadings(view, descriptorsList, dao);
 
     } catch (HibernateException exception) {
@@ -633,7 +630,8 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List<MapHeading> getNextPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
+  public List<MapHeading> getNextPage(final String query, final int view, final int mainLibrary, final int pageSize,
+      final String lang) {
     String key = null;
     try {
       String index = null;
@@ -658,8 +656,9 @@ public class StorageService implements Closeable {
       if (dao instanceof ShelfListDAO) {
         filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
-      Descriptor descriptor = ((Descriptor)dao.getPersistentClass().newInstance());
-      descriptor.setStringText(new StringBuilder().append(Global.SUBFIELD_DELIMITER).append("a").append(browseTerm).toString());
+      Descriptor descriptor = ((Descriptor) dao.getPersistentClass().newInstance());
+      descriptor.setStringText(
+          new StringBuilder().append(Global.SUBFIELD_DELIMITER).append("a").append(browseTerm).toString());
       descriptor.calculateAndSetSortForm();
       browseTerm = descriptor.getSortForm();
 
@@ -667,7 +666,6 @@ public class StorageService implements Closeable {
         operator = ">=";
       descriptorsList = dao.getHeadingsBySortform(operator, EMPTY_STRING, browseTerm, filter, view, pageSize, session);
       return getMapHeadings(view, descriptorsList, dao);
-
 
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
@@ -679,7 +677,8 @@ public class StorageService implements Closeable {
   }
 
   /**
-   * Return a list of headings for a specific a search query in the previous browse
+   * Return a list of headings for a specific a search query in the previous
+   * browse
    *
    * @param query       the query used here as filter criterion
    * @param view        the view used here as filter criterion
@@ -690,7 +689,8 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List<MapHeading> getPreviousPage(final String query, final int view, final int mainLibrary, final int pageSize, final String lang) {
+  public List<MapHeading> getPreviousPage(final String query, final int view, final int mainLibrary, final int pageSize,
+      final String lang) {
     String key = null;
     try {
       String index = null;
@@ -715,8 +715,9 @@ public class StorageService implements Closeable {
       if (dao instanceof ShelfListDAO) {
         filter = filter + HDG_MAIN_LIBRARY_NUMBER + mainLibrary;
       }
-      Descriptor descriptor = ((Descriptor)dao.getPersistentClass().newInstance());
-      descriptor.setStringText(new StringBuilder().append(Global.SUBFIELD_DELIMITER).append("a").append(browseTerm).toString());
+      Descriptor descriptor = ((Descriptor) dao.getPersistentClass().newInstance());
+      descriptor.setStringText(
+          new StringBuilder().append(Global.SUBFIELD_DELIMITER).append("a").append(browseTerm).toString());
       descriptor.calculateAndSetSortForm();
       browseTerm = descriptor.getSortForm();
       if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
@@ -740,17 +741,19 @@ public class StorageService implements Closeable {
    *
    * @param lang         the language code, used here as a filter criterion.
    * @param codeListType the code list type key.
-   * @return a list of code / description tuples representing the date type associated with the requested language.
+   * @return a list of code / description tuples representing the date type
+   *         associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List<Avp<String>> getCodesList(final String lang, final CodeListsType codeListType)  {
+  public List<Avp<String>> getCodesList(final String lang, final CodeListsType codeListType) {
     final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, Global.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
   }
 
   /**
-   * Return a complete heading map with the data of the heding number, the text to display, the authority count,
-   * the count of documents, the count of name titles
+   * Return a complete heading map with the data of the heding number, the text to
+   * display, the authority count, the count of documents, the count of name
+   * titles
    *
    * @param view
    * @param descriptorsList
@@ -758,7 +761,7 @@ public class StorageService implements Closeable {
    * @return a map headings
    */
 
-  private List<MapHeading> getMapHeadings(int view, List<Descriptor> descriptorsList, DescriptorDAO dao)  {
+  private List<MapHeading> getMapHeadings(int view, List<Descriptor> descriptorsList, DescriptorDAO dao) {
     return descriptorsList.stream().map(heading -> {
       final MapHeading headingObject = new MapHeading();
       try {
@@ -788,10 +791,8 @@ public class StorageService implements Closeable {
     }).collect(Collectors.toList());
   }
 
-
   /**
-   * Gets the material type information.
-   * Used for 006 field.
+   * Gets the material type information. Used for 006 field.
    *
    * @param headerCode the header code used here as filter criterion.
    * @param code       the tag number code used here as filter criterion.
@@ -803,13 +804,12 @@ public class StorageService implements Closeable {
     final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
     final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
     try {
-      return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code))
-        .map(rtm -> {
-          mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
-          mapRecordTypeMaterial.put(Global.MATERIAL_TYPE_CODE_LABEL, rtm.getRecordTypeCode());
+      return ofNullable(dao.getDefaultTypeByHeaderCode(session, headerCode, code)).map(rtm -> {
+        mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+        mapRecordTypeMaterial.put(Global.MATERIAL_TYPE_CODE_LABEL, rtm.getRecordTypeCode());
 
-          return mapRecordTypeMaterial;
-        }).orElse(null);
+        return mapRecordTypeMaterial;
+      }).orElse(null);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
@@ -826,16 +826,12 @@ public class StorageService implements Closeable {
    * @return correlation values
    * @throws DataAccessException in case of data access failure.
    */
-  public CorrelationValues getCorrelationVariableField(final Integer category,
-                                                       final String indicator1,
-                                                       final String indicator2,
-                                                       final String code)  {
+  public CorrelationValues getCorrelationVariableField(final Integer category, final String indicator1,
+      final String indicator2, final String code) {
     final BibliographicCorrelationDAO bibliographicCorrelationDAO = new BibliographicCorrelationDAO();
     try {
-      return ofNullable(
-        bibliographicCorrelationDAO.getBibliographicCorrelation(
-          session, code, indicator1.charAt(0), indicator2.charAt(0), category))
-        .map(BibliographicCorrelation::getValues).orElse(null);
+      return ofNullable(bibliographicCorrelationDAO.getBibliographicCorrelation(session, code, indicator1.charAt(0),
+          indicator2.charAt(0), category)).map(BibliographicCorrelation::getValues).orElse(null);
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
@@ -843,8 +839,8 @@ public class StorageService implements Closeable {
   }
 
   /**
-   * Gets Validation for variable field.
-   * Validation is related to sub-fields: valid, mandatory and default subfield
+   * Gets Validation for variable field. Validation is related to sub-fields:
+   * valid, mandatory and default subfield
    *
    * @param marcCategory the marc category used here as filter criterion.
    * @param code1        the first correlation used here as filter criterion.
@@ -852,10 +848,8 @@ public class StorageService implements Closeable {
    * @param code3        the third correlation used here as filter criterion.
    * @return Validation object containing subfield list.
    */
-  public Validation getSubfieldsByCorrelations(final int marcCategory,
-                                               final int code1,
-                                               final int code2,
-                                               final int code3)  {
+  public Validation getSubfieldsByCorrelations(final int marcCategory, final int code1, final int code2,
+      final int code3) {
     final BibliographicValidationDAO daoBibliographicValidation = new BibliographicValidationDAO();
     try {
       final CorrelationValues correlationValues = new CorrelationValues(code1, code2, code3);
@@ -870,10 +864,11 @@ public class StorageService implements Closeable {
    * Returns the record types associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the record type associated with the requested language.
+   * @return a list of code / description tuples representing the record type
+   *         associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List<Avp<String>> getRecordTypes(final String lang){
+  public List<Avp<String>> getRecordTypes(final String lang) {
     final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_REC_TYP.class, locale(lang));
   }
@@ -882,25 +877,29 @@ public class StorageService implements Closeable {
    * Returns the encoding levels associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the encoding level associated with the requested language.
+   * @return a list of code / description tuples representing the encoding level
+   *         associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List<Avp<String>> getEncodingLevels(final String lang)  {
+  public List<Avp<String>> getEncodingLevels(final String lang) {
     final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_ENCDG_LVL.class, locale(lang));
   }
 
   /**
-   * Gets the Material description information.
-   * The values depend on mtrl_dsc and bib_itm data (leader).
+   * Gets the Material description information. The values depend on mtrl_dsc and
+   * bib_itm data (leader).
    *
-   * @param recordTypeCode     the record type code (leader 05) used here as filter criterion.
-   * @param bibliographicLevel the bibliographic level (leader 06) used here as filter criterion.
+   * @param recordTypeCode     the record type code (leader 05) used here as
+   *                           filter criterion.
+   * @param bibliographicLevel the bibliographic level (leader 06) used here as
+   *                           filter criterion.
    * @param code               the tag number code used here as filter criterion.
    * @return a map with RecordTypeMaterial info.
    * @throws DataAccessException in case of data access failure.
    */
-  public Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibliographicLevel, final String code)  {
+  public Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode,
+      final char bibliographicLevel, final String code) {
 
     final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
 
@@ -908,7 +907,8 @@ public class StorageService implements Closeable {
       final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
       final RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
 
-      mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, (code.equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
+      mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL,
+          (code.equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
       mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
       return mapRecordTypeMaterial;
     } catch (final HibernateException exception) {
@@ -917,11 +917,11 @@ public class StorageService implements Closeable {
     }
   }
 
-
   /**
    * Gets the Material description information.
    *
-   * @param recordTypeCode     the record type code (Tag 006//00) used here as filter criterion.
+   * @param recordTypeCode the record type code (Tag 006//00) used here as filter
+   *                       criterion.
    * @return a map with RecordTypeMaterial info.
    * @throws DataAccessException in case of data access failure.
    */
@@ -946,7 +946,8 @@ public class StorageService implements Closeable {
    * Returns the multipart resource level associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the multipart resource level associated with the requested language.
+   * @return a list of code / description tuples representing the multipart
+   *         resource level associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getMultipartResourceLevels(final String lang) {
@@ -958,7 +959,8 @@ public class StorageService implements Closeable {
    * Returns the descriptive catalog forms associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the descriptive catalog forms associated with the requested language.
+   * @return a list of code / description tuples representing the descriptive
+   *         catalog forms associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getDescriptiveCatalogForms(final String lang) {
@@ -970,7 +972,8 @@ public class StorageService implements Closeable {
    * Returns the bibliographic levels associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the bibliographic level associated with the requested language.
+   * @return a list of code / description tuples representing the bibliographic
+   *         level associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getBibliographicLevels(final String lang) {
@@ -982,7 +985,8 @@ public class StorageService implements Closeable {
    * Returns the character encoding schemas associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the character encoding schema associated with the requested language.
+   * @return a list of code / description tuples representing the character
+   *         encoding schema associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getCharacterEncodingSchemas(final String lang) {
@@ -994,7 +998,8 @@ public class StorageService implements Closeable {
    * Returns the control types associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the control type associated with the requested language.
+   * @return a list of code / description tuples representing the control type
+   *         associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getControlTypes(final String lang) {
@@ -1002,15 +1007,15 @@ public class StorageService implements Closeable {
     return dao.getList(session, T_ITM_CNTL_TYP.class, locale(lang));
   }
 
-
   /**
    * Returns the record status types associated with the given language.
    *
    * @param lang the language code, used here as a filter criterion.
-   * @return a list of code / description tuples representing the record status type associated with the requested language.
+   * @return a list of code / description tuples representing the record status
+   *         type associated with the requested language.
    * @throws DataAccessException in case of data access failure.
    */
-  public List<Avp<String>> getRecordStatusTypes(final String lang)  {
+  public List<Avp<String>> getRecordStatusTypes(final String lang) {
     final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(session, T_ITM_REC_STUS.class, locale(lang));
   }
@@ -1018,20 +1023,22 @@ public class StorageService implements Closeable {
   /**
    * Returns the description for heading type entity.
    *
-   * @param code     the heading marc category code, used here as a filter criterion.
+   * @param code     the heading marc category code, used here as a filter
+   *                 criterion.
    * @param lang     the language code, used here as a filter criterion.
    * @param category the category field.
-   * @return the description for index code associated with the requested language.
+   * @return the description for index code associated with the requested
+   *         language.
    * @throws DataAccessException in case of data access failure.
    */
-  public String getHeadingTypeDescription(final int code, final String lang, final int category)  {
+  public String getHeadingTypeDescription(final int code, final String lang, final int category) {
     final CodeTableDAO dao = new CodeTableDAO();
     return dao.getLongText(session, code, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
   }
 
   /**
-   * Return the language independent (key) index value to be used when
-   * browsing for entries of this type of Descriptor
+   * Return the language independent (key) index value to be used when browsing
+   * for entries of this type of Descriptor
    *
    * @param descriptor the descriptor, used here as a filter criterion.
    * @param session    the session of hibernate
@@ -1040,12 +1047,14 @@ public class StorageService implements Closeable {
    */
   public String getBrowseKey(final Descriptor descriptor, final Session session) throws HibernateException {
     final IndexListDAO dao = new IndexListDAO();
-    final String result = dao.getIndexBySortFormType(descriptor.getSortFormParameters().getSortFormMainType(), descriptor.getCorrelationValues().getValue(1), session);
+    final String result = dao.getIndexBySortFormType(descriptor.getSortFormParameters().getSortFormMainType(),
+        descriptor.getCorrelationValues().getValue(1), session);
     return (result != null) ? result : descriptor.getBrowseKey();
   }
 
   /**
-   * Return a list of headings for a specific a search through the stringText of the tag
+   * Return a list of headings for a specific a search through the stringText of
+   * the tag
    *
    * @param stringText  the string text of the tag used here as filter criterion
    * @param view        the view used here as filter criterion
@@ -1055,7 +1064,8 @@ public class StorageService implements Closeable {
    * @throws DataAccessException
    * @throws InvalidBrowseIndexException
    */
-  public List<MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2, final String stringText, final int view, final int mainLibrary, final int pageSize) {
+  public List<MapHeading> getHeadingsByTag(final String tag, final String indicator1, final String indicator2,
+      final String stringText, final int view, final int mainLibrary, final int pageSize) {
     try {
       String key;
       String browseTerm;
@@ -1083,7 +1093,8 @@ public class StorageService implements Closeable {
 
           if (dao instanceof PublisherDescriptorDAO || dao instanceof NameTitleNameDescriptorDAO)
             operator = ">=";
-          descriptorsList = dao.getHeadingsBySortform(operator, EMPTY_STRING, browseTerm, filter, view, pageSize, session);
+          descriptorsList = dao.getHeadingsBySortform(operator, EMPTY_STRING, browseTerm, filter, view, pageSize,
+              session);
           return getMapHeadings(view, descriptorsList, dao);
         }
       }
@@ -1093,7 +1104,6 @@ public class StorageService implements Closeable {
     }
     return Collections.emptyList();
   }
-
 
   /**
    * Get the record associated with given data.
@@ -1133,9 +1143,10 @@ public class StorageService implements Closeable {
         final MaterialDescription materialTag = (MaterialDescription) aTag;
         keyNumber = materialTag.getMaterialDescriptionKeyNumber();
         final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
-        final Map<String, Object> map ;
-        if(tagNbr.equals("008"))
-          map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr);
+        final Map<String, Object> map;
+        if (tagNbr.equals("008"))
+          map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(),
+              materialTag.getItemBibliographicLevelCode(), tagNbr);
         else
           map = getHeaderTypeByRecordTypeCode(materialTag.getMaterialTypeCode().charAt(0));
         materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
@@ -1170,18 +1181,19 @@ public class StorageService implements Closeable {
         }
       }
 
-      if (!aTag.isFixedField() && aTag instanceof PublisherManager && !((PublisherManager) aTag).getPublisherTagUnits().isEmpty()) {
-        keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); //add gestione multi publisher
+      if (!aTag.isFixedField() && aTag instanceof PublisherManager
+          && !((PublisherManager) aTag).getPublisherTagUnits().isEmpty()) {
+        keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); // add gestione
+                                                                                                         // multi
+                                                                                                         // publisher
       }
 
       final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
 
+      String entry = aTag.isFixedField() ? (((FixedField) aTag).getDisplayString())
+          : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
 
-      String entry = aTag.isFixedField()
-        ? (((FixedField) aTag).getDisplayString())
-        : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
-
-      if(aTag instanceof PublisherManager) {
+      if (aTag instanceof PublisherManager) {
         try {
           entry = aTag.addPunctuation().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
         } catch (Exception exception) {
@@ -1251,32 +1263,25 @@ public class StorageService implements Closeable {
    * @return category code.
    * @throws DataAccessException -- in case of DataAccessException.
    */
-  public int getTagCategory(final String tag,
-                            final char firstIndicator,
-                            final char secondIndicator,
-                            final boolean hasTitle){
+  public int getTagCategory(final String tag, final char firstIndicator, final char secondIndicator,
+      final boolean hasTitle) {
     final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 
     try {
-      List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
+      List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator,
+          secondIndicator);
       if (correlations.stream().anyMatch(Objects::nonNull) && correlations.size() == 1) {
         Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
-        if(firstElement.isPresent())
-          return firstElement
-            .get()
-            .getKey()
-            .getMarcTagCategoryCode();
+        if (firstElement.isPresent())
+          return firstElement.get().getKey().getMarcTagCategoryCode();
       } else {
         if (correlations.size() > 1) {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
           } else if (correlations.stream().anyMatch(Objects::nonNull)) {
             Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
-            if(firstElement.isPresent())
-              return firstElement
-                .get()
-                .getKey()
-                .getMarcTagCategoryCode();
+            if (firstElement.isPresent())
+              return firstElement.get().getKey().getMarcTagCategoryCode();
           }
         }
       }
@@ -1289,7 +1294,6 @@ public class StorageService implements Closeable {
     }
   }
 
-
   /**
    * Gets category code using tag and indicators.
    *
@@ -1299,21 +1303,17 @@ public class StorageService implements Closeable {
    * @return category code.
    * @throws DataAccessException -- in case of DataAccessException.
    */
-  public int getCategoryByTag(final String tag,
-                            final char firstIndicator,
-                            final char secondIndicator) {
+  public int getCategoryByTag(final String tag, final char firstIndicator, final char secondIndicator) {
     final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 
     try {
-      List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
-       if (correlations.stream().anyMatch(Objects::nonNull)) {
-         Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
-         if(firstElement.isPresent())
-            return firstElement
-              .get()
-              .getKey()
-              .getMarcTagCategoryCode();
-       }
+      List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator,
+          secondIndicator);
+      if (correlations.stream().anyMatch(Objects::nonNull)) {
+        Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+        if (firstElement.isPresent())
+          return firstElement.get().getKey().getMarcTagCategoryCode();
+      }
 
       return 0;
 
@@ -1331,12 +1331,14 @@ public class StorageService implements Closeable {
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view, final GeneralInformation generalInformation, final String lang, final Map<String, String> configuration)  {
+  public void saveBibliographicRecord(final BibliographicRecord record, final RecordTemplate template, final int view,
+      final GeneralInformation generalInformation, final String lang, final Map<String, String> configuration) {
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
     } catch (DataAccessException exception) {
-      // do not put any exception here!!!!!!!!!!!!! , because the microservice doesn't insert the record
+      // do not put any exception here!!!!!!!!!!!!! , because the microservice doesn't
+      // insert the record
     }
 
     try {
@@ -1356,8 +1358,8 @@ public class StorageService implements Closeable {
       if (isNotNullOrEmpty(record.getVerificationLevel()))
         item.getItemEntity().setVerificationLevel(record.getVerificationLevel().charAt(0));
       if (isNotNullOrEmpty(record.getCanadianContentIndicator()))
-        ((BibliographicItem) item).getBibItmData().setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
-
+        ((BibliographicItem) item).getBibItmData()
+            .setCanadianContentIndicator(record.getCanadianContentIndicator().charAt(0));
 
       final BibliographicCatalogDAO dao = new BibliographicCatalogDAO();
       item.getModelItem().getModel().setLabel(template.getName() != null ? template.getName() : "Monografia");
@@ -1401,7 +1403,6 @@ public class StorageService implements Closeable {
     return null;
   }
 
-
   /**
    * Updates a bibliographic record.
    *
@@ -1412,7 +1413,7 @@ public class StorageService implements Closeable {
    * @throws DataAccessException in case of data access exception.
    */
   private void updateBibliographicRecord(final BibliographicRecord record, final CatalogItem item, final int view,
-                                         final GeneralInformation generalInformation, final Map<String, String> configuration)  {
+      final GeneralInformation generalInformation, final Map<String, String> configuration) {
 
     final RecordParser recordParser = new RecordParser();
     final int bibItemNumber = item.getAmicusNumber();
@@ -1428,12 +1429,12 @@ public class StorageService implements Closeable {
         recordParser.changeMaterialDescriptionTag(item, field, session);
       }
 
-      if (status == Field.FieldStatus.NEW
-        || status == Field.FieldStatus.DELETED
-        || status == Field.FieldStatus.CHANGED) {
+      if (status == Field.FieldStatus.NEW || status == Field.FieldStatus.DELETED
+          || status == Field.FieldStatus.CHANGED) {
 
         if (tagNbr.equals(Global.OTHER_MATERIAL_TAG_CODE)) {
-          final Map<String, Object> mapRecordTypeMaterial = getHeaderTypeByRecordTypeCode(field.getFixedField().getMaterialTypeCode().charAt(0));
+          final Map<String, Object> mapRecordTypeMaterial = getHeaderTypeByRecordTypeCode(
+              field.getFixedField().getMaterialTypeCode().charAt(0));
           final String formOfMaterial = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
           recordParser.changeMaterialDescriptionOtherTag(item, field, formOfMaterial, generalInformation);
         }
@@ -1443,29 +1444,34 @@ public class StorageService implements Closeable {
         }
 
         if (tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE) && status == Field.FieldStatus.CHANGED) {
-          item.getTags().stream().filter(aTag -> !aTag.isFixedField() && aTag instanceof CataloguingSourceTag).forEach(aTag -> {
-            final CataloguingSourceTag cst = (CataloguingSourceTag) aTag;
-            cst.setStringText(new StringText(field.getVariableField().getValue()));
-            cst.markChanged();
-          });
+          item.getTags().stream().filter(aTag -> !aTag.isFixedField() && aTag instanceof CataloguingSourceTag)
+              .forEach(aTag -> {
+                final CataloguingSourceTag cst = (CataloguingSourceTag) aTag;
+                cst.setStringText(new StringText(field.getVariableField().getValue()));
+                cst.markChanged();
+              });
         }
 
         if (field.getVariableField() != null && !tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
           final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
           final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
-            variableField.getInd1(), variableField.getInd2(), tagNbr);
+              variableField.getInd1(), variableField.getInd2(), tagNbr);
           if (correlationValues == null) {
             logger.error(Message.MOD_MARCCAT_00018_NO_HEADING_TYPE_CODE, variableField.getCode());
             throw new DataAccessException();
           }
 
           try {
-            if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
+            if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY
+                && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
               recordParser.changeNoteTag(item, field, correlationValues, bibItemNumber, view, configuration);
-            } else if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY && Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
-              recordParser.changePublisherTag(item, field, correlationValues, bibItemNumber, view, session, configuration);
+            } else if (field.getVariableField().getCategoryCode() == Global.BIB_NOTE_CATEGORY
+                && Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
+              recordParser.changePublisherTag(item, field, correlationValues, bibItemNumber, view, session,
+                  configuration);
             } else {
-              recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session, configuration);
+              recordParser.changeAccessPointTag(item, field, correlationValues, bibItemNumber, view, session,
+                  configuration);
             }
 
           } catch (HibernateException | SQLException e) {
@@ -1491,7 +1497,8 @@ public class StorageService implements Closeable {
       if (aTag instanceof AccessPoint) {
         try {
           AccessPoint apf = ((AccessPoint) aTag);
-          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(apf.getHeadingNumber(), View.makeSingleViewString(recordView), cataloguingView, session);
+          Descriptor d = apf.getDAODescriptor().findOrCreateMyView(apf.getHeadingNumber(),
+              View.makeSingleViewString(recordView), cataloguingView, session);
           apf.setDescriptor(d);
         } catch (HibernateException e) {
           throw new DataAccessException(e);
@@ -1511,11 +1518,12 @@ public class StorageService implements Closeable {
    * @param giAPI  -- {@linked GeneralInformation} for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  private CatalogItem insertBibliographicRecord(final BibliographicRecord record, final int view, final GeneralInformation giAPI, final String lang, final Map<String, String> configuration)  {
+  private CatalogItem insertBibliographicRecord(final BibliographicRecord record, final int view,
+      final GeneralInformation giAPI, final String lang, final Map<String, String> configuration) {
     final RecordParser recordParser = new RecordParser();
     final BibliographicCatalog catalog = new BibliographicCatalog();
     final int bibItemNumber = record.getId();
-    final CatalogItem item = catalog.newCatalogItem(new Object[]{view, bibItemNumber});
+    final CatalogItem item = catalog.newCatalogItem(new Object[] { view, bibItemNumber });
 
     Leader leader = record.getLeader();
     item.getItemEntity().setLanguageOfCataloguing(lang);
@@ -1539,7 +1547,8 @@ public class StorageService implements Closeable {
         final Map<String, Object> mapRecordTypeMaterial;
         final String formOfMaterial;
         if (tagNbr.equals(Global.MATERIAL_TAG_CODE)) {
-          mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), tagNbr);
+          mapRecordTypeMaterial = getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6),
+              leader.getValue().charAt(7), tagNbr);
           formOfMaterial = (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL);
           fixedField.setHeaderTypeCode((int) mapRecordTypeMaterial.get(Global.HEADER_TYPE_LABEL));
         } else {
@@ -1565,13 +1574,14 @@ public class StorageService implements Closeable {
       if (field.getVariableField() != null && !tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
         final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
         final CorrelationValues correlationValues = getCorrelationVariableField(variableField.getCategoryCode(),
-          variableField.getInd1(), variableField.getInd2(), tagNbr);
+            variableField.getInd1(), variableField.getInd2(), tagNbr);
         if (correlationValues == null) {
           logger.error(Message.MOD_MARCCAT_00018_NO_HEADING_TYPE_CODE, variableField.getCode());
           throw new DataAccessException();
         }
         try {
-          recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, configuration, session, view);
+          recordParser.insertNewVariableField(item, variableField, bibItemNumber, correlationValues, configuration,
+              session, view);
         } catch (HibernateException exception) {
           logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
           throw new DataAccessException(exception);
@@ -1590,8 +1600,7 @@ public class StorageService implements Closeable {
    * @param tagNumber    the tag number used here as filter criterion.
    * @return Validation object containing subfield list.
    */
-  public Validation getTagValidation(final int marcCategory,
-                                     final String tagNumber)  {
+  public Validation getTagValidation(final int marcCategory, final String tagNumber) {
     final BibliographicValidationDAO daoBibliographicValidation = new BibliographicValidationDAO();
     try {
       return daoBibliographicValidation.load(session, tagNumber, marcCategory);
@@ -1601,20 +1610,19 @@ public class StorageService implements Closeable {
     }
   }
 
-
   /**
    * Delete a bibliographic record.
    *
    * @param itemNumber -- the amicus number associated to record.
    */
-  public void deleteBibliographicRecordById(final Integer itemNumber, final int view)  {
+  public void deleteBibliographicRecordById(final Integer itemNumber, final int view) {
     final BibliographicCatalog catalog = new BibliographicCatalog();
 
     try {
       CatalogItem item = getCatalogItemByKey(itemNumber, view);
       catalog.deleteCatalogItem(item, session);
     } catch (RecordNotFoundException exception) {
-      //ignore
+      // ignore
     } catch (Exception exception) {
       logger.error(Message.MOD_MARCCAT_00022_DELETE_RECORD_FAILURE, itemNumber, exception);
       throw new DataAccessException(exception);
@@ -1644,7 +1652,7 @@ public class StorageService implements Closeable {
    * @param userName -- the username who unlock entity.
    * @param uuid     -- the uuid associated to lock/unlock session.
    */
-  public void lockRecord(final int id, final String userName, final String uuid)  {
+  public void lockRecord(final int id, final String userName, final String uuid) {
     try {
       final BibliographicCatalog catalog = new BibliographicCatalog();
       catalog.lock(id, userName, uuid, session);
@@ -1662,15 +1670,16 @@ public class StorageService implements Closeable {
    * @param configuration the configuration.
    * @throws DataAccessException in case of data access failure.
    */
-  public void saveHeading(final Heading heading, final int view,
-                          final Map<String, String> configuration)  {
+  public void saveHeading(final Heading heading, final int view, final Map<String, String> configuration) {
     try {
       final BibliographicCatalog catalog = new BibliographicCatalog();
-      final CatalogItem item = catalog.newCatalogItem(new Object[]{view});
+      final CatalogItem item = catalog.newCatalogItem(new Object[] { view });
       final TagImpl impl = new BibliographicTagImpl();
       final boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_VALUE);
       final boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
-      final Correlation corr = impl.getCorrelation(heading.getTag(), (isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0), (isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), heading.getCategoryCode(), session);
+      final Correlation corr = impl.getCorrelation(heading.getTag(),
+          (isInd1IsEmpty) ? " ".charAt(0) : heading.getInd1().charAt(0),
+          (isInd2IsEmpty) ? " ".charAt(0) : heading.getInd2().charAt(0), heading.getCategoryCode(), session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       if (newTag != null) {
         final StringText st = new StringText(heading.getDisplayValue());
@@ -1680,8 +1689,8 @@ public class StorageService implements Closeable {
           ((Browsable) newTag).setDescriptorStringText(st);
           final Descriptor descriptor = ((Browsable) newTag).getDescriptor();
           descriptor.setSkipInFiling(skipInFiling);
-          if(newTag.isNameTitle()) {
-            createNameAndTitleDescriptor(configuration,descriptor,view);
+          if (newTag.isNameTitle()) {
+            createNameAndTitleDescriptor(configuration, descriptor, view);
           }
           final int headingNumber = createOrReplaceDescriptor(configuration, descriptor, view);
           heading.setKeyNumber(headingNumber);
@@ -1704,7 +1713,8 @@ public class StorageService implements Closeable {
    * @param newTag        the new tag.
    * @throws DataAccessException in case of data access failure.
    */
-  public void createPublisherDescriptor(final Heading heading, final int view, Map <String, String> configuration, final Tag newTag) throws HibernateException, SQLException {
+  public void createPublisherDescriptor(final Heading heading, final int view, Map<String, String> configuration,
+      final Tag newTag) throws HibernateException, SQLException {
     final List<PUBL_TAG> publisherTagUnits = ((PublisherManager) newTag).getPublisherTagUnits();
     for (PUBL_TAG publisherTag : publisherTagUnits) {
       final Descriptor descriptor = publisherTag.getDescriptor();
@@ -1721,10 +1731,11 @@ public class StorageService implements Closeable {
    * @param descriptor    the descriptor.
    * @throws DataAccessException in case of data access failure.
    */
-  public void createNameAndTitleDescriptor(final Map <String, String> configuration, final Descriptor descriptor, int view) throws HibernateException, SQLException {
-    final NME_TTL_HDG nameTitleHeading  = (NME_TTL_HDG) descriptor;
+  public void createNameAndTitleDescriptor(final Map<String, String> configuration, final Descriptor descriptor,
+      int view) throws HibernateException, SQLException {
+    final NME_TTL_HDG nameTitleHeading = (NME_TTL_HDG) descriptor;
     final int nameHeadingNumber = createOrReplaceDescriptor(configuration, nameTitleHeading.getNameHeading(), view);
-    final int titleHeadingNumber = createOrReplaceDescriptor(configuration,nameTitleHeading.getTitleHeading() , view);
+    final int titleHeadingNumber = createOrReplaceDescriptor(configuration, nameTitleHeading.getTitleHeading(), view);
     nameTitleHeading.getNameHeading().setHeadingNumber(nameHeadingNumber);
     nameTitleHeading.setNameHeadingNumber(nameHeadingNumber);
     nameTitleHeading.getTitleHeading().setHeadingNumber(titleHeadingNumber);
@@ -1739,7 +1750,8 @@ public class StorageService implements Closeable {
    * @param view          the view.
    * @throws DataAccessException in case of data access failure.
    */
-  public int createOrReplaceDescriptor(final Map <String, String> configuration, final Descriptor descriptor, final int view) throws HibernateException, SQLException {
+  public int createOrReplaceDescriptor(final Map<String, String> configuration, final Descriptor descriptor,
+      final int view) throws HibernateException, SQLException {
     descriptor.setUserViewString(View.makeSingleViewString(view));
     descriptor.setConfigValues(configuration);
     final Descriptor dup = ((DescriptorDAO) (descriptor.getDAO())).getMatchingHeading(descriptor, session);
@@ -1755,7 +1767,8 @@ public class StorageService implements Closeable {
   /**
    * @param lang     the language code, used here as a filter criterion.
    * @param category the category, used here as a filter criterion.
-   * @return a list of heading item types by marc category code associated with the requested language.
+   * @return a list of heading item types by marc category code associated with
+   *         the requested language.
    * @throws DataAccessException in case of data access failure.
    */
   public List<Avp<String>> getFirstCorrelation(final String lang, final int category) {
@@ -1763,10 +1776,9 @@ public class StorageService implements Closeable {
     return daoCT.getList(session, FIRST_CORRELATION_HEADING_CLASS_MAP.get(category), locale(lang));
   }
 
-
   /**
-   * Changes any non-numeric indicators from the correlation table
-   * S for skipinfiling for bibliographic tags
+   * Changes any non-numeric indicators from the correlation table S for
+   * skipinfiling for bibliographic tags
    *
    * @param coKey
    * @param indicator1
@@ -1781,7 +1793,6 @@ public class StorageService implements Closeable {
     return skipInFiling;
   }
 
-
   /**
    * Update of an existing heading
    *
@@ -1789,12 +1800,13 @@ public class StorageService implements Closeable {
    * @param view    the view.
    * @throws DataAccessException in case of data access failure.
    */
-  public void updateHeading(final Heading heading, final int view)  {
+  public void updateHeading(final Heading heading, final int view) {
     try {
       final TagImpl impl = new BibliographicTagImpl();
       final BibliographicCatalog catalog = new BibliographicCatalog();
       final CatalogItem item = new BibliographicItem();
-      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0), 0, session);
+      final Correlation corr = impl.getCorrelation(heading.getTag(), heading.getInd1().charAt(0),
+          heading.getInd2().charAt(0), 0, session);
       final Tag newTag = catalog.getNewTag(item, corr.getKey().getMarcTagCategoryCode(), corr.getValues());
       if (newTag != null) {
         final StringText st = new StringText(heading.getDisplayValue());
@@ -1826,12 +1838,12 @@ public class StorageService implements Closeable {
    * @param view    the view.
    * @throws DataAccessException in case of data access failure.
    */
-  public void deleteHeadingById(final Heading heading, final int view)  {
+  public void deleteHeadingById(final Heading heading, final int view) {
     try {
       final DescriptorDAO descriptorDao = DescriptorFactory.getDao(heading.getCategoryCode());
       final Descriptor d = descriptorDao.load(heading.getKeyNumber(), view, session);
       d.getDAO().delete(d, session);
-    } catch (HibernateException | ReferentialIntegrityException exception ) {
+    } catch (HibernateException | ReferentialIntegrityException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
     }
@@ -1839,7 +1851,8 @@ public class StorageService implements Closeable {
   }
 
   /**
-   * Executes a CCL query using the given data to get the total count of the documents
+   * Executes a CCL query using the given data to get the total count of the
+   * documents
    *
    * @param cclQuery      the CCL query.
    * @param mainLibraryId the main library identifier.
@@ -1847,11 +1860,11 @@ public class StorageService implements Closeable {
    * @param searchingView the target search view.
    * @return a list of docid matching the input query.
    */
-  public int getCountDocumentByQuery(final String cclQuery, String[] attributes, String[] directions, final int mainLibraryId, final Locale locale, final int searchingView) {
+  public int getCountDocumentByQuery(final String cclQuery, String[] attributes, String[] directions,
+      final int mainLibraryId, final Locale locale, final int searchingView) {
     final Parser parser = new Parser(locale, mainLibraryId, searchingView, session);
-    try (
-      final Statement sql = stmt(connection());
-      final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery, attributes, directions))) {
+    try (final Statement sql = stmt(connection());
+        final ResultSet rs = executeQuery(sql, parser.parseAndCount(cclQuery, attributes, directions))) {
       int count = 0;
       while (rs.next()) {
         count = rs.getInt(1);
@@ -1864,13 +1877,13 @@ public class StorageService implements Closeable {
   }
 
   /**
-   *  Loads tags list using the like operator on tag.
+   * Loads tags list using the like operator on tag.
    *
    * @param tagNumber the tag number used as filter criterion.
    * @return
    * @throws DataAccessException
    */
-  public List <String> getFilteredTagsList (final String tagNumber)  {
+  public List<String> getFilteredTagsList(final String tagNumber) {
     try {
       return new BibliographicCorrelationDAO().getFilteredTagsList(tagNumber, session);
     } catch (HibernateException exception) {
@@ -1880,7 +1893,7 @@ public class StorageService implements Closeable {
   }
 
   /**
-   *  Loads tag list using the like operator on tag.
+   * Loads tag list using the like operator on tag.
    *
    * @param tagNumber the tag number used as filter criterion.
    * @return
@@ -1890,10 +1903,10 @@ public class StorageService implements Closeable {
     try {
       final BibliographicCorrelationDAO correlationDAO = new BibliographicCorrelationDAO();
       final FilteredTag filteredTag = new FilteredTag();
-      final List <String> firstIndicators = new ArrayList <>();
-      final List <String> secondIndicators = new ArrayList <>();
-      correlationDAO.getFilteredTag(tagNumber, session)
-        .stream().forEach( key -> setIndicators(firstIndicators, secondIndicators, key));
+      final List<String> firstIndicators = new ArrayList<>();
+      final List<String> secondIndicators = new ArrayList<>();
+      correlationDAO.getFilteredTag(tagNumber, session).stream()
+          .forEach(key -> setIndicators(firstIndicators, secondIndicators, key));
       filteredTag.setTag(tagNumber);
       filteredTag.setInd1(getDistinctIndicators(firstIndicators));
       filteredTag.setInd2(getDistinctIndicators(secondIndicators));
@@ -1911,30 +1924,29 @@ public class StorageService implements Closeable {
    * @param indicators the list of the indicators used as filter criterion.
    * @return
    */
-  public List <String> getDistinctIndicators(List <String> indicators) {
-    return indicators
-      .stream()
-      .sorted()
-      .distinct()
-      .filter(StringUtils::isNumericSpace)
-      .collect(Collectors.toList());
+  public List<String> getDistinctIndicators(List<String> indicators) {
+    return indicators.stream().sorted().distinct().filter(StringUtils::isNumericSpace).collect(Collectors.toList());
   }
 
   /**
-   * Set the list of the first and second indicators or the skip in filing on the tag.
+   * Set the list of the first and second indicators or the skip in filing on the
+   * tag.
    *
-   * @param firtIndicators the list of the first indicators number used as filter criterion.
-   * @param secondIndicators the list of the second indicators used as filter criterion.
-   * @param key the key used as filter criterion.
+   * @param firtIndicators   the list of the first indicators number used as
+   *                         filter criterion.
+   * @param secondIndicators the list of the second indicators used as filter
+   *                         criterion.
+   * @param key              the key used as filter criterion.
    * @return
    * @throws DataAccessException
    */
-  private void setIndicators(final List <String> firtIndicators, final List <String> secondIndicators, final CorrelationKey key) {
+  private void setIndicators(final List<String> firtIndicators, final List<String> secondIndicators,
+      final CorrelationKey key) {
     if (BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC != key.getMarcFirstIndicator())
       firtIndicators.add(valueOf(key.getMarcFirstIndicator()));
     else
       firtIndicators.addAll(Global.SKIP_IN_FILING_CODES);
-    if(BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC != key.getMarcSecondIndicator()) {
+    if (BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC != key.getMarcSecondIndicator()) {
       secondIndicators.add(valueOf(key.getMarcSecondIndicator()));
     } else {
       secondIndicators.addAll(Global.SKIP_IN_FILING_CODES);
@@ -1947,7 +1959,7 @@ public class StorageService implements Closeable {
    * @return all global variables
    * @throws DataAccessException
    */
-  public  Map<String, String> getAllGlobalVariable ()  {
+  public Map<String, String> getAllGlobalVariable() {
     try {
       return new GlobalVariableDAO().getAllGlobalVariable(session);
     } catch (HibernateException exception) {
@@ -1955,6 +1967,5 @@ public class StorageService implements Closeable {
       throw new DataAccessException(exception);
     }
   }
-
 
 }

@@ -1,22 +1,24 @@
 package org.folio.marccat.dao;
 
-
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.Message;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
+import org.folio.marccat.dao.persistence.BibliographicCorrelation;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.exception.DataAccessException;
+
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
+
 /**
- * Manages access to table S_BIB_MARC_IND_DB_CRLTN database encoding and MARC21 encoding.
+ * Manages access to table S_BIB_MARC_IND_DB_CRLTN database encoding and MARC21
+ * encoding.
  *
  * @author paulm
  * @author natasciab
@@ -28,9 +30,9 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
 
   private String queryFrom = "from BibliographicCorrelation as c ";
 
-
   /**
-   * Returns the BibliographicCorrelation based on MARC encoding and category code.
+   * Returns the BibliographicCorrelation based on MARC encoding and category
+   * code.
    *
    * @param tag             -- marc tag
    * @param firstIndicator  -- marc first indicator
@@ -38,14 +40,11 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
    * @param categoryCode    -- category code
    * @return a BibliographicCorrelation object or null when none found
    */
-  public BibliographicCorrelation getBibliographicCorrelation(
-    final Session session,
-    final String tag,
-    final char firstIndicator,
-    final char secondIndicator,
-    final int categoryCode) throws HibernateException {
+  public BibliographicCorrelation getBibliographicCorrelation(final Session session, final String tag,
+      final char firstIndicator, final char secondIndicator, final int categoryCode) throws HibernateException {
 
-	  return (BibliographicCorrelation) super.getRecordCorrelation(session, tag, firstIndicator, secondIndicator, categoryCode, queryFrom);
+    return (BibliographicCorrelation) super.getRecordCorrelation(session, tag, firstIndicator, secondIndicator,
+        categoryCode, queryFrom);
   }
 
   /**
@@ -58,14 +57,12 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
    * @return a list of bibliographic correlation.
    * @throws HibernateException in case of hibernate exception.
    */
-  public List<BibliographicCorrelation> getCategoryCorrelation(
-    final Session session,
-    final String tag,
-    final char firstIndicator,
-    final char secondIndicator) throws HibernateException {
+  public List<BibliographicCorrelation> getCategoryCorrelation(final Session session, final String tag,
+      final char firstIndicator, final char secondIndicator) throws HibernateException {
 
     try {
-    	return super.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator, queryFrom).stream().map(s -> (BibliographicCorrelation) s).collect(Collectors.toList());
+      return super.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator, queryFrom).stream()
+          .map(s -> (BibliographicCorrelation) s).collect(Collectors.toList());
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       return Collections.emptyList();
@@ -79,18 +76,17 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
    * @param firstCorrelation  -- the first database code
    * @param secondCorrelation -- the second database code
    * @param thirdCorrelation  -- the third database code
-   * @return a BibliographicCorrelationKey object containing
-   * the MARC encoding (tag and indicators) or null when none found.
+   * @return a BibliographicCorrelationKey object containing the MARC encoding
+   *         (tag and indicators) or null when none found.
    */
-  public CorrelationKey getMarcEncoding(
-    final int category, final int firstCorrelation,
-    final int secondCorrelation, final int thirdCorrelation, final Session session) throws HibernateException {
-    
+  public CorrelationKey getMarcEncoding(final int category, final int firstCorrelation, final int secondCorrelation,
+      final int thirdCorrelation, final Session session) throws HibernateException {
+
     return super.getMarcEncoding(category, firstCorrelation, secondCorrelation, thirdCorrelation, session, queryFrom);
   }
-  
+
   /**
-   *  Loads tags list using the like operator on tag.
+   * Loads tags list using the like operator on tag.
    *
    * @param session   the session of hibernate
    * @param tagNumber the tag number used as filter criterion.
@@ -98,20 +94,14 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
    * @throws DataAccessException
    */
   @SuppressWarnings("unchecked")
-  public List <String> getFilteredTagsList (final String tagNumber, final Session session) throws HibernateException {
+  public List<String> getFilteredTagsList(final String tagNumber, final Session session) throws HibernateException {
     final StringBuilder sqlFilter = new StringBuilder("select distinct c.key.marcTag ")
-      .append(" from BibliographicCorrelation as c, BibliographicValidation as v ")
-      .append(" where c.key.marcTag like ? ||'%' and ")
-      .append(" c.key.marcTag not like '%@%' and ")
-      .append(queryFirstInd)
-      .append(querySecondInd)
-      .append(" v.key.marcTag = c.key.marcTag and ")
-      .append(" v.marcTagObsoleteIndicator = '0' order by c.key.marcTag ");
-    return session.find(sqlFilter.toString(),
-      new Object[]{tagNumber},
-      new Type[]{Hibernate.STRING});
+        .append(" from BibliographicCorrelation as c, BibliographicValidation as v ")
+        .append(" where c.key.marcTag like ? ||'%' and ").append(" c.key.marcTag not like '%@%' and ")
+        .append(queryFirstInd).append(querySecondInd).append(" v.key.marcTag = c.key.marcTag and ")
+        .append(" v.marcTagObsoleteIndicator = '0' order by c.key.marcTag ");
+    return session.find(sqlFilter.toString(), new Object[] { tagNumber }, new Type[] { Hibernate.STRING });
   }
-
 
   /**
    * Loads the indicators and the subfields of a tag.
@@ -121,8 +111,9 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
    * @return
    * @throws HibernateException
    */
-  public List <CorrelationKey> getFilteredTag (final String tagNumber, final Session session) throws HibernateException {
-	  return super.getFilteredTag(tagNumber, " select c.key from BibliographicCorrelation as c, BibliographicValidation as v   ", session);
+  public List<CorrelationKey> getFilteredTag(final String tagNumber, final Session session) throws HibernateException {
+    return super.getFilteredTag(tagNumber,
+        " select c.key from BibliographicCorrelation as c, BibliographicValidation as v   ", session);
   }
 
   /**
@@ -130,16 +121,16 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
    *
    * @param session   the session of hibernate
    * @param tagNumber the tag number used as filter criterion.
-    * @return
-    * @throws HibernateException
+   * @return
+   * @throws HibernateException
    */
-  public String getSubfieldsTag (final String tagNumber, final Session session) throws HibernateException {
-    final StringBuilder sqlFilter = new StringBuilder(" select distinct v.marcValidSubfieldStringCode  from BibliographicValidation as v ")
-      .append(" where v.key.marcTag = ?");
-      Optional<?> optional  = session.find(sqlFilter.toString(),
-      new Object[]{tagNumber},
-      new Type[]{Hibernate.STRING}).stream().findFirst();
-      return optional.isPresent() ?  optional.get().toString() :  "a";
-    }
+  public String getSubfieldsTag(final String tagNumber, final Session session) throws HibernateException {
+    final StringBuilder sqlFilter = new StringBuilder(
+        " select distinct v.marcValidSubfieldStringCode  from BibliographicValidation as v ")
+            .append(" where v.key.marcTag = ?");
+    Optional<?> optional = session
+        .find(sqlFilter.toString(), new Object[] { tagNumber }, new Type[] { Hibernate.STRING }).stream().findFirst();
+    return optional.isPresent() ? optional.get().toString() : "a";
+  }
 
 }

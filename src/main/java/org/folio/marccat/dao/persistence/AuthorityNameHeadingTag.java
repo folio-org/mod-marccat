@@ -9,18 +9,18 @@ import org.folio.marccat.shared.CorrelationValues;
 @SuppressWarnings("serial")
 public class AuthorityNameHeadingTag extends AuthorityHeadingTag {
 
-	public AuthorityNameHeadingTag() {
-		super(new NME_HDG());
-	}
+  public AuthorityNameHeadingTag() {
+    super(new NME_HDG());
+  }
 
-	@Override
-	public int getCategory() {
-		return 2;
-	}
+  @Override
+  public int getCategory() {
+    return 2;
+  }
 
-	@Override
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		return v.isValueDefined(3);
-	}
+  @Override
+  public boolean correlationChangeAffectsKey(CorrelationValues v) {
+    return v.isValueDefined(3);
+  }
 
 }

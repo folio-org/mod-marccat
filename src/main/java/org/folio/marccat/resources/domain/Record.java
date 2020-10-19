@@ -1,12 +1,13 @@
 package org.folio.marccat.resources.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import javax.annotation.Generated;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Record
@@ -15,7 +16,7 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({"id", "group", "canadianContentIndicator", "verificationLevel", "leader", "fields", "recordView"})
+@JsonPropertyOrder({ "id", "group", "canadianContentIndicator", "verificationLevel", "leader", "fields", "recordView" })
 public class Record {
 
   @JsonProperty("id")
@@ -38,7 +39,6 @@ public class Record {
 
   @JsonProperty("recordView")
   private int recordView;
-
 
   /**
    * @return The id
@@ -71,7 +71,6 @@ public class Record {
   public void setGroup(Integer group) {
     this.group = group;
   }
-
 
   /**
    * @return The leader

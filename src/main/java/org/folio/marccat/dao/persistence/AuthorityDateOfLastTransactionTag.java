@@ -5,14 +5,11 @@ import org.folio.marccat.business.cataloguing.authority.AuthorityHeaderFieldHelp
 import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
 import org.folio.marccat.business.common.PersistenceState;
 
-
 /**
  * @author elena
  *
  */
-public class AuthorityDateOfLastTransactionTag
-  extends DateOfLastTransactionTag {
-
+public class AuthorityDateOfLastTransactionTag extends DateOfLastTransactionTag {
 
   public AuthorityDateOfLastTransactionTag() {
     super();

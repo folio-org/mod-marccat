@@ -14,7 +14,7 @@ import net.sf.hibernate.Session;
  * @author paulm
  * @author carment
  * @since 1.0
- */	
+ */
 public abstract class Model implements Persistence, Serializable {
 
   private int id;
@@ -58,7 +58,6 @@ public abstract class Model implements Persistence, Serializable {
   public void setFrbrFirstGroup(final Integer frbrFirstGroup) {
     this.frbrFirstGroup = frbrFirstGroup;
   }
-
 
   /**
    * Gets the id.
@@ -221,7 +220,5 @@ public abstract class Model implements Persistence, Serializable {
   public boolean onUpdate(final Session session) throws CallbackException {
     return persistenceState.onUpdate(session);
   }
-  
-
 
 }

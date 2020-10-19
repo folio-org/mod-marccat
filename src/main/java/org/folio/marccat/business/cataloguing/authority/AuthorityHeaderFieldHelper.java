@@ -8,11 +8,10 @@ import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
  */
 public class AuthorityHeaderFieldHelper extends HeaderFieldHelper {
 
-	private static final long serialVersionUID = 1205951466932800400L;
+  private static final long serialVersionUID = 1205951466932800400L;
 
-	public int getCategory() {
-	    return 1;
-	  }
-
+  public int getCategory() {
+    return 1;
+  }
 
 }

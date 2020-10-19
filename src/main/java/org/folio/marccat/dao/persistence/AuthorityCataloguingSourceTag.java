@@ -4,13 +4,11 @@ import org.folio.marccat.business.cataloguing.authority.AuthorityHeaderFieldHelp
 import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
 import org.folio.marccat.business.common.PersistenceState;
 
-
 /**
  * @author elena
  *
  */
 public class AuthorityCataloguingSourceTag extends CataloguingSourceTag {
-
 
   public AuthorityCataloguingSourceTag() {
     super();

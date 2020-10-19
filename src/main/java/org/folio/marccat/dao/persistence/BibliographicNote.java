@@ -4,11 +4,12 @@
  */
 package org.folio.marccat.dao.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.BibliographicNoteDAO;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class comment
@@ -17,10 +18,10 @@ import java.util.List;
  */
 public class BibliographicNote extends RecordNote {
   /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8857348340760744618L;
-	
+   * 
+   */
+  private static final long serialVersionUID = 8857348340760744618L;
+
   private List<BibliographicNoteOverflow> overflowList = new ArrayList<>();
   /**
    * The content is all or a part of the stringText.toString() result.
@@ -31,13 +32,15 @@ public class BibliographicNote extends RecordNote {
   public BibliographicNote() {
     super();
   }
-  
-  @Override
-	public int hashCode() {
-		return getNoteNbr();
-	}
 
-  /* (non-Javadoc)
+  @Override
+  public int hashCode() {
+    return getNoteNbr();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -46,9 +49,8 @@ public class BibliographicNote extends RecordNote {
       return false;
     } else {
       BibliographicNote aNote = (BibliographicNote) obj;
-      return aNote.getBibItemNumber() == this.getBibItemNumber() &&
-        aNote.getUserViewString().equals(this.getUserViewString()) &&
-        aNote.getNoteNbr() == this.getNoteNbr();
+      return aNote.getBibItemNumber() == this.getBibItemNumber()
+          && aNote.getUserViewString().equals(this.getUserViewString()) && aNote.getNoteNbr() == this.getNoteNbr();
     }
   }
 

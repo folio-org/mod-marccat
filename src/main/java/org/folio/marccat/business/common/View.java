@@ -15,10 +15,10 @@ public class View {
   }
 
   /**
-   * Creates a new usr_vw_ind string from the input string by
-   * setting the position specified in arg2 to '0'.  The resultant
-   * view string is useful in saving a persistant object after the
-   * current cataloguing view of the record is deleted or modified
+   * Creates a new usr_vw_ind string from the input string by setting the position
+   * specified in arg2 to '0'. The resultant view string is useful in saving a
+   * persistant object after the current cataloguing view of the record is deleted
+   * or modified
    *
    * @param viewString      -- the original view String
    * @param cataloguingView -- the position to be set to '0' (1 indexing)
@@ -32,55 +32,55 @@ public class View {
   }
 
   /**
-   * Creates a new usr_vw_ind string from the input string by
-   * setting the position specified in arg2 to '1'.  The resultant
-   * view string is useful in saving a persistant object after the
-   * current cataloguing view of the record is added (based on a copy from
-   * existing views);
+   * Creates a new usr_vw_ind string from the input string by setting the position
+   * specified in arg2 to '1'. The resultant view string is useful in saving a
+   * persistant object after the current cataloguing view of the record is added
+   * (based on a copy from existing views);
    *
    * @param viewString      -- the original view String
    * @param cataloguingView -- the position to be set to '1' (1 indexing)
    */
 
- public static String maskOnViewString(String viewString, int cataloguingView) {
+  public static String maskOnViewString(String viewString, int cataloguingView) {
     if (cataloguingView < 0)
       throw new IllegalArgumentException("view " + cataloguingView + " cannot be converted in string");
 
     char[] newArray = viewString.toCharArray();
     if (cataloguingView > 0)
       newArray[cataloguingView - 1] = '1';
-    else newArray[0] = '1';
+    else
+      newArray[0] = '1';
 
     return new String(newArray);
 
   }
 
   /**
-   * Creates a new usr_vw_ind string by
-   * setting all positions to '0' except the position specified in arg1.
-   * The resultant view string is useful in saving a persistant object after the
-   * current cataloguing view of the record is saved or updated;
+   * Creates a new usr_vw_ind string by setting all positions to '0' except the
+   * position specified in arg1. The resultant view string is useful in saving a
+   * persistant object after the current cataloguing view of the record is saved
+   * or updated;
    *
    * @param cataloguingView -- the position to be set to '1' (1 indexing)
    */
 
   public static String makeSingleViewString(int cataloguingView) {
-	  if (cataloguingView > 0) {
-		  return maskOnViewString("0000000000000000", cataloguingView);
-	  } else {
-		  return "0000000000000000";
-	  }
-    
+    if (cataloguingView > 0) {
+      return maskOnViewString("0000000000000000", cataloguingView);
+    } else {
+      return "0000000000000000";
+    }
+
   }
 
   /**
-   * Determines the equivalent integer stringValue view from the (single) view string
+   * Determines the equivalent integer stringValue view from the (single) view
+   * string
    *
    * @param userViewString -- the position to be set to '1' (1 indexing)
    */
   public static short toIntView(String userViewString) {
     return (short) (1 + userViewString.indexOf('1'));
   }
-
 
 }

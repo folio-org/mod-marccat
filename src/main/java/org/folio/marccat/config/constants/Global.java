@@ -1,24 +1,34 @@
 package org.folio.marccat.config.constants;
 
-import net.sf.hibernate.cfg.Configuration;
-import org.folio.marccat.dao.*;
-import org.folio.marccat.dao.persistence.*;
-
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.folio.marccat.dao.ClassificationDescriptorDAO;
+import org.folio.marccat.dao.ControlNumberDescriptorDAO;
+import org.folio.marccat.dao.NameDescriptorDAO;
+import org.folio.marccat.dao.NameTitleNameDescriptorDAO;
+import org.folio.marccat.dao.NameTitleTitleDescriptorDAO;
+import org.folio.marccat.dao.PublisherNameDescriptorDAO;
+import org.folio.marccat.dao.PublisherPlaceDescriptorDAO;
+import org.folio.marccat.dao.ShelfListDAO;
+import org.folio.marccat.dao.SubjectDescriptorDAO;
+import org.folio.marccat.dao.TitleDescriptorDAO;
+import org.folio.marccat.dao.persistence.*;
+
+import net.sf.hibernate.cfg.Configuration;
+
 /**
  * Global constants.
  *
  * @description: With "Global" we mean a constant that
  *
- * <ul>
- * <li>is supposed to be shared at least between 2 modules.</li>
- * <li>needs to be used within this "shared" module</li>
- * </ul>
+ *               <ul>
+ *               <li>is supposed to be shared at least between 2 modules.</li>
+ *               <li>needs to be used within this "shared" module</li>
+ *               </ul>
  */
 public abstract class Global {
 
@@ -29,7 +39,7 @@ public abstract class Global {
   public static final String OKAPI_URL = "X-Okapi-Url";
   public static final String OKAPI_TO_URL = "X-Okapi-Url-to";
   public static final String OKAPI_TOKEN_HEADER_NAME = "X-Okapi-Token";
-   public static final String EMPTY_STRING = "";
+  public static final String EMPTY_STRING = "";
   public static final String EMPTY_VALUE = " ";
   public static final String SUBFIELD_DELIMITER_FOR_VIEW = "\\$";
   public static final String MAP_CODE = "a";
@@ -134,8 +144,8 @@ public abstract class Global {
   public static final String PUBLISHER_FAST_PRINTER_SUBFIELD_CODES = "368efg";
   public static final String PUBLISHER_VARIANT_CODES = "368cefg";
   public static final String PUBLISHER_OTHER_SUBFIELD_CODES = "cefg";
-  public static final List<Integer> PUBLISHER_CODES = Arrays.asList(24, 381, 382, 410, 411, 412, 413, 414, 415,
-    416, 417, 418, 419, 420, 421, 422, 423, 424);
+  public static final List<Integer> PUBLISHER_CODES = Arrays.asList(24, 381, 382, 410, 411, 412, 413, 414, 415, 416,
+      417, 418, 419, 420, 421, 422, 423, 424);
   public static final int DEWEY_TYPE_CODE = 12;
   public static final String SUBJECT_VARIANT_CODES = "34eu";
   public static final String SUBJECT_WORK_REL_STRING_TEXT_SUBFIELD_CODES = "eu";
@@ -169,15 +179,20 @@ public abstract class Global {
   public static final List<String> MANDATORY_FIELDS = Arrays.asList("000", "001", "008", "040");
   public static final List<String> NAMES = Arrays.asList("100", "110", "111");
   public static final List<String> NAMES_D = Arrays.asList("110", "111", "710", "711");
-  public static final List<String> NAMES_E = Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410", "600", "610", "700", "710", "720", "721", "800", "810", "900", "910", "980", "981");
-  public static final List<String> NAMES_X = Arrays.asList("400", "410", "411", "700", "710", "711", "720", "721", "722", "900", "910", "911", "980", "981", "982");
-  public static final List<String> NAMES_V = Arrays.asList("400", "410", "411", "800", "810", "811", "980", "981", "982");
-  public static final List<String> NAMES_245 = Arrays.asList("600", "610", "611", "700", "710", "711", "720", "721", "722", "800", "810", "811", "900", "910", "911", "980", "981", "982");
+  public static final List<String> NAMES_E = Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410",
+      "600", "610", "700", "710", "720", "721", "800", "810", "900", "910", "980", "981");
+  public static final List<String> NAMES_X = Arrays.asList("400", "410", "411", "700", "710", "711", "720", "721",
+      "722", "900", "910", "911", "980", "981", "982");
+  public static final List<String> NAMES_V = Arrays.asList("400", "410", "411", "800", "810", "811", "980", "981",
+      "982");
+  public static final List<String> NAMES_245 = Arrays.asList("600", "610", "611", "700", "710", "711", "720", "721",
+      "722", "800", "810", "811", "900", "910", "911", "980", "981", "982");
   public static final List<String> SUBJECTS_4 = Arrays.asList("600", "610", "611");
   public static final List<String> SUBJECTS_E = Arrays.asList("600", "610");
   public static final List<String> TITLES_X = Arrays.asList("440", "730", "740", "930", "983");
   public static final List<String> TITLES_V = Arrays.asList("440", "830", "983");
-  public static final List<String> TITLES = Arrays.asList("130", "241", "245", "730", "740", "830", "930", "941", "945", "983");
+  public static final List<String> TITLES = Arrays.asList("130", "241", "245", "730", "740", "830", "930", "941", "945",
+      "983");
   public static final String TERMINAL_PUNCTUATION = ".?!)-";
   public static final String OTHER_TERMINAL_PUNCTUATION = ".?!)]-";
   public static final String SUBFIELD_DELIMITER = "\u001f";
@@ -185,10 +200,11 @@ public abstract class Global {
   protected static final Map<String, String> TAGS = new HashMap<>();
   private static final String UNASSIGNED = "unassigned";
   private static final String TAG_9XX = "9XX";
-  public static final List<String> SKIP_IN_FILING_CODES = Arrays.asList("0","1","2","3","4","5","6","7","8","9");
+  public static final List<String> SKIP_IN_FILING_CODES = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8",
+      "9");
   public static final String MODULE_CONFIGURATION = "mod-configuration";
   public static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
-  public static final String UNDEFINED ="und";
+  public static final String UNDEFINED = "und";
 
   static {
     TAGS.put("001", "Control Number  (NR)");
@@ -570,7 +586,7 @@ public abstract class Global {
     MAP_CODE_LISTS.put("COMPUTER_TYPE_MATERIAL", T_CMPTR_FIL_TYP.class);
     MAP_CODE_LISTS.put("MARC_COUNTRY", T_MARC_CNTRY.class);
     MAP_CODE_LISTS.put("LANGUAGE", T_LANG.class);
-    //007
+    // 007
     MAP_CODE_LISTS.put("CATEGORY_MATERIAL", GeneralMaterialDesignation.class);
     MAP_CODE_LISTS.put("SOUND_MEDIUM_OR_SEP", T_SND_MDM_OR_SEPRT.class);
     MAP_CODE_LISTS.put("MEDIUM_FOR_SOUND", T_MDM_FOR_SND.class);

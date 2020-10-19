@@ -1,6 +1,6 @@
 {
   "authorityRecord": {
-    "id":0,
+    "id": 0,
     "canadianContentIndicator": "0",
     "verificationLevel": "1",
     "leader": {
@@ -18,7 +18,9 @@
           "code": "001",
           "displayValue": "00000000100",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": true
       },
@@ -33,7 +35,9 @@
           "code": "005",
           "displayValue": "20200901111027.",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": false
       },
@@ -47,7 +51,9 @@
           "code": "008",
           "displayValue": "200729 n annnnabbn n2ann und u",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": true
       },
@@ -111,7 +117,9 @@
           "code": "001",
           "displayValue": "00000000000",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": false
       },
@@ -126,7 +134,9 @@
           "code": "005",
           "displayValue": "20190705105614.",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": false
       },
@@ -141,7 +151,9 @@
           "code": "008",
           "displayValue": "200729 n annnnabbn n2ann und u",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": false
       },

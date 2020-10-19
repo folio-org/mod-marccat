@@ -6,4 +6,3 @@ package org.folio.marccat.dao.persistence;
  */
 public interface HasHeadingType {
 }
-

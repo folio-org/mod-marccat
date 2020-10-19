@@ -10,10 +10,10 @@ import org.folio.marccat.business.cataloguing.common.AuthenticationCodeTag;
 @SuppressWarnings("serial")
 public class AuthorityAuthenticationCodeTag extends AuthenticationCodeTag {
 
-	public AuthorityAuthenticationCodeTag() {
-		super();
-		setHeaderField(new AuthorityHeaderFieldHelper());
-		setHeaderType((short) 2);
-	}
+  public AuthorityAuthenticationCodeTag() {
+    super();
+    setHeaderField(new AuthorityHeaderFieldHelper());
+    setHeaderType((short) 2);
+  }
 
 }

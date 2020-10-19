@@ -29,40 +29,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = BASE_URI, produces = "application/json")
 public class AuthorityRecordAPI extends BaseResource {
 
-	
-	@PostMapping("/authority-record")
-	public ResponseEntity<Object> save(@RequestBody final AuthorityRecord record,
-			// ContainerRecordTemplate container,
-			@RequestParam(name = "view", defaultValue = View.DEFAULT_AUTHORITY_VIEW_AS_STRING) final int view,
-			@RequestParam final String lang, @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-			@RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  @PostMapping("/authority-record")
+  public ResponseEntity<Object> save(@RequestBody final AuthorityRecord record,
+      // ContainerRecordTemplate container,
+      @RequestParam(name = "view", defaultValue = View.DEFAULT_AUTHORITY_VIEW_AS_STRING) final int view,
+      @RequestParam final String lang, @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
-		return doPost((storageService, configuration) -> {
-			try {
+    return doPost((storageService, configuration) -> {
+      try {
 
-				AuthorityStorageService ass = new AuthorityStorageService();
-				
-				ass.setStorageService(storageService);
-				
-				record.getFields().forEach(field -> setCategory(field, storageService));
-				
-				final GeneralInformation gi = new GeneralInformation();
-				gi.setDefaultValues(configuration);
+        AuthorityStorageService ass = new AuthorityStorageService();
 
-				record.getFields().stream().filter(FixedFieldUtils::isFixedField)
-						.filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
-						.forEach(field -> {
-						});
+        ass.setStorageService(storageService);
 
-				ass.saveAuthorityRecord(record, view, lang, configuration);
-				return new ResponseEntity<>("1", HttpStatus.CREATED);
+        record.getFields().forEach(field -> setCategory(field, storageService));
 
-			} catch (final Exception exception) {
-				logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
-				return new ResponseEntity<>("0", HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		}, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(record.getId().toString()));
+        final GeneralInformation gi = new GeneralInformation();
+        gi.setDefaultValues(configuration);
 
-	}
+        record.getFields().stream().filter(FixedFieldUtils::isFixedField)
+            .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)).forEach(field -> {
+            });
+
+        ass.saveAuthorityRecord(record, view, lang, configuration);
+        return new ResponseEntity<>("1", HttpStatus.CREATED);
+
+      } catch (final Exception exception) {
+        logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+        return new ResponseEntity<>("0", HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(record.getId().toString()));
+
+  }
 
 }
