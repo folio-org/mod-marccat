@@ -215,8 +215,8 @@ public class BrowseTest extends TestBase {
   @Test
   public void getNextPage() {
 
-    String url = getURI( "/marccat/next-page");
-    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String url = getURI("/marccat/next-page");
+    Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
       .param("query", "TI I promessi sposi")
@@ -235,7 +235,7 @@ public class BrowseTest extends TestBase {
   public void getPreviousPage() {
 
     String url = getURI("/marccat/previous-page");
-    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
       .param("query", "TI I promessi sposi")
@@ -254,7 +254,7 @@ public class BrowseTest extends TestBase {
   public void getHeadingsByTag() {
 
     String url = getURI("/marccat/headings-by-tag");
-    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
       .param("tag", "245")
@@ -271,6 +271,4 @@ public class BrowseTest extends TestBase {
       .then()
       .statusCode(200);
   }
-
- 
 }

@@ -12,8 +12,6 @@ import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

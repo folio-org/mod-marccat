@@ -2,21 +2,19 @@ package org.folio.marccat.business.cataloguing.bibliographic;
 
 import org.folio.marccat.business.cataloguing.common.HeaderField;
 import org.folio.marccat.business.cataloguing.common.HeaderFieldHelper;
-import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-import java.util.List;
 
 public abstract class VariableHeader extends VariableField implements HeaderField {
   private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 
-  public VariableHeader(int itemNumber) {
+  protected VariableHeader(int itemNumber) {
     super(itemNumber);
   }
 
 
-  public VariableHeader() {
+  protected VariableHeader() {
     super();
   }
 

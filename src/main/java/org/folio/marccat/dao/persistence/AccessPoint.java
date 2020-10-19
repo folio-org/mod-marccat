@@ -25,7 +25,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   protected int functionCode = -1;
 
 
-  public AccessPoint() {
+  protected AccessPoint() {
     super();
     setPersistenceState(new PersistenceState());
   }
@@ -35,7 +35,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    *
    * @param itemNumber -- the record item number.
    */
-  public AccessPoint(final int itemNumber) {
+  protected AccessPoint(final int itemNumber) {
     this();
     setItemNumber(itemNumber);
   }
