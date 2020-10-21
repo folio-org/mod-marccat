@@ -1,0 +1,58 @@
+package org.folio.marccat.dao.persistence;
+
+import org.folio.marccat.shared.CorrelationValues;
+
+/**
+ * @author elena
+ *
+ */
+public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
+	  private REF dualReference = null;
+
+	  private short dualReferenceIndicator = 0;
+
+
+	  public SeeAlsoReferenceTag() {
+	    super();
+	  }
+
+	  @Override
+	  public boolean correlationChangeAffectsKey(CorrelationValues v) {
+	    if (!super.correlationChangeAffectsKey(v)) {
+	      return !ReferenceType.isSeeAlsoFrom(
+	        v.getValue(getRefTypeCorrelationPosition()));
+	    } else {
+	      return false;
+	    }
+	  }
+
+
+	  public REF getDualReference() {
+	    return dualReference;
+	  }
+
+
+	  public void setDualReference(REF ref) {
+	    dualReference = ref;
+	  }
+
+
+	  @Override
+	  public short getDualReferenceIndicator() {
+	    return dualReferenceIndicator;
+	  }
+
+
+	  public void setDualReferenceIndicator(short s) {
+	    dualReferenceIndicator = s;
+	  }
+
+	  /* (non-Javadoc)
+	   * @see SeeSeeAlsoReference#getHasDualIndicator()
+	   */
+	  @Override
+	  public boolean isHasDualIndicator() {
+	    return true;
+	  }
+
+}

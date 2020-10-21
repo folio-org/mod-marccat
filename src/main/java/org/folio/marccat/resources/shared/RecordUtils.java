@@ -146,6 +146,7 @@ public class RecordUtils {
     return storageService.getTagCategory(heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0), hasTitle);
   }
 
+  
   /**
    * Check if present a tag of type title name.
    *

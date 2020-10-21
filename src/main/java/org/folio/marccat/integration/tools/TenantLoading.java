@@ -1,11 +1,26 @@
 package org.folio.marccat.integration.tools;
 
+import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.UnaryOperator;
+
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.rest.jaxrs.model.TenantAttributes;
-import org.springframework.core.io.*;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,10 +29,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import java.io.*;
-import java.util.*;
-import java.util.function.UnaryOperator;
-import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 
 
 /**
@@ -169,16 +180,70 @@ public class TenantLoading {
   private void performR(String okapiUrl, TenantAttributes ta,
                         Map<String, String> headers, Iterator<LoadingEntry> it) {
 
-    loadData(okapiUrl, headers);
+    loadDataBib(okapiUrl, headers);
+    loadDataAuth(okapiUrl, headers);
   }
-  /**
+  
+  private void loadDataAuth(String okapiUrl, Map<String, String> headers) {
+	  final String endPointUrl = "http://localhost:8081/" + "marccat/authority-record";
+	  logger.debug("Load data URL " + endPointUrl);
+	  
+	  HttpHeaders httpHeaders = new HttpHeaders();
+	  httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
+	  httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_URL));
+	  httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+	  
+	  String templateJson;
+	try {
+		templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/sample-data/load-from-file/authority/name.json"),  StandardCharsets.UTF_8.toString());
+		
+		HttpEntity<String> requestEntity = new HttpEntity<>(templateJson, httpHeaders);
+		
+		//HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
+		
+		//HttpEntity<Foo> request = new HttpEntity<>(new Foo("bar"));
+		 
+	  client.exchange(
+			  fromUriString(endPointUrl)
+			  	.build()
+			  	.toUri(),
+			  	HttpMethod.POST,
+			  	requestEntity,
+			  	String.class);
+	} catch (IOException e) {
+		logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, e);
+	}
+
+	  //TODO Leire
+	  
+	  /*Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+	  String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"), "UTF-8");
+	  
+	  HttpHeaders httpHeaders = new HttpHeaders();
+	  httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
+	  httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_URL));
+	  httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+	  MultiValueMap <String, Object> requestEntity = new LinkedMultiValueMap <>();
+	  File file = getResourceAsFile("/sample-data/load-from-file/sample_records.mrc");
+	  requestEntity.add("files", new FileSystemResource(file));
+	  HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
+	  client.exchange(
+			  fromUriString(endPointUrl)
+			  	.build()
+			  	.toUri(),
+			  	HttpMethod.POST,
+			  	httpEntity,
+			  	String.class);*/
+  }
+
+/**
    * Load data.
    *
    * @param okapiUrl the okapi url
    * @param headers the headers
     */
-  private void loadData(String okapiUrl, Map <String, String> headers) {
-    final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
+  private void loadDataBib(String okapiUrl, Map <String, String> headers) {
+    final String endPointUrl = "http://localhost:8081/" + "marccat/load-from-file";
     logger.debug("Load data URL " + endPointUrl);
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
@@ -212,8 +277,8 @@ public class TenantLoading {
       }
       final File tempFile = File.createTempFile(String.valueOf(inputStream.hashCode()), ".tmp");
       tempFile.deleteOnExit();
-      String stringInputStream = IOUtils.toString(inputStream, UTF_8);
-      final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
+      String stringInputStream = IOUtils.toString(inputStream,  StandardCharsets.UTF_8.toString());
+      final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, StandardCharsets.UTF_8.toString());
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));
       return tempFile;
     } catch (IOException exception) {

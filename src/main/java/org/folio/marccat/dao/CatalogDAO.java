@@ -1,24 +1,32 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
-import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.PersistentObjectWithView;
-import org.folio.marccat.business.common.UpdateStatus;
-import org.folio.marccat.config.log.Message;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ModMarccatException;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
+import org.folio.marccat.business.cataloguing.bibliographic.VariableHeaderUsingItemEntity;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.PersistentObjectWithView;
+import org.folio.marccat.business.common.UpdateStatus;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.log.Message;
+import org.folio.marccat.dao.persistence.AccessPoint;
+import org.folio.marccat.dao.persistence.BibliographicNoteTag;
+import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.ItemEntity;
+import org.folio.marccat.dao.persistence.PublisherManager;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
 
 /**
  * Abstract class for common implementations of CatalogDAO (Bib and Auth).
@@ -42,16 +50,15 @@ public abstract class CatalogDAO extends AbstractDAO {
    */
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
     final Transaction transaction = getTransaction(session);
-    item.getTags().stream()
-      .filter(aTag -> !(aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag) && aTag instanceof Persistence)
-      .forEach(tag -> {
-        try {
-          session.delete(tag);
-        } catch (HibernateException e) {
-          cleanUp(transaction);
-          throw new ModMarccatException(e);
-        }
-      });
+    item.getTags().stream().filter(aTag -> !(aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag)
+        && aTag instanceof Persistence).forEach(tag -> {
+          try {
+            session.delete(tag);
+          } catch (HibernateException e) {
+            cleanUp(transaction);
+            throw new ModMarccatException(e);
+          }
+        });
     new BibItemDAO().delete(item.getItemEntity(), session);
     if (item.getModelItem() != null)
       session.delete(item.getModelItem());
@@ -60,7 +67,8 @@ public abstract class CatalogDAO extends AbstractDAO {
 
   abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
 
-  protected abstract void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
+  protected abstract void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
+      throws HibernateException;
 
   /**
    * For each heading in tag, load and set owner descriptor.
@@ -70,7 +78,8 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @param session  -- the current hibernate session.
    * @throws DataAccessException in case of data access failure.
    */
-  protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) {
+  protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView,
+      final Session session) {
     allTags.forEach(tag -> loadHeading((AccessPoint) tag, userView, session));
   }
 
@@ -79,15 +88,16 @@ public abstract class CatalogDAO extends AbstractDAO {
       try {
         Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber(), userView, session);
         if (descriptor == null)
-          throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+          throw new DataAccessException(
+              String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
         tag.setDescriptor(descriptor);
 
       } catch (HibernateException e) {
-        throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        throw new DataAccessException(
+            String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
       }
     }
   }
-
 
   /**
    * Updates bibliographic note table for amicus number.
@@ -98,7 +108,8 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws HibernateException in case of hibernate exception.
    * @throws SQLException       in case of sql exception.
    */
-  public void updateBibNote(final int amicusNumber, final int noteNumber, final Session session) throws HibernateException, SQLException {
+  public void updateBibNote(final int amicusNumber, final int noteNumber, final Session session)
+      throws HibernateException, SQLException {
     final Transaction transaction = getTransaction(session);
     CallableStatement proc = null;
     try {
@@ -110,7 +121,8 @@ public abstract class CatalogDAO extends AbstractDAO {
     } catch (SQLException ex) {
       throw new SQLException(ex);
     } finally {
-      if (proc != null) proc.close();
+      if (proc != null)
+        proc.close();
     }
     transaction.commit();
   }
@@ -125,14 +137,14 @@ public abstract class CatalogDAO extends AbstractDAO {
   public void modifyNoteStandard(final CatalogItem item, final Session session) throws HibernateException {
     final int amicusNumber = item.getItemEntity().getAmicusNumber();
     item.getTags().stream()
-      .filter(aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType())
-      .forEach(tag -> {
-        try {
-          updateBibNote(amicusNumber, ((BibliographicNoteTag) tag).getNoteNbr(), session);
-        } catch (HibernateException | SQLException he) {
-          throw new ModMarccatException(he);
-        }
-      });
+        .filter(aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType())
+        .forEach(tag -> {
+          try {
+            updateBibNote(amicusNumber, ((BibliographicNoteTag) tag).getNoteNbr(), session);
+          } catch (HibernateException | SQLException he) {
+            throw new ModMarccatException(he);
+          }
+        });
   }
 
   /**
@@ -145,19 +157,21 @@ public abstract class CatalogDAO extends AbstractDAO {
   public void saveCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
 
     final Transaction transaction = getTransaction(session);
-    final String myView = makeSingleViewString(item.getUserView());
     final ItemEntity itemEntity = item.getItemEntity();
     if (!itemEntity.isNew()) {
       itemEntity.setUpdateStatus(UpdateStatus.CHANGED);
     }
     persistByStatus(itemEntity, session);
     final List<Tag> tagList = item.getTags().stream().map(aTag -> {
+      String myView = makeSingleViewString(item.getUserView());
+      if (item instanceof AuthorityItem)
+        myView = makeSingleViewString(View.DEFAULT_BIBLIOGRAPHIC_VIEW);
       try {
-          if (aTag.isNew()) {
-            aTag.setItemNumber(item.getAmicusNumber());
-            if (aTag instanceof PersistentObjectWithView)
-              ((PersistentObjectWithView) aTag).setUserViewString(myView);
-            aTag.generateNewKey(session);
+        if (aTag.isNew()) {
+          aTag.setItemNumber(item.getAmicusNumber());
+          if (aTag instanceof PersistentObjectWithView)
+            ((PersistentObjectWithView) aTag).setUserViewString(myView);
+          aTag.generateNewKey(session);
           if (item.getDeletedTags().contains(aTag)) {
             aTag.reinstateDeletedTag();
           }
@@ -183,8 +197,7 @@ public abstract class CatalogDAO extends AbstractDAO {
         }
 
         if (aTag instanceof VariableHeaderUsingItemEntity) {
-          ((VariableHeaderUsingItemEntity) aTag)
-            .deleteFromItem();
+          ((VariableHeaderUsingItemEntity) aTag).deleteFromItem();
         }
       }
       item.getDeletedTags().remove(aTag);

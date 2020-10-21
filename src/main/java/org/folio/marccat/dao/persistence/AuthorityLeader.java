@@ -33,8 +33,16 @@ public class AuthorityLeader extends Leader {
     return getAutItm().getEncodingLevel();
   }
 
+  public void setEncodingLevel(char c) {
+    getAutItm().setEncodingLevel(c);
+  }
+
   public char getRecordStatusCode() {
     return getAutItm().getRecordStatusCode();
+  }
+
+  public void setRecordStatusCode(char c) {
+    getAutItm().setRecordStatusCode(c);
   }
 
 }

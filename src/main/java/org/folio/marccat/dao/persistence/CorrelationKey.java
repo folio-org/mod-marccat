@@ -108,4 +108,14 @@ public class CorrelationKey implements Serializable {
     return "CorrelationKey('" + getMarcTag() + getMarcFirstIndicator() + getMarcSecondIndicator() + "')";
   }
 
+  public CorrelationKey changeAuthoritySourceIndicator(int source) {
+	    if (marcFirstIndicator == 'O') {
+	      return changeFirstIndicator(T_AUT_HDG_SRC.toMarcIndicator(source));
+	    }
+	    if (marcSecondIndicator == 'O') {
+	      return changeSecondIndicator(T_AUT_HDG_SRC.toMarcIndicator(source));
+	    }
+	    return this;
+	  }
+
 }

@@ -6,7 +6,6 @@ import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,12 +29,12 @@ public class TenantAPI {
     @RequestHeader(Global.OKAPI_URL) String okapiUrl,
     @RequestHeader(Global.OKAPI_TO_URL) String okapiUrlTo,
     @RequestBody TenantAttributes attributes
-  ) throws SQLException, IOException {
+  ) {
     addHeaders(tenant, okapiUrl, okapiUrlTo);
-    tenantService.createTenant(tenant, okapiUrl);
-    if(!okapiUrl.isEmpty())
+   // tenantService.createTenant(tenant, okapiUrl);
+  //  if(!okapiUrl.isEmpty())
       tenantRefService.loadData(attributes, okapiHeaders);
-    return new ResponseEntity("Success", CREATED);
+    return new ResponseEntity<>("Success", CREATED);
   }
 
   public void addHeaders(@RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant, @RequestHeader(Global.OKAPI_URL) String okapiUrl, @RequestHeader(Global.OKAPI_TO_URL) String okapiUrlTo) {
@@ -49,6 +48,6 @@ public class TenantAPI {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant
   ) throws SQLException {
     tenantService.deleteTenant(tenant);
-    return new ResponseEntity(NO_CONTENT);
+    return new ResponseEntity<>(NO_CONTENT);
   }
 }
