@@ -27,6 +27,10 @@ public class RecordNote extends VariableField implements PersistentObjectWithVie
     setPersistenceState(new PersistenceState());
   }
 
+  public String getContent() {
+    return content;
+  }
+
   @Override
   public int hashCode() {
     return getNoteNbr();
@@ -42,23 +46,14 @@ public class RecordNote extends VariableField implements PersistentObjectWithVie
     }
   }
 
-  /**
-   *
-   */
   public int getNoteNbr() {
     return noteNumber;
   }
 
-  /**
-   * @param i
-   */
   public void setNoteNbr(final int i) {
     noteNumber = i;
   }
 
-  /**
-   *
-   */
   public String getStringTextString() {
     return content;
   }
@@ -94,23 +89,17 @@ public class RecordNote extends VariableField implements PersistentObjectWithVie
     setNoteType(v.getValue(1));
   }
 
-  /**
-   *
-   */
   public int getNoteType() {
     return noteType;
   }
 
-  /**
-   *
-   */
   public void setNoteType(final int s) {
     noteType = s;
   }
 
   @Override
   public AbstractDAO getDAO() {
-    return null;
+    return persistenceState.getDAO();
   }
 
   public void setContent(String text) {

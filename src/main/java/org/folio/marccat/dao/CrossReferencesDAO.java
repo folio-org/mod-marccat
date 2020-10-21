@@ -33,9 +33,13 @@ public class CrossReferencesDAO extends AbstractDAO {
   public void save(final Persistence p, final Session session) throws HibernateException {
     final REF ref = (REF) p;
     final Transaction transaction = getTransaction(session);
-    session.save(ref);
     final REF reciprocal = ref.createReciprocal();
+    if (loadReciprocal(ref, View.DEFAULT_BIBLIOGRAPHIC_VIEW, session) == null) {
+    	session.save(ref);
+	}
+   if (loadReciprocal(reciprocal, View.DEFAULT_BIBLIOGRAPHIC_VIEW, session) == null) {
     session.save(reciprocal);
+   }
     transaction.commit();
   }
 

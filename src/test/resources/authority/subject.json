@@ -73,19 +73,19 @@
       "added": true
     },
     {
-      "code": "100",
+      "code": "150",
       "mandatory": false,
       "fieldStatus": "new",
       "variableField": {
         "keyNumber": -1,
-        "categoryCode": 2,
+        "categoryCode": 4,
         "headingTypeCode": "1",
         "itemTypeCode": "2",
         "functionCode": "-1",
-        "ind1": "1",
+        "ind1": " ",
         "ind2": " ",
-        "code": "100",
-        "displayValue": "\u001faIbaiScanbit",
+        "code": "150",
+        "displayValue": "\u001faLa Historia de Espa�a",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0
@@ -93,19 +93,19 @@
       "added": false
     },
     {
-      "code": "400",
+      "code": "750",
       "mandatory": false,
       "fieldStatus": "new",
       "variableField": {
         "keyNumber": -1,
-        "categoryCode": 2,
+        "categoryCode": 4,
         "headingTypeCode": "1",
         "itemTypeCode": "2",
         "functionCode": "-1",
-        "ind1": "1",
+        "ind1": " ",
         "ind2": " ",
-        "code": "400",
-        "displayValue": "\u001faScanbit",
+        "code": "750",
+        "displayValue": "\u001faHistoria de Espa�a",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0
@@ -125,7 +125,7 @@
         "ind1": " ",
         "ind2": " ",
         "code": "670",
-        "displayValue": "\u001faEmpresa",
+        "displayValue": "\u001faHistoria",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0
