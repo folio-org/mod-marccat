@@ -27,10 +27,10 @@
             "GET"
           ],
           "pathPattern": "/marccat/searchAuth",
-          "modulePermissions": [
+          "modulePermissions": [],
+          "permissionsRequired": [
             "marccat.authority.collection.get"
-          ],
-          "permissionsRequired": []
+          ]
         },
         {
           "methods": [
@@ -230,7 +230,9 @@
           "modulePermissions": [
             "marccat.authority.insert.post"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.authority.insert.post"
+          ]
         },
         {
           "methods": [
