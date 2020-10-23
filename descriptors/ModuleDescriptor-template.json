@@ -27,7 +27,6 @@
             "GET"
           ],
           "pathPattern": "/marccat/searchAuth",
-          "modulePermissions": [],
           "permissionsRequired": [
             "marccat.authority.collection.get"
           ]
@@ -227,9 +226,6 @@
             "POST"
           ],
           "pathPattern": "/marccat/authority-record",
-          "modulePermissions": [
-            "marccat.authority.insert.post"
-          ],
           "permissionsRequired": [
             "marccat.authority.insert.post"
           ]
