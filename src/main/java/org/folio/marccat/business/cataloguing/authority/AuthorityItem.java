@@ -74,10 +74,7 @@ public class AuthorityItem extends CatalogItem implements Serializable {
 
   }
 
-  @Override
-  public void sortTags() {
-    final Session session = this.session;
-
+  public void sortTags(Session session) {
     Collections.sort(getTags(), (o1, o2) -> {
       Tag t1 = o1;
       Tag t2 = o2;
