@@ -1,48 +1,70 @@
 package org.folio.marccat.resources;
 
+import static java.util.Optional.ofNullable;
+import static org.folio.marccat.config.constants.Global.BASE_URI;
+import static org.folio.marccat.integration.MarccatHelper.doDelete;
+import static org.folio.marccat.integration.MarccatHelper.doGet;
+import static org.folio.marccat.integration.MarccatHelper.doPost;
+import static org.folio.marccat.integration.MarccatHelper.doPut;
+import static org.folio.marccat.resources.shared.ConversionFieldUtils.getDisplayValueOfMaterial;
+import static org.folio.marccat.resources.shared.ConversionFieldUtils.getDisplayValueOfPhysicalInformation;
+import static org.folio.marccat.resources.shared.RecordUtils.addTagTransactionDate;
+import static org.folio.marccat.resources.shared.RecordUtils.getLeaderValue;
+import static org.folio.marccat.resources.shared.RecordUtils.isMandatory;
+import static org.folio.marccat.resources.shared.RecordUtils.resetStatus;
+import static org.folio.marccat.resources.shared.RecordUtils.setCategory;
+import static org.folio.marccat.resources.shared.ValidationUtils.validate;
+import static org.folio.marccat.util.F.isNotNullOrEmpty;
+
+import java.util.Map;
+
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
-import org.folio.marccat.resources.shared.ConversionFieldUtils;
 import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.resources.domain.*;
+import org.folio.marccat.resources.domain.BibliographicRecord;
+import org.folio.marccat.resources.domain.ContainerRecordTemplate;
+import org.folio.marccat.resources.domain.ErrorCollection;
+import org.folio.marccat.resources.domain.Field;
+import org.folio.marccat.resources.domain.FixedField;
+import org.folio.marccat.resources.domain.Leader;
+import org.folio.marccat.resources.domain.LockEntityType;
+import org.folio.marccat.resources.domain.RecordTemplate;
+import org.folio.marccat.resources.domain.VariableField;
+import org.folio.marccat.resources.shared.ConversionFieldUtils;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.util.F;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-
-import static java.util.Optional.ofNullable;
-import static org.folio.marccat.config.constants.Global.BASE_URI;
-import static org.folio.marccat.resources.shared.ConversionFieldUtils.getDisplayValueOfMaterial;
-import static org.folio.marccat.resources.shared.ConversionFieldUtils.getDisplayValueOfPhysicalInformation;
-import static org.folio.marccat.integration.MarccatHelper.*;
-import static org.folio.marccat.resources.shared.RecordUtils.*;
-import static org.folio.marccat.resources.shared.ValidationUtils.validate;
-import static org.folio.marccat.util.F.isNotNullOrEmpty;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = BASE_URI, produces = "application/json")
 public class BibliographicRecordAPI extends BaseResource {
 
-
   @GetMapping("/bibliographic-record/{id}")
-  public ResponseEntity<Object> getRecord(
-    @PathVariable final Integer id,
-    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  public ResponseEntity<Object> getRecord(@PathVariable final Integer id,
+      @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final ContainerRecordTemplate container = storageService.getBibliographicRecordById(id, view);
-      if(container != null) {
+      if (container != null) {
         final BibliographicRecord record = container.getBibliographicRecord();
         if (record != null)
           resetStatus(record);
-      }
-      else {
+      } else {
         return new ResponseEntity<>(container, HttpStatus.NOT_FOUND);
       }
       return new ResponseEntity<>(container, HttpStatus.OK);
@@ -50,24 +72,22 @@ public class BibliographicRecordAPI extends BaseResource {
   }
 
   @GetMapping("/bibliographic-record/from-template/{idTemplate}")
-  public BibliographicRecord getEmptyRecord(
-    @PathVariable final Integer idTemplate,
-    @RequestParam final String lang,
-    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  public BibliographicRecord getEmptyRecord(@PathVariable final Integer idTemplate, @RequestParam final String lang,
+      @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
 
       BibliographicRecord bibliographicRecord = new BibliographicRecord();
       final RecordTemplate template = storageService.getBibliographicRecordRecordTemplatesById(idTemplate);
       bibliographicRecord.setId(storageService.generateNewKey(Global.AN_KEY_CODE_FIELD));
-      bibliographicRecord.setLeader(ofNullable(template.getLeader()).map(leader -> template.getLeader())
-        .orElseGet(() -> {
-          Leader leader = new Leader();
-          leader.setCode(Global.LEADER_TAG_NUMBER);
-          leader.setValue(getLeaderValue());
-          return leader;
-        }));
+      bibliographicRecord
+          .setLeader(ofNullable(template.getLeader()).map(leader -> template.getLeader()).orElseGet(() -> {
+            Leader leader = new Leader();
+            leader.setCode(Global.LEADER_TAG_NUMBER);
+            leader.setValue(getLeaderValue(true));
+            return leader;
+          }));
 
       for (Field field : template.getFields()) {
         if (field.isMandatory() && !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
@@ -97,7 +117,8 @@ public class BibliographicRecordAPI extends BaseResource {
       fixed005.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
       fixed005.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
       fixed005.setCategoryCode(Global.INT_CATEGORY);
-      fixed005.setDescription(storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACION_HEADER_TYPE, lang, Global.INT_CATEGORY));
+      fixed005.setDescription(
+          storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACION_HEADER_TYPE, lang, Global.INT_CATEGORY));
 
       final Field field = new Field();
       field.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
@@ -113,20 +134,18 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, okapiUrl, configurator);
   }
 
-
   @PostMapping("/bibliographic-record")
-  public ResponseEntity<Object> save(
-    @RequestBody final ContainerRecordTemplate container,
-    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  public ResponseEntity<Object> save(@RequestBody final ContainerRecordTemplate container,
+      @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+      @RequestParam final String lang, @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     return doPost((storageService, configuration) -> {
       try {
 
         final BibliographicRecord record = container.getBibliographicRecord();
-        RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate() : null;
+        RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate()
+            : null;
         record.getFields().forEach(field -> setCategory(field, storageService));
         final Integer itemNumber = record.getId();
         final ErrorCollection errors = validate(record, storageService);
@@ -138,24 +157,29 @@ public class BibliographicRecordAPI extends BaseResource {
 
         final Leader leader = record.getLeader();
         record.getFields().stream().filter(FixedFieldUtils::isFixedField)
-          .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) ||
-            field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE) ||
-            field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE)).forEach(field -> {
+            .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)
+                || field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)
+                || field.getCode().equalsIgnoreCase(Global.PHYSICAL_DESCRIPTION_TAG_CODE))
+            .forEach(field -> {
 
-          FixedField ff = field.getFixedField();
-          final int headerTypeCode = ff.getHeaderTypeCode();
+              FixedField ff = field.getFixedField();
+              final int headerTypeCode = ff.getHeaderTypeCode();
 
-          if (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
+              if (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)
+                  || field.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
 
-            final Map<String, Object> mapRecordTypeMaterial = (field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
-              ? storageService.getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), field.getCode())
-              : storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, field.getCode());
+                final Map<String, Object> mapRecordTypeMaterial = (field.getCode()
+                    .equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
+                        ? storageService.getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6),
+                            leader.getValue().charAt(7), field.getCode())
+                        : storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, field.getCode());
 
-            ConversionFieldUtils.setMaterialValuesInFixedField(ff, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
-          } else {
-            ConversionFieldUtils.setPhysicalInformationValuesInFixedField(ff);
-          }
-        });
+                ConversionFieldUtils.setMaterialValuesInFixedField(ff,
+                    (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
+              } else {
+                ConversionFieldUtils.setPhysicalInformationValuesInFixedField(ff);
+              }
+            });
 
         storageService.saveBibliographicRecord(record, template, view, gi, lang, configuration);
         final ContainerRecordTemplate containerSaved = storageService.getBibliographicRecordById(itemNumber, view);
@@ -170,13 +194,12 @@ public class BibliographicRecordAPI extends BaseResource {
 
   }
 
-
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/{id}")
   public void delete(@PathVariable final String id,
-                     @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-                     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-                     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+      @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doDelete((storageService, configuration) -> {
       storageService.deleteBibliographicRecordById(Integer.parseInt(id), view);
       return id;
@@ -185,12 +208,10 @@ public class BibliographicRecordAPI extends BaseResource {
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/bibliographic-record/unlock/{id}")
-  public void unlock(@PathVariable final String id,
-                     @RequestParam final String uuid,
-                     @RequestParam final String userName,
-                     @RequestParam final LockEntityType type,
-                     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-                     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  public void unlock(@PathVariable final String id, @RequestParam final String uuid,
+      @RequestParam final String userName, @RequestParam final LockEntityType type,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     doDelete((storageService, configuration) -> {
       if (isNotNullOrEmpty(id) && isNotNullOrEmpty(uuid) && type == LockEntityType.R) {
         storageService.unlockRecord(Integer.parseInt(id), userName);
@@ -200,31 +221,25 @@ public class BibliographicRecordAPI extends BaseResource {
     }, tenant, okapiUrl, configurator);
   }
 
-
   @PutMapping("/bibliographic-record/lock/{id}")
-  public void lock(@PathVariable final String id,
-                   @RequestParam final String uuid,
-                   @RequestParam final String userName,
-                   @RequestParam final LockEntityType type,
-                   @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-                   @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  public void lock(@PathVariable final String id, @RequestParam final String uuid, @RequestParam final String userName,
+      @RequestParam final LockEntityType type, @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     doPut((storageService, configuration) -> {
 
       storageService.lockRecord(Integer.parseInt(id), userName, uuid);
       return uuid;
 
-    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(uuid) && type == LockEntityType.R);
+    }, tenant, okapiUrl, configurator,
+        () -> isNotNullOrEmpty(id) && isNotNullOrEmpty(uuid) && type == LockEntityType.R);
   }
 
-
   @GetMapping("/bibliographic-record/duplicate")
-  public ResponseEntity<Object> duplicate(
-    @RequestParam final Integer id,
-    @RequestParam final String lang,
-    @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  public ResponseEntity<Object> duplicate(@RequestParam final Integer id, @RequestParam final String lang,
+      @RequestParam(name = "view", defaultValue = View.DEFAULT_BIBLIOGRAPHIC_VIEW_AS_STRING) final int view,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     return doGet((storageService, configuration) -> {
 
@@ -236,7 +251,8 @@ public class BibliographicRecordAPI extends BaseResource {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
       final BibliographicRecord fromRecord = container.getBibliographicRecord();
-      RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate() : null;
+      RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate()
+          : null;
 
       newRecord.setLeader(fromRecord.getLeader());
 
@@ -252,9 +268,9 @@ public class BibliographicRecordAPI extends BaseResource {
           newRecord.getFields().add(1, fieldDate);
         }
 
-        if ((Integer.parseInt(field.getCode()) < Global.TAG_RELATION_MIN || Integer.parseInt(field.getCode()) > Global.TAG_RELATION_MAX)
-          && !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)
-          && !field.getCode().startsWith("9")) {
+        if ((Integer.parseInt(field.getCode()) < Global.TAG_RELATION_MIN
+            || Integer.parseInt(field.getCode()) > Global.TAG_RELATION_MAX)
+            && !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE) && !field.getCode().startsWith("9")) {
 
           field.setFieldStatus(Field.FieldStatus.NEW);
           field.setMandatory(isMandatory(field, template));
@@ -273,14 +289,15 @@ public class BibliographicRecordAPI extends BaseResource {
   }
 
   @PostMapping("/bibliographic-record/fixed-field-display-value")
-  public ResponseEntity<FixedField> getFixedFieldWithDisplayValue(
-    @RequestBody final FixedField fixed,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  public ResponseEntity<FixedField> getFixedFieldWithDisplayValue(@RequestBody final FixedField fixed,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPost((storageService, configuration) -> {
       final int headerTypeCode = fixed.getHeaderTypeCode();
-      final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, fixed.getCode());
-      if (fixed.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE) || fixed.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
+      final Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode,
+          fixed.getCode());
+      if (fixed.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)
+          || fixed.getCode().equalsIgnoreCase(Global.OTHER_MATERIAL_TAG_CODE)) {
         return getDisplayValueOfMaterial(fixed, (String) mapRecordTypeMaterial.get(Global.FORM_OF_MATERIAL_LABEL));
       } else {
         return getDisplayValueOfPhysicalInformation(fixed);

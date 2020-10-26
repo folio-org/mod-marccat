@@ -79,4 +79,13 @@ public class AuthorityRecordTest extends TestBase {
     given().param("id", "1").param("view", "-1").headers(headers).when().get(url).then().statusCode(200);
   }
 
+  @Test
+  public void getEmptyRecord() {
+
+    String url = getURI("/marccat/authority-record/from-template/1");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given().param("lang", "eng").param("view", "-1").headers(headers).when().get(url).then().statusCode(200);
+  }
+
 }

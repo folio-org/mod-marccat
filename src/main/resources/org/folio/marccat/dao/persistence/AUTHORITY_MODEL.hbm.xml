@@ -5,6 +5,7 @@
 <hibernate-mapping>
 	<class
 		name="org.folio.marccat.dao.persistence.AuthorityModel"
+		schema="olisuite"
 		table="AUTHORITY_MODEL">
 		<id name="id">
 			<column name="ID" not-null="true"/>

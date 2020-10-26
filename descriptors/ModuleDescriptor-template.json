@@ -266,6 +266,16 @@
           "methods": [
             "GET"
           ],
+          "pathPattern": "/marccat/authority-record/from-template/{idTemplate}",
+          "modulePermissions": [
+            "configuration.all"
+          ],
+          "permissionsRequired": []
+        },
+        {
+          "methods": [
+            "GET"
+          ],
           "pathPattern": "/marccat/bibliographic-record/from-template/{idTemplate}",
           "modulePermissions": [
             "configuration.all"

@@ -128,7 +128,8 @@ public class AuthorityStorageService {
   private CatalogItem insertAuthorityRecord(final AuthorityRecord record, final int view, final String lang,
       final Map<String, String> configuration) throws HibernateException {
     final AuthorityCatalog catalog = new AuthorityCatalog();
-    final int autItemNumber = new SystemNextNumberDAO().getNextNumber("AA", getStorageService().getSession());
+    final int autItemNumber = new SystemNextNumberDAO().getNextNumber(Global.AN_KEY_AUT,
+        getStorageService().getSession());
     final CatalogItem item = catalog.newCatalogItem(new Object[] { view, autItemNumber });
 
     AuthorityTagImpl tagImpl = new AuthorityTagImpl();

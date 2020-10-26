@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 
@@ -62,7 +63,7 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
    */
   public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
-    setAmicusNumber(dao.getNextNumber("AA", session));
+    setAmicusNumber(dao.getNextNumber(Global.AN_KEY_AUT, session));
   }
 
   /**

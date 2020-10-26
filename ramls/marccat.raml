@@ -150,3 +150,27 @@ resourceTypes:
           body:
             text/plain:
               example: "Error in validation"  
+
+  /authority-record/from-template/{idTemplate}:
+    displayName: Get authority marc records template
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityTemplate.json
+        schema: authority
+    post:
+      is: [validate
+        ]
+      description: Get authority record template
+      responses:
+        200:
+          description: "Return an authority template"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"  

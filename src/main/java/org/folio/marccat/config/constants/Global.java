@@ -83,6 +83,7 @@ public class Global {
   public static final String LOADING_FILE_ADDED = "added";
   public static final String LOADING_FILE_ERRORS = "errors";
   public static final String AN_KEY_CODE_FIELD = "BI";
+  public static final String AN_KEY_AUT = "AA";
   public static final String ERROR_MANDATORY_TAG = "-1";
   public static final String ERROR_DUPLICATE_TAG = "-2";
   public static final String ERROR_EMPTY_TAG = "-3";
@@ -97,16 +98,20 @@ public class Global {
   public static final int LEADER_HEADER_TYPE = 15;
   public static final int CONTROL_NUMBER_HEADER_TYPE = 39;
   public static final int DATETIME_TRANSACION_HEADER_TYPE = 41;
+  public static final int AUT_DATETIME_TRANSACION_HEADER_TYPE = 12;
   public static final int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
   public static final String FIXED_LEADER_LENGTH = "00000";
   public static final char RECORD_STATUS_CODE = 'n';
   public static final char RECORD_TYPE_CODE = 'a';
+  public static final char AUT_RECORD_TYPE_CODE = 'z';
   public static final char BIBLIOGRAPHIC_LEVEL_CODE = 'm';
   public static final char CONTROL_TYPE_CODE = ' ';
   public static final char CHARACTER_CODING_SCHEME_CODE = ' ';
   public static final String FIXED_LEADER_BASE_ADDRESS = "2200000";
   public static final char ENCODING_LEVEL = ' ';
+  public static final char AUT_ENCODING_LEVEL = 'n';
   public static final char DESCRIPTIVE_CATALOGUING_CODE = ' ';
+  public static final char PUNCTUATION_POLICY = ' ';
   public static final char LINKED_RECORD_CODE = ' ';
   public static final String FIXED_LEADER_PORTION = "4500";
   public static final Map<Integer, String> PHYSICAL_TYPES_MAP;
