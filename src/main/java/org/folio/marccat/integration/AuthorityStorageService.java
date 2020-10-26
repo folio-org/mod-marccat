@@ -3,6 +3,7 @@ package org.folio.marccat.integration;
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.AuthorityCatalogDAO;
 import org.folio.marccat.dao.AuthorityCorrelationDAO;
+import org.folio.marccat.dao.AuthorityModelDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.Authority008Tag;
 import org.folio.marccat.dao.persistence.AuthorityCorrelation;
@@ -36,8 +38,11 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.domain.Leader;
+import org.folio.marccat.resources.domain.RecordTemplate;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.sf.hibernate.HibernateException;
 
@@ -80,6 +85,27 @@ public class AuthorityStorageService {
     return new AuthorityCatalogDAO().getCatalogItemByKey(getStorageService().getSession(), itemNumber, searchingView);
   }
 
+  /**
+   * Return a Authority Record Template by id.
+   *
+   * @param id the record template id.
+   * @return the authority record template associated with the given id.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public RecordTemplate getAuthorityRecordRecordTemplatesById(final Integer id) {
+    try {
+      final ObjectMapper objectMapper = new ObjectMapper();
+      return objectMapper.readValue(
+          new AuthorityModelDAO().load(id, getStorageService().getSession()).getRecordFields(), RecordTemplate.class);
+    } catch (final HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    } catch (final IOException exception) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  
   /**
    * Checks if authority record is new then execute insert or update.
    *
