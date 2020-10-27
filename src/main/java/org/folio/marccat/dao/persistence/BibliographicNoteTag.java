@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
 
 /**
  * Manager class for bibliographic note tag.
@@ -219,22 +218,7 @@ public class BibliographicNoteTag extends VariableField implements PersistentObj
     breakNotesStringText();
   }
 
-  /**
-   * Returns display content of whole standard note.
-   * It replaces all '@1' with subfield separator if present.
-   *
-   * @return note standard stringText.
-   */
-  public StringText getStandardNoteStringText() {
-    String value = (ofNullable(valueElement.getLabel()).isPresent()) ? valueElement.getLabel() : "";
-    if (value.contains("@1")) {
-      if (note.getStringTextString().indexOf(Global.SUBFIELD_DELIMITER) != -1)
-        value = value.replace("@1", note.getStringTextString().substring(2));
-      else
-        value = value.replace("@1", note.getStringTextString());
-    }
-    return new StringText(value);
-  }
+
 
   /**
    * Used to display the entire note as marc string.

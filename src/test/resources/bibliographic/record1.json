@@ -197,9 +197,9 @@
       {
         "code": "520",
         "mandatory": false,
-        "fieldStatus": "changed",
+        "fieldStatus": "new",
         "variableField": {
-          "keyNumber": 3,
+          "keyNumber": 0,
           "categoryCode": 7,
           "headingTypeCode": "85",
           "itemTypeCode": "-1",
@@ -233,6 +233,24 @@
           "skipInFiling": 0
         },
         "added": false
+      },
+      {
+        "code": "773",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 0,
+          "code": "773",
+          "ind1": "1",
+          "ind2": " ",
+          "displayValue": "\u001fw2",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 8
+        },
+        "added": true
       },
       {
         "code": "773",

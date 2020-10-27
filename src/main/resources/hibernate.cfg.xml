@@ -247,5 +247,6 @@
     <mapping resource="org/folio/marccat/dao/persistence/T_TM_SPC.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/S_SYS_GLBL_VRBL.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/S_CACHE_BIB_ITM_DSPLY.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/S_RLTSP_RCPCL.hbm.xml"/>
 </session-factory>
 </hibernate-configuration>

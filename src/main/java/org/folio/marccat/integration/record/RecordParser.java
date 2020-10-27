@@ -124,7 +124,7 @@ public class RecordParser {
             noteTag.setStringText(new StringText(field.getVariableField().getValue()));
             noteTag.getNote().markChanged();
           } else {
-            noteTag.getNote().markDeleted();
+            noteTag.markDeleted();
             item.getDeletedTags().add(noteTag);
           }
         }
@@ -175,6 +175,7 @@ public class RecordParser {
         return noteTag.getNote().getNoteNbr() == headingNbr;
       });
   }
+
 
   @SuppressWarnings("unchecked")
   private boolean checkIfAlreadyExist(final CorrelationValues tagCorrelations, int headingNbr, CatalogItem item, final Class clazz) {
@@ -412,8 +413,7 @@ public class RecordParser {
       if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, NameTitleAccessPoint.class))
         addNameTitleToCatalog(item, correlationValues, variableField, bibItemNumber, session, view);
     }  else if (variableField.getCategoryCode() == Global.RELATION_CATEGORY) {
-      if (!checkIfAlreadyExist(correlationValues, variableField.getKeyNumber(), item, BibliographicRelationshipTag.class))
-        addRelationToCatalog(item, correlationValues, variableField, bibItemNumber);
+        addRelationToCatalog(item, correlationValues, variableField, bibItemNumber, session, view );
     }
     else if (variableField.getCategoryCode() == Global.BIB_NOTE_CATEGORY && !Global.PUBLISHER_CODES.contains(correlationValues.getValue(1))) {
       if (!checkIfAlreadyExistNote(variableField.getKeyNumber(), item, BibliographicNoteTag.class))
@@ -530,7 +530,7 @@ public class RecordParser {
                                 final org.folio.marccat.resources.domain.VariableField variableField,
                                 final int bibItemNumber) {
     final BibliographicNoteTag nTag = catalog.createBibliographicNoteTag(item, correlationValues);
-    nTag.getNote().setContent(variableField.getValue());
+    nTag.setStringText(new StringText(variableField.getValue()));
     if (variableField.getKeyNumber() != null && variableField.getKeyNumber() != 0)
       nTag.getNote().setNoteNbr(variableField.getKeyNumber());
 
@@ -550,12 +550,23 @@ public class RecordParser {
   private void addRelationToCatalog(final CatalogItem item,
                                     final CorrelationValues correlationValues,
                                     final org.folio.marccat.resources.domain.VariableField variableField,
-                                    final int bibItemNumber) {
+                                    final int bibItemNumber,
+                                    final Session session,
+                                    final int view) throws HibernateException {
     final BibliographicRelationshipTag nTag = catalog.createBibliographicRelationshipTag(item, correlationValues);
-    nTag.setReciprocalOption((short) 3);
-    nTag.setStringText(new StringText(variableField.getValue()));
-    nTag.setItemNumber(bibItemNumber);
-    nTag.markNew();
+    StringText stringText = new StringText(variableField.getValue()).getSubfieldsWithCodes("w");
+    if (stringText != null && !stringText.isEmpty()) {
+      nTag.setReciprocalOption(BibliographicRelationReciprocal.ONE_WAY);
+      nTag.setStringText(new StringText(variableField.getValue()));
+      nTag.setItemNumber(bibItemNumber);
+      nTag.replaceTargetRelationship(Integer.parseInt(stringText.toDisplayString()), view, session);
+      nTag.markNew();
+    } else {
+      nTag.setReciprocalOption(BibliographicRelationReciprocal.BLIND);
+      nTag.setStringText(new StringText(variableField.getValue()));
+      nTag.setItemNumber(bibItemNumber);
+      nTag.markNew();
+    }
     item.addTag(nTag);
   }
 
