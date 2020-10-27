@@ -1,9 +1,10 @@
 package org.folio.marccat.dao.persistence;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.folio.marccat.business.descriptor.SkipInFiling;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.shared.CorrelationValues;
 
 /**
@@ -12,40 +13,45 @@ import org.folio.marccat.shared.CorrelationValues;
  */
 public class AuthorityTitleHeadingTag extends AuthorityHeadingTag implements SkipInFiling {
 
-	public AuthorityTitleHeadingTag() {
-		super(new TTL_HDG());
-	}
+  /**
+  * 
+  */
+  private static final long serialVersionUID = 7303329914542120254L;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see TagInterface#getCategory()
-	 */
-	@Override
-	public int getCategory() {
-		return 3;
-	}
+  public AuthorityTitleHeadingTag() {
+    super(new TTL_HDG());
+  }
 
-	public int getSkipInFiling() {
-		return getDescriptor().getSkipInFiling();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see TagInterface#getCategory()
+   */
+  @Override
+  public int getCategory() {
+    return Global.TITLE_CATEGORY;
+  }
 
-	public void setSkipInFiling(int i) {
-		getDescriptor().setSkipInFiling(i);
-	}
+  public int getSkipInFiling() {
+    return getDescriptor().getSkipInFiling();
+  }
 
-	@Override
-	public CorrelationKey getMarcEncoding() {
-		return super.getMarcEncoding().changeSkipInFilingIndicator(getSkipInFiling());
-	}
+  public void setSkipInFiling(int i) {
+    getDescriptor().setSkipInFiling(i);
+  }
 
-	public List<?> getFirstCorrelationList() {
-		return new ArrayList();
-	}
+  @Override
+  public CorrelationKey getMarcEncoding() {
+    return super.getMarcEncoding().changeSkipInFilingIndicator(getSkipInFiling());
+  }
 
-	@Override
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		return v.isValueDefined(1);
-	}
+  public List<?> getFirstCorrelationList() {
+    return Collections.emptyList();
+  }
+
+  @Override
+  public boolean correlationChangeAffectsKey(CorrelationValues v) {
+    return v.isValueDefined(1);
+  }
 
 }

@@ -1,6 +1,6 @@
 package org.folio.marccat.dao.persistence;
 
-import org.folio.marccat.business.descriptor.SkipInFiling;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.shared.CorrelationValues;
 
 /**
@@ -8,47 +8,35 @@ import org.folio.marccat.shared.CorrelationValues;
  *
  */
 @SuppressWarnings("serial")
-public class AuthoritySubjectHeadingTag extends AuthorityHeadingTag implements SkipInFiling {
-	public AuthoritySubjectHeadingTag() {
-		super(new SBJCT_HDG());
-		setDefault();
-	}
+public class AuthoritySubjectHeadingTag extends AuthorityHeadingTag {
+  public AuthoritySubjectHeadingTag() {
+    super(new SBJCT_HDG());
+    setDefault();
+  }
 
-	@Override
-	public int getCategory() {
-		return 4;
-	}
+  @Override
+  public int getCategory() {
+    return Global.SUBJECT_CATEGORY;
+  }
 
-	public int getSkipInFiling() {
-		return getDescriptor().getSkipInFiling();
-	}
+  @Override
+  public CorrelationValues getCorrelationValues() {
+    return super.getCorrelationValues().change(3, CorrelationValues.UNDEFINED);
+  }
 
-	public void setSkipInFiling(int i) {
-		getDescriptor().setSkipInFiling(i);
-	}
+  @Override
+  public boolean correlationChangeAffectsKey(CorrelationValues v) {
+    return v.isValueDefined(2);
+  }
 
-	@Override
-	public CorrelationKey getMarcEncoding() {
-		return super.getMarcEncoding().changeSkipInFilingIndicator(getSkipInFiling());
-	}
+  public void setDefault() {
+    ((SBJCT_HDG) super.getDescriptor()).setSourceCode(Global.SUBJECT_SOURCE_CODE_OTHERS);
+  }
 
-	@Override
-	public CorrelationValues getCorrelationValues() {
-		return super.getCorrelationValues().change(3, CorrelationValues.UNDEFINED);
-	}
-
-	@Override
-	public boolean correlationChangeAffectsKey(CorrelationValues v) {
-		return v.isValueDefined(2);
-	}
-	public void setDefault() {
-		((SBJCT_HDG)super.getDescriptor()).setSourceCode(6);
-	}
-	
-	@Override 
-	public void setCorrelationValues(CorrelationValues v) {
-		 ((SBJCT_HDG)super.getDescriptor()).setTypeCode(v.getValue(1));
-		 ((SBJCT_HDG)super.getDescriptor()).setSourceCode(6);
+  @Override
+  public void setCorrelationValues(CorrelationValues v) {
+    ((SBJCT_HDG) super.getDescriptor()).setTypeCode(v.getValue(1));
+    ((SBJCT_HDG) super.getDescriptor()).setSourceCode(Global.SUBJECT_SOURCE_CODE_OTHERS);
   }
 
 }
