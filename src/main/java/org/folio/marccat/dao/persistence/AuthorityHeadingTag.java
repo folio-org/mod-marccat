@@ -129,13 +129,8 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
 
   @Override
   public Integer getHeadingNumber() {
-    int result = -1;
-    if (getAutItm() != null) {
-      result = getAutItm().getHeadingNumber();
-      if (result > 0) {
-        return result;
-      }
-    }
+    // TODO It is an abstract class that should be implemented. At the moment this
+    // function is not used.
     return null;
   }
 }

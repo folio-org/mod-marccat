@@ -14,29 +14,17 @@ import net.sf.hibernate.Session;
  *
  */
 public class AuthorityReferenceTagDAO extends AbstractDAO {
-	@Override
-	public void delete(Persistence p, final Session session) throws HibernateException {
-		AuthorityReferenceTag t = (AuthorityReferenceTag) p;
-		REF ref = t.getReference();
-		ref.getDAO().delete(ref, session);
-	}
 
-	@Override
-	public void save(Persistence p, final Session session) throws HibernateException {
-		AuthorityReferenceTag t = (AuthorityReferenceTag) p;
-		REF ref = t.getReference();
-		ref.getDAO().save(ref, session);
-		if (t.isHasDualIndicator() && T_DUAL_REF.isDual(t.getDualReferenceIndicator())) {
-			REF dualRef = (REF) ref.copy();
-			dualRef.setType(ReferenceType.getReciprocal(ref.getType()));
-			dualRef.getDAO().save(dualRef, session);
-		}
-	}
-
-	@Override
-	public void update(Persistence p, final Session session) throws HibernateException {
-		delete(p, session);
-		save(p, session);
-	}
+  @Override
+  public void save(Persistence p, final Session session) throws HibernateException {
+    AuthorityReferenceTag t = (AuthorityReferenceTag) p;
+    REF ref = t.getReference();
+    ref.getDAO().save(ref, session);
+    if (t.isHasDualIndicator() && T_DUAL_REF.isDual(t.getDualReferenceIndicator())) {
+      REF dualRef = (REF) ref.copy();
+      dualRef.setType(ReferenceType.getReciprocal(ref.getType()));
+      dualRef.getDAO().save(dualRef, session);
+    }
+  }
 
 }
