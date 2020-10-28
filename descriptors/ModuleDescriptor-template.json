@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.0",
+      "version": "2.1",
       "handlers": [
         {
           "methods": [
@@ -27,10 +27,9 @@
             "GET"
           ],
           "pathPattern": "/marccat/searchAuth",
-          "modulePermissions": [
+          "permissionsRequired": [
             "marccat.authority.collection.get"
-          ],
-          "permissionsRequired": []
+          ]
         },
         {
           "methods": [
@@ -227,10 +226,9 @@
             "POST"
           ],
           "pathPattern": "/marccat/authority-record",
-          "modulePermissions": [
+          "permissionsRequired": [
             "marccat.authority.insert.post"
-          ],
-          "permissionsRequired": []
+          ]
         },
         {
           "methods": [

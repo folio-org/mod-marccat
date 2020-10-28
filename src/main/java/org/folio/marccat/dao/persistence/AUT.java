@@ -55,11 +55,6 @@ public class AUT extends ItemEntity implements Persistence, Serializable {
     setEncodingLevel('n');
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see librisuite.business.common.PersistentObject#generateNewKey()
-   */
   public void generateNewKey(final Session session) throws HibernateException {
     SystemNextNumberDAO dao = new SystemNextNumberDAO();
     setAmicusNumber(dao.getNextNumber("AA", session));
