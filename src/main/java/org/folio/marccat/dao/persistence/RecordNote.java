@@ -27,10 +27,6 @@ public class RecordNote extends VariableField implements PersistentObjectWithVie
     setPersistenceState(new PersistenceState());
   }
 
-  public String getContent() {
-    return content;
-  }
-
   @Override
   public int hashCode() {
     return getNoteNbr();

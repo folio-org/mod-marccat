@@ -102,9 +102,6 @@ public class AuthorityStorageService {
 
       if (item == null || item.getTags().isEmpty()) {
         item = insertAuthorityRecord(record, view, lang, configuration);
-      } else {
-        // Actualizar la autoridad
-        // updateAuthorityRecord(record, item, view, configuration);
       }
 
       final AuthorityCatalogDAO dao = new AuthorityCatalogDAO();
@@ -190,14 +187,6 @@ public class AuthorityStorageService {
         newTag.setItemNumber(autItemNumber);
         newTag.markNew();
         item.addTag(newTag);
-        /*
-         * } else if (Global.AUT_NAMES_X.contains(tagNbr) ||
-         * Global.AUT_TITLE_X.contains(tagNbr) || Global.AUT_SUBJECT_X.contains(tagNbr))
-         * { AuthorityReferenceTag newTag = addReferenceToAuthority(tagNbr,
-         * ((AuthorityItem) item).getAutItmData().getHeadingNumber(),
-         * field.getVariableField(), catalog, item, tagImpl, configuration);
-         * item.addTag(newTag);
-         */
       }
 
     });

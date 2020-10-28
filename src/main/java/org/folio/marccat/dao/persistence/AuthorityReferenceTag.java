@@ -21,6 +21,11 @@ import net.sf.hibernate.Session;
 public abstract class AuthorityReferenceTag extends VariableField
     implements PersistsViaItem, PersistentObjectWithView, Browsable, SkipInFiling {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6300884431435412541L;
+
   private static final String VARIANT_CODES = "wehij4";
 
   private AUT autItm;
@@ -30,7 +35,7 @@ public abstract class AuthorityReferenceTag extends VariableField
   private Integer refTypeCorrelationPosition;
   private Descriptor targetDescriptor;
 
-  public AuthorityReferenceTag() {
+  protected AuthorityReferenceTag() {
     super();
     reference = new NME_REF();
     targetDescriptor = new NME_HDG();

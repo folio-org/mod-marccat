@@ -424,8 +424,8 @@ public class TenantService {
       tempFile.deleteOnExit();
       String stringInputStream = IOUtils.toString(inputStream, UTF_8);
       if (isReplaceVariables) {
-        stringInputStream = stringInputStream.replaceAll(":user_name", marccatUser)
-            .replaceAll("password", marccatPassword).replaceAll("database_name", databaseName);
+        stringInputStream = stringInputStream.replace(":user_name", marccatUser)
+            .replace("password", marccatPassword).replace("database_name", databaseName);
       }
       final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));

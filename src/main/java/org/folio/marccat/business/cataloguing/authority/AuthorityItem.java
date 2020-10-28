@@ -69,12 +69,12 @@ public class AuthorityItem extends CatalogItem implements Serializable {
     // function is not used.
 
   }
-  
+
   public void sortTags(Session session) {
-    Collections.sort(getTags(), (o1, o2) -> {
+    Collections.sort(getTags(), (Comparator<Tag>) (o1, o2) -> {
       Tag t1 = o1;
       Tag t2 = o2;
-      return t1.getMarcEncoding(session).getMarcTag().compareTo(t2.getMarcEncoding().getMarcTag());
+      return t1.getMarcEncoding(session).getMarcTag().compareTo(t2.getMarcEncoding(session).getMarcTag());
     });
   }
 }

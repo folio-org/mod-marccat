@@ -1,8 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.folio.marccat.business.descriptor.SkipInFiling;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.shared.CorrelationValues;
@@ -43,10 +40,6 @@ public class AuthorityTitleHeadingTag extends AuthorityHeadingTag implements Ski
   @Override
   public CorrelationKey getMarcEncoding() {
     return super.getMarcEncoding().changeSkipInFilingIndicator(getSkipInFiling());
-  }
-
-  public List<?> getFirstCorrelationList() {
-    return Collections.emptyList();
   }
 
   @Override

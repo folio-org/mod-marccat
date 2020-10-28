@@ -1,5 +1,6 @@
 package org.folio.marccat.business.cataloguing.authority;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -105,7 +106,7 @@ public class AuthorityTagImpl extends TagImpl {
   public Set getValidEditableSubfields(int category) {
     // TODO It is an abstract class that should be implemented. At the moment this
     // function is not used.
-    return null;
+    return Collections.emptySet();
   }
 
   public int getTagCategory(final Heading heading, Session session) {

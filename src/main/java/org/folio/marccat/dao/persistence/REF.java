@@ -90,7 +90,7 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
   /**
    * Instantiates a new ref.
    */
-  public REF() {
+  protected REF() {
     setDefault();
   }
 
