@@ -49,6 +49,7 @@ import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.dao.persistence.Model;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.ReferenceType;
+import org.folio.marccat.dao.persistence.SBJCT_HDG;
 import org.folio.marccat.dao.persistence.SeeAlsoReferenceTag;
 import org.folio.marccat.dao.persistence.SeeReferenceTag;
 import org.folio.marccat.dao.persistence.T_AUT_TAG_CAT;
@@ -152,7 +153,7 @@ public class AuthorityCatalog extends Catalog {
   @Override
   public Tag getNewTag(CatalogItem item, int category, CorrelationValues correlationValues) {
     Tag tag = (Tag) getTagFactory().create(category);
-    
+
     if (correlationValues != null && tag.correlationChangeAffectsKey(correlationValues)) {
       if (tag instanceof HeaderField) {
         tag = (Tag) getFixedFieldFactory().create(correlationValues.getValue(1));
@@ -214,6 +215,15 @@ public class AuthorityCatalog extends Catalog {
     if (correlationValues != null) {
       tag.setCorrelationValues(correlationValues);
     }
+
+    if (tag instanceof AuthorityReferenceTag) {
+      Descriptor descriptor = ((AuthorityReferenceTag) tag).getDescriptor();
+      if (descriptor instanceof SBJCT_HDG) {
+        SBJCT_HDG subject = (SBJCT_HDG) descriptor;
+        subject.setSourceCode(Global.SUBJECT_SOURCE_CODE_OTHERS);
+      }
+    }
+
     tag = (Tag) setItemIfNecessary(item, tag);
     tag.markNew();
     tag.setTagImpl(item.getTagImpl());
