@@ -1,12 +1,12 @@
 #%RAML 1.0
 title:  MARCcat
-version: v1.1
+version: v1.2
 protocols: [ HTTP, HTTPS ]
-baseUri: http://localhost:8080
+baseUri: https://github.com/folio-org/mod-marccat
 
 documentation:
-  - title: MARCcat API (Search API)
-    content: <b>API for interacting with an marc record</b>
+  - title: MARCcat API 
+    content: <b>This documents the API calls for interacting with an marc authority or bibliographic record</b>
 
 types:
   error: !include raml-storage/raml-util/schemas/error.schema
@@ -15,6 +15,7 @@ types:
   searchAuthResult: !include schema/searchAuthResult.json
   searchResultVertical: !include schema/searchResultVertical.json
   searchResultCollection: !include schema/searchResultCollection.json
+  authority: !include schema/authority.json
 
 
 traits:
@@ -125,3 +126,27 @@ resourceTypes:
           body:
             text/plain:
               example: "Query not supported"
+
+  /authority-record:
+    displayName: Create authority marc records
+    type:
+      collection-item:
+        exampleItem: !include examples/name.json
+        schema: authority
+    post:
+      is: [validate
+        ]
+      description: Create authority record
+      responses:
+        201:
+          description: "Authority created"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"  

@@ -1,10 +1,12 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.PersistenceState;
-import java.io.Serializable;
+
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 /**
  * Base class for template models
@@ -56,7 +58,6 @@ public abstract class Model implements Persistence, Serializable {
   public void setFrbrFirstGroup(final Integer frbrFirstGroup) {
     this.frbrFirstGroup = frbrFirstGroup;
   }
-
 
   /**
    * Gets the id.
@@ -219,4 +220,5 @@ public abstract class Model implements Persistence, Serializable {
   public boolean onUpdate(final Session session) throws CallbackException {
     return persistenceState.onUpdate(session);
   }
+
 }
