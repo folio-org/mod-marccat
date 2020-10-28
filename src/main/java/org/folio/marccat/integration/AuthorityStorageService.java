@@ -252,7 +252,8 @@ public class AuthorityStorageService {
       }
 
     }
-    ((AuthorityItem) item).getAutItmData().setHeadingNumber(headingNumber);
+    if (!(newTag instanceof AuthorityReferenceTag))
+      ((AuthorityItem) item).getAutItmData().setHeadingNumber(headingNumber);
 
     item.addTag(newTag);
 
