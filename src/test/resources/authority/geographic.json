@@ -73,79 +73,19 @@
       "added": true
     },
     {
-      "code": "100",
+      "code": "151",
       "mandatory": false,
       "fieldStatus": "new",
       "variableField": {
         "keyNumber": -1,
-        "categoryCode": 2,
-        "headingTypeCode": "1",
-        "itemTypeCode": "2",
-        "functionCode": "-1",
-        "ind1": "1",
-        "ind2": " ",
-        "code": "100",
-        "displayValue": "\u001faIbaiScanbit",
-        "subfields": [],
-        "sequenceNumber": 0,
-        "skipInFiling": 0
-      },
-      "added": false
-    },
-    {
-      "code": "400",
-      "mandatory": false,
-      "fieldStatus": "new",
-      "variableField": {
-        "keyNumber": -1,
-        "categoryCode": 2,
-        "headingTypeCode": "1",
-        "itemTypeCode": "2",
-        "functionCode": "-1",
-        "ind1": "1",
-        "ind2": " ",
-        "code": "400",
-        "displayValue": "\u001faScanbit",
-        "subfields": [],
-        "sequenceNumber": 0,
-        "skipInFiling": 0
-      },
-      "added": false
-    },
-    {
-      "code": "500",
-      "mandatory": false,
-      "fieldStatus": "new",
-      "variableField": {
-        "keyNumber": -1,
-        "categoryCode": 2,
-        "headingTypeCode": "1",
-        "itemTypeCode": "2",
-        "functionCode": "-1",
-        "ind1": "1",
-        "ind2": " ",
-        "code": "500",
-        "displayValue": "\u001faIbai",
-        "subfields": [],
-        "sequenceNumber": 0,
-        "skipInFiling": 0
-      },
-      "added": false
-    },
-    {
-      "code": "670",
-      "mandatory": false,
-      "fieldStatus": "new",
-      "variableField": {
-        "keyNumber": -1,
-        "categoryCode": 7,
-        "headingTypeCode": "1",
+        "categoryCode": 4,
+        "headingTypeCode": "3",
         "itemTypeCode": "2",
         "functionCode": "-1",
         "ind1": " ",
         "ind2": " ",
-        "code": "670",
-        "displayValue": "\u001faEmpresa",
+        "code": "151",
+        "displayValue": "\u001faLa Historia de Espa�a",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0
