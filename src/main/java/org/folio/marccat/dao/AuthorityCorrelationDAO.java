@@ -1,6 +1,5 @@
 package org.folio.marccat.dao;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,13 +46,9 @@ public class AuthorityCorrelationDAO extends RecordCorrelationDAO {
   public List<AuthorityCorrelation> getCategoryCorrelation(final Session session, final String tag,
       final char firstIndicator, final char secondIndicator) throws HibernateException {
 
-    try {
-      return super.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator, queryFrom).stream()
-          .map(s -> (AuthorityCorrelation) s).collect(Collectors.toList());
+    return super.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator, queryFrom).stream()
+        .map(s -> (AuthorityCorrelation) s).collect(Collectors.toList());
 
-    } catch (final HibernateException exception) {
-      return Collections.emptyList();
-    }
   }
 
   /**

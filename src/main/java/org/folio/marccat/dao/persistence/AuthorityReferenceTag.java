@@ -108,22 +108,10 @@ public abstract class AuthorityReferenceTag extends VariableField
   }
 
   public Integer getHeadingNumber() {
-    int result = getAutItm().getHeadingNumber();
-    if (result > 0) {
-      return result;
-    } else {
-      return null;
-    }
+    return null;
   }
 
   public void setHeadingNumber(Integer i) {
-    int setting;
-    if (i == null) {
-      setting = -1;
-    } else {
-      setting = i.intValue();
-    }
-    getReference().setTarget(setting);
   }
 
   public ItemEntity getItemEntity() {

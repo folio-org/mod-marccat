@@ -228,7 +228,7 @@ public class AuthorityStorageService {
         descriptor.getKey().setHeadingNumber(headingNumber);
 
         if (descriptor instanceof SBJCT_HDG)
-          ((SBJCT_HDG) descriptor).setSourceCode(6);
+          ((SBJCT_HDG) descriptor).setSourceCode(Global.SUBJECT_SOURCE_CODE_OTHERS);
 
         heading.setKeyNumber(headingNumber);
         ((Browsable) newTag).setDescriptor(descriptor);
