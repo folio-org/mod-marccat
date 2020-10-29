@@ -365,6 +365,27 @@ public class Global {
     code.put("MIC_POLARITY", T_MIC_PLRTY.class);
     code.put("MIC_REDUCT_RATIO_RANGE", T_MIC_RDCTN_RATIO_RNG.class);
     code.put("MIC_SPEC_DESIGN", T_MIC_SMD.class);
+    // Authority
+    code.put("SUBJECT_DESCRIPTOR", T_AUT_SBJCT_DSCTR.class);
+    code.put("ROMANIZATION_SCHEME", T_AUT_RMNZT_SCHM.class);
+    code.put("BILINGUAL_USAGE", T_AUT_BLNGL_USG.class);
+    code.put("AUT_RECORD_TYPE", T_AUT_REC_TYP.class);
+    code.put("AUT_CATALOGUIG_RULES", T_AUT_CTLGG_RLE.class);
+    code.put("SUBJECT_SYSTEM", T_AUT_SBJCT_SYS.class);
+    code.put("SERIES_TYPE", T_AUT_SRS_TYP.class);
+    code.put("SERIES_NUMBERING", T_AUT_SRS_NBRG.class);
+    code.put("MAIN_ADDED_ENTRY_INDICATOR", T_AUT_MAIN_ADD_ENTRY.class);
+    code.put("SUBJECT_ENTRY_INDICATOR", T_AUT_SBJCT_ENTRY.class);
+    code.put("SERIES_ENTRY_INDICATOR", T_AUT_SRS_ENTRY.class);
+    code.put("SUB_DIVISION_TYPE", T_AUT_SUB_DIV_TYP.class);
+    code.put("GOVERNMENT_AGENCY", T_AUT_GOVT_AGNCY.class);
+    code.put("REFERENCE_STATUS", T_AUT_REF_STUS.class);
+    code.put("AUT_RECORD_REVISION", T_AUT_REC_RVSN.class);
+    code.put("NON_UNIQUE_NAME", T_AUT_NON_UNQ_NME.class);
+    code.put("HEADING_STATUS", T_AUT_HDG_STUS.class);
+    code.put("RECORD_MODIFICATION", T_AUT_REC_MDFTN.class);
+    code.put("CATALOGUING_SOURCE_CODE", T_AUT_CTLGG_SRC.class);
+
     MAP_CODE_LISTS = Collections.unmodifiableMap(code);
   }
 

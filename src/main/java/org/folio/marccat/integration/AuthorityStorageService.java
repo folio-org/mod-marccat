@@ -1,8 +1,10 @@
 package org.folio.marccat.integration;
 
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
+import static org.folio.marccat.util.F.locale;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
@@ -14,17 +16,22 @@ import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
 import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
 import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
 import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.codetable.Avp;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.AuthorityCatalogDAO;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.Authority008Tag;
 import org.folio.marccat.dao.persistence.AuthorityLeader;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.T_AUT_ENCDG_LVL;
+import org.folio.marccat.dao.persistence.T_AUT_REC_STUS;
+import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.Field;
@@ -49,6 +56,47 @@ public class AuthorityStorageService {
 
   public void setStorageService(StorageService storageService) {
     this.storageService = storageService;
+  }
+
+  /**
+   * Returns the record status types associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the record status
+   *         type associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List<Avp<String>> getRecordStatusTypes(final String lang) {
+    final CodeTableDAO dao = new CodeTableDAO();
+    return dao.getList(getStorageService().getSession(), T_AUT_REC_STUS.class, locale(lang));
+  }
+
+  /**
+   * Returns the encoding levels associated with the given language.
+   *
+   * @param lang the language code, used here as a filter criterion.
+   * @return a list of code / description tuples representing the encoding level
+   *         associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List<Avp<String>> getEncodingLevels(final String lang) {
+    final CodeTableDAO dao = new CodeTableDAO();
+    return dao.getList(getStorageService().getSession(), T_AUT_ENCDG_LVL.class, locale(lang));
+  }
+
+  /**
+   * Returns the codes list associated with the given language and key.
+   *
+   * @param lang         the language code, used here as a filter criterion.
+   * @param codeListType the code list type key.
+   * @return a list of code / description tuples representing the date type
+   *         associated with the requested language.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public List<Avp<String>> getCodesList(final String lang, final CodeListsType codeListType) {
+    final CodeTableDAO dao = new CodeTableDAO();
+    return dao.getList(getStorageService().getSession(), Global.MAP_CODE_LISTS.get(codeListType.toString()),
+        locale(lang));
   }
 
   /**

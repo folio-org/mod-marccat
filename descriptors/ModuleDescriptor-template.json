@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.1",
+      "version": "2.4",
       "handlers": [
         {
           "methods": [
@@ -305,6 +305,16 @@
             "GET"
           ],
           "pathPattern": "/marccat/fixed-fields-code-groups",
+          "modulePermissions": [
+            "configuration.all"
+          ],
+          "permissionsRequired": []
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "pathPattern": "/marccat/auth-fixed-fields-code-groups",
           "modulePermissions": [
             "configuration.all"
           ],
