@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -162,7 +161,6 @@ public class TenantLoading {
       logger.debug("TenantLoading.perform No X-Okapi-Url header");
       return;
     }
-    Iterator<LoadingEntry> it = loadingEntries.iterator();
     performR(okapiUrl, headers, loadBibliographicSample);
   }
 

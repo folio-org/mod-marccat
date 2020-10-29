@@ -95,24 +95,4 @@ public class TenantRefService {
 
   }
 
-  /**
-   * Checks if is load sample.
-   *
-   * @param tenantAttributes the tenant attributes
-   * @return true, if is load sample
-   */
-  private boolean isLoadSample(TenantAttributes tenantAttributes) {
-    boolean loadSample = false;
-    List<Parameter> parameters = tenantAttributes.getParameters();
-    for (Parameter parameter : parameters) {
-      logger.debug("Load Sample Parameter " + parameter.getKey());
-      logger.debug("Load Sample Value " + parameter.getValue());
-      if (SAMPLE_KEY.equals(parameter.getKey())) {
-        loadSample = Boolean.parseBoolean(parameter.getValue());
-      }
-    }
-    return loadSample;
-
-  }
-
 }
