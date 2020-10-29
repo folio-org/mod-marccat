@@ -1,5 +1,6 @@
 package org.folio.marccat.dao;
 
+import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.FULL_CACHE;
 import org.folio.marccat.exception.RecordNotFoundException;
@@ -37,7 +38,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       cache.setItemNumber(item.getAmicusNumber());
       cache.setUserView(item.getUserView());
     }
-    item.sortTags();
+    ((AuthorityItem) item).sortTags(session);
     cache.setRecordData(XmlUtils.documentToString(item.toExternalMarcSlim(session)));
     cache.markChanged();
     persistByStatus(cache, session);
