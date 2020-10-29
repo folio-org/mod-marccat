@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.1",
+      "version": "2.5",
       "handlers": [
         {
           "methods": [
@@ -285,6 +285,16 @@
             "POST"
           ],
           "pathPattern": "/marccat/bibliographic-record/fixed-field-display-value",
+          "modulePermissions": [
+            "configuration.all"
+          ],
+          "permissionsRequired": []
+        },
+        {
+          "methods": [
+            "POST"
+          ],
+          "pathPattern": "/marccat/authority-record/fixed-field-display-value",
           "modulePermissions": [
             "configuration.all"
           ],

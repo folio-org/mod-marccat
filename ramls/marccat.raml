@@ -1,6 +1,6 @@
 #%RAML 1.0
 title:  MARCcat
-version: v1.2
+version: v1.5
 protocols: [ HTTP, HTTPS ]
 baseUri: https://github.com/folio-org/mod-marccat
 
@@ -150,3 +150,28 @@ resourceTypes:
           body:
             text/plain:
               example: "Error in validation"  
+
+  /authority-record/fixed-field-display-value:
+    displayName: Change the display value for the authority 008 tag 
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityFixedField008.json
+        schema: authority
+    post:
+      is: [validate
+        ]
+      description: Change the display value for 008 tag
+      responses:
+        201:
+          description: "Display value for 008 changed"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"  
+            
