@@ -3568,41 +3568,11 @@ public class FixedField {
   }
 
   /**
-   * @param subjectDescriptor The subjectDescriptor
-   */
-  @JsonProperty("subjectDescriptor")
-  public void setSubjectDescriptor(String subjectDescriptor) {
-    this.attributes.put("subjectDescriptor", subjectDescriptor);
-    this.subjectDescriptor = subjectDescriptor;
-  }
-
-  public FixedField withSubjectDescriptor(String subjectDescriptor) {
-    this.attributes.put("subjectDescriptor", subjectDescriptor);
-    this.subjectDescriptor = subjectDescriptor;
-    return this;
-  }
-
-  /**
    * @return The romanizationScheme
    */
   @JsonProperty("romanizationScheme")
   public String getRomanizationScheme() {
     return romanizationScheme;
-  }
-
-  /**
-   * @param romanizationScheme The romanizationScheme
-   */
-  @JsonProperty("romanizationScheme")
-  public void setRomanizationScheme(String romanizationScheme) {
-    this.attributes.put("romanizationScheme", romanizationScheme);
-    this.romanizationScheme = romanizationScheme;
-  }
-
-  public FixedField withRomanizationScheme(String romanizationScheme) {
-    this.attributes.put("romanizationScheme", romanizationScheme);
-    this.romanizationScheme = romanizationScheme;
-    return this;
   }
 
   /**
@@ -3614,41 +3584,11 @@ public class FixedField {
   }
 
   /**
-   * @param bilingualUsage The bilingualUsage
-   */
-  @JsonProperty("bilingualUsage")
-  public void setBilingualUsage(String bilingualUsage) {
-    this.attributes.put("bilingualUsage", bilingualUsage);
-    this.bilingualUsage = bilingualUsage;
-  }
-
-  public FixedField withBilingualUsage(String bilingualUsage) {
-    this.attributes.put("bilingualUsage", bilingualUsage);
-    this.bilingualUsage = bilingualUsage;
-    return this;
-  }
-
-  /**
    * @return The recordType
    */
   @JsonProperty("recordType")
   public String getRecordType() {
     return recordType;
-  }
-
-  /**
-   * @param recordType The recordType
-   */
-  @JsonProperty("recordType")
-  public void setRecordType(String recordType) {
-    this.attributes.put("recordType", recordType);
-    this.recordType = recordType;
-  }
-
-  public FixedField withRecordType(String recordType) {
-    this.attributes.put("recordType", recordType);
-    this.recordType = recordType;
-    return this;
   }
 
   /**
@@ -3660,41 +3600,11 @@ public class FixedField {
   }
 
   /**
-   * @param cataloguingRules The cataloguingRules
-   */
-  @JsonProperty("cataloguingRules")
-  public void setCataloguingRules(String cataloguingRules) {
-    this.attributes.put("cataloguingRules", cataloguingRules);
-    this.cataloguingRules = cataloguingRules;
-  }
-
-  public FixedField withCataloguingRules(String cataloguingRules) {
-    this.attributes.put("cataloguingRules", cataloguingRules);
-    this.cataloguingRules = cataloguingRules;
-    return this;
-  }
-
-  /**
    * @return The subjectSystem
    */
   @JsonProperty("subjectSystem")
   public String getSubjectSystem() {
     return subjectSystem;
-  }
-
-  /**
-   * @param subjectSystem The subjectSystem
-   */
-  @JsonProperty("subjectSystem")
-  public void setSubjectSystem(String subjectSystem) {
-    this.attributes.put("subjectSystem", subjectSystem);
-    this.subjectSystem = subjectSystem;
-  }
-
-  public FixedField withSubjectSystem(String subjectSystem) {
-    this.attributes.put("subjectSystem", subjectSystem);
-    this.subjectSystem = subjectSystem;
-    return this;
   }
 
   /**
@@ -3706,41 +3616,11 @@ public class FixedField {
   }
 
   /**
-   * @param seriesType The seriesType
-   */
-  @JsonProperty("seriesType")
-  public void setSeriesType(String seriesType) {
-    this.attributes.put("seriesType", seriesType);
-    this.seriesType = seriesType;
-  }
-
-  public FixedField withSeriesType(String seriesType) {
-    this.attributes.put("seriesType", seriesType);
-    this.seriesType = seriesType;
-    return this;
-  }
-
-  /**
    * @return The seriesNumbering
    */
   @JsonProperty("seriesNumbering")
   public String getSeriesNumbering() {
     return seriesNumbering;
-  }
-
-  /**
-   * @param seriesNumbering The seriesNumbering
-   */
-  @JsonProperty("seriesNumbering")
-  public void setSeriesNumbering(String seriesNumbering) {
-    this.attributes.put("seriesNumbering", seriesNumbering);
-    this.seriesNumbering = seriesNumbering;
-  }
-
-  public FixedField withSeriesNumbering(String seriesNumbering) {
-    this.attributes.put("seriesNumbering", seriesNumbering);
-    this.seriesNumbering = seriesNumbering;
-    return this;
   }
 
   /**
@@ -3752,41 +3632,11 @@ public class FixedField {
   }
 
   /**
-   * @param mainAddedEntryIndicator The mainAddedEntryIndicator
-   */
-  @JsonProperty("mainAddedEntryIndicator")
-  public void setMainAddedEntryIndicator(String mainAddedEntryIndicator) {
-    this.attributes.put("mainAddedEntryIndicator", mainAddedEntryIndicator);
-    this.mainAddedEntryIndicator = mainAddedEntryIndicator;
-  }
-
-  public FixedField withMainAddedEntryIndicator(String mainAddedEntryIndicator) {
-    this.attributes.put("mainAddedEntryIndicator", mainAddedEntryIndicator);
-    this.mainAddedEntryIndicator = mainAddedEntryIndicator;
-    return this;
-  }
-
-  /**
    * @return The subjectEntryIndicator
    */
   @JsonProperty("subjectEntryIndicator")
   public String getSubjectEntryIndicator() {
     return subjectEntryIndicator;
-  }
-
-  /**
-   * @param subjectEntryIndicator The subjectEntryIndicator
-   */
-  @JsonProperty("subjectEntryIndicator")
-  public void setSubjectEntryIndicator(String subjectEntryIndicator) {
-    this.attributes.put("subjectEntryIndicator", subjectEntryIndicator);
-    this.subjectEntryIndicator = subjectEntryIndicator;
-  }
-
-  public FixedField withSubjectEntryIndicator(String subjectEntryIndicator) {
-    this.attributes.put("subjectEntryIndicator", subjectEntryIndicator);
-    this.subjectEntryIndicator = subjectEntryIndicator;
-    return this;
   }
 
   /**
@@ -3798,41 +3648,11 @@ public class FixedField {
   }
 
   /**
-   * @param seriesEntryIndicator The seriesEntryIndicator
-   */
-  @JsonProperty("seriesEntryIndicator")
-  public void setSeriesEntryIndicator(String seriesEntryIndicator) {
-    this.attributes.put("seriesEntryIndicator", seriesEntryIndicator);
-    this.seriesEntryIndicator = seriesEntryIndicator;
-  }
-
-  public FixedField withSeriesEntryIndicator(String seriesEntryIndicator) {
-    this.attributes.put("seriesEntryIndicator", seriesEntryIndicator);
-    this.seriesEntryIndicator = seriesEntryIndicator;
-    return this;
-  }
-
-  /**
    * @return The subDivisionType
    */
   @JsonProperty("subDivisionType")
   public String getSubDivisionType() {
     return subDivisionType;
-  }
-
-  /**
-   * @param subDivisionType The subDivisionType
-   */
-  @JsonProperty("subDivisionType")
-  public void setSubDivisionType(String subDivisionType) {
-    this.attributes.put("subDivisionType", subDivisionType);
-    this.subDivisionType = subDivisionType;
-  }
-
-  public FixedField withSubDivisionType(String subDivisionType) {
-    this.attributes.put("subDivisionType", subDivisionType);
-    this.subDivisionType = subDivisionType;
-    return this;
   }
 
   /**
@@ -3844,41 +3664,11 @@ public class FixedField {
   }
 
   /**
-   * @param governmentAgency The governmentAgency
-   */
-  @JsonProperty("governmentAgency")
-  public void setGovernmentAgency(String governmentAgency) {
-    this.attributes.put("governmentAgency", governmentAgency);
-    this.governmentAgency = governmentAgency;
-  }
-
-  public FixedField withGovernmentAgency(String governmentAgency) {
-    this.attributes.put("governmentAgency", governmentAgency);
-    this.governmentAgency = governmentAgency;
-    return this;
-  }
-
-  /**
    * @return The referenceStatus
    */
   @JsonProperty("referenceStatus")
   public String getReferenceStatus() {
     return referenceStatus;
-  }
-
-  /**
-   * @param referenceStatus The referenceStatus
-   */
-  @JsonProperty("referenceStatus")
-  public void setReferenceStatus(String referenceStatus) {
-    this.attributes.put("referenceStatus", referenceStatus);
-    this.referenceStatus = referenceStatus;
-  }
-
-  public FixedField withReferenceStatus(String referenceStatus) {
-    this.attributes.put("referenceStatus", referenceStatus);
-    this.referenceStatus = referenceStatus;
-    return this;
   }
 
   /**
@@ -3890,41 +3680,11 @@ public class FixedField {
   }
 
   /**
-   * @param recordRevision The recordRevision
-   */
-  @JsonProperty("recordRevision")
-  public void setRecordRevision(String recordRevision) {
-    this.attributes.put("recordRevision", recordRevision);
-    this.recordRevision = recordRevision;
-  }
-
-  public FixedField withRecordRevision(String recordRevision) {
-    this.attributes.put("recordRevision", recordRevision);
-    this.recordRevision = recordRevision;
-    return this;
-  }
-
-  /**
    * @return The nonUniqueName
    */
   @JsonProperty("nonUniqueName")
   public String getNonUniqueName() {
     return nonUniqueName;
-  }
-
-  /**
-   * @param nonUniqueName The nonUniqueName
-   */
-  @JsonProperty("nonUniqueName")
-  public void setNonUniqueName(String nonUniqueName) {
-    this.attributes.put("nonUniqueName", nonUniqueName);
-    this.nonUniqueName = nonUniqueName;
-  }
-
-  public FixedField withNonUniqueName(String nonUniqueName) {
-    this.attributes.put("nonUniqueName", nonUniqueName);
-    this.nonUniqueName = nonUniqueName;
-    return this;
   }
 
   /**
@@ -3936,21 +3696,6 @@ public class FixedField {
   }
 
   /**
-   * @param headingStatus The headingStatus
-   */
-  @JsonProperty("headingStatus")
-  public void setHeadingStatus(String headingStatus) {
-    this.attributes.put("headingStatus", headingStatus);
-    this.headingStatus = headingStatus;
-  }
-
-  public FixedField withHeadingStatus(String headingStatus) {
-    this.attributes.put("headingStatus", headingStatus);
-    this.headingStatus = headingStatus;
-    return this;
-  }
-
-  /**
    * @return The recordModification
    */
   @JsonProperty("recordModification")
@@ -3959,41 +3704,11 @@ public class FixedField {
   }
 
   /**
-   * @param recordModification The recordModification
-   */
-  @JsonProperty("recordModification")
-  public void setRecordModification(String recordModification) {
-    this.attributes.put("recordModification", recordModification);
-    this.recordModification = recordModification;
-  }
-
-  public FixedField withRecordModification(String recordModification) {
-    this.attributes.put("recordModification", recordModification);
-    this.recordModification = recordModification;
-    return this;
-  }
-
-  /**
    * @return The cataloguingSourceCode
    */
   @JsonProperty("cataloguingSourceCode")
   public String getCataloguingSourceCode() {
     return cataloguingSourceCode;
-  }
-
-  /**
-   * @param cataloguingSourceCode The cataloguingSourceCode
-   */
-  @JsonProperty("cataloguingSourceCode")
-  public void setCataloguingSourceCoder(String cataloguingSourceCode) {
-    this.attributes.put("cataloguingSourceCode", cataloguingSourceCode);
-    this.cataloguingSourceCode = cataloguingSourceCode;
-  }
-
-  public FixedField withCataloguingSourceCode(String cataloguingSourceCode) {
-    this.attributes.put("cataloguingSourceCode", cataloguingSourceCode);
-    this.cataloguingSourceCode = cataloguingSourceCode;
-    return this;
   }
 
   /**
