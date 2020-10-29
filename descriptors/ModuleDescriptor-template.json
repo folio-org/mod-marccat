@@ -16,13 +16,13 @@
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/search",
-          "modulePermissions": ["configuration.entries.collection.get"],
-          "permissionsRequired": ["marccat.search.collection.get"]
+          "modulePermissions": ["configuration.all"],
+          "permissionsRequired": []
         },{
           "methods": ["GET"],
           "pathPattern": "/marccat/mergedSearch",
-          "modulePermissions": ["configuration.entries.collection.get"],
-          "permissionsRequired": ["marccat.mergedSearch.collection.get"]
+          "modulePermissions": ["configuration.all"],
+          "permissionsRequired": []
         }, {
           "methods": ["GET"],
           "pathPattern": "/marccat/searchVertical",
@@ -233,13 +233,8 @@
   ],
   "permissionSets": [
     {
-      "permissionName": "marccat.search.collection.get",
-      "displayName": "marccat search collection get",
-      "description": "Get a collection of marc records"
-    },
-    {
-      "permissionName": "marccat.mergedSearch.collection.get",
-      "displayName": "marccat merged search collection get",
+      "permissionName": "marccat.records.collection.get",
+      "displayName": "MARCcat - get marc records collection",
       "description": "Get marc records collection"
     },
     {

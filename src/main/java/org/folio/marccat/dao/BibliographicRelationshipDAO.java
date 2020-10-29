@@ -5,6 +5,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.dao.persistence.BibliographicRelationship;
 import org.folio.marccat.dao.persistence.NameAccessPoint;
@@ -74,9 +75,16 @@ public class BibliographicRelationshipDAO extends AbstractDAO {
 
     final List singleView = isolateViewForList(multiView, userView, session);
     return (!singleView.isEmpty()) ? (BibliographicRelationship) singleView.get(0) : null;
-
   }
 
+  /**
+   * Builds the relation string text.
+   *
+   * @param bibItemNumber the bib item number
+   * @param userView the user view
+   * @param session the session
+   * @return the string text
+   */
   /**
    * Builds the relation string text.
    *
@@ -89,59 +97,63 @@ public class BibliographicRelationshipDAO extends AbstractDAO {
     final StringText stringText = new StringText();
     final BibliographicCatalogDAO catalog = new BibliographicCatalogDAO();
     final BibliographicItem item = catalog.getBibliographicItemWithoutRelationships(bibItemNumber, userView, session);
-
-    VariableField t = (VariableField) item.findFirstTagByNumber("1", session);
+    item.getTags().forEach(tag -> {
+      tag.setTagImpl(new BibliographicTagImpl());
+      catalog.addHeaderType(session, tag);
+      tag.setCorrelationKey(tag.getTagImpl().getMarcEncoding(tag, session));
+    });
+    VariableField t = (VariableField) item.findFirstTagByNumber("1");
     if (t instanceof NameAccessPoint) {
       stringText.addSubfield(new Subfield("a", t.getStringText().toDisplayString()));
     }
 
-    t = (VariableField) item.findFirstTagByNumber("130", session);
+    t = (VariableField) item.findFirstTagByNumber("130");
 
     if (t != null) {
       stringText.addSubfield(new Subfield("t", t.getStringText().toDisplayString()));
     } else {
-      t = (VariableField) item.findFirstTagByNumber("245", session);
+      t = (VariableField) item.findFirstTagByNumber("245");
       if (t != null) {
         stringText.addSubfield(new Subfield("t", t.getStringText().toDisplayString()));
       }
     }
 
-    t = (VariableField) item.findFirstTagByNumber("210", session);
+    t = (VariableField) item.findFirstTagByNumber("210");
     if (t != null) {
       stringText.addSubfield(new Subfield("p", t.getStringText().toDisplayString()));
     }
 
-    t = (VariableField) item.findFirstTagByNumber("250", session);
+    t = (VariableField) item.findFirstTagByNumber("250");
     if (t != null) {
       stringText.addSubfield(new Subfield("b", t.getStringText().toDisplayString()));
     }
 
-    t = (VariableField) item.findFirstTagByNumber("260", session);
+    t = (VariableField) item.findFirstTagByNumber("260");
     if (t != null) {
       stringText.addSubfield(new Subfield("d", t.getStringText().toDisplayString()));
     }
 
-    t = (VariableField) item.findFirstTagByNumber("020", session);
+    t = (VariableField) item.findFirstTagByNumber("020");
     if (t != null) {
       stringText.addSubfield(new Subfield("z", t.getStringText().toDisplayString()));
     } else {
-      t = (VariableField) item.findFirstTagByNumber("022", session);
+      t = (VariableField) item.findFirstTagByNumber("022");
       if (t != null) {
         stringText.addSubfield(new Subfield("x", t.getStringText().toDisplayString()));
       }
     }
 
-    t = (VariableField) item.findFirstTagByNumber("088", session);
+    t = (VariableField) item.findFirstTagByNumber("088");
     if (t != null) {
       stringText.addSubfield(new Subfield("r", t.getStringText().toDisplayString()));
     }
 
-    t = (VariableField) item.findFirstTagByNumber("027", session);
+    t = (VariableField) item.findFirstTagByNumber("027");
     if (t != null) {
       stringText.addSubfield(new Subfield("u", t.getStringText().toDisplayString()));
     }
 
-    t = (VariableField) item.findFirstTagByNumber("030", session);
+    t = (VariableField) item.findFirstTagByNumber("030");
     if (t != null) {
       stringText.addSubfield(new Subfield("y", t.getStringText().toDisplayString()));
     }
@@ -150,6 +162,7 @@ public class BibliographicRelationshipDAO extends AbstractDAO {
     stringText.addSubfield(new Subfield("f", item.getBibItmData().getMarcCountryCode()));
     return stringText;
   }
+
 
 
 

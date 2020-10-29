@@ -71,7 +71,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @param session      -- the current session hibernate.
    * @param tag          -- the tag.
    */
-  private void addHeaderType(final Session session, final Tag tag){
+  public void addHeaderType(final Session session, final Tag tag){
     if (tag instanceof MaterialDescription) {
       final MaterialDescription materialTag = (MaterialDescription) tag;
       final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();

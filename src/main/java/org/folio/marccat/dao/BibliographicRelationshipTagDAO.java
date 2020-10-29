@@ -10,8 +10,6 @@ import org.folio.marccat.business.common.UpdateStatus;
 import org.folio.marccat.dao.persistence.BibliographicRelationReciprocal;
 import org.folio.marccat.dao.persistence.BibliographicRelationship;
 import org.folio.marccat.dao.persistence.BibliographicRelationshipTag;
-import org.folio.marccat.dao.persistence.RelationReciprocal;
-
 import java.util.List;
 
 /**

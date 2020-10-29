@@ -10,10 +10,10 @@ import org.folio.marccat.shared.CorrelationValues;
 public abstract class FixedField extends Tag implements HeaderField {
   private HeaderFieldHelper headerField = new BibliographicHeaderFieldHelper();
 
-  public FixedField() {
+  protected FixedField() {
   }
 
-  public FixedField(int itemNumber) {
+  protected FixedField(int itemNumber) {
     super(itemNumber);
   }
 
