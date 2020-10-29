@@ -19,7 +19,6 @@ import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
-import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -148,10 +147,9 @@ public class TenantLoading {
    *
    * See {@link TenantLoading} for an example.
    *
-   * @param ta      Tenant Attributes as they are passed via Okapi install
    * @param headers Okapi headers taken verbatim from RMBs handler loaded.
    */
-  public void perform(TenantAttributes ta, Map<String, String> headers) {
+  public void perform(Map<String, String> headers) {
 
     String okapiUrl = headers.get("X-Okapi-Url-to");
     if (okapiUrl == null) {
@@ -163,20 +161,19 @@ public class TenantLoading {
       return;
     }
     Iterator<LoadingEntry> it = loadingEntries.iterator();
-    performR(okapiUrl, ta, headers, it);
+    performR(okapiUrl, headers, it);
   }
 
   /**
    * Perform R.
    *
    * @param okapiUrl the okapi url
-   * @param ta       the ta
    * @param headers  the headers
    * @param it       the it
    */
-  private void performR(String okapiUrl, TenantAttributes ta, Map<String, String> headers, Iterator<LoadingEntry> it) {
+  private void performR(String okapiUrl, Map<String, String> headers, Iterator<LoadingEntry> it) {
 
-    // loadDataBibliographic(okapiUrl, headers);
+    loadDataBibliographic(okapiUrl, headers);
     loadDataAuthority(okapiUrl, headers);
   }
 
