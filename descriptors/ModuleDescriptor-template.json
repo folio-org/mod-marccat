@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.1",
+      "version": "2.2",
       "handlers": [
         {
           "methods": [
@@ -255,6 +255,16 @@
             "DELETE"
           ],
           "pathPattern": "/marccat/bibliographic-record/{id}",
+          "modulePermissions": [
+            "configuration.all"
+          ],
+          "permissionsRequired": []
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "pathPattern": "/marccat/authority-record/from-template/{idTemplate}",
           "modulePermissions": [
             "configuration.all"
           ],
