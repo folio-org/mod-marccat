@@ -3576,12 +3576,6 @@ public class FixedField {
     this.subjectDescriptor = subjectDescriptor;
   }
 
-  public FixedField withSubjectDescriptor(String subjectDescriptor) {
-    this.attributes.put("subjectDescriptor", subjectDescriptor);
-    this.subjectDescriptor = subjectDescriptor;
-    return this;
-  }
-
   /**
    * @return The romanizationScheme
    */
@@ -3597,12 +3591,6 @@ public class FixedField {
   public void setRomanizationScheme(String romanizationScheme) {
     this.attributes.put("romanizationScheme", romanizationScheme);
     this.romanizationScheme = romanizationScheme;
-  }
-
-  public FixedField withRomanizationScheme(String romanizationScheme) {
-    this.attributes.put("romanizationScheme", romanizationScheme);
-    this.romanizationScheme = romanizationScheme;
-    return this;
   }
 
   /**
@@ -3622,12 +3610,6 @@ public class FixedField {
     this.bilingualUsage = bilingualUsage;
   }
 
-  public FixedField withBilingualUsage(String bilingualUsage) {
-    this.attributes.put("bilingualUsage", bilingualUsage);
-    this.bilingualUsage = bilingualUsage;
-    return this;
-  }
-
   /**
    * @return The recordType
    */
@@ -3643,12 +3625,6 @@ public class FixedField {
   public void setRecordType(String recordType) {
     this.attributes.put("recordType", recordType);
     this.recordType = recordType;
-  }
-
-  public FixedField withRecordType(String recordType) {
-    this.attributes.put("recordType", recordType);
-    this.recordType = recordType;
-    return this;
   }
 
   /**
@@ -3668,12 +3644,6 @@ public class FixedField {
     this.cataloguingRules = cataloguingRules;
   }
 
-  public FixedField withCataloguingRules(String cataloguingRules) {
-    this.attributes.put("cataloguingRules", cataloguingRules);
-    this.cataloguingRules = cataloguingRules;
-    return this;
-  }
-
   /**
    * @return The subjectSystem
    */
@@ -3689,12 +3659,6 @@ public class FixedField {
   public void setSubjectSystem(String subjectSystem) {
     this.attributes.put("subjectSystem", subjectSystem);
     this.subjectSystem = subjectSystem;
-  }
-
-  public FixedField withSubjectSystem(String subjectSystem) {
-    this.attributes.put("subjectSystem", subjectSystem);
-    this.subjectSystem = subjectSystem;
-    return this;
   }
 
   /**
@@ -3714,12 +3678,6 @@ public class FixedField {
     this.seriesType = seriesType;
   }
 
-  public FixedField withSeriesType(String seriesType) {
-    this.attributes.put("seriesType", seriesType);
-    this.seriesType = seriesType;
-    return this;
-  }
-
   /**
    * @return The seriesNumbering
    */
@@ -3735,12 +3693,6 @@ public class FixedField {
   public void setSeriesNumbering(String seriesNumbering) {
     this.attributes.put("seriesNumbering", seriesNumbering);
     this.seriesNumbering = seriesNumbering;
-  }
-
-  public FixedField withSeriesNumbering(String seriesNumbering) {
-    this.attributes.put("seriesNumbering", seriesNumbering);
-    this.seriesNumbering = seriesNumbering;
-    return this;
   }
 
   /**
@@ -3760,12 +3712,6 @@ public class FixedField {
     this.mainAddedEntryIndicator = mainAddedEntryIndicator;
   }
 
-  public FixedField withMainAddedEntryIndicator(String mainAddedEntryIndicator) {
-    this.attributes.put("mainAddedEntryIndicator", mainAddedEntryIndicator);
-    this.mainAddedEntryIndicator = mainAddedEntryIndicator;
-    return this;
-  }
-
   /**
    * @return The subjectEntryIndicator
    */
@@ -3781,12 +3727,6 @@ public class FixedField {
   public void setSubjectEntryIndicator(String subjectEntryIndicator) {
     this.attributes.put("subjectEntryIndicator", subjectEntryIndicator);
     this.subjectEntryIndicator = subjectEntryIndicator;
-  }
-
-  public FixedField withSubjectEntryIndicator(String subjectEntryIndicator) {
-    this.attributes.put("subjectEntryIndicator", subjectEntryIndicator);
-    this.subjectEntryIndicator = subjectEntryIndicator;
-    return this;
   }
 
   /**
@@ -3806,12 +3746,6 @@ public class FixedField {
     this.seriesEntryIndicator = seriesEntryIndicator;
   }
 
-  public FixedField withSeriesEntryIndicator(String seriesEntryIndicator) {
-    this.attributes.put("seriesEntryIndicator", seriesEntryIndicator);
-    this.seriesEntryIndicator = seriesEntryIndicator;
-    return this;
-  }
-
   /**
    * @return The subDivisionType
    */
@@ -3827,12 +3761,6 @@ public class FixedField {
   public void setSubDivisionType(String subDivisionType) {
     this.attributes.put("subDivisionType", subDivisionType);
     this.subDivisionType = subDivisionType;
-  }
-
-  public FixedField withSubDivisionType(String subDivisionType) {
-    this.attributes.put("subDivisionType", subDivisionType);
-    this.subDivisionType = subDivisionType;
-    return this;
   }
 
   /**
@@ -3852,12 +3780,6 @@ public class FixedField {
     this.governmentAgency = governmentAgency;
   }
 
-  public FixedField withGovernmentAgency(String governmentAgency) {
-    this.attributes.put("governmentAgency", governmentAgency);
-    this.governmentAgency = governmentAgency;
-    return this;
-  }
-
   /**
    * @return The referenceStatus
    */
@@ -3873,12 +3795,6 @@ public class FixedField {
   public void setReferenceStatus(String referenceStatus) {
     this.attributes.put("referenceStatus", referenceStatus);
     this.referenceStatus = referenceStatus;
-  }
-
-  public FixedField withReferenceStatus(String referenceStatus) {
-    this.attributes.put("referenceStatus", referenceStatus);
-    this.referenceStatus = referenceStatus;
-    return this;
   }
 
   /**
@@ -3898,12 +3814,6 @@ public class FixedField {
     this.recordRevision = recordRevision;
   }
 
-  public FixedField withRecordRevision(String recordRevision) {
-    this.attributes.put("recordRevision", recordRevision);
-    this.recordRevision = recordRevision;
-    return this;
-  }
-
   /**
    * @return The nonUniqueName
    */
@@ -3919,12 +3829,6 @@ public class FixedField {
   public void setNonUniqueName(String nonUniqueName) {
     this.attributes.put("nonUniqueName", nonUniqueName);
     this.nonUniqueName = nonUniqueName;
-  }
-
-  public FixedField withNonUniqueName(String nonUniqueName) {
-    this.attributes.put("nonUniqueName", nonUniqueName);
-    this.nonUniqueName = nonUniqueName;
-    return this;
   }
 
   /**
@@ -3944,12 +3848,6 @@ public class FixedField {
     this.headingStatus = headingStatus;
   }
 
-  public FixedField withHeadingStatus(String headingStatus) {
-    this.attributes.put("headingStatus", headingStatus);
-    this.headingStatus = headingStatus;
-    return this;
-  }
-
   /**
    * @return The recordModification
    */
@@ -3967,12 +3865,6 @@ public class FixedField {
     this.recordModification = recordModification;
   }
 
-  public FixedField withRecordModification(String recordModification) {
-    this.attributes.put("recordModification", recordModification);
-    this.recordModification = recordModification;
-    return this;
-  }
-
   /**
    * @return The cataloguingSourceCode
    */
@@ -3988,12 +3880,6 @@ public class FixedField {
   public void setCataloguingSourceCoder(String cataloguingSourceCode) {
     this.attributes.put("cataloguingSourceCode", cataloguingSourceCode);
     this.cataloguingSourceCode = cataloguingSourceCode;
-  }
-
-  public FixedField withCataloguingSourceCode(String cataloguingSourceCode) {
-    this.attributes.put("cataloguingSourceCode", cataloguingSourceCode);
-    this.cataloguingSourceCode = cataloguingSourceCode;
-    return this;
   }
 
   /**
