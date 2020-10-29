@@ -142,7 +142,7 @@ public class BrowseTest extends TestBase {
     Map <String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
-      .param("query", "NTN Alessandro Manzoni. Promessi sposi")
+      .param("query", "NTT Alessandro Manzoni. Promessi sposi")
       .param("view", "1")
       .param("mainLibrary", "172")
       .param("pageSize", "10")
