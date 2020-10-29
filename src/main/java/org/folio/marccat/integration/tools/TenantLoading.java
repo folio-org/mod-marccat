@@ -147,9 +147,11 @@ public class TenantLoading {
    *
    * See {@link TenantLoading} for an example.
    *
-   * @param headers Okapi headers taken verbatim from RMBs handler loaded.
+   * @param headers                 Okapi headers taken verbatim from RMBs handler
+   *                                loaded.
+   * @param loadBibliographicSample
    */
-  public void perform(Map<String, String> headers) {
+  public void perform(Map<String, String> headers, boolean loadBibliographicSample) {
 
     String okapiUrl = headers.get("X-Okapi-Url-to");
     if (okapiUrl == null) {
@@ -161,19 +163,22 @@ public class TenantLoading {
       return;
     }
     Iterator<LoadingEntry> it = loadingEntries.iterator();
-    performR(okapiUrl, headers, it);
+    performR(okapiUrl, headers, loadBibliographicSample);
   }
 
   /**
    * Perform R.
    *
-   * @param okapiUrl the okapi url
-   * @param headers  the headers
-   * @param it       the it
+   * @param okapiUrl                the okapi url
+   * @param headers                 the headers
+   * @param it                      the it
+   * @param loadBibliographicSample
    */
-  private void performR(String okapiUrl, Map<String, String> headers, Iterator<LoadingEntry> it) {
+  private void performR(String okapiUrl, Map<String, String> headers, boolean loadBibliographicSample) {
 
-    loadDataBibliographic(okapiUrl, headers);
+    if (loadBibliographicSample) {
+      loadDataBibliographic(okapiUrl, headers);
+    }
     loadDataAuthority(okapiUrl, headers);
   }
 

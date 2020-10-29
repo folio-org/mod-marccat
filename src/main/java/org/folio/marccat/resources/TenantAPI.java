@@ -36,13 +36,14 @@ public class TenantAPI {
   @PostMapping
   public ResponseEntity<String> create(
       @RequestParam(name = "loadSample", defaultValue = "false") final boolean loadSample,
+      @RequestParam(name = "loadBibliographicSample", defaultValue = "true") final boolean loadBibliographicSample,
       @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant, @RequestHeader(Global.OKAPI_URL) String okapiUrl,
       @RequestHeader(Global.OKAPI_TO_URL) String okapiUrlTo, @RequestBody TenantAttributes attributes)
       throws SQLException, IOException {
     addHeaders(tenant, okapiUrl, okapiUrlTo);
     tenantService.createTenant(tenant, okapiUrl);
     if (!okapiUrl.isEmpty())
-      tenantRefService.loadData(attributes, okapiHeaders, loadSample);
+      tenantRefService.loadData(attributes, okapiHeaders, loadSample, loadBibliographicSample);
     return new ResponseEntity("Success", CREATED);
   }
 

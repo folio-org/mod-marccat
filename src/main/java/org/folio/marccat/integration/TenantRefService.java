@@ -38,15 +38,17 @@ public class TenantRefService {
   /**
    * Load data.
    *
-   * @param tenantAttributes the tenant attributes
-   * @param headers          the headers
+   * @param tenantAttributes        the tenant attributes
+   * @param headers                 the headers
+   * @param loadBibliographicSample
    */
-  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers, boolean loadSample) {
+  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers, boolean loadSample,
+      boolean loadBibliographicSample) {
     logger.debug("Start sample data loading");
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl, loadSample);
     logger.debug("Is Load data " + loadData);
     // if (loadData) {
-    tl.perform(headers);
+    tl.perform(headers, loadBibliographicSample);
     // }
     logger.debug("End sample data loading");
   }
@@ -54,9 +56,10 @@ public class TenantRefService {
   /**
    * Builds the data loading parameters.
    *
-   * @param tenantAttributes the tenant attributes
-   * @param tl               the tl
+   * @param tenantAttributes        the tenant attributes
+   * @param tl                      the tl
    * @param loadSample
+   * @param loadBibliographicSample
    * @return true, if successful
    */
   private boolean buildDataLoadingParameters(TenantAttributes tenantAttributes, TenantLoading tl, boolean loadSample) {

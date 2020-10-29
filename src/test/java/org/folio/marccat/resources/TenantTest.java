@@ -35,7 +35,8 @@ public class TenantTest extends TestBase {
     }
     jo.put("module_to", moduleTo);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    Response response = given().headers(headers).queryParam("loadSample", "true").body(jo).when().post(url);
+    Response response = given().headers(headers).queryParam("loadSample", "true")
+        .queryParam("loadBibliographicSample", "false").body(jo).when().post(url);
 
     String failureMessage = String.format("Tenant init failed: %s: %s", response.getStatusCode(), response.getBody());
 
