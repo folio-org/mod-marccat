@@ -77,14 +77,7 @@ public class BibliographicRelationshipDAO extends AbstractDAO {
     return (!singleView.isEmpty()) ? (BibliographicRelationship) singleView.get(0) : null;
   }
 
-  /**
-   * Builds the relation string text.
-   *
-   * @param bibItemNumber the bib item number
-   * @param userView the user view
-   * @param session the session
-   * @return the string text
-   */
+ 
   /**
    * Builds the relation string text.
    *
