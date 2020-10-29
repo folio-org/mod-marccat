@@ -1,6 +1,8 @@
 package org.folio.marccat;
 
-import io.restassured.RestAssured;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.integration.MarccatHelper;
 import org.junit.Before;
@@ -9,9 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import io.restassured.RestAssured;
 
 /**
  * The Class TestBase.
@@ -37,8 +37,7 @@ public class TestBase {
 
   /** The marccat password. */
   @Value("${marccat.password}")
-  private  String marccatPassword;
-
+  private String marccatPassword;
 
   /** The database url. */
   @Value("${marccat.database.url}")
@@ -71,7 +70,7 @@ public class TestBase {
   /**
    * Adds the default headers.
    *
-   * @param url the url
+   * @param url      the url
    * @param tenantId the tenant id
    * @return the map
    */
@@ -79,14 +78,11 @@ public class TestBase {
     Map<String, String> headers = new HashMap<>();
     headers.put(Global.OKAPI_TENANT_HEADER_NAME, tenantId);
     if (url != null) {
-      headers.put(Global.OKAPI_URL, "");
-      headers.put(Global.OKAPI_TO_URL, "");
+      headers.put(Global.OKAPI_URL, "http://localhost:8080");
+      headers.put(Global.OKAPI_TO_URL, "http://localhost:8080");
       headers.put("Content-Type", "application/json");
     }
     return headers;
   }
-
-
-
 
 }

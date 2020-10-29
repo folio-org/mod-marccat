@@ -1,13 +1,14 @@
 package org.folio.marccat.integration;
 
+import java.util.List;
+import java.util.Map;
+
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.integration.tools.TenantLoading;
 import org.folio.rest.jaxrs.model.Parameter;
 import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 /**
  * The Class TenantRefService.
@@ -34,39 +35,37 @@ public class TenantRefService {
   @Autowired
   private TenantLoading tl;
 
-
   /**
    * Load data.
    *
    * @param tenantAttributes the tenant attributes
-   * @param headers the headers
+   * @param headers          the headers
    */
-  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers){
+  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers, boolean loadSample) {
     logger.debug("Start sample data loading");
-    boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
+    boolean loadData = buildDataLoadingParameters(tenantAttributes, tl, loadSample);
     logger.debug("Is Load data " + loadData);
-  // if (loadData) {
-      tl.perform(tenantAttributes, headers);
-   // }
+    // if (loadData) {
+    tl.perform(tenantAttributes, headers);
+    // }
     logger.debug("End sample data loading");
   }
-
 
   /**
    * Builds the data loading parameters.
    *
    * @param tenantAttributes the tenant attributes
-   * @param tl the tl
+   * @param tl               the tl
+   * @param loadSample
    * @return true, if successful
    */
-  private boolean buildDataLoadingParameters(TenantAttributes tenantAttributes, TenantLoading tl) {
+  private boolean buildDataLoadingParameters(TenantAttributes tenantAttributes, TenantLoading tl, boolean loadSample) {
     boolean loadData = false;
     if (isLoadReference(tenantAttributes)) {
-      tl.withKey(REFERENCE_KEY)
-        .withLead(REFERENCE_LEAD);
+      tl.withKey(REFERENCE_KEY).withLead(REFERENCE_LEAD);
       loadData = true;
     }
-    if (isLoadSample(tenantAttributes)) {
+    if (loadSample) {
       tl.withKey(SAMPLE_KEY).withLead(SAMPLE_LEAD);
       tl.add("load-from-file", "marccat/load-from-file");
       loadData = true;
@@ -112,6 +111,5 @@ public class TenantRefService {
     return loadSample;
 
   }
-
 
 }

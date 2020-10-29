@@ -33,7 +33,8 @@ public class AuthorityRecordAPI extends BaseResource {
   public ResponseEntity<Object> save(@RequestBody final AuthorityRecord record,
       // ContainerRecordTemplate container,
       @RequestParam(name = "view", defaultValue = View.DEFAULT_AUTHORITY_VIEW_AS_STRING) final int view,
-      @RequestParam final String lang, @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestParam(name = "lang", defaultValue = "eng") final String lang,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
       @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     return doPost((storageService, configuration) -> {
