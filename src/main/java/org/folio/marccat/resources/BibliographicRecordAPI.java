@@ -9,7 +9,6 @@ import static org.folio.marccat.integration.MarccatHelper.doPut;
 import static org.folio.marccat.resources.shared.ConversionFieldUtils.getDisplayValueOfMaterial;
 import static org.folio.marccat.resources.shared.ConversionFieldUtils.getDisplayValueOfPhysicalInformation;
 import static org.folio.marccat.resources.shared.RecordUtils.addTagTransactionDate;
-import static org.folio.marccat.resources.shared.RecordUtils.getLeaderValue;
 import static org.folio.marccat.resources.shared.RecordUtils.isMandatory;
 import static org.folio.marccat.resources.shared.RecordUtils.resetStatus;
 import static org.folio.marccat.resources.shared.RecordUtils.setCategory;
@@ -30,7 +29,6 @@ import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.resources.domain.LockEntityType;
 import org.folio.marccat.resources.domain.RecordTemplate;
-import org.folio.marccat.resources.domain.VariableField;
 import org.folio.marccat.resources.shared.ConversionFieldUtils;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
 import org.folio.marccat.shared.GeneralInformation;
@@ -77,59 +75,9 @@ public class BibliographicRecordAPI extends BaseResource {
       @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
       @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
-
-      BibliographicRecord bibliographicRecord = new BibliographicRecord();
       final RecordTemplate template = storageService.getBibliographicRecordRecordTemplatesById(idTemplate);
-      bibliographicRecord.setId(storageService.generateNewKey(Global.AN_KEY_CODE_FIELD));
-      bibliographicRecord
-          .setLeader(ofNullable(template.getLeader()).map(leader -> template.getLeader()).orElseGet(() -> {
-            Leader leader = new Leader();
-            leader.setCode(Global.LEADER_TAG_NUMBER);
-            leader.setValue(getLeaderValue(true));
-            return leader;
-          }));
-
-      for (Field field : template.getFields()) {
-        if (field.isMandatory() && !field.getCode().equals(Global.DATETIME_TRANSACTION_TAG_CODE)) {
-          if (field.getCode().equals(Global.CONTROL_NUMBER_TAG_CODE)) {
-            FixedField controlNumber = field.getFixedField();
-            controlNumber.setDisplayValue(F.padNumber("0", 11, bibliographicRecord.getId()));
-            field.setFixedField(controlNumber);
-          }
-          if (field.getCode().equals(Global.MATERIAL_TAG_CODE)) {
-            FixedField materialTag = field.getFixedField();
-            String dateEnteredOnFile = F.getFormattedToday("yyMMdd");
-            materialTag.setDateEnteredOnFile(dateEnteredOnFile);
-            materialTag.setDisplayValue(dateEnteredOnFile + materialTag.getDisplayValue().substring(6));
-            field.setFixedField(materialTag);
-          }
-          if (field.getCode().equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
-            VariableField variableField = field.getVariableField();
-            variableField.setValue(configuration.get("bibliographicItem.cataloguingSourceStringText"));
-          }
-          field.setFieldStatus(Field.FieldStatus.NEW);
-          bibliographicRecord.getFields().add(field);
-        }
-      }
-
-      FixedField fixed005 = new FixedField();
-      fixed005.setHeaderTypeCode(Global.DATETIME_TRANSACION_HEADER_TYPE);
-      fixed005.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
-      fixed005.setDisplayValue(F.getFormattedToday("yyyyMMddHHmmss."));
-      fixed005.setCategoryCode(Global.INT_CATEGORY);
-      fixed005.setDescription(
-          storageService.getHeadingTypeDescription(Global.DATETIME_TRANSACION_HEADER_TYPE, lang, Global.INT_CATEGORY));
-
-      final Field field = new Field();
-      field.setCode(Global.DATETIME_TRANSACTION_TAG_CODE);
-      field.setMandatory(true);
-      field.setFixedField(fixed005);
-      field.setFieldStatus(Field.FieldStatus.NEW);
-      bibliographicRecord.getFields().add(1, field);
-
-      bibliographicRecord.setVerificationLevel(configuration.get("bibliographicItem.verificationLevel"));
-      bibliographicRecord.setCanadianContentIndicator("0");
-      resetStatus(bibliographicRecord);
+      BibliographicRecord bibliographicRecord = new BibliographicRecord();
+      getEmptyRecord(true, bibliographicRecord, template, lang, configuration, storageService);
       return bibliographicRecord;
     }, tenant, okapiUrl, configurator);
   }
