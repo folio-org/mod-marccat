@@ -5,13 +5,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
 import org.folio.marccat.StorageTestSuite;
 import org.folio.marccat.TestBase;
-import org.json.JSONObject;
+import org.folio.rest.jaxrs.model.Parameter;
+import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
@@ -28,16 +31,26 @@ public class TenantTest extends TestBase {
   public void create_withLoadData()
       throws InterruptedException, ExecutionException, TimeoutException, MalformedURLException {
     String url = getURI("/_/tenant");
-    JSONObject jo = new JSONObject();
-    String moduleFrom = "mod-marccat-2.3.0";
-    String moduleTo = "";
-    if (moduleFrom != null) {
-      jo.put("module_from", moduleFrom);
-    }
-    jo.put("module_to", moduleTo);
+
+    TenantAttributes ta = new TenantAttributes();
+    ta.setModuleFrom("mod-marccat-2.3.0");
+    ta.setModuleTo("");
+
+    Parameter p = new Parameter();
+    p.setKey("loadSample");
+    p.setValue("true");
+
+    Parameter p2 = new Parameter();
+    p2.setKey("loadReference");
+    p2.setValue("false");
+
+    Parameter p3 = new Parameter();
+    p3.setKey("loadBibliographicSample");
+    p3.setValue("false");
+    List<Parameter> parameters = Arrays.asList(p, p2, p3);
+    ta.setParameters(parameters);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    Response response = given().headers(headers).queryParam("loadSample", "true")
-        .queryParam("loadBibliographicSample", "false").body(jo).when().post(url);
+    Response response = given().headers(headers).body(ta).when().post(url);
 
     String failureMessage = String.format("Tenant init failed: %s: %s", response.getStatusCode(), response.getBody());
 
@@ -49,16 +62,27 @@ public class TenantTest extends TestBase {
   public void create_withoutLoadData()
       throws InterruptedException, ExecutionException, TimeoutException, MalformedURLException {
     String url = getURI("/_/tenant");
-    JSONObject jo = new JSONObject();
-    String moduleFrom = "mod-marccat-2.3.0";
-    String moduleTo = "";
-    if (moduleFrom != null) {
-      jo.put("module_from", moduleFrom);
-    }
-    jo.put("module_to", moduleTo);
+
+    TenantAttributes ta = new TenantAttributes();
+    ta.setModuleFrom("mod-marccat-2.3.0");
+    ta.setModuleTo("");
+
+    Parameter p = new Parameter();
+    p.setKey("loadSample");
+    p.setValue("false");
+
+    Parameter p2 = new Parameter();
+    p2.setKey("loadReference");
+    p2.setValue("false");
+
+    Parameter p3 = new Parameter();
+    p3.setKey("loadBibliographicSample");
+    p3.setValue("false");
+    List<Parameter> parameters = Arrays.asList(p, p2, p3);
+    ta.setParameters(parameters);
+
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    Response response = given().headers(headers).queryParam("loadSample", "false")
-        .queryParam("loadBibliographicSample", "false").body(jo).when().post(url);
+    Response response = given().headers(headers).body(ta).when().post(url);
 
     String failureMessage = String.format("Tenant init failed: %s: %s", response.getStatusCode(), response.getBody());
 
@@ -70,16 +94,27 @@ public class TenantTest extends TestBase {
   public void create_withLoadReference()
       throws InterruptedException, ExecutionException, TimeoutException, MalformedURLException {
     String url = getURI("/_/tenant");
-    JSONObject jo = new JSONObject();
-    String moduleFrom = "mod-marccat-2.3.0";
-    String moduleTo = "";
-    if (moduleFrom != null) {
-      jo.put("module_from", moduleFrom);
-    }
-    jo.put("module_to", moduleTo);
+
+    TenantAttributes ta = new TenantAttributes();
+    ta.setModuleFrom("mod-marccat-2.3.0");
+    ta.setModuleTo("");
+
+    Parameter p = new Parameter();
+    p.setKey("loadSample");
+    p.setValue("true");
+
+    Parameter p2 = new Parameter();
+    p2.setKey("loadReference");
+    p2.setValue("true");
+
+    Parameter p3 = new Parameter();
+    p3.setKey("loadBibliographicSample");
+    p3.setValue("false");
+    List<Parameter> parameters = Arrays.asList(p, p2, p3);
+    ta.setParameters(parameters);
+
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    Response response = given().headers(headers).queryParam("loadReference", "true")
-        .queryParam("loadBibliographicSample", "false").body(jo).when().post(url);
+    Response response = given().headers(headers).body(ta).when().post(url);
 
     String failureMessage = String.format("Tenant init failed: %s: %s", response.getStatusCode(), response.getBody());
 

@@ -1,9 +1,12 @@
 package org.folio.marccat.integration;
 
+import java.util.List;
 import java.util.Map;
 
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.integration.tools.TenantLoading;
+import org.folio.rest.jaxrs.model.Parameter;
+import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,14 +42,14 @@ public class TenantRefService {
    * @param headers                 the headers
    * @param loadBibliographicSample
    */
-  public void loadData(Map<String, String> headers, boolean loadSample, boolean loadReference,
-      boolean loadBibliographicSample) {
+  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers) {
     logger.debug("Start sample data loading");
-    boolean loadData = buildDataLoadingParameters(tl, loadSample, loadReference);
+    boolean loadBibliographicData = isLoadBibliographicSample(tenantAttributes);
+    boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
     logger.debug("Is Load data " + loadData);
-    // if (loadData) {
-    tl.perform(headers, loadBibliographicSample);
-    // }
+    if (loadData) {
+      tl.perform(headers, loadBibliographicData);
+    }
     logger.debug("End sample data loading");
   }
 
@@ -59,19 +62,77 @@ public class TenantRefService {
    * @param loadBibliographicSample
    * @return true, if successful
    */
-  private boolean buildDataLoadingParameters(TenantLoading tl, boolean loadSample, boolean loadReference) {
+  private boolean buildDataLoadingParameters(TenantAttributes tenantAttributes, TenantLoading tl) {
     boolean loadData = false;
-    if (loadReference) {
+    if (isLoadReference(tenantAttributes)) {
       tl.withKey(REFERENCE_KEY).withLead(REFERENCE_LEAD);
       loadData = true;
     }
-    if (loadSample) {
+    if (isLoadSample(tenantAttributes)) {
       tl.withKey(SAMPLE_KEY).withLead(SAMPLE_LEAD);
       tl.add("load-from-file", "marccat/load-from-file");
       loadData = true;
     }
     logger.debug("Load data = " + loadData);
     return loadData;
+  }
+
+  /**
+   * Checks if is load reference.
+   *
+   * @param tenantAttributes the tenant attributes
+   * @return true, if is load reference
+   */
+  private boolean isLoadReference(TenantAttributes tenantAttributes) {
+    boolean loadReference = false;
+    List<Parameter> parameters = tenantAttributes.getParameters();
+    for (Parameter parameter : parameters) {
+      if (REFERENCE_KEY.equals(parameter.getKey())) {
+        loadReference = Boolean.parseBoolean(parameter.getValue());
+      }
+    }
+    return loadReference;
+
+  }
+
+  /**
+   * Checks if is load sample.
+   *
+   * @param tenantAttributes the tenant attributes
+   * @return true, if is load sample
+   */
+  private boolean isLoadSample(TenantAttributes tenantAttributes) {
+    boolean loadSample = false;
+    List<Parameter> parameters = tenantAttributes.getParameters();
+    for (Parameter parameter : parameters) {
+      logger.debug("Load Sample Parameter " + parameter.getKey());
+      logger.debug("Load Sample Value " + parameter.getValue());
+      if (SAMPLE_KEY.equals(parameter.getKey())) {
+        loadSample = Boolean.parseBoolean(parameter.getValue());
+      }
+    }
+    return loadSample;
+
+  }
+
+  /**
+   * Checks if is load bibliographic sample.
+   *
+   * @param tenantAttributes the tenant attributes
+   * @return true, if is load sample
+   */
+  private boolean isLoadBibliographicSample(TenantAttributes tenantAttributes) {
+    boolean loadBibliographicSample = false;
+    List<Parameter> parameters = tenantAttributes.getParameters();
+    for (Parameter parameter : parameters) {
+      logger.debug("Load Sample Parameter " + parameter.getKey());
+      logger.debug("Load Sample Value " + parameter.getValue());
+      if ("loadBibliographicSample".equals(parameter.getKey())) {
+        loadBibliographicSample = Boolean.parseBoolean(parameter.getValue());
+      }
+    }
+    return loadBibliographicSample;
+
   }
 
 }

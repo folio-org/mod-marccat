@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,17 +33,13 @@ public class TenantAPI {
   private TenantRefService tenantRefService;
 
   @PostMapping
-  public ResponseEntity<String> create(
-      @RequestParam(name = TenantRefService.SAMPLE_KEY, defaultValue = "false") final boolean loadSample,
-      @RequestParam(name = TenantRefService.REFERENCE_KEY, defaultValue = "false") final boolean loadReference,
-      @RequestParam(name = "loadBibliographicSample", defaultValue = "true") final boolean loadBibliographicSample,
-      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant, @RequestHeader(Global.OKAPI_URL) String okapiUrl,
-      @RequestHeader(Global.OKAPI_TO_URL) String okapiUrlTo, @RequestBody TenantAttributes attributes)
-      throws SQLException, IOException {
+  public ResponseEntity<String> create(@RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl, @RequestHeader(Global.OKAPI_TO_URL) String okapiUrlTo,
+      @RequestBody TenantAttributes attributes) throws SQLException, IOException {
     addHeaders(tenant, okapiUrl, okapiUrlTo);
     tenantService.createTenant(tenant, okapiUrl);
     if (!okapiUrl.isEmpty())
-      tenantRefService.loadData(okapiHeaders, loadSample, loadReference, loadBibliographicSample);
+      tenantRefService.loadData(attributes, okapiHeaders);
     return new ResponseEntity("Success", CREATED);
   }
 
