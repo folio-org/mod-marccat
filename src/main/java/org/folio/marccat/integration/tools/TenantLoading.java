@@ -1,11 +1,24 @@
 package org.folio.marccat.integration.tools;
 
+import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.UnaryOperator;
+
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
-import org.folio.rest.jaxrs.model.TenantAttributes;
-import org.springframework.core.io.*;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,11 +27,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import java.io.*;
-import java.util.*;
-import java.util.function.UnaryOperator;
-import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
-
 
 /**
  * The Class TenantLoading.
@@ -38,7 +46,6 @@ public class TenantLoading {
    * The Client.
    */
   private RestTemplate client;
-
 
   /**
    * The Enum Strategy.
@@ -118,7 +125,7 @@ public class TenantLoading {
   LoadingEntry nextEntry;
 
   /** The loading entries. */
-  List<LoadingEntry> loadingEntries ;
+  List<LoadingEntry> loadingEntries;
 
   /**
    * Instantiates a new tenant loading.
@@ -139,11 +146,11 @@ public class TenantLoading {
    *
    * See {@link TenantLoading} for an example.
    *
-   * @param ta Tenant Attributes as they are passed via Okapi install
-   * @param headers Okapi headers taken verbatim from RMBs handler
-   * loaded.
+   * @param headers                 Okapi headers taken verbatim from RMBs handler
+   *                                loaded.
+   * @param loadBibliographicSample
    */
-  public void perform(TenantAttributes ta, Map<String, String> headers) {
+  public void perform(Map<String, String> headers, boolean loadBibliographicSample) {
 
     String okapiUrl = headers.get("X-Okapi-Url-to");
     if (okapiUrl == null) {
@@ -154,54 +161,77 @@ public class TenantLoading {
       logger.debug("TenantLoading.perform No X-Okapi-Url header");
       return;
     }
-    Iterator<LoadingEntry> it = loadingEntries.iterator();
-    performR(okapiUrl, ta, headers, it);
+    performR(okapiUrl, headers, loadBibliographicSample);
   }
 
   /**
    * Perform R.
    *
-   * @param okapiUrl the okapi url
-   * @param ta the ta
-   * @param headers the headers
-   * @param it the it
+   * @param okapiUrl                the okapi url
+   * @param headers                 the headers
+   * @param it                      the it
+   * @param loadBibliographicSample
    */
-  private void performR(String okapiUrl, TenantAttributes ta,
-                        Map<String, String> headers, Iterator<LoadingEntry> it) {
+  private void performR(String okapiUrl, Map<String, String> headers, boolean loadBibliographicSample) {
 
-    loadData(okapiUrl, headers);
+    if (loadBibliographicSample) {
+      loadDataBibliographic(okapiUrl, headers);
+    }
+    loadDataAuthority(okapiUrl, headers);
   }
+
   /**
    * Load data.
    *
    * @param okapiUrl the okapi url
-   * @param headers the headers
-    */
-  private void loadData(String okapiUrl, Map <String, String> headers) {
+   * @param headers  the headers
+   */
+  private void loadDataBibliographic(String okapiUrl, Map<String, String> headers) {
     final String endPointUrl = okapiUrl + "/" + "marccat/load-from-file";
     logger.debug("Load data URL " + endPointUrl);
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
     httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_URL));
     httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-    MultiValueMap <String, Object> requestEntity = new LinkedMultiValueMap <>();
+    MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
     File file = getResourceAsFile("/sample-data/load-from-file/sample_records.mrc");
     requestEntity.add("files", new FileSystemResource(file));
-    HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
-    client.exchange(
-      fromUriString(endPointUrl)
-        .build()
-        .toUri(),
-      HttpMethod.POST,
-      httpEntity,
-      String.class);
+    HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(requestEntity, httpHeaders);
+    client.exchange(fromUriString(endPointUrl).build().toUri(), HttpMethod.POST, httpEntity, String.class);
+
+  }
+
+  /**
+   * Load data.
+   *
+   * @param okapiUrl the okapi url
+   * @param headers  the headers
+   */
+  private void loadDataAuthority(String okapiUrl, Map<String, String> headers) {
+    final String endPointUrl = okapiUrl + "/marccat/authority-record";
+    logger.debug("Load data URL " + endPointUrl);
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.add(Global.OKAPI_TENANT_HEADER_NAME, headers.get(Global.OKAPI_TENANT_HEADER_NAME));
+    httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_URL));
+    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+    String requestJson;
+    try {
+      requestJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
+          String.valueOf(StandardCharsets.UTF_8));
+
+      HttpEntity<String> entity = new HttpEntity<>(requestJson, httpHeaders);
+      client.postForObject(fromUriString(endPointUrl).build().toUri(), entity, String.class);
+    } catch (IOException e) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, e);
+    }
 
   }
 
   /**
    * Gets the resource as a temporary file.
    *
-   * @param resourcePath       the resource path
+   * @param resourcePath the resource path
    * @return the resource as file
    */
   private File getResourceAsFile(final String resourcePath) {
@@ -223,16 +253,14 @@ public class TenantLoading {
 
   }
 
-
-
   /**
    * Adds a directory of files to be loaded (PUT/POST).
    *
-   * @param filePath Relative directory path. Do not supply prefix or suffix
-   * path separator (/) . The complete path is that of lead (withlead) followed
-   * by this argument.
-   * @param uriPath relative URI path. TenantLoading will add leading / and
-   * combine with OkapiUrl.
+   * @param filePath Relative directory path. Do not supply prefix or suffix path
+   *                 separator (/) . The complete path is that of lead (withlead)
+   *                 followed by this argument.
+   * @param uriPath  relative URI path. TenantLoading will add leading / and
+   *                 combine with OkapiUrl.
    * @return TenantLoading new state
    */
   public TenantLoading add(String filePath, String uriPath) {
@@ -263,6 +291,5 @@ public class TenantLoading {
     this.nextEntry.lead = lead;
     return this;
   }
-
 
 }
