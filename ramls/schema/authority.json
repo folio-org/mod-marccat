@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "authority schema",
+  "type": "object",
+  "description": "authority metadata",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "authority id"
+    },
+    "canadianContentIndicator": {
+      "type": "string",
+      "description": "MARC organization codes: 0-LOC, 1-Canadian"
+    },
+    "verificationLevel": {
+      "type": "string",
+      "description": "verification level"
+    },
+    "leader": {
+      "type": "object",
+      "description": "marc leader of the record",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "marc leader code (000)"
+        },
+        "value": {
+          "type": "string",
+          "description": "marc leader value"
+        }
+      },
+      "required": [
+        "code",
+        "value"
+      ]
+    },
+    "fields": {
+      "description": "fields of record",
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "description": "tag description",
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "marc tag"
+            },
+            "mandatory": {
+              "type": "boolean",
+              "description": "tag mandatory or not"
+            },
+            "fieldStatus": {
+              "type": "string",
+              "description": "status of the tag: unchanged, changed, new, deleted"
+            },
+            "fixedField": {
+              "type": "object",
+              "description": "control field values",
+              "$ref": "fixedField.json"
+            },
+            "variableField": {
+              "type": "object",
+              "description": "variable field values",
+              "$ref": "variableField.json"
+            },
+            "added": {
+              "type": "boolean",
+              "description": "tag is new or not"
+            }
+          },
+          "required": [
+            "code",
+            "mandatory",
+            "fieldStatus",
+            "added"
+          ]
+        }
+      ]
+    },
+    "recordView": {
+      "type": "integer",
+      "description": "view of the record"
+    }
+  },
+  "required": [
+    "id",
+    "canadianContentIndicator",
+    "verificationLevel",
+    "leader",
+    "fields",
+    "recordView"
+  ]
+}
