@@ -1,6 +1,6 @@
 #%RAML 1.0
 title:  MARCcat
-version: v1.2
+version: v1.6
 protocols: [ HTTP, HTTPS ]
 baseUri: https://github.com/folio-org/mod-marccat
 
@@ -16,7 +16,7 @@ types:
   searchResultVertical: !include schema/searchResultVertical.json
   searchResultCollection: !include schema/searchResultCollection.json
   authority: !include schema/authority.json
-  headerType: !include schema/select.json
+  select: !include schema/select.json
 
 
 traits:
