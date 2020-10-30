@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "select values list schema",
+  "type": "object",
+  "description": "select  metadata",
+  "properties": {
+    "headingTypes": {
+      "type": "array",
+      "description": "list of heading types values",
+      "items": [
+        {
+          "type": "object",
+          "description": "heading types",
+          "properties": {
+            "value": {
+              "type": "integer",
+              "description": "the header type value"
+            },
+            "label": {
+              "type": "string",
+              "description": "the header type label"
+            }
+          },
+          "required": [
+            "value",
+            "label"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "headingTypes"
+  ]
+}

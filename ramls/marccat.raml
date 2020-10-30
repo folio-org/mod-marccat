@@ -16,6 +16,7 @@ types:
   searchResultVertical: !include schema/searchResultVertical.json
   searchResultCollection: !include schema/searchResultCollection.json
   authority: !include schema/authority.json
+  headerType: !include schema/select.json
 
 
 traits:
@@ -150,3 +151,28 @@ resourceTypes:
           body:
             text/plain:
               example: "Error in validation"  
+
+  /marccat/auth-header-types:
+    displayName: Get the header type for 008 authority tag
+    type:
+      collection-item:
+        exampleItem: !include examples/authority008HeaderType.json
+        schema: select
+    post:
+      is: [validate
+        ]
+      description: Get the value for the header type of 008 authority tag 
+      responses:
+        200:
+          description: "Return the header type values"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"  
+ 
