@@ -134,7 +134,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       AuthorityHeadingTag authorityHeadingTag = (AuthorityHeadingTag) tag;
       Descriptor authorityHeading = authorityHeadingTag.getDescriptor();
       try {
-        new AbstractDAO().delete(authorityHeading, session);
+        authorityHeading.getDAO().delete(authorityHeading, session);
       } catch (HibernateException e) {
         cleanUp(transaction);
         throw new ModMarccatException(e);
