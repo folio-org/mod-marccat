@@ -68,15 +68,16 @@ public class AuthorityRecordTest extends TestBase {
 
   }
 
-  @Test
-  public void test5_delete_return423Status() throws IOException {
-
-    String url = getURI("/marccat/authority-record/2");
-    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-
-    given().headers(headers).when().delete(url).then().statusCode(423);
-
-  }
+  /*
+   * @Test public void test5_delete_return423Status() throws IOException {
+   * 
+   * String url = getURI("/marccat/authority-record/2"); Map<String, String>
+   * headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+   * 
+   * given().headers(headers).when().delete(url).then().statusCode(423);
+   * 
+   * }
+   */
 
   @Test
   public void test6_delete_return404Status() throws IOException {
