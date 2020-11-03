@@ -16,7 +16,9 @@ import org.folio.marccat.business.common.AbstractMapBackedFactory;
 import org.folio.marccat.business.common.MapBackedFactory;
 import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.dao.AuthorityCatalogDAO;
 import org.folio.marccat.dao.CatalogDAO;
+import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.ModelDAO;
 import org.folio.marccat.dao.NameDescriptorDAO;
 import org.folio.marccat.dao.NameTitleDescriptorDAO;
@@ -27,6 +29,7 @@ import org.folio.marccat.dao.persistence.Authority008Tag;
 import org.folio.marccat.dao.persistence.AuthorityCataloguingSourceTag;
 import org.folio.marccat.dao.persistence.AuthorityControlNumberTag;
 import org.folio.marccat.dao.persistence.AuthorityDateOfLastTransactionTag;
+import org.folio.marccat.dao.persistence.AuthorityHeadingTag;
 import org.folio.marccat.dao.persistence.AuthorityLeader;
 import org.folio.marccat.dao.persistence.AuthorityNameHeadingTag;
 import org.folio.marccat.dao.persistence.CatalogItem;
@@ -35,6 +38,7 @@ import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.ItemEntity;
 import org.folio.marccat.dao.persistence.Model;
 import org.folio.marccat.dao.persistence.T_AUT_TAG_CAT;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.shared.CorrelationValues;
 
 /**
@@ -42,6 +46,9 @@ import org.folio.marccat.shared.CorrelationValues;
  *
  */
 public class AuthorityCatalog extends Catalog {
+
+  private static String modMarccatExMessage = "Could not create object";
+  private static final AuthorityCatalogDAO daoCatalog = new AuthorityCatalogDAO();
 
   private static final Map<String, Class<?>> DAO_BY_AUT_TYPE = new HashMap<>();
   static {
@@ -68,7 +75,7 @@ public class AuthorityCatalog extends Catalog {
 
   protected static AbstractMapBackedFactory fixedFieldFactory;
 
-  private static final Map<Object, Object> HEADING_TAG_BY_AUT_TYPE = new HashMap<>();
+  private static final Map<String, Class<?>> HEADING_TAG_BY_AUT_TYPE = new HashMap<>();
   static {
     HEADING_TAG_BY_AUT_TYPE.put(Global.NAME_TYPE_HDG, AuthorityNameHeadingTag.class);
   }
@@ -196,9 +203,7 @@ public class AuthorityCatalog extends Catalog {
 
   @Override
   public CatalogDAO getCatalogDao() {
-    // TODO It is an abstract class that should be implemented. At the moment this
-    // function is not used.
-    return null;
+    return daoCatalog;
   }
 
   @Override
@@ -213,6 +218,26 @@ public class AuthorityCatalog extends Catalog {
     // TODO It is an abstract class that should be implemented. At the moment this
     // function is not used.
     return null;
+  }
+
+  public static AuthorityHeadingTag createHeadingTagByType(String type) {
+    AuthorityHeadingTag result = null;
+    try {
+      result = (AuthorityHeadingTag) ((Class<?>) HEADING_TAG_BY_AUT_TYPE.get(type)).newInstance();
+    } catch (InstantiationException | IllegalAccessException ex) {
+      throw new ModMarccatException(modMarccatExMessage);
+    }
+    return result;
+  }
+
+  public static DescriptorDAO getDaoByType(String type) {
+    DescriptorDAO result = null;
+    try {
+      result = (DescriptorDAO) ((Class<?>) DAO_BY_AUT_TYPE.get(type)).newInstance();
+    } catch (InstantiationException | IllegalAccessException ex) {
+      throw new ModMarccatException(modMarccatExMessage);
+    }
+    return result;
   }
 
 }

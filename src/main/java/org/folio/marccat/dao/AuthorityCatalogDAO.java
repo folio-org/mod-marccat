@@ -1,13 +1,27 @@
 package org.folio.marccat.dao;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
+import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
+import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
+import org.folio.marccat.business.cataloguing.common.Tag;
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.dao.persistence.AUT;
+import org.folio.marccat.dao.persistence.AuthorityHeadingTag;
 import org.folio.marccat.dao.persistence.CatalogItem;
+import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.FULL_CACHE;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.util.XmlUtils;
 
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
 
 /**
  * The class manages the authority record
@@ -16,6 +30,8 @@ import net.sf.hibernate.Session;
  *
  */
 public class AuthorityCatalogDAO extends CatalogDAO {
+
+  public static final Log logger = LogFactory.getLog(AuthorityCatalogDAO.class);
 
   public AuthorityCatalogDAO() {
     super();
@@ -51,9 +67,84 @@ public class AuthorityCatalogDAO extends CatalogDAO {
 
   @Override
   public CatalogItem getCatalogItemByKey(Session session, int... key) {
-    // TODO It is an abstract class that should be implemented. At the moment this
-    // function is not used.
-    return null;
+    int id = key[0];
+
+    try {
+      return getAuthorityItemByAmicusNumber(id, session);
+    } catch (final HibernateException exception) {
+      throw new DataAccessException(exception);
+    }
+  }
+
+  private CatalogItem getAuthorityItemByAmicusNumber(int id, Session session) throws HibernateException {
+    AuthorityItem item = getAuthorityItem(id, session);
+
+    AuthorityHeadingTag heading = getHeadingField(item, session);
+    item.addTag(heading);
+
+    for (Tag ff : item.getTags()) {
+      ff.setTagImpl(new AuthorityTagImpl());
+      if (ff instanceof PersistsViaItem) {
+        ((PersistsViaItem) ff).setItemEntity(item.getItemEntity());
+      }
+    }
+
+    return item;
+  }
+
+  private AuthorityHeadingTag getHeadingField(AuthorityItem item, final Session session) throws HibernateException {
+    AUT autData = item.getAutItmData();
+    AuthorityHeadingTag result = AuthorityCatalog.createHeadingTagByType(autData.getHeadingType());
+    result.setItemEntity(autData);
+    Descriptor heading = AuthorityCatalog.getDaoByType(autData.getHeadingType()).load(autData.getHeadingNumber(),
+        View.DEFAULT_BIBLIOGRAPHIC_VIEW, session);
+    if (heading == null) {
+      logger.warn("No heading found for authority item");
+      throw new DataAccessException();
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("heading loaded: " + heading);
+    }
+    result.setDescriptor(heading);
+    return result;
+  }
+
+  private AuthorityItem getAuthorityItem(int id, Session session) throws HibernateException {
+    AuthorityItem item = new AuthorityItem();
+
+    AUT autItm = new AutDAO().load(session, id);
+    item.setAutItmData(autItm);
+    return item;
+  }
+
+  @Override
+  public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
+    final Transaction transaction = getTransaction(session);
+
+    item.getTags().stream().filter(aTag -> aTag instanceof Persistence).forEach(tag -> {
+      try {
+        session.delete(tag);
+      } catch (HibernateException e) {
+        cleanUp(transaction);
+        throw new ModMarccatException(e);
+      }
+    });
+
+    item.getTags().stream().filter(aTag -> aTag instanceof AuthorityHeadingTag).forEach(tag -> {
+      AuthorityHeadingTag authorityHeadingTag = (AuthorityHeadingTag) tag;
+      Descriptor authorityHeading = authorityHeadingTag.getDescriptor();
+      try {
+        authorityHeading.getDAO().delete(authorityHeading, session);
+      } catch (HibernateException e) {
+        cleanUp(transaction);
+        throw new ModMarccatException(e);
+      }
+    });
+
+    new AutDAO().delete(item.getItemEntity(), session);
+    if (item.getModelItem() != null)
+      session.delete(item.getModelItem());
+    transaction.commit();
   }
 
 }

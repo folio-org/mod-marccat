@@ -1,29 +1,34 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ReferentialIntegrityException;
+import static org.folio.marccat.util.F.deepCopy;
+
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import static org.folio.marccat.util.F.deepCopy;
 
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.NME_HDG;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.TTL_HDG;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
+
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Query;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 /**
  * An abstract class representing separately indexed tables that access
- * bibliographic items. (e.g. Name, Title, Subject, ...)
- * Descriptor objects contain members to identify unique keys for "headings" and
- * also contain a reference to the associated persistence class.
+ * bibliographic items. (e.g. Name, Title, Subject, ...) Descriptor objects
+ * contain members to identify unique keys for "headings" and also contain a
+ * reference to the associated persistence class.
  *
  * @author paulm
  * @author natasciab
@@ -42,7 +47,6 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
   private String queryAsC = " as c ";
   private String queryWhereRefSource = " where ref.key.source = ? ";
   private String querySelectCount = "select count(*) from ";
-
 
   /**
    * Gets the name of the associated Persistent class.
@@ -71,7 +75,6 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
     return true;
   }
 
-
   /**
    * Calculates the sortform of a descriptor. The method is overloaded. The
    * (String) version can be used to normalize a string when no Descriptor is
@@ -84,7 +87,8 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @throws SQLException       the SQL exception
    * @since 1.0
    */
-  public String calculateSortForm(final Descriptor descriptor, final Session session) throws HibernateException, SQLException {
+  public String calculateSortForm(final Descriptor descriptor, final Session session)
+      throws HibernateException, SQLException {
 
     if ("".equals(descriptor.getStringText())) {
       return BLANK_SORTFORM;
@@ -93,10 +97,9 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
     return descriptor.getSortForm();
   }
 
-
   /**
-   * loads the heading member from the database based on the settings of the
-   * key values.
+   * loads the heading member from the database based on the settings of the key
+   * values.
    *
    * @param headingNumber   the heading number
    * @param cataloguingView the cataloguing view
@@ -105,10 +108,9 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @throws HibernateException the hibernate exception
    */
   public Descriptor load(final int headingNumber, final int cataloguingView, final Session session)
-    throws HibernateException {
+      throws HibernateException {
     return load(headingNumber, cataloguingView, getPersistentClass(), session);
   }
-
 
   /**
    * Load a heading by heading number and cataloguing view.
@@ -121,16 +123,13 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
-  public Descriptor load(final int headingNumber, final int cataloguingView,
-                         final Class persistentClass, final Session session) throws HibernateException {
+  public Descriptor load(final int headingNumber, final int cataloguingView, final Class persistentClass,
+      final Session session) throws HibernateException {
 
-    final List<Descriptor> descriptorList = session.find(FROM + persistentClass.getName()
-        + " as hdg where hdg.key.headingNumber = ? "
-        + queryAndHdg + View.makeSingleViewString(cataloguingView) + "'",
-      new Object[]{
-        headingNumber},
-      new Type[]{
-        Hibernate.INTEGER});
+    final List<Descriptor> descriptorList = session.find(
+        FROM + persistentClass.getName() + " as hdg where hdg.key.headingNumber = ? " + queryAndHdg
+            + View.makeSingleViewString(cataloguingView) + "'",
+        new Object[] { headingNumber }, new Type[] { Hibernate.INTEGER });
 
     Descriptor descriptor = null;
     if (!descriptorList.isEmpty()) {
@@ -151,13 +150,9 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    */
   @SuppressWarnings("unchecked")
   public Descriptor load(final int headingNumber, final Class persistentClass, final Session session)
-    throws HibernateException {
-    List<Descriptor> l = session.find(FROM + persistentClass.getName()
-        + " as hdg where hdg.key.headingNumber = ? ",
-      new Object[]{
-        headingNumber},
-      new Type[]{
-        Hibernate.INTEGER});
+      throws HibernateException {
+    List<Descriptor> l = session.find(FROM + persistentClass.getName() + " as hdg where hdg.key.headingNumber = ? ",
+        new Object[] { headingNumber }, new Type[] { Hibernate.INTEGER });
     Descriptor result = null;
     if (!l.isEmpty()) {
       result = l.get(0);
@@ -178,9 +173,8 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @return the headings by sortform
    * @throws HibernateException the hibernate exception
    */
-  public List<Descriptor> getHeadingsBySortform(final String operator, final String direction,
-                                                final String term, final String filter, int searchingView, final int count, final Session session)
-    throws HibernateException {
+  public List<Descriptor> getHeadingsBySortform(final String operator, final String direction, final String term,
+      final String filter, int searchingView, final int count, final Session session) throws HibernateException {
     List<Descriptor> descriptorList;
     String viewClause = "";
     if (searchingView == View.AUTHORITY) {
@@ -189,10 +183,9 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
     if (searchingView != View.ANY) {
       viewClause = queryAndHdg + View.makeSingleViewString(searchingView) + "' ";
     }
-    final Query q = session.createQuery(" select hdg from " + getPersistentClass().getName()
-      + " as hdg where hdg.sortForm " + operator + " :term "
-      + viewClause + filter + " order by hdg.sortForm "
-      + direction);
+    final Query q = session
+        .createQuery(" select hdg from " + getPersistentClass().getName() + " as hdg where hdg.sortForm " + operator
+            + " :term " + viewClause + filter + " order by hdg.sortForm " + direction);
     q.setString("term", term);
     q.setMaxResults(count);
     descriptorList = q.list();
@@ -209,39 +202,29 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @throws DataAccessException the data access exception
    */
   @SuppressWarnings("unchecked")
-  public int getDocCount(final Descriptor d, final int searchingView, final Session session)
-    throws HibernateException {
+  public int getDocCount(final Descriptor d, final int searchingView, final Session session) throws HibernateException {
     final List<Integer> counList;
     int result = 0;
     if (searchingView == View.ANY) {
-      counList = session.find(" select count(distinct apf.bibItemNumber) from "
-          + d.getAccessPointClass().getName() + queryAsApf
-          + " where apf.headingNumber = ? ",
-        new Object[]{
-          d.getKey().getHeadingNumber()},
-        new Type[]{
-          Hibernate.INTEGER});
+      counList = session.find(
+          " select count(distinct apf.bibItemNumber) from " + d.getAccessPointClass().getName() + queryAsApf
+              + " where apf.headingNumber = ? ",
+          new Object[] { d.getKey().getHeadingNumber() }, new Type[] { Hibernate.INTEGER });
 
-      if (!counList.isEmpty()) result = counList.get(0);
+      if (!counList.isEmpty())
+        result = counList.get(0);
       return result;
     } else {
-      counList = session.find(" select count(distinct apf.bibItemNumber) from "
-          + d.getAccessPointClass().getName() + queryAsApf
-          + " where apf.headingNumber = ? and "
-          + " apf.userViewString = '" + View.makeSingleViewString(searchingView) + "'",
-        new Object[]{
-          d.getKey().getHeadingNumber()},
-        new Type[]{
-          Hibernate.INTEGER});
-      if (!counList.isEmpty()) result = counList.get(0);
+      counList = session.find(
+          " select count(distinct apf.bibItemNumber) from " + d.getAccessPointClass().getName() + queryAsApf
+              + " where apf.headingNumber = ? and " + " apf.userViewString = '"
+              + View.makeSingleViewString(searchingView) + "'",
+          new Object[] { d.getKey().getHeadingNumber() }, new Type[] { Hibernate.INTEGER });
+      if (!counList.isEmpty())
+        result = counList.get(0);
       return result;
     }
   }
-
-
-
-
-
 
   /**
    * Allows individual dao's (especially publisher) to override the descriptor
@@ -255,10 +238,9 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
   }
 
   /**
-   * Finds any existing Descriptor with the same key as the one
-   * selected but with the user view isolated to the given cataloguing view.
-   * If no such object exists, a new one is created by copying the original
-   * Descriptor object.
+   * Finds any existing Descriptor with the same key as the one selected but with
+   * the user view isolated to the given cataloguing view. If no such object
+   * exists, a new one is created by copying the original Descriptor object.
    *
    * @param headingNumber    the heading number
    * @param recordViewString the record view string
@@ -267,10 +249,8 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @return the descriptor
    * @throws HibernateException the hibernate exception
    */
-  public Descriptor findOrCreateMyView(final int headingNumber,
-                                       final String recordViewString, int cataloguingView,
-                                       final Session session)
-    throws HibernateException {
+  public Descriptor findOrCreateMyView(final int headingNumber, final String recordViewString, int cataloguingView,
+      final Session session) throws HibernateException {
     final short onFileView = View.toIntView(recordViewString);
     final Descriptor existing = load(headingNumber, cataloguingView, session);
     if (existing != null) {
@@ -284,7 +264,6 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
     }
   }
 
-
   /**
    * Gets the matching heading.
    *
@@ -296,27 +275,18 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    */
   @SuppressWarnings("unchecked")
   public Descriptor getMatchingHeading(final Descriptor descriptor, final Session session)
-    throws HibernateException, SQLException {
+      throws HibernateException, SQLException {
     descriptor.setSortForm(calculateSortForm(descriptor, session));
     final List<Descriptor> descriptorList = session.find(
-      FROM + getPersistentClass().getName() + queryAsC
-        + " where c.sortForm = ? and c.stringText = ? "
-        + " and c.key.userViewString = ? ",
-      new Object[]{
-        descriptor.getSortForm(),
-        descriptor.getStringText(),
-        descriptor.getUserViewString()},
-      new Type[]{
-        Hibernate.STRING,
-        Hibernate.STRING,
-        Hibernate.STRING});
+        FROM + getPersistentClass().getName() + queryAsC + " where c.sortForm = ? and c.stringText = ? "
+            + " and c.key.userViewString = ? ",
+        new Object[] { descriptor.getSortForm(), descriptor.getStringText(), descriptor.getUserViewString() },
+        new Type[] { Hibernate.STRING, Hibernate.STRING, Hibernate.STRING });
 
-    final Optional<Descriptor> firstElement = descriptorList.stream()
-      .filter(Objects::nonNull).findFirst();
+    final Optional<Descriptor> firstElement = descriptorList.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? firstElement.get() : null;
 
   }
-
 
   /**
    * Delete a persistente object(Descriptor).
@@ -326,28 +296,22 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @throws HibernateException the hibernate exception
    */
   @Override
-  public void delete(final Persistence p, final Session session) throws
-    HibernateException {
+  public void delete(final Persistence p, final Session session) throws HibernateException {
     if (!(p instanceof Descriptor)) {
       throw new IllegalArgumentException("I can only delete Descriptor objects");
     }
     final Descriptor descriptor = ((Descriptor) p);
     if (getDocCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
-      throw new ReferentialIntegrityException(descriptor.getAccessPointClass()
-        .getName(), descriptor.getClass().getName());
+      throw new ReferentialIntegrityException(descriptor.getAccessPointClass().getName(),
+          descriptor.getClass().getName());
     }
-    if (supportsCrossReferences() && getXrefCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
-      throw new ReferentialIntegrityException(descriptor.getReferenceClass(
-        descriptor.getClass()).getName(), descriptor.getClass().getName());
+    if (supportsCrossReferences()
+        && getXrefCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
+      throw new ReferentialIntegrityException(descriptor.getReferenceClass(descriptor.getClass()).getName(),
+          descriptor.getClass().getName());
     }
-    if (supportsAuthorities() && descriptor.getAuthorityCount() > 0) {
-      throw new ReferentialIntegrityException(descriptor.getReferenceClass(
-        descriptor.getClass()).getName(), descriptor.getClass().getName());
-    }
-
     if (getAuthorityApfReferenceCount(descriptor, session) > 0) {
-      throw new ReferentialIntegrityException("AUT_X_ACS_PNT", descriptor
-        .getClass().getName());
+      throw new ReferentialIntegrityException("AUT_X_ACS_PNT", descriptor.getClass().getName());
     }
 
     super.delete(p, session);
@@ -363,20 +327,19 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
-  private int getAuthorityApfReferenceCount(final Descriptor descriptor, final Session session) throws HibernateException {
+  private int getAuthorityApfReferenceCount(final Descriptor descriptor, final Session session)
+      throws HibernateException {
     if (View.toIntView(descriptor.getUserViewString()) != 1 || descriptor.getAuthorityAccessPointClass() == null)
       return 0;
-    List<Integer> countList = session.find(FROM + descriptor.getAuthorityAccessPointClass().getName() + " as apf where apf.headingNumber = ?",
-      new Object[]{
-        descriptor.getHeadingNumber()},
-      new Type[]{
-        Hibernate.INTEGER});
+    List<Integer> countList = session.find(
+        FROM + descriptor.getAuthorityAccessPointClass().getName() + " as apf where apf.headingNumber = ?",
+        new Object[] { descriptor.getHeadingNumber() }, new Type[] { Hibernate.INTEGER });
     return countList.size();
   }
 
   /**
-   * Returns the number of cross references for the given descriptor in the
-   * given view.
+   * Returns the number of cross references for the given descriptor in the given
+   * view.
    *
    * @param source          the descriptor whose xref count is to be calculated
    * @param cataloguingView the view to use for counting
@@ -387,17 +350,14 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
 
   @SuppressWarnings("unchecked")
   public int getXrefCount(final Descriptor source, final int cataloguingView, final Session session)
-    throws HibernateException {
+      throws HibernateException {
     if (source.getReferenceClass(source.getClass()) == null)
       return 0;
-    final List<Integer> countList = session.find(querySelectCount
-        + source.getReferenceClass(source.getClass()).getName()
-        + " as ref where ref.key.source = ? and "
-        + " ref.key.userViewString = '" + View.makeSingleViewString(cataloguingView) + "'",
-      new Object[]{
-        source.getKey().getHeadingNumber()},
-      new Type[]{
-        Hibernate.INTEGER});
+    final List<Integer> countList = session.find(
+        querySelectCount + source.getReferenceClass(source.getClass()).getName()
+            + " as ref where ref.key.source = ? and " + " ref.key.userViewString = '"
+            + View.makeSingleViewString(cataloguingView) + "'",
+        new Object[] { source.getKey().getHeadingNumber() }, new Type[] { Hibernate.INTEGER });
 
     final Optional<Integer> firstElement = countList.stream().filter(Objects::nonNull).findFirst();
     return firstElement.isPresent() ? firstElement.get() : 0;
@@ -415,21 +375,16 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    */
   @SuppressWarnings("unchecked")
   public List<REF> getCrossReferences(final Descriptor source, final int cataloguingView, final Session session)
-    throws HibernateException {
+      throws HibernateException {
     if (supportsCrossReferences()) {
-      return session.find("from "
-          + source.getReferenceClass(source.getClass()).getName()
-          + " as ref " + queryWhereRefSource
-          + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
-          + " order by ref.key.target, ref.key.type",
-        new Object[]{
-          source.getKey().getHeadingNumber()},
-        new Type[]{
-          Hibernate.INTEGER});
+      return session.find(
+          "from " + source.getReferenceClass(source.getClass()).getName() + " as ref " + queryWhereRefSource
+              + queryAndRef + View.makeSingleViewString(cataloguingView) + "' "
+              + " order by ref.key.target, ref.key.type",
+          new Object[] { source.getKey().getHeadingNumber() }, new Type[] { Hibernate.INTEGER });
     }
     return new ArrayList<>();
   }
-
 
   /**
    * Load reference by source and target.
@@ -443,25 +398,17 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
-  public REF loadReference(final Descriptor source, final Descriptor target,
-                           final short referenceType, final int cataloguingView, final Session session)
-    throws HibernateException {
+  public REF loadReference(final Descriptor source, final Descriptor target, final short referenceType,
+      final int cataloguingView, final Session session) throws HibernateException {
 
     REF result = null;
     if (source.getClass() == target.getClass()) {
-      final List<REF> refList = session.find("from "
-          + source.getReferenceClass(target.getClass()).getName()
-          + " as ref " + " where ref.key.source = ? AND "
-          + " ref.key.target = ? AND "
-          + " ref.key.userViewString = '" + View.makeSingleViewString(cataloguingView) + "' AND "
-          + " ref.key.type = ?", new Object[]{
-          source.getKey().getHeadingNumber(),
-          target.getKey().getHeadingNumber(),
-          referenceType},
-        new Type[]{
-          Hibernate.INTEGER,
-          Hibernate.INTEGER,
-          Hibernate.SHORT});
+      final List<REF> refList = session.find(
+          "from " + source.getReferenceClass(target.getClass()).getName() + " as ref "
+              + " where ref.key.source = ? AND " + " ref.key.target = ? AND " + " ref.key.userViewString = '"
+              + View.makeSingleViewString(cataloguingView) + "' AND " + " ref.key.type = ?",
+          new Object[] { source.getKey().getHeadingNumber(), target.getKey().getHeadingNumber(), referenceType },
+          new Type[] { Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.SHORT });
       if (refList.size() == 1) {
         result = refList.get(0);
         result = (REF) isolateView(result, cataloguingView, session);
@@ -470,10 +417,6 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
 
     return result;
   }
-
-
-
-
 
   /**
    * Gets the document count for the name/title descriptor.
@@ -486,7 +429,7 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    */
   @SuppressWarnings("unchecked")
   public int getDocCountNT(final Descriptor descriptor, final int searchingView, final Session session)
-    throws HibernateException {
+      throws HibernateException {
 
     int result = 0;
     List<Integer> countList = null;
@@ -496,21 +439,18 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
     }
     if (descriptor instanceof NME_HDG) {
       final Query q = session.createQuery(" select count(*) from  NME_TTL_HDG as hdg"
-        + " where hdg.nameHeadingNumber = " + descriptor.getKey().getHeadingNumber()
-        + viewClause);
+          + " where hdg.nameHeadingNumber = " + descriptor.getKey().getHeadingNumber() + viewClause);
       countList = q.list();
 
     } else if (descriptor instanceof TTL_HDG) {
       final Query q = session.createQuery(" select count(*) from  NME_TTL_HDG as hdg"
-        + " where hdg.titleHeadingNumber = " + descriptor.getKey().getHeadingNumber()
-        + viewClause);
+          + " where hdg.titleHeadingNumber = " + descriptor.getKey().getHeadingNumber() + viewClause);
       countList = q.list();
     }
     if (countList != null && !countList.isEmpty())
       result = countList.get(0);
     return result;
   }
-
 
   /**
    * Load cross reference through a specific sql query.
@@ -525,21 +465,14 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
    * @throws HibernateException the hibernate exception
    */
   @SuppressWarnings("unchecked")
-  protected REF loadReferenceByQuery(final Descriptor source, final Descriptor target, final short referenceType, final int cataloguingView, final String query, final Session session) throws HibernateException {
+  protected REF loadReferenceByQuery(final Descriptor source, final Descriptor target, final short referenceType,
+      final int cataloguingView, final String query, final Session session) throws HibernateException {
     REF ref = null;
-    final List<REF> refList =
-      session.find(
-        query,
-        new Object[]{
-          source.getKey().getHeadingNumber(),
-          target.getKey().getHeadingNumber(),
-          cataloguingView,
-          referenceType},
-        new Type[]{
-          Hibernate.INTEGER,
-          Hibernate.INTEGER,
-          Hibernate.INTEGER,
-          Hibernate.SHORT});
+    final List<REF> refList = session
+        .find(query,
+            new Object[] { source.getKey().getHeadingNumber(), target.getKey().getHeadingNumber(), cataloguingView,
+                referenceType },
+            new Type[] { Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.SHORT });
     if (refList.size() == 1) {
       ref = refList.get(0);
       ref = (REF) isolateView(ref, cataloguingView, session);
