@@ -59,6 +59,9 @@ public class AuthorityRecordAPI extends BaseResource {
             });
 
         authorityStorageService.saveAuthorityRecord(record, view, lang, configuration);
+
+        logger.error(Message.MOD_MARCCAT_00019_SAVE_AUT_RECORD_FAILURE, record.getId());
+
         return new ResponseEntity<>("1", HttpStatus.CREATED);
 
       } catch (final Exception exception) {
@@ -82,10 +85,10 @@ public class AuthorityRecordAPI extends BaseResource {
         authorityStorageService.deleteAuhorityRecordById(Integer.parseInt(id));
         return new ResponseEntity<>(id, HttpStatus.NO_CONTENT);
       } catch (final RecordInUseException exception) {
-        logger.error(Message.MOD_MARCCAT_00039_RECORD_USED, exception);
+        logger.error(Message.MOD_MARCCAT_00039_RECORD_USED, id, exception);
         return new ResponseEntity<>("0", HttpStatus.LOCKED);
       } catch (final RecordNotFoundException exception) {
-        logger.error(Message.MOD_MARCCAT_00038_NOT_AUT_FOUND, exception);
+        logger.error(Message.MOD_MARCCAT_00038_NOT_AUT_FOUND, id, exception);
         return new ResponseEntity<>("0", HttpStatus.NOT_FOUND);
       }
     }, tenant, okapiUrl, configurator);
