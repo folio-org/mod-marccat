@@ -11,19 +11,26 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.0",
+      "version": "2.1",
       "handlers": [
         {
           "methods": ["GET"],
           "pathPattern": "/marccat/search",
           "modulePermissions": ["configuration.entries.collection.get"],
           "permissionsRequired": ["marccat.search.collection.get"]
-        },{
+        },
+        {
+          "methods": ["GET"],
+          "pathPattern": "/marccat/searchAuth",
+          "permissionsRequired": ["marccat.authority.collection.get"]
+        },
+        {
           "methods": ["GET"],
           "pathPattern": "/marccat/mergedSearch",
           "modulePermissions": ["configuration.entries.collection.get"],
           "permissionsRequired": ["marccat.mergedSearch.collection.get"]
-        }, {
+        },
+        {
           "methods": ["GET"],
           "pathPattern": "/marccat/searchVertical",
           "modulePermissions": ["configuration.entries.collection.get"],
@@ -130,6 +137,11 @@
           "pathPattern": "/marccat/record-template/{id}",
           "modulePermissions": ["configuration.entries.collection.get"],
           "permissionsRequired": ["marccat.record-template.item.delete"]
+        },
+        {
+          "methods": ["POST"],
+          "pathPattern": "/marccat/authority-record",
+          "permissionsRequired": ["marccat.authority.insert.post"]
         },
         {
           "methods": ["POST"],
@@ -398,10 +410,22 @@
       "description": "Unlock record"
     },
     {
+      "permissionName": "marccat.authority.collection.get",
+      "displayName": "MARCcat - get authority collection",
+      "description": "Get MARC authority record collection"
+    },
+    {
+      "permissionName": "marccat.authority.insert.post",
+      "displayName": "MARCcat - save authority record",
+      "description": "Save MARC authority record"
+    },
+    {
       "permissionName": "marccat.all",
       "displayName": "marccat - all permissions",
       "description": "Entire set of permissions needed to use the marccat",
       "subPermissions": [
+        "marccat.authority.insert.post",
+        "marccat.authority.collection.get",
         "marccat.search.collection.get",
         "marccat.mergedSearch.collection.get",
         "marccat.searchVertical.collection.get",
