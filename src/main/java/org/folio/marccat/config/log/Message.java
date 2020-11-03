@@ -72,7 +72,7 @@ public final class Message {
       + "-00036> : Could not create object.";
   public static final String MOD_MARCCAT_00037_NOT_AUT_HEADING_TAG = "<" + MODULE_NAME
       + "-00037> : Error creating new Authority heading tag.";
-  public static final String MOD_MARCCAT_00038_NOT_AUT_FOUND = "<" + MODULE_NAME + "-00038> : No authority found %d.";
-  public static final String MOD_MARCCAT_00039_RECORD_USED = "<" + MODULE_NAME + "-00039> : Record in use %d.";
+  public static final String MOD_MARCCAT_00038_NOT_AUT_FOUND = "<" + MODULE_NAME + "-00038> : No authority found %s.";
+  public static final String MOD_MARCCAT_00039_RECORD_USED = "<" + MODULE_NAME + "-00039> : Record in use %s.";
 
 }
