@@ -62,7 +62,7 @@ import org.folio.marccat.shared.CorrelationValues;
  */
 public class AuthorityCatalog extends Catalog {
 
-  private static String modMarccatExMessage = "Could not create object";
+  private static final String modMarccatExMessage = "Could not create object";
   private static final AuthorityCatalogDAO daoCatalog = new AuthorityCatalogDAO();
 
   private static final Map<String, Class<?>> DAO_BY_AUT_TYPE = new HashMap<>();
@@ -159,22 +159,17 @@ public class AuthorityCatalog extends Catalog {
         tag = (Tag) getFixedFieldFactory().create(correlationValues.getValue(1));
       } else if (tag instanceof AuthorityHeadingTag || tag instanceof AuthorityReferenceTag) {
         Integer refTypePosition = correlationValues.getLastUsedPosition();
-        int refType;
-
-        if (refTypePosition != null) {
-          refType = correlationValues.getValue(refTypePosition.intValue());
-        } else {
+        if (refTypePosition == null) 
           throw new ModMarccatException("attempt to create reference tag with no reference type specified");
-        }
-        if (ReferenceType.isSeenFrom(refType)) {
+        int refType = correlationValues.getValue(refTypePosition.intValue());
+        if (ReferenceType.isSeenFrom(refType))
           tag = new SeeReferenceTag();
-        } else if (ReferenceType.isSeeAlsoFrom(refType)) {
+        else if (ReferenceType.isSeeAlsoFrom(refType))
           tag = new SeeAlsoReferenceTag();
-        } else if (ReferenceType.isEquivalence(refType)) {
+        else if (ReferenceType.isEquivalence(refType))
           tag = new EquivalenceReference();
-        } else {
+        else
           throw new ModMarccatException("invalid reference type for authority reference tag");
-        }
       }
     }
     if (tag instanceof AuthorityReferenceTag) {
@@ -191,11 +186,11 @@ public class AuthorityCatalog extends Catalog {
        * combination (e.g. NME_NME_TTL_REF)
        */
       Class<?> targetHeadingClazz;
-      if (getAutTypeByDescriptorType(category) != null) {
+      if (getAutTypeByDescriptorType(category) != null) 
         targetHeadingClazz = getDaoByType(getAutTypeByDescriptorType(category)).getPersistentClass();
-      } else {
+       else 
         targetHeadingClazz = sourceHeadingClazz;
-      }
+      
 
       try {
         Descriptor sourceDescriptor = (Descriptor) sourceHeadingClazz.newInstance();
@@ -212,9 +207,8 @@ public class AuthorityCatalog extends Catalog {
       AUT autItm = (AUT) item.getItemEntity();
       autItm.setHeadingType(getAutTypeByDescriptorType(category));
     }
-    if (correlationValues != null) {
+    if (correlationValues != null) 
       tag.setCorrelationValues(correlationValues);
-    }
 
     if (tag instanceof AuthorityReferenceTag) {
       Descriptor descriptor = ((AuthorityReferenceTag) tag).getDescriptor();

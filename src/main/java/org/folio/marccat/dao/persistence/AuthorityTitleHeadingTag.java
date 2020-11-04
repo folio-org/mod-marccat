@@ -10,20 +10,12 @@ import org.folio.marccat.shared.CorrelationValues;
  */
 public class AuthorityTitleHeadingTag extends AuthorityHeadingTag implements SkipInFiling {
 
-  /**
-  * 
-  */
   private static final long serialVersionUID = 7303329914542120254L;
 
   public AuthorityTitleHeadingTag() {
     super(new TTL_HDG());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see TagInterface#getCategory()
-   */
   @Override
   public int getCategory() {
     return Global.TITLE_CATEGORY;

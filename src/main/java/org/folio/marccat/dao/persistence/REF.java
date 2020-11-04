@@ -146,11 +146,7 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
     this.setAuthorityStructure('a');
     this.setEarlierRules('x');
     this.setFormerHeading('x');
-    if (getKey() != null && ReferenceType.isEquivalence(getKey().getType())) {
-      this.setNoteGeneration('x');
-    } else {
-      this.setNoteGeneration('n');
-    }
+    this.setNoteGeneration(getKey() != null && ReferenceType.isEquivalence(getKey().getType()) ? 'x' : 'n');
     this.setLinkDisplay('n');
     this.setReplacementComplexity('n');
     this.setVerificationLevel('1');

@@ -8,14 +8,14 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 
 /**
+ * Implements, for authority, the note tags
+ * 
  * @author elena
  *
  */
 public class AuthorityNote extends RecordNote {
   private String noteStringText;
-  /**
-   * 
-   */
+
   private static final long serialVersionUID = 5041286137447344231L;
 
   public AuthorityNote() {

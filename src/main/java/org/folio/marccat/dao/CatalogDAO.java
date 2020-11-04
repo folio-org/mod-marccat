@@ -118,8 +118,6 @@ public abstract class CatalogDAO extends AbstractDAO {
       proc.setInt(1, amicusNumber);
       proc.setInt(2, noteNumber);
       proc.execute();
-    } catch (SQLException ex) {
-      throw new SQLException(ex);
     } finally {
       if (proc != null)
         proc.close();
@@ -134,7 +132,7 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @param session -- the current hibernate session.
    * @throws HibernateException in case of hibernate exception.
    */
-  public void modifyNoteStandard(final CatalogItem item, final Session session) throws HibernateException {
+  public void modifyNoteStandard(final CatalogItem item, final Session session) {
     final int amicusNumber = item.getItemEntity().getAmicusNumber();
     item.getTags().stream()
         .filter(aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType())

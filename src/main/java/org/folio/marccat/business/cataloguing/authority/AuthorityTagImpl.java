@@ -113,7 +113,8 @@ public class AuthorityTagImpl extends TagImpl {
 
     try {
       List<AuthorityCorrelation> correlations = daoCorrelation.getCategoryCorrelation(session, heading.getTag(),
-          heading.getInd1().charAt(0), heading.getInd2().charAt(0));
+          (heading.getInd1() != null ? heading.getInd1().charAt(0) : ' '),
+          heading.getInd2() != null ? heading.getInd2().charAt(0) : ' ');
       if (correlations.stream().anyMatch(Objects::nonNull) && correlations.size() == 1) {
         Optional<AuthorityCorrelation> firstElement = correlations.stream().findFirst();
         if (firstElement.isPresent())
