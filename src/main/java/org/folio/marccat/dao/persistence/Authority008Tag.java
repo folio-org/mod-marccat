@@ -106,103 +106,83 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
   }
 
   public void setCataloguingRules(char c) {
-    if (getAutItm() != null)
-      getAutItm().setCataloguingRules(c);
+    getAutItm().setCataloguingRules(c);
   }
 
   public void setCataloguingSourceCode(char c) {
-    if (getAutItm() != null)
-      getAutItm().setCataloguingSourceCode(c);
+    getAutItm().setCataloguingSourceCode(c);
   }
 
   public void setEncodingLevel(char c) {
-    if (getAutItm() != null)
-      getAutItm().setEncodingLevel(c);
+    getAutItm().setEncodingLevel(c);
   }
 
   public void setEnteredOnFileDate(Date date) {
-    if (getAutItm() != null)
-      getAutItm().setEnteredOnFileDate(date);
+    getAutItm().setEnteredOnFileDate(date);
   }
 
   public void setGovernmentAgency(char c) {
-    if (getAutItm() != null)
-      getAutItm().setGovernmentAgency(c);
+    getAutItm().setGovernmentAgency(c);
   }
 
   public void setHeadingStatus(char c) {
-    if (getAutItm() != null)
-      getAutItm().setHeadingStatus(c);
+    getAutItm().setHeadingStatus(c);
   }
 
   public void setMainAddedEntryIndicator(char c) {
-    if (getAutItm() != null)
-      getAutItm().setMainAddedEntryIndicator(c);
+    getAutItm().setMainAddedEntryIndicator(c);
   }
 
   public void setNonUniqueName(char c) {
-    if (getAutItm() != null)
-      getAutItm().setNonUniqueName(c);
+    getAutItm().setNonUniqueName(c);
   }
 
   public void setRecordModification(char c) {
-    if (getAutItm() != null)
-      getAutItm().setRecordModification(c);
+    getAutItm().setRecordModification(c);
   }
 
   public void setRecordRevision(char c) {
-    if (getAutItm() != null)
-      getAutItm().setRecordRevision(c);
+    getAutItm().setRecordRevision(c);
   }
 
   public void setRecordStatusCode(char c) {
-    if (getAutItm() != null)
-      getAutItm().setRecordStatusCode(c);
+    getAutItm().setRecordStatusCode(c);
   }
 
   public void setRecordType(char c) {
-    if (getAutItm() != null)
-      getAutItm().setRecordType(c);
+    getAutItm().setRecordType(c);
   }
 
   public void setReferenceStatus(char c) {
-    if (getAutItm() != null)
-      getAutItm().setReferenceStatus(c);
+    getAutItm().setReferenceStatus(c);
   }
 
   public void setRomanizationScheme(char c) {
-    if (getAutItm() != null)
-      getAutItm().setRomanizationScheme(c);
+    getAutItm().setRomanizationScheme(c);
   }
 
   public void setSeriesEntryIndicator(char c) {
-    if (getAutItm() != null)
-      getAutItm().setSeriesEntryIndicator(c);
+    getAutItm().setSeriesEntryIndicator(c);
   }
 
   public void setSeriesNumbering(char c) {
-    if (getAutItm() != null)
-      getAutItm().setSeriesNumbering(c);
+    getAutItm().setSeriesNumbering(c);
   }
 
   public void setSeriesType(char c) {
-    if (getAutItm() != null)
-      getAutItm().setSeriesType(c);
+    getAutItm().setSeriesType(c);
   }
 
   public void setSubDivisionType(char c) {
-    if (getAutItm() != null)
-      getAutItm().setSubDivisionType(c);
+    getAutItm().setSubDivisionType(c);
   }
 
   public void setSubjectDescriptor(char c) {
-    if (getAutItm() != null)
-      getAutItm().setSubjectDescriptor(c);
+    getAutItm().setSubjectDescriptor(c);
   }
 
   public void setSubjectEntryIndicator(char c) {
-    if (getAutItm() != null)
-      getAutItm().setSubjectEntryIndicator(c);
+    getAutItm().setSubjectEntryIndicator(c);
   }
 
   public char getSubjectDescriptor() {
@@ -210,8 +190,7 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
   }
 
   public void setSubjectSystem(char c) {
-    if (getAutItm() != null)
-      getAutItm().setSubjectSystem(c);
+    getAutItm().setSubjectSystem(c);
   }
 
   public char getBilingualUsage() {
@@ -219,8 +198,7 @@ public class Authority008Tag extends FixedFieldUsingItemEntity {
   }
 
   public void setBilingualUsage(char c) {
-    if (getAutItm() != null)
-      getAutItm().setBilingualUsage(c);
+    getAutItm().setBilingualUsage(c);
   }
 
   private AUT getAutItm() {

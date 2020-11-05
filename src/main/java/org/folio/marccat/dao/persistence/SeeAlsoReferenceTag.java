@@ -24,11 +24,6 @@ public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
     dualReference = ref;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see SeeSeeAlsoReference#getHasDualIndicator()
-   */
   @Override
   public boolean isHasDualIndicator() {
     return true;

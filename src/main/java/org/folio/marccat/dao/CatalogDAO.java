@@ -50,8 +50,9 @@ public abstract class CatalogDAO extends AbstractDAO {
    */
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
     final Transaction transaction = getTransaction(session);
-    item.getTags().stream().filter(aTag -> !(aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag)
-        && aTag instanceof Persistence).forEach(tag -> {
+    item.getTags().stream()
+        .filter(aTag -> !(aTag instanceof PublisherManager || aTag instanceof BibliographicNoteTag) && aTag instanceof Persistence)
+        .forEach(tag -> {
           try {
             session.delete(tag);
           } catch (HibernateException e) {
@@ -67,8 +68,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 
   abstract void updateFullRecordCacheTable(Session session, CatalogItem item) throws HibernateException;
 
-  protected abstract void updateItemDisplayCacheTable(final CatalogItem item, final Session session)
-      throws HibernateException;
+  protected abstract void updateItemDisplayCacheTable(final CatalogItem item, final Session session) throws HibernateException;
 
   /**
    * For each heading in tag, load and set owner descriptor.
@@ -78,8 +78,7 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @param session  -- the current hibernate session.
    * @throws DataAccessException in case of data access failure.
    */
-  protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView,
-      final Session session) {
+  protected void loadHeadings(final List<? extends PersistentObjectWithView> allTags, final int userView, final Session session) {
     allTags.forEach(tag -> loadHeading((AccessPoint) tag, userView, session));
   }
 
@@ -88,13 +87,11 @@ public abstract class CatalogDAO extends AbstractDAO {
       try {
         Descriptor descriptor = tag.getDAODescriptor().load(tag.getHeadingNumber(), userView, session);
         if (descriptor == null)
-          throw new DataAccessException(
-              String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+          throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
         tag.setDescriptor(descriptor);
 
       } catch (HibernateException e) {
-        throw new DataAccessException(
-            String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
+        throw new DataAccessException(String.format(Message.MOD_MARCCAT_00016_NO_HEADING_FOUND, tag.getHeadingNumber()));
       }
     }
   }
@@ -108,8 +105,7 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @throws HibernateException in case of hibernate exception.
    * @throws SQLException       in case of sql exception.
    */
-  public void updateBibNote(final int amicusNumber, final int noteNumber, final Session session)
-      throws HibernateException, SQLException {
+  public void updateBibNote(final int amicusNumber, final int noteNumber, final Session session) throws HibernateException, SQLException {
     final Transaction transaction = getTransaction(session);
     CallableStatement proc = null;
     try {
@@ -118,6 +114,8 @@ public abstract class CatalogDAO extends AbstractDAO {
       proc.setInt(1, amicusNumber);
       proc.setInt(2, noteNumber);
       proc.execute();
+    } catch (SQLException ex) {
+      throw new SQLException(ex);
     } finally {
       if (proc != null)
         proc.close();
@@ -132,7 +130,7 @@ public abstract class CatalogDAO extends AbstractDAO {
    * @param session -- the current hibernate session.
    * @throws HibernateException in case of hibernate exception.
    */
-  public void modifyNoteStandard(final CatalogItem item, final Session session) {
+  public void modifyNoteStandard(final CatalogItem item, final Session session) throws HibernateException {
     final int amicusNumber = item.getItemEntity().getAmicusNumber();
     item.getTags().stream()
         .filter(aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType())
@@ -195,7 +193,8 @@ public abstract class CatalogDAO extends AbstractDAO {
         }
 
         if (aTag instanceof VariableHeaderUsingItemEntity) {
-          ((VariableHeaderUsingItemEntity) aTag).deleteFromItem();
+          ((VariableHeaderUsingItemEntity) aTag)
+              .deleteFromItem();
         }
       }
       item.getDeletedTags().remove(aTag);
