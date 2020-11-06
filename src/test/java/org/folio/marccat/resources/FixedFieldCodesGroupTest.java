@@ -450,7 +450,6 @@ public class FixedFieldCodesGroupTest extends TestBase {
         .statusCode(200);
   }
 
-  @Test
   public void getFixedFieldCodesGroups_failed() {
 
     String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
@@ -512,13 +511,14 @@ public class FixedFieldCodesGroupTest extends TestBase {
 
     given()
         .param("leader", AUTHORITY_LEADER)
-        .param("code", "009").param("headerTypeCode", "10")
+        .param("code", "009")
+        .param("headerTypeCode", "10")
         .param("lang", "eng")
         .headers(headers)
         .when()
         .get(url)
         .then()
-        .statusCode(400);
+        .statusCode(200);
   }
 
 }
