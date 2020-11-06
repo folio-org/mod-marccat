@@ -235,7 +235,7 @@ public enum CodeListsType {
       return "COMPUTER_TYPE_MATERIAL";
     }
   },
-  //007
+  // 007
   CATEGORY_MATERIAL {
     @Override
     public String toString() {
@@ -782,119 +782,23 @@ public enum CodeListsType {
       return "VM_MATERIAL_CODE";
     }
   },
-  SUBJECT_DESCRIPTOR {
-    @Override
-    public String toString() {
-      return "SUBJECT_DESCRIPTOR";
-    }
-  },
-  ROMANIZATION_SCHEME {
-    @Override
-    public String toString() {
-      return "ROMANIZATION_SCHEME";
-    }
-  },
-  BILINGUAL_USAGE {
-    @Override
-    public String toString() {
-      return "BILINGUAL_USAGE";
-    }
-  },
-  AUT_RECORD_TYPE {
-    @Override
-    public String toString() {
-      return "AUT_RECORD_TYPE";
-    }
-  },
-  AUT_CATALOGUIG_RULES {
-    @Override
-    public String toString() {
-      return "AUT_CATALOGUIG_RULES";
-    }
-
-  },
-  SUBJECT_SYSTEM {
-    @Override
-    public String toString() {
-      return "SUBJECT_SYSTEM";
-    }
-  },
-  SERIES_TYPE {
-    @Override
-    public String toString() {
-      return "SERIES_TYPE";
-    }
-  },
-  SERIES_NUMBERING {
-    @Override
-    public String toString() {
-      return "SERIES_NUMBERING";
-    }
-  },
-  MAIN_ADDED_ENTRY_INDICATOR {
-    @Override
-    public String toString() {
-      return "MAIN_ADDED_ENTRY_INDICATOR";
-    }
-  },
-  SUBJECT_ENTRY_INDICATOR {
-    @Override
-    public String toString() {
-      return "SUBJECT_ENTRY_INDICATOR";
-    }
-  },
-  SERIES_ENTRY_INDICATOR {
-    @Override
-    public String toString() {
-      return "SERIES_ENTRY_INDICATOR";
-    }
-  },
-  SUB_DIVISION_TYPE {
-    @Override
-    public String toString() {
-      return "SUB_DIVISION_TYPE";
-    }
-  },
-  GOVERNMENT_AGENCY {
-    @Override
-    public String toString() {
-      return "GOVERNMENT_AGENCY";
-    }
-  },
-  REFERENCE_STATUS {
-    @Override
-    public String toString() {
-      return "REFERENCE_STATUS";
-    }
-  },
-  AUT_RECORD_REVISION {
-    @Override
-    public String toString() {
-      return "AUT_RECORD_REVISION";
-    }
-  },
-  NON_UNIQUE_NAME {
-    @Override
-    public String toString() {
-      return "NON_UNIQUE_NAME";
-    }
-  },
-  HEADING_STATUS {
-    @Override
-    public String toString() {
-      return "HEADING_STATUS";
-    }
-  },
-  RECORD_MODIFICATION {
-    @Override
-    public String toString() {
-      return "RECORD_MODIFICATION";
-    }
-  },
-  CATALOGUING_SOURCE_CODE {
-    @Override
-    public String toString() {
-      return "CATALOGUING_SOURCE_CODE";
-    }
-  }
-}
+  SUBJECT_DESCRIPTOR, 
+  ROMANIZATION_SCHEME, 
+  BILINGUAL_USAGE, 
+  AUT_RECORD_TYPE, 
+  AUT_CATALOGUIG_RULES, 
+  SUBJECT_SYSTEM, 
+  SERIES_TYPE, 
+  SERIES_NUMBERING,
+  MAIN_ADDED_ENTRY_INDICATOR, 
+  SUBJECT_ENTRY_INDICATOR, 
+  SERIES_ENTRY_INDICATOR, 
+  SUB_DIVISION_TYPE,
+  GOVERNMENT_AGENCY,
+  REFERENCE_STATUS,
+  AUT_RECORD_REVISION,
+  NON_UNIQUE_NAME,
+  HEADING_STATUS,
+  RECORD_MODIFICATION,
+  CATALOGUING_SOURCE_CODE
+ }

@@ -36,12 +36,13 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
   @GetMapping("/fixed-fields-code-groups-by-leader")
   public FixedFieldCodesGroup getFixedFieldCodesGroupsByLeader(@RequestParam final String leader,
       @RequestParam(name = "code", defaultValue = Global.MATERIAL_TAG_CODE) final String code,
-      @RequestParam final String lang, @RequestParam(required = false) final String valueField,
-      @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant, @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+      @RequestParam final String lang,
+      @RequestParam(required = false) final String valueField,
+      @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
-      final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6),
-          leader.charAt(7), code);
+      final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
       injectMaterialCodes(fixedFieldCodesGroup, storageService, lang, (int) map.get(Global.HEADER_TYPE_LABEL), code);
       fixedFieldCodesGroup.setHeaderTypeCode((int) map.get(Global.HEADER_TYPE_LABEL));
       /**
@@ -51,17 +52,19 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
       parameter.put("leader", leader);
       parameter.put("code", code);
       parameter.put("valueField", valueField);
-      injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, fixedFieldCodesGroup.getHeaderTypeCode(),
-          lang, configuration);
+      injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, fixedFieldCodesGroup.getHeaderTypeCode(), lang, configuration);
       return fixedFieldCodesGroup;
     }, tenant, okapiUrl, configurator);
   }
 
   @GetMapping("/fixed-fields-code-groups")
   public FixedFieldCodesGroup getFixedFieldCodesGroups(@RequestParam(required = false) final String leader,
-      @RequestParam final String code, @RequestParam final int headerTypeCode, @RequestParam final String lang,
+      @RequestParam final String code,
+      @RequestParam final int headerTypeCode,
+      @RequestParam final String lang,
       @RequestParam(required = false) final String valueField,
-      @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant, @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+      @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
 
@@ -94,9 +97,12 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
 
   @GetMapping("/auth-fixed-fields-code-groups")
   public FixedFieldCodesGroup getAuthorityFixedFieldCodesGroups(@RequestParam(required = false) final String leader,
-      @RequestParam final String code, @RequestParam final int headerTypeCode, @RequestParam final String lang,
+      @RequestParam final String code,
+      @RequestParam final int headerTypeCode,
+      @RequestParam final String lang,
       @RequestParam(required = false) final String valueField,
-      @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant, @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+      @RequestHeader(OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       AuthorityStorageService authorityStorageService = new AuthorityStorageService();
 
@@ -117,5 +123,4 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
       }).orElse(null);
     }, tenant, okapiUrl, configurator);
   }
-
 }

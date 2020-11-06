@@ -306,9 +306,11 @@
           ],
           "pathPattern": "/marccat/fixed-fields-code-groups",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.fixed-fields-code-groups.collection.get"
+          ]
         },
         {
           "methods": [
@@ -444,6 +446,11 @@
       "description": "Save MARC authority record"
     },
     {
+      "permissionName": "marccat.fixed-fields-code-groups.collection.get",
+      "displayName": "marccat - get dropdown collection for fixed field",
+      "description": "Get dropdown collection for fixed field"
+    },
+    {
       "permissionName": "marccat.all",
       "displayName": "MARCcat - all permissions",
       "description": "Entire set of permissions needed to use the MARCcat",
@@ -457,7 +464,8 @@
         "marccat.tag.collection.get",
         "marccat.record.count.get",
         "marccat.records.collection.get",
-        "marccat.authority.collection.get"
+        "marccat.authority.collection.get",
+        "marccat.fixed-fields-code-groups.collection.get"
       ]
     }
   ],

@@ -17,41 +17,32 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue",
-    "materialType", "physicalType", "dateEnteredOnFile", "dateTypeCode", "dateFirstPublication", "dateLastPublication",
-    "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3",
-    "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfEntireWork", "natureOfContent1",
-    "natureOfContent2", "natureOfContent3", "natureOfContent4", "governmentPublicationCode",
-    "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode",
-    "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3",
-    "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial",
-    "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2",
-    "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1",
-    "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5",
-    "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2",
-    "musicTranspositionArrangementCode", "computerFileTypeCode", "computerTargetAudienceCode", "computerFileFormCode",
-    "visualRunningTime", "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode",
-    "serialTypeCode", "serialFormOriginalItemCode", "serialOriginalAlphabetOfTitleCode", "serialSuccessiveLatestCode",
-    "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode", "itemRecordTypeCode",
-    "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel",
-    "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial",
-    "specificMaterialDesignationCode", "colorCode", "physicalMediumCode", "typeOfReproductionCode", "polarityCode",
-    "dimensionCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode",
-    "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode",
-    "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode",
-    "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode",
-    "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColorCode", "kindOfColorStockCode",
-    "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode",
-    "videoRecordingFormatCode", "remoteSensingDataTypeCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode",
-    "attitudeOfSensorCode", "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode",
-    "remoteDataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode", "tapeConfigurationCode", "discTypeCode",
-    "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode",
-    "classOfBrailleWritingCode1", "classOfBrailleWritingCode2", "levelOfContractionCode", "brailleMusicFormatCode1",
-    "brailleMusicFormatCode2", "brailleMusicFormatCode3", "specificPhysicalCharacteristicsCode", "formatCode",
-    "subjectDescriptor", "romanizationScheme", "bilingualUsage", "recordType", "cataloguingRules", "subjectSystem",
-    "seriesType", "seriesNumbering", "mainAddedEntryIndicator", "subjectEntryIndicator", "seriesEntryIndicator",
-    "subDivisionType", "governmentAgency", "referenceStatus", "recordRevision", "nonUniqueName", "headingStatus",
-    "recordModification", "cataloguingSourceCode", "sequenceNumber", "attributes" })
+@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile",
+    "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2",
+    "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfEntireWork", "natureOfContent1", "natureOfContent2",
+    "natureOfContent3", "natureOfContent4", "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode",
+    "bookLiteraryFormTypeCode", "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4",
+    "cartographicProjectionCode", "cartographicMaterial", "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2",
+    "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3",
+    "musicTextualMaterialCode4", "musicTextualMaterialCode5", "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2",
+    "musicTranspositionArrangementCode", "computerFileTypeCode", "computerTargetAudienceCode", "computerFileFormCode", "visualRunningTime",
+    "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode",
+    "serialOriginalAlphabetOfTitleCode", "serialSuccessiveLatestCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode",
+    "itemRecordStatusCode", "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel",
+    "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colorCode",
+    "physicalMediumCode", "typeOfReproductionCode", "polarityCode", "dimensionCode", "generationCode", "baseOfFilmCode", "includesSoundCode",
+    "mediumForSoundCode", "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode",
+    "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode",
+    "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode", "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColorCode",
+    "kindOfColorStockCode", "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode",
+    "videoRecordingFormatCode", "remoteSensingDataTypeCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode", "cloudCoverCode",
+    "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "remoteDataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode",
+    "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode",
+    "classOfBrailleWritingCode1", "classOfBrailleWritingCode2", "levelOfContractionCode", "brailleMusicFormatCode1", "brailleMusicFormatCode2",
+    "brailleMusicFormatCode3", "specificPhysicalCharacteristicsCode", "formatCode", "subjectDescriptor", "romanizationScheme", "bilingualUsage", "recordType",
+    "cataloguingRules", "subjectSystem", "seriesType", "seriesNumbering", "mainAddedEntryIndicator", "subjectEntryIndicator", "seriesEntryIndicator",
+    "subDivisionType", "governmentAgency", "referenceStatus", "recordRevision", "nonUniqueName", "headingStatus", "recordModification", "cataloguingSourceCode",
+    "sequenceNumber", "attributes" })
 public class FixedField {
 
   @JsonProperty("attributes")
@@ -465,43 +456,24 @@ public class FixedField {
   @JsonProperty("formatCode")
   private String formatCode;
 
-  @JsonProperty("subjectDescriptor")
   private String subjectDescriptor;
-  @JsonProperty("romanizationScheme")
   private String romanizationScheme;
-  @JsonProperty("bilingualUsage")
   private String bilingualUsage;
-  @JsonProperty("recordType")
   private String recordType;
-  @JsonProperty("cataloguingRules")
   private String cataloguingRules;
-  @JsonProperty("subjectSystem")
   private String subjectSystem;
-  @JsonProperty("seriesType")
   private String seriesType;
-  @JsonProperty("seriesNumbering")
   private String seriesNumbering;
-  @JsonProperty("mainAddedEntryIndicator")
   private String mainAddedEntryIndicator;
-  @JsonProperty("subjectEntryIndicator")
   private String subjectEntryIndicator;
-  @JsonProperty("seriesEntryIndicator")
   private String seriesEntryIndicator;
-  @JsonProperty("subDivisionType")
   private String subDivisionType;
-  @JsonProperty("governmentAgency")
   private String governmentAgency;
-  @JsonProperty("referenceStatus")
   private String referenceStatus;
-  @JsonProperty("recordRevision")
   private String recordRevision;
-  @JsonProperty("nonUniqueName")
   private String nonUniqueName;
-  @JsonProperty("headingStatus")
   private String headingStatus;
-  @JsonProperty("recordModification")
   private String recordModification;
-  @JsonProperty("cataloguingSourceCode")
   private String cataloguingSourceCode;
 
   @JsonProperty("sequenceNumber")
@@ -1268,7 +1240,7 @@ public class FixedField {
 
   /**
    * @param cartographicIndexAvailabilityCode The
-   *                                          cartographicIndexAvailabilityCode
+   *        cartographicIndexAvailabilityCode
    */
   @JsonProperty("cartographicIndexAvailabilityCode")
   public void setCartographicIndexAvailabilityCode(String cartographicIndexAvailabilityCode) {
@@ -1591,7 +1563,7 @@ public class FixedField {
 
   /**
    * @param musicTranspositionArrangementCode The
-   *                                          musicTranspositionArrangementCode
+   *        musicTranspositionArrangementCode
    */
   @JsonProperty("musicTranspositionArrangementCode")
   public void setMusicTranspositionArrangementCode(String musicTranspositionArrangementCode) {
@@ -1845,7 +1817,7 @@ public class FixedField {
 
   /**
    * @param serialOriginalAlphabetOfTitleCode The
-   *                                          serialOriginalAlphabetOfTitleCode
+   *        serialOriginalAlphabetOfTitleCode
    */
   @JsonProperty("serialOriginalAlphabetOfTitleCode")
   public void setSerialOriginalAlphabetOfTitleCode(String serialOriginalAlphabetOfTitleCode) {
@@ -2940,8 +2912,6 @@ public class FixedField {
     return this;
   }
 
-  // DA QUI
-
   /**
    * @return The videoRecordingFormatCode
    */
@@ -3337,7 +3307,7 @@ public class FixedField {
 
   /**
    * @param specialPlaybackCharacteristicsCode The
-   *                                           specialPlaybackCharacteristicsCode
+   *        specialPlaybackCharacteristicsCode
    */
   @JsonProperty("specialPlaybackCharacteristicsCode")
   public void setSpecialPlaybackCharacteristicsCode(String specialPlaybackCharacteristicsCode) {
@@ -3522,7 +3492,7 @@ public class FixedField {
 
   /**
    * @param specificPhysicalCharacteristicsCode The
-   *                                            specificPhysicalCharacteristicsCode
+   *        specificPhysicalCharacteristicsCode
    */
   @JsonProperty("specificPhysicalCharacteristicsCode")
   public void setSpecificPhysicalCharacteristicsCode(String specificPhysicalCharacteristicsCode) {
@@ -3562,7 +3532,6 @@ public class FixedField {
   /**
    * @return The subjectDescriptor
    */
-  @JsonProperty("subjectDescriptor")
   public String getSubjectDescriptor() {
     return subjectDescriptor;
   }
@@ -3570,7 +3539,6 @@ public class FixedField {
   /**
    * @param subjectDescriptor The subjectDescriptor
    */
-  @JsonProperty("subjectDescriptor")
   public void setSubjectDescriptor(String subjectDescriptor) {
     this.attributes.put("subjectDescriptor", subjectDescriptor);
     this.subjectDescriptor = subjectDescriptor;
@@ -3579,7 +3547,6 @@ public class FixedField {
   /**
    * @return The romanizationScheme
    */
-  @JsonProperty("romanizationScheme")
   public String getRomanizationScheme() {
     return romanizationScheme;
   }
@@ -3587,7 +3554,6 @@ public class FixedField {
   /**
    * @param romanizationScheme The romanizationScheme
    */
-  @JsonProperty("romanizationScheme")
   public void setRomanizationScheme(String romanizationScheme) {
     this.attributes.put("romanizationScheme", romanizationScheme);
     this.romanizationScheme = romanizationScheme;
@@ -3596,7 +3562,6 @@ public class FixedField {
   /**
    * @return The bilingualUsage
    */
-  @JsonProperty("bilingualUsage")
   public String getBilingualUsage() {
     return bilingualUsage;
   }
@@ -3604,7 +3569,6 @@ public class FixedField {
   /**
    * @param bilingualUsage The bilingualUsage
    */
-  @JsonProperty("bilingualUsage")
   public void setBilingualUsage(String bilingualUsage) {
     this.attributes.put("bilingualUsage", bilingualUsage);
     this.bilingualUsage = bilingualUsage;
@@ -3613,7 +3577,6 @@ public class FixedField {
   /**
    * @return The recordType
    */
-  @JsonProperty("recordType")
   public String getRecordType() {
     return recordType;
   }
@@ -3621,7 +3584,6 @@ public class FixedField {
   /**
    * @param recordType The recordType
    */
-  @JsonProperty("recordType")
   public void setRecordType(String recordType) {
     this.attributes.put("recordType", recordType);
     this.recordType = recordType;
@@ -3630,7 +3592,6 @@ public class FixedField {
   /**
    * @return The cataloguingRules
    */
-  @JsonProperty("cataloguingRules")
   public String getCataloguingRules() {
     return cataloguingRules;
   }
@@ -3638,7 +3599,6 @@ public class FixedField {
   /**
    * @param cataloguingRules The cataloguingRules
    */
-  @JsonProperty("cataloguingRules")
   public void setCataloguingRules(String cataloguingRules) {
     this.attributes.put("cataloguingRules", cataloguingRules);
     this.cataloguingRules = cataloguingRules;
@@ -3647,7 +3607,6 @@ public class FixedField {
   /**
    * @return The subjectSystem
    */
-  @JsonProperty("subjectSystem")
   public String getSubjectSystem() {
     return subjectSystem;
   }
@@ -3655,7 +3614,6 @@ public class FixedField {
   /**
    * @param subjectSystem The subjectSystem
    */
-  @JsonProperty("subjectSystem")
   public void setSubjectSystem(String subjectSystem) {
     this.attributes.put("subjectSystem", subjectSystem);
     this.subjectSystem = subjectSystem;
@@ -3664,7 +3622,6 @@ public class FixedField {
   /**
    * @return The seriesType
    */
-  @JsonProperty("seriesType")
   public String getSeriesType() {
     return seriesType;
   }
@@ -3672,7 +3629,6 @@ public class FixedField {
   /**
    * @param seriesType The seriesType
    */
-  @JsonProperty("seriesType")
   public void setSeriesType(String seriesType) {
     this.attributes.put("seriesType", seriesType);
     this.seriesType = seriesType;
@@ -3681,7 +3637,6 @@ public class FixedField {
   /**
    * @return The seriesNumbering
    */
-  @JsonProperty("seriesNumbering")
   public String getSeriesNumbering() {
     return seriesNumbering;
   }
@@ -3689,7 +3644,6 @@ public class FixedField {
   /**
    * @param seriesNumbering The seriesNumbering
    */
-  @JsonProperty("seriesNumbering")
   public void setSeriesNumbering(String seriesNumbering) {
     this.attributes.put("seriesNumbering", seriesNumbering);
     this.seriesNumbering = seriesNumbering;
@@ -3698,7 +3652,6 @@ public class FixedField {
   /**
    * @return The mainAddedEntryIndicator
    */
-  @JsonProperty("mainAddedEntryIndicator")
   public String getMainAddedEntryIndicator() {
     return mainAddedEntryIndicator;
   }
@@ -3706,7 +3659,6 @@ public class FixedField {
   /**
    * @param mainAddedEntryIndicator The mainAddedEntryIndicator
    */
-  @JsonProperty("mainAddedEntryIndicator")
   public void setMainAddedEntryIndicator(String mainAddedEntryIndicator) {
     this.attributes.put("mainAddedEntryIndicator", mainAddedEntryIndicator);
     this.mainAddedEntryIndicator = mainAddedEntryIndicator;
@@ -3715,7 +3667,6 @@ public class FixedField {
   /**
    * @return The subjectEntryIndicator
    */
-  @JsonProperty("subjectEntryIndicator")
   public String getSubjectEntryIndicator() {
     return subjectEntryIndicator;
   }
@@ -3723,7 +3674,6 @@ public class FixedField {
   /**
    * @param subjectEntryIndicator The subjectEntryIndicator
    */
-  @JsonProperty("subjectEntryIndicator")
   public void setSubjectEntryIndicator(String subjectEntryIndicator) {
     this.attributes.put("subjectEntryIndicator", subjectEntryIndicator);
     this.subjectEntryIndicator = subjectEntryIndicator;
@@ -3732,7 +3682,6 @@ public class FixedField {
   /**
    * @return The seriesEntryIndicator
    */
-  @JsonProperty("seriesEntryIndicator")
   public String getSeriesEntryIndicator() {
     return seriesEntryIndicator;
   }
@@ -3740,7 +3689,6 @@ public class FixedField {
   /**
    * @param seriesEntryIndicator The seriesEntryIndicator
    */
-  @JsonProperty("seriesEntryIndicator")
   public void setSeriesEntryIndicator(String seriesEntryIndicator) {
     this.attributes.put("seriesEntryIndicator", seriesEntryIndicator);
     this.seriesEntryIndicator = seriesEntryIndicator;
@@ -3749,7 +3697,6 @@ public class FixedField {
   /**
    * @return The subDivisionType
    */
-  @JsonProperty("subDivisionType")
   public String getSubDivisionType() {
     return subDivisionType;
   }
@@ -3757,7 +3704,6 @@ public class FixedField {
   /**
    * @param subDivisionType The subDivisionType
    */
-  @JsonProperty("subDivisionType")
   public void setSubDivisionType(String subDivisionType) {
     this.attributes.put("subDivisionType", subDivisionType);
     this.subDivisionType = subDivisionType;
@@ -3766,7 +3712,6 @@ public class FixedField {
   /**
    * @return The governmentAgency
    */
-  @JsonProperty("governmentAgency")
   public String getGovernmentAgency() {
     return governmentAgency;
   }
@@ -3774,7 +3719,6 @@ public class FixedField {
   /**
    * @param governmentAgency The governmentAgency
    */
-  @JsonProperty("governmentAgency")
   public void setGovernmentAgency(String governmentAgency) {
     this.attributes.put("governmentAgency", governmentAgency);
     this.governmentAgency = governmentAgency;
@@ -3783,7 +3727,6 @@ public class FixedField {
   /**
    * @return The referenceStatus
    */
-  @JsonProperty("referenceStatus")
   public String getReferenceStatus() {
     return referenceStatus;
   }
@@ -3791,7 +3734,6 @@ public class FixedField {
   /**
    * @param referenceStatus The referenceStatus
    */
-  @JsonProperty("referenceStatus")
   public void setReferenceStatus(String referenceStatus) {
     this.attributes.put("referenceStatus", referenceStatus);
     this.referenceStatus = referenceStatus;
@@ -3800,7 +3742,6 @@ public class FixedField {
   /**
    * @return The recordRevision
    */
-  @JsonProperty("recordRevision")
   public String getRecordRevision() {
     return recordRevision;
   }
@@ -3808,7 +3749,6 @@ public class FixedField {
   /**
    * @param recordRevision The recordRevision
    */
-  @JsonProperty("recordRevision")
   public void setRecordRevision(String recordRevision) {
     this.attributes.put("recordRevision", recordRevision);
     this.recordRevision = recordRevision;
@@ -3817,7 +3757,6 @@ public class FixedField {
   /**
    * @return The nonUniqueName
    */
-  @JsonProperty("nonUniqueName")
   public String getNonUniqueName() {
     return nonUniqueName;
   }
@@ -3825,7 +3764,6 @@ public class FixedField {
   /**
    * @param nonUniqueName The nonUniqueName
    */
-  @JsonProperty("nonUniqueName")
   public void setNonUniqueName(String nonUniqueName) {
     this.attributes.put("nonUniqueName", nonUniqueName);
     this.nonUniqueName = nonUniqueName;
@@ -3834,7 +3772,6 @@ public class FixedField {
   /**
    * @return The headingStatus
    */
-  @JsonProperty("headingStatus")
   public String getHeadingStatus() {
     return headingStatus;
   }
@@ -3842,7 +3779,6 @@ public class FixedField {
   /**
    * @param headingStatus The headingStatus
    */
-  @JsonProperty("headingStatus")
   public void setHeadingStatus(String headingStatus) {
     this.attributes.put("headingStatus", headingStatus);
     this.headingStatus = headingStatus;
@@ -3851,7 +3787,6 @@ public class FixedField {
   /**
    * @return The recordModification
    */
-  @JsonProperty("recordModification")
   public String getRecordModification() {
     return recordModification;
   }
@@ -3859,7 +3794,6 @@ public class FixedField {
   /**
    * @param recordModification The recordModification
    */
-  @JsonProperty("recordModification")
   public void setRecordModification(String recordModification) {
     this.attributes.put("recordModification", recordModification);
     this.recordModification = recordModification;
@@ -3868,7 +3802,6 @@ public class FixedField {
   /**
    * @return The cataloguingSourceCode
    */
-  @JsonProperty("cataloguingSourceCode")
   public String getCataloguingSourceCode() {
     return cataloguingSourceCode;
   }
@@ -3876,7 +3809,6 @@ public class FixedField {
   /**
    * @param cataloguingSourceCode The cataloguingSourceCode
    */
-  @JsonProperty("cataloguingSourceCode")
   public void setCataloguingSourceCoder(String cataloguingSourceCode) {
     this.attributes.put("cataloguingSourceCode", cataloguingSourceCode);
     this.cataloguingSourceCode = cataloguingSourceCode;
@@ -3957,8 +3889,14 @@ public class FixedField {
   @Generated("org.jsonschema2pojo")
   public static enum MaterialType {
 
-    MUSIC("music"), MAP("map"), COMPUTER_FILE("computerFile"), BOOK("book"), MIXED_MATERIAL("mixedMaterial"),
-    CONTINUING_RESOURCE("continuingResource"), VISUAL_MATERIAL("visualMaterial"), UNDEFINED("undefined");
+    MUSIC("music"),
+    MAP("map"),
+    COMPUTER_FILE("computerFile"),
+    BOOK("book"),
+    MIXED_MATERIAL("mixedMaterial"),
+    CONTINUING_RESOURCE("continuingResource"),
+    VISUAL_MATERIAL("visualMaterial"),
+    UNDEFINED("undefined");
 
     private static final Map<String, MaterialType> CONSTANTS = new HashMap<String, MaterialType>();
 
@@ -3994,11 +3932,19 @@ public class FixedField {
   @Generated("org.jsonschema2pojo")
   public static enum PhysicalType {
 
-    MAP("map"), ELECTRONICAL_RESOURCE("electronicalResource"), GLOBE("globe"), TACTILE_MATERIAL("tactileMaterial"),
-    PROJECTED_GRAPHIC("projectedGraphic"), MICROFORM("microform"), NON_PROJECTED_GRAPHIC("nonProjectedGraphic"),
-    MOTION_PICTURE("motionPicture"), KIT("kit"), NOTATED_MUSIC("notatedMusic"),
-    REMOTE_SENSING_IMAGE("remoteSensingImage"), SOUND_RECORDING("soundRecording"), TEXT("text"),
-    VIDEO_RECORDING("videoRecording"), UNSPECIFIED("unspecified");
+    MAP("map"),
+    ELECTRONICAL_RESOURCE("electronicalResource"),
+    GLOBE("globe"), TACTILE_MATERIAL("tactileMaterial"),
+    PROJECTED_GRAPHIC("projectedGraphic"),
+    MICROFORM("microform"),
+    NON_PROJECTED_GRAPHIC("nonProjectedGraphic"),
+    MOTION_PICTURE("motionPicture"), KIT("kit"),
+    NOTATED_MUSIC("notatedMusic"),
+    REMOTE_SENSING_IMAGE("remoteSensingImage"),
+    SOUND_RECORDING("soundRecording"),
+    TEXT("text"),
+    VIDEO_RECORDING("videoRecording"),
+    UNSPECIFIED("unspecified");
 
     private static final Map<String, PhysicalType> CONSTANTS = new HashMap<String, PhysicalType>();
 
