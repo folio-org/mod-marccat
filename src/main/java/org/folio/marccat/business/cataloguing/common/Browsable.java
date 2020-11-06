@@ -1,16 +1,7 @@
-/*
- * (c) LibriCore
- *
- * Created on Nov 21, 2005
- *
- * Browsable.java
- */
 package org.folio.marccat.business.cataloguing.common;
 
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.util.StringText;
-
-import java.util.Set;
 
 /**
  * implemented by tags that support browsing for descriptor contents
@@ -31,12 +22,7 @@ public interface Browsable {
 
   void setHeadingNumber(Integer i);
 
-  /**
-   * Return the set of subfields that are valid for editing on the catalog worksheet
-   *
-   * @since 1.0
-   */
-  Set getValidEditableSubfields();
+
 
   /**
    * Extracts the "heading's" subfield codes and updates the stringText of the

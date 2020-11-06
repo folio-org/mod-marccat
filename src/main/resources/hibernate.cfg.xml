@@ -214,8 +214,7 @@
     <mapping resource="org/folio/marccat/dao/persistence/RLTSP.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/AUT_NTE.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/BIB_NTE_OVRFW.hbm.xml"/>
-    <mapping resource="org/folio/marccat/dao/persistence/STD_NTE_ACS_PNT.hbm.xml"/>
-		<mapping resource="org/folio/marccat/dao/persistence/S_NXT_NBR.hbm.xml"/>
+ 		<mapping resource="org/folio/marccat/dao/persistence/S_NXT_NBR.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/TTL_HDG.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/TTL_REF.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/TTL_NME_TTL_REF.hbm.xml"/>
@@ -251,5 +250,6 @@
     <mapping resource="org/folio/marccat/dao/persistence/T_TM_SPC.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/S_SYS_GLBL_VRBL.hbm.xml"/>
     <mapping resource="org/folio/marccat/dao/persistence/S_CACHE_BIB_ITM_DSPLY.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/S_RLTSP_RCPCL.hbm.xml"/>
 </session-factory>
 </hibernate-configuration>
