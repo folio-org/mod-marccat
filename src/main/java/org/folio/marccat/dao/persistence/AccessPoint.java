@@ -11,8 +11,6 @@ import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.util.StringText;
 import java.sql.SQLException;
-import java.util.Set;
-
 import static java.util.Optional.ofNullable;
 
 /**
@@ -20,7 +18,6 @@ import static java.util.Optional.ofNullable;
  *
  * @author paulm
  * @author nbianchini
- * @since 1.0
  */
 public abstract class AccessPoint extends VariableField implements Persistence, Browsable {
 
@@ -28,7 +25,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
   protected int functionCode = -1;
 
 
-  public AccessPoint() {
+  protected AccessPoint() {
     super();
     setPersistenceState(new PersistenceState());
   }
@@ -38,7 +35,7 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
    *
    * @param itemNumber -- the record item number.
    */
-  public AccessPoint(final int itemNumber) {
+  protected AccessPoint(final int itemNumber) {
     this();
     setItemNumber(itemNumber);
   }
@@ -191,14 +188,6 @@ public abstract class AccessPoint extends VariableField implements Persistence, 
     return getAccessPointStringText();
   }
 
-  /**
-   * Sets list of editable subfields.
-   *
-   * @return set of subfields.
-   */
-  public Set getValidEditableSubfields() {
-    return getTagImpl().getValidEditableSubfields(getCategory());
-  }
 
   /**
    * Sets default implementation.

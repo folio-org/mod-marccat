@@ -5,7 +5,6 @@ import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
-import org.folio.marccat.business.common.SubfieldCodeComparator;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.BibliographicRelationshipDAO;
 import org.folio.marccat.dao.BibliographicRelationshipTagDAO;
@@ -14,9 +13,7 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.model.Subfield;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
-
 import java.util.*;
-
 import static org.folio.marccat.util.F.deepCopy;
 
 
@@ -100,6 +97,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
       targetRelationship.setItemNumber(getTargetBibItemNumber());
       targetRelationship.setTargetBibItemNumber(sourceRelationship.getItemNumber());
       targetRelationship.setUserViewString(sourceRelationship.getUserViewString());
+      targetRelationship.setRelationPrintNoteCode(sourceRelationship.getRelationPrintNoteCode());
       targetRelationship.setRelationTypeCode(relationshipTagDAO.getReciprocalType(sourceRelationship.getRelationTypeCode(), session));
       targetRelationship.markNew();
     }
@@ -658,22 +656,7 @@ public class BibliographicRelationshipTag extends VariableField implements Persi
     setOriginalTag();
   }
 
-  /**
-   * Gets the valid editable subfields.
-   *
-   * @return the valid editable subfields
-   */
-  public Set getValidEditableSubfields() {
-    Set set = new TreeSet(new SubfieldCodeComparator());
-    if (BibliographicRelationReciprocal.isBlind(getReciprocalOption()))
-      set.addAll(Arrays.asList("a", "s", "t", "p", "b",
-        "c", "m", "d", "e", "f", "k", "n", "q", "r", "u", "x", "z", "y",
-        "g", "w", "i", "3", "4"));
-    else {
-      set.addAll(Arrays.asList("c", "g", "i", "n", "q", "3", "4"));
-    }
-    return set;
-  }
+
 
   /**
    * Converts any reciprocal relationships to blind and removes any

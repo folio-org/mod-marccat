@@ -18,9 +18,11 @@
           ],
           "pathPattern": "/marccat/search",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.search.collection.get"
+          ]
         },
         {
           "methods": [
@@ -37,9 +39,11 @@
           ],
           "pathPattern": "/marccat/mergedSearch",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.mergedSearch.collection.get"
+          ]
         },
         {
           "methods": [
@@ -47,9 +51,11 @@
           ],
           "pathPattern": "/marccat/searchVertical",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.searchVertical.collection.get"
+          ]
         },
         {
           "methods": [
@@ -57,9 +63,11 @@
           ],
           "pathPattern": "/marccat/countSearch",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.countSearch.item.get"
+          ]
         },
         {
           "methods": [
@@ -67,9 +75,11 @@
           ],
           "pathPattern": "/marccat/document-count-by-id",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.document-count-by-id.item.get"
+          ]
         },
         {
           "methods": [
@@ -77,9 +87,11 @@
           ],
           "pathPattern": "/marccat/bibliographic/fields/mandatory",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic.fields.mandatory.collection.get"
+          ]
         },
         {
           "methods": [
@@ -87,9 +99,11 @@
           ],
           "pathPattern": "/marccat/field-template",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.field-template.item.get"
+          ]
         },
         {
           "methods": [
@@ -97,9 +111,11 @@
           ],
           "pathPattern": "/marccat/browse",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.browse.collection.get"
+          ]
         },
         {
           "methods": [
@@ -107,9 +123,11 @@
           ],
           "pathPattern": "/marccat/next-page",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.next-page.collection.get"
+          ]
         },
         {
           "methods": [
@@ -117,9 +135,11 @@
           ],
           "pathPattern": "/marccat/previous-page",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.previous-page.collection.get"
+          ]
         },
         {
           "methods": [
@@ -127,9 +147,11 @@
           ],
           "pathPattern": "/marccat/headings-by-tag",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.headings-by-tag.collection.get"
+          ]
         },
         {
           "methods": [
@@ -137,9 +159,11 @@
           ],
           "pathPattern": "/marccat/filteredTagsList",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.filteredTagsList.collection.get"
+          ]
         },
         {
           "methods": [
@@ -147,9 +171,11 @@
           ],
           "pathPattern": "/marccat/filteredTag",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.filteredTag.item.get"
+          ]
         },
         {
           "methods": [
@@ -157,9 +183,11 @@
           ],
           "pathPattern": "/marccat/validateTag",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.validateTag.item.get"
+          ]
         },
         {
           "methods": [
@@ -167,9 +195,11 @@
           ],
           "pathPattern": "/marccat/record-templates",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.record-templates.collection.get"
+          ]
         },
         {
           "methods": [
@@ -177,9 +207,11 @@
           ],
           "pathPattern": "/marccat/record-template/{id}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.record-template.item.get"
+          ]
         },
         {
           "methods": [
@@ -187,9 +219,11 @@
           ],
           "pathPattern": "/marccat/record-template",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.record-template.item.post"
+          ]
         },
         {
           "methods": [
@@ -197,19 +231,23 @@
           ],
           "pathPattern": "/marccat/record-template/{id}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.record-template.item.put"
+          ]
         },
         {
           "methods": [
             "POST"
           ],
-          "pathPattern": "/record-template/from-record",
+          "pathPattern": "/marccat/record-template/from-record",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.record-template.from-record.item.post"
+          ]
         },
         {
           "methods": [
@@ -217,9 +255,11 @@
           ],
           "pathPattern": "/marccat/record-template/{id}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.record-template.item.delete"
+          ]
         },
         {
           "methods": [
@@ -236,9 +276,11 @@
           ],
           "pathPattern": "/marccat/bibliographic-record",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic-record.item.post"
+          ]
         },
         {
           "methods": [
@@ -246,9 +288,11 @@
           ],
           "pathPattern": "/marccat/bibliographic-record/{id}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic-record.item.get"
+          ]
         },
         {
           "methods": [
@@ -256,9 +300,11 @@
           ],
           "pathPattern": "/marccat/bibliographic-record/{id}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic-record.item.delete"
+          ]
         },
         {
           "methods": [
@@ -266,9 +312,11 @@
           ],
           "pathPattern": "/marccat/bibliographic-record/from-template/{idTemplate}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic-record.from-template.item.get"
+          ]
         },
         {
           "methods": [
@@ -276,9 +324,11 @@
           ],
           "pathPattern": "/marccat/bibliographic-record/duplicate",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic-record.duplicate.item.get"
+          ]
         },
         {
           "methods": [
@@ -286,9 +336,11 @@
           ],
           "pathPattern": "/marccat/bibliographic-record/fixed-field-display-value",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic-record.fixed-field-display-value.item.post"
+          ]
         },
         {
           "methods": [
@@ -296,9 +348,11 @@
           ],
           "pathPattern": "/marccat/fixed-fields-code-groups-by-leader",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.fixed-fields-code-groups-by-leader.collection.get"
+          ]
         },
         {
           "methods": [
@@ -318,9 +372,11 @@
           ],
           "pathPattern": "/marccat/auth-fixed-fields-code-groups",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.fixed-fields-code-groups.collection.get"
+          ]
         },
         {
           "methods": [
@@ -328,9 +384,11 @@
           ],
           "pathPattern": "/marccat/header-types",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.header-types.collection.get"
+          ]
         },
         {
           "methods": [
@@ -338,9 +396,11 @@
           ],
           "pathPattern": "/marccat/create-heading",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.create-heading.item.post"
+          ]
         },
         {
           "methods": [
@@ -348,9 +408,11 @@
           ],
           "pathPattern": "/marccat/load-from-file",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.load-from-file.collection.post"
+          ]
         },
         {
           "methods": [
@@ -358,9 +420,11 @@
           ],
           "pathPattern": "/marccat/bibliographic-record/lock/{id}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic-record.lock.item.put"
+          ]
         },
         {
           "methods": [
@@ -368,9 +432,11 @@
           ],
           "pathPattern": "/marccat/bibliographic-record/unlock/{id}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.bibliographic-record.unlock.item.delete"
+          ]
         }
       ]
     },
@@ -396,44 +462,169 @@
   ],
   "permissionSets": [
     {
-      "permissionName": "marccat.records.collection.get",
-      "displayName": "MARCcat - get marc records collection",
-      "description": "Get marc records collection"
+      "permissionName": "marccat.search.collection.get",
+      "displayName": "marccat - get bibliographic or authority record collection",
+      "description": "Get bibliographic or authority record collection"
     },
     {
-      "permissionName": "marccat.record.count.get",
-      "displayName": "MARCcat - get count of document by id",
-      "description": "Get count of MARC document by id"
+      "permissionName": "marccat.mergedSearch.collection.get",
+      "displayName": "marccat - get bibliographic and authority record collection",
+      "description": "Get bibliographic and authority record collection"
     },
     {
-      "permissionName": "marccat.tag.collection.get",
-      "displayName": "MARCcat - get marc tag collection for auto suggest",
-      "description": "Get marc tag collection for auto suggest"
+      "permissionName": "marccat.searchVertical.collection.get",
+      "displayName": "marccat - get vertical record collection",
+      "description": "Get vertical record collection"
     },
     {
-      "permissionName": "marccat.record.unlock.delete",
-      "displayName": "MARCcat - unlock record",
-      "description": "Unlock MARC record"
+      "permissionName": "marccat.countSearch.item.get",
+      "displayName": "marccat - get count record",
+      "description": "Get count record"
     },
     {
-      "permissionName": "marccat.record.lock.put",
-      "displayName": "MARCcat - lock record",
-      "description": ":Lock MARC record"
+      "permissionName": "marccat.document-count-by-id.item.get",
+      "displayName": "marccat - get count record by id authority",
+      "description": "Get count record by id authority"
     },
     {
-      "permissionName": "marccat.tag.heading.post",
-      "displayName": "MARCcat - create new heading for tag",
-      "description": "Create new heading in tag for MARC record"
+      "permissionName": "marccat.bibliographic.fields.mandatory.collection.get",
+      "displayName": "marccat - get mandatory tag collection",
+      "description": "Get mandatory tag collection"
     },
     {
-      "permissionName": "marccat.tag.value.post",
-      "displayName": "MARCcat - tag display value",
-      "description": "Display value in tag for MARC record"
+      "permissionName": "marccat.field-template.item.get",
+      "displayName": "marccat - get individual field template",
+      "description": "Get individual field template"
     },
     {
-      "permissionName": "marccat.record.insert.post",
-      "displayName": "MARCcat - save/update record",
-      "description": "Save or update MARC record"
+      "permissionName": "marccat.browse.collection.get",
+      "displayName": "marccat - get heading collection",
+      "description": "Get heading collection"
+    },
+    {
+      "permissionName": "marccat.next-page.collection.get",
+      "displayName": "marccat - get next page heading collection",
+      "description": "Get next page of heading collection"
+    },
+    {
+      "permissionName": "marccat.previous-page.collection.get",
+      "displayName": "marccat - get previous page heading collection",
+      "description": "Get previous page heading collection"
+    },
+    {
+      "permissionName": "marccat.headings-by-tag.collection.get",
+      "displayName": "marccat - get heading collection by tag",
+      "description": "Get heading collection by tag"
+    },
+    {
+      "permissionName": "marccat.filteredTagsList.collection.get",
+      "displayName": "marccat - get filtered tag collection",
+      "description": "Get filtered tag collection"
+    },
+    {
+      "permissionName": "marccat.filteredTag.item.get",
+      "displayName": "marccat - get filtered tag",
+      "description": "Get filtered tag"
+    },
+    {
+      "permissionName": "marccat.validateTag.item.get",
+      "displayName": "marccat - get valid tag",
+      "description": "Get valid tag"
+    },
+    {
+      "permissionName": "marccat.record-templates.collection.get",
+      "displayName": "marccat - get template collection",
+      "description": "Get template collection"
+    },
+    {
+      "permissionName": "marccat.record-template.item.get",
+      "displayName": "marccat - get individual template",
+      "description": "Get individual template"
+    },
+    {
+      "permissionName": "marccat.record-template.item.post",
+      "displayName": "marccat - create individual template",
+      "description": "Create individual template"
+    },
+    {
+      "permissionName": "marccat.record-template.item.put",
+      "displayName": "marccat - modify template",
+      "description": "Modify template"
+    },
+    {
+      "permissionName": "marccat.record-template.from-record.item.post",
+      "displayName": "marccat - get template from record",
+      "description": "Get template from record"
+    },
+    {
+      "permissionName": "marccat.record-template.item.delete",
+      "displayName": "marccat - delete individual template",
+      "description": "Delete individual template"
+    },
+    {
+      "permissionName": "marccat.bibliographic-record.item.post",
+      "displayName": "marccat - create individual bibliographic record",
+      "description": "Create individual bibliographic record"
+    },
+    {
+      "permissionName": "marccat.bibliographic-record.item.get",
+      "displayName": "marccat - get individual bibliographic record",
+      "description": "Get individual bibliographic record"
+    },
+    {
+      "permissionName": "marccat.bibliographic-record.item.delete",
+      "displayName": "marccat - delete individual bibliographic record",
+      "description": "Delete individual bibliographic record"
+    },
+    {
+      "permissionName": "marccat.bibliographic-record.from-template.item.get",
+      "displayName": "marccat - get bibliographic record from template",
+      "description": "Get bibliographic record from template"
+    },
+    {
+      "permissionName": "marccat.bibliographic-record.duplicate.item.get",
+      "displayName": "marccat - get duplicate bibliographic record",
+      "description": "Get duplicate bibliographic record"
+    },
+    {
+      "permissionName": "marccat.bibliographic-record.fixed-field-display-value.item.post",
+      "displayName": "marccat - get fixed field display value",
+      "description": "Get fixed field display value"
+    },
+    {
+      "permissionName": "marccat.fixed-fields-code-groups-by-leader.collection.get",
+      "displayName": "marccat - get dropdown collection for fixed field by leader",
+      "description": "Get dropdown collection for fixed field by leader"
+    },
+    {
+      "permissionName": "marccat.fixed-fields-code-groups.collection.get",
+      "displayName": "marccat - get dropdown collection for fixed field",
+      "description": "Get dropdown collection for fixed field"
+    },
+    {
+      "permissionName": "marccat.header-types.collection.get",
+      "displayName": "marccat - get header type collection",
+      "description": "Get header type collection"
+    },
+    {
+      "permissionName": "marccat.create-heading.item.post",
+      "displayName": "marccat - create individual heading",
+      "description": "Create individual heading"
+    },
+    {
+      "permissionName": "marccat.load-from-file.collection.post",
+      "displayName": "marccat - load record collection from file",
+      "description": "Load record collection from file"
+    },
+    {
+      "permissionName": "marccat.bibliographic-record.lock.item.put",
+      "displayName": "marccat - lock record",
+      "description": ":Lock record"
+    },
+    {
+      "permissionName": "marccat.bibliographic-record.unlock.item.delete",
+      "displayName": "marccat - unlock record",
+      "description": "Unlock record"
     },
     {
       "permissionName": "marccat.authority.collection.get",
@@ -452,20 +643,44 @@
     },
     {
       "permissionName": "marccat.all",
-      "displayName": "MARCcat - all permissions",
-      "description": "Entire set of permissions needed to use the MARCcat",
+      "displayName": "marccat - all permissions",
+      "description": "Entire set of permissions needed to use the marccat",
       "subPermissions": [
         "marccat.authority.insert.post",
-        "marccat.record.insert.post",
-        "marccat.tag.value.post",
-        "marccat.tag.heading.post",
-        "marccat.record.lock.put",
-        "marccat.record.unlock.delete",
-        "marccat.tag.collection.get",
-        "marccat.record.count.get",
-        "marccat.records.collection.get",
         "marccat.authority.collection.get",
-        "marccat.fixed-fields-code-groups.collection.get"
+        "marccat.search.collection.get",
+        "marccat.mergedSearch.collection.get",
+        "marccat.searchVertical.collection.get",
+        "marccat.countSearch.item.get",
+        "marccat.document-count-by-id.item.get",
+        "marccat.bibliographic.fields.mandatory.collection.get",
+        "marccat.field-template.item.get",
+        "marccat.browse.collection.get",
+        "marccat.next-page.collection.get",
+        "marccat.previous-page.collection.get",
+        "marccat.headings-by-tag.collection.get",
+        "marccat.filteredTagsList.collection.get",
+        "marccat.filteredTag.item.get",
+        "marccat.validateTag.item.get",
+        "marccat.record-templates.collection.get",
+        "marccat.record-template.item.get",
+        "marccat.record-template.item.post",
+        "marccat.record-template.item.put",
+        "marccat.record-template.from-record.item.post",
+        "marccat.record-template.item.delete",
+        "marccat.bibliographic-record.item.post",
+        "marccat.bibliographic-record.item.get",
+        "marccat.bibliographic-record.item.delete",
+        "marccat.bibliographic-record.from-template.item.get",
+        "marccat.bibliographic-record.duplicate.item.get",
+        "marccat.bibliographic-record.fixed-field-display-value.item.post",
+        "marccat.fixed-fields-code-groups-by-leader.collection.get",
+        "marccat.fixed-fields-code-groups.collection.get",
+        "marccat.header-types.collection.get",
+        "marccat.create-heading.item.post",
+        "marccat.load-from-file.collection.post",
+        "marccat.bibliographic-record.lock.item.put",
+        "marccat.bibliographic-record.unlock.item.delete"
       ]
     }
   ],
