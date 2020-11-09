@@ -7,14 +7,13 @@ import org.folio.marccat.business.common.UpdateStatus;
 import org.folio.marccat.dao.persistence.BibliographicNote;
 import org.folio.marccat.dao.persistence.BibliographicNoteOverflow;
 import org.folio.marccat.dao.persistence.BibliographicNoteTag;
-import org.folio.marccat.dao.persistence.StandardNoteAccessPoint;
 import java.util.Iterator;
 
 /**
  * Class to handle the notes.
  *
  * @author paulm
- * @since 1.0
+ * @author carment
  */
 
 public class BibliographicNoteTagDAO extends AbstractDAO {
@@ -32,12 +31,7 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
       throw new IllegalArgumentException("I can only persist BibliographicNoteTag objects");
     }
     BibliographicNoteTag aNote = (BibliographicNoteTag) po;
-    aNote.getNote().markDeleted();
-    persistByStatus(aNote.getNote(), session);
-    if (aNote.getNoteStandard() != null) {
-      aNote.getNoteStandard().markDeleted();
-      persistByStatus(aNote.getNoteStandard(), session);
-    }
+
     Iterator<BibliographicNoteOverflow> iter = aNote.getOverflowList().iterator();
     BibliographicNoteOverflow overflow;
     while (iter.hasNext()) {
@@ -45,6 +39,8 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
       overflow.markDeleted();
       persistByStatus(overflow, session);
     }
+    aNote.getNote().markDeleted();
+    persistByStatus(aNote.getNote(), session);
     aNote.setUpdateStatus(UpdateStatus.REMOVED);
   }
 
@@ -62,9 +58,13 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
     }
 
     BibliographicNoteTag aNote = (BibliographicNoteTag) po;
+    BibliographicNote note = aNote.getNote();
+    if (aNote.isNew()) {
+      aNote.getNote().markNew();
+    }
+    persistByStatus(note, session);
 
     Iterator<BibliographicNoteOverflow> iter = aNote.getOverflowList().iterator();
-    BibliographicNote note = aNote.getNote();
     while (iter.hasNext()) {
       BibliographicNoteOverflow noteOverflow =  iter.next();
       noteOverflow.setBibItemNumber(note.getItemNumber());
@@ -75,7 +75,6 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
       }
       persistByStatus(noteOverflow, session);
     }
-
     iter = aNote.getDeletedOverflowList().iterator();
     while (iter.hasNext()) {
       BibliographicNoteOverflow noteOverflow =  iter.next();
@@ -83,28 +82,8 @@ public class BibliographicNoteTagDAO extends AbstractDAO {
         persistByStatus(noteOverflow, session);
       }
     }
-
     aNote.getDeletedOverflowList().clear();
 
-    StandardNoteAccessPoint noteStandard = aNote.getNoteStandard();
-    if (aNote.isStandardNoteType()) {
-      noteStandard.setBibItemNumber(note.getItemNumber());
-      noteStandard.setUserViewString(note.getUserViewString());
-      noteStandard.setNoteNbr(note.getNoteNbr());
-      persistByStatus(noteStandard, session);
-    }
-
-    if (aNote.isNew()) {
-      aNote.getNote().markNew();
-      if (aNote.isStandardNoteType())
-        aNote.getNoteStandard().markNew();
-
-    }
-
-    persistByStatus(note, session);
-
-    if (aNote.isStandardNoteType())
-      persistByStatus(aNote.getNoteStandard(), session);
     aNote.markUnchanged();
   }
 

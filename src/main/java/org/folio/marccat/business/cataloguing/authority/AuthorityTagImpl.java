@@ -1,11 +1,5 @@
 package org.folio.marccat.business.cataloguing.authority;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
@@ -21,7 +15,6 @@ import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.shared.Validation;
-
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 
@@ -30,6 +23,7 @@ import net.sf.hibernate.Session;
  *
  */
 public class AuthorityTagImpl extends TagImpl {
+
   private static final long serialVersionUID = -1006497560481032279L;
 
   private static final Log logger = LogFactory.getLog(AuthorityTagImpl.class);
@@ -100,13 +94,6 @@ public class AuthorityTagImpl extends TagImpl {
     // TODO It is an abstract class that should be implemented. At the moment this
     // function is not used.
     return null;
-  }
-
-  @Override
-  public Set getValidEditableSubfields(int category) {
-    // TODO It is an abstract class that should be implemented. At the moment this
-    // function is not used.
-    return Collections.emptySet();
   }
 
   public int getTagCategory(final Heading heading, Session session) {

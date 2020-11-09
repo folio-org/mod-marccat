@@ -117,16 +117,31 @@ public abstract class CatalogItem implements Serializable {
    * Finds the first tag occurrence of the given tag number.
    * If a length shorter than 3 is given (e.g. "1"), then the first tag starting with a 1 will be returned.
    *
-   * @param s -- the tag number to search.
+   * @param marcTag the tag number to search.
+   * @param session the hibernate session
    */
-  public Tag findFirstTagByNumber(final String s, final Session session) {
+  public Tag findFirstTagByNumber(final String marcTag, final Session session) {
     try {
-      return getTags().stream().filter(tag -> tag.getMarcEncoding(session).getMarcTag().startsWith(s)).findFirst().orElse(null);
+      return getTags().stream().filter(tag -> tag.getMarcEncoding(session).getMarcTag().startsWith(marcTag)).findFirst().orElse(null);
     } catch (Exception e) {
       return null;
     }
   }
 
+
+  /**
+   * Finds the first tag occurrence of the given tag number.
+   * If a length shorter than 3 is given (e.g. "1"), then the first tag starting with a 1 will be returned.
+   *
+   * @param marcTag -- the tag number to search.
+   */
+  public Tag findFirstTagByNumber(final String marcTag) {
+    try {
+      return getTags().stream().filter(tag -> tag.getMarcEncoding().getMarcTag().startsWith(marcTag)).findFirst().orElse(null);
+    } catch (Exception e) {
+      return null;
+    }
+  }
   /**
    * @return the Amicus number for the item (aut or bib)
    */

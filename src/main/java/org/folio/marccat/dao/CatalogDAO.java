@@ -27,6 +27,10 @@ import org.folio.marccat.exception.ModMarccatException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Abstract class for common implementations of CatalogDAO (Bib and Auth).
@@ -97,53 +101,6 @@ public abstract class CatalogDAO extends AbstractDAO {
   }
 
   /**
-   * Updates bibliographic note table for amicus number.
-   *
-   * @param amicusNumber -- the amicus number id.
-   * @param noteNumber   -- the note number id.
-   * @param session      -- the current hibernate session.
-   * @throws HibernateException in case of hibernate exception.
-   * @throws SQLException       in case of sql exception.
-   */
-  public void updateBibNote(final int amicusNumber, final int noteNumber, final Session session) throws HibernateException, SQLException {
-    final Transaction transaction = getTransaction(session);
-    CallableStatement proc = null;
-    try {
-      Connection connection = session.connection();
-      proc = connection.prepareCall("{call AMICUS.updateNotaStandard(?, ?) }");
-      proc.setInt(1, amicusNumber);
-      proc.setInt(2, noteNumber);
-      proc.execute();
-    } catch (SQLException ex) {
-      throw new SQLException(ex);
-    } finally {
-      if (proc != null)
-        proc.close();
-    }
-    transaction.commit();
-  }
-
-  /**
-   * Updates note standard tags.
-   *
-   * @param item    -- the item representing record.
-   * @param session -- the current hibernate session.
-   * @throws HibernateException in case of hibernate exception.
-   */
-  public void modifyNoteStandard(final CatalogItem item, final Session session) throws HibernateException {
-    final int amicusNumber = item.getItemEntity().getAmicusNumber();
-    item.getTags().stream()
-        .filter(aTag -> aTag instanceof BibliographicNoteTag && ((BibliographicNoteTag) aTag).isStandardNoteType())
-        .forEach(tag -> {
-          try {
-            updateBibNote(amicusNumber, ((BibliographicNoteTag) tag).getNoteNbr(), session);
-          } catch (HibernateException | SQLException he) {
-            throw new ModMarccatException(he);
-          }
-        });
-  }
-
-  /**
    * Saves the record, all associated tags and associated casCache.
    *
    * @param item    -- the item representing record to save.
@@ -211,9 +168,7 @@ public abstract class CatalogDAO extends AbstractDAO {
 
       persistByStatus(item.getModelItem(), session);
     }
-
     updateItemDisplayCacheTable(item, session);
-    modifyNoteStandard(item, session);
     transaction.commit();
   }
 }
