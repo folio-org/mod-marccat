@@ -122,4 +122,36 @@ public class TenantTest extends TestBase {
 
   }
 
+  @Test
+  public void create_withBibliographic()
+      throws InterruptedException, ExecutionException, TimeoutException, MalformedURLException {
+    String url = getURI("/_/tenant");
+
+    TenantAttributes ta = new TenantAttributes();
+    ta.setModuleFrom("mod-marccat-2.3.0");
+    ta.setModuleTo("");
+
+    Parameter p = new Parameter();
+    p.setKey("loadSample");
+    p.setValue("true");
+
+    Parameter p2 = new Parameter();
+    p2.setKey("loadReference");
+    p2.setValue("true");
+
+    Parameter p3 = new Parameter();
+    p3.setKey("loadBibliographicSample");
+    p3.setValue("true");
+    List<Parameter> parameters = Arrays.asList(p, p2, p3);
+    ta.setParameters(parameters);
+
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    Response response = given().headers(headers).body(ta).when().post(url);
+
+    String failureMessage = String.format("Tenant init failed: %s: %s", response.getStatusCode(), response.getBody());
+
+    assertThat(failureMessage, response.getStatusCode(), is(201));
+
+  }
+
 }
