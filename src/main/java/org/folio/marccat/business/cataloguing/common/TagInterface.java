@@ -4,10 +4,8 @@ import net.sf.hibernate.CallbackException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.dao.persistence.CorrelationKey;
-import org.folio.marccat.dao.persistence.T_SINGLE;
 import org.folio.marccat.shared.CorrelationValues;
 import java.io.Serializable;
-import java.util.List;
 
 public interface TagInterface {
 
@@ -133,28 +131,6 @@ public interface TagInterface {
    */
   String getRequiredEditPermission();
 
-  /**
-   * Gets appropriate values for selection of the second correlation list.  Values
-   * are filtered based on the given value from the first correlation list.  Only
-   * valid tag combinations are permitted to be chosen
-   *
-   * @param value1 the first correlation value
-   * @return the second correlation list for this tag
-   * entry
-   */
-  List<T_SINGLE> getSecondCorrelationList(int value1);
-
-  /**
-   * Gets appropriate values for selection of the second correlation list.  Values
-   * are filtered based on the given value from the first correlation list.  Only
-   * valid tag combinations are permitted to be chosen
-   *
-   * @param value1 the first correlation value
-   * @param value2 the second correlation value
-   * @return the second correlation list for this tag
-   * entry
-   */
-  List<T_SINGLE> getThirdCorrelationList(int value1, int value2);
 
   /**
    * Gets the update status.

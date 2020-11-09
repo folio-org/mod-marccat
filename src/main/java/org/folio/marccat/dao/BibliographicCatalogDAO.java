@@ -10,7 +10,6 @@ import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.common.PersistentObjectWithView;
-import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.*;
@@ -19,7 +18,6 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.util.XmlUtils;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -73,7 +71,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @param session      -- the current session hibernate.
    * @param tag          -- the tag.
    */
-  private void addHeaderType(final Session session, final Tag tag){
+  public void addHeaderType(final Session session, final Tag tag){
     if (tag instanceof MaterialDescription) {
       final MaterialDescription materialTag = (MaterialDescription) tag;
       final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
@@ -160,8 +158,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
       item.getTags().addAll(getHeaderFields(item, userView, session));
 
       try {
-        final String language = item.getItemEntity().getLanguageOfCataloguing();
-        item.getTags().addAll(getBibliographicNotes(amicusNumber, userView, language, session));
+        item.getTags().addAll(getBibliographicNotes(amicusNumber, userView, session));
       } catch (Exception e) {
         logger.error("notes not loaded", e);
       }
@@ -353,7 +350,7 @@ public class BibliographicCatalogDAO extends CatalogDAO {
    * @throws HibernateException in case of hibernate exception.
    */
   @SuppressWarnings("unchecked")
-  private List <BibliographicNoteTag> getBibliographicNotes(final int amicusNumber, final int userView, final String language, final Session session) throws HibernateException {
+  private List <BibliographicNoteTag> getBibliographicNotes(final int amicusNumber, final int userView, final Session session) throws HibernateException {
 
     List <BibliographicNote> multiView = session.find("from BibliographicNote t "
         + "where t.bibItemNumber = ? and substr(t.userViewString, ?, 1) = '1'",
@@ -368,17 +365,8 @@ public class BibliographicCatalogDAO extends CatalogDAO {
         final BibliographicNotesOverflowDAO daoOverflow = new BibliographicNotesOverflowDAO();
         note.setOverflowList(daoOverflow.getBibNotesOverflowList(note.getBibItemNumber(), userView, note.getNoteNbr(), session));
         final BibliographicNoteTag bibliographicNoteTag = new BibliographicNoteTag(note);
-        final BibliographicStandardNoteDAO dao = new BibliographicStandardNoteDAO();
         bibliographicNoteTag.markUnchanged();
         bibliographicNoteTag.setOverflowList(note.getOverflowList());
-        if (!language.equals("")) {
-          StandardNoteAccessPoint noteAcs = dao.getBibNoteStardard(amicusNumber, userView, note.getNoteNbr(), session);
-          bibliographicNoteTag.setNoteStandard(noteAcs);
-          if (noteAcs != null) {
-            bibliographicNoteTag.setValueElement(dao.getSTDDisplayString(noteAcs.getTypeCode(), language, session));
-          }
-          setBibliographicNoteContent(bibliographicNoteTag);
-        }
         return bibliographicNoteTag;
       } catch (HibernateException e) {
         throw new ModMarccatException(e);
@@ -387,26 +375,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
 
   }
 
-  /**
-   * Sets content for standard note type.
-   *
-   * @param bibliographicNoteTag -- the bibliographic note tag.
-   */
-  private void setBibliographicNoteContent(final BibliographicNoteTag bibliographicNoteTag) {
-    if (!bibliographicNoteTag.isStandardNoteType()) {
-      return;
-    }
-    String content = bibliographicNoteTag.getNote().getStringTextString();
-    if (isNotNullOrEmpty(content) && !content.contains(Global.SUBFIELD_DELIMITER)) {
-      content = Global.SUBFIELD_DELIMITER + "a" + content;
-      bibliographicNoteTag.getNote().markUnchanged();
-    }
-    if (!isNotNullOrEmpty(content)) {
-      content = Global.SUBFIELD_DELIMITER + "a" + "";
-      bibliographicNoteTag.getNote().markUnchanged();
-    }
-    bibliographicNoteTag.getNote().setContent(content);
-  }
 
   /**
    * Gets bibliographic relationship tags.
@@ -644,17 +612,6 @@ public class BibliographicCatalogDAO extends CatalogDAO {
   }
 
 
-  /**
-   * @param bibItemNumber
-   * @param cataloguingView
-   * @deprecated
-   */
-  @Deprecated
-  public void updateCacheTable(
-    final int bibItemNumber,
-    final int cataloguingView) {
-    //Do nothing
-  }
 
 
 }
