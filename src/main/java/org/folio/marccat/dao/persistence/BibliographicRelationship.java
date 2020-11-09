@@ -3,6 +3,7 @@ package org.folio.marccat.dao.persistence;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
+import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.UserViewHelper;
 import org.folio.marccat.dao.AbstractDAO;
@@ -85,6 +86,7 @@ public class BibliographicRelationship extends VariableField implements Persiste
     StringText s = new StringText("");
     setStringText(s);
     setReciprocalType(-1);
+    setPersistenceState(new PersistenceState());
   }
 
   /**
