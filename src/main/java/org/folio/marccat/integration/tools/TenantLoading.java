@@ -221,7 +221,10 @@ public class TenantLoading {
           String.valueOf(StandardCharsets.UTF_8));
 
       HttpEntity<String> entity = new HttpEntity<>(requestJson, httpHeaders);
-      client.postForObject(fromUriString(endPointUrl).build().toUri(), entity, String.class);
+      String response = client.postForObject(fromUriString(endPointUrl).build().toUri(), entity, String.class);
+      if ("0".equals(response)) {
+        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE);
+      }
     } catch (IOException e) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, e);
     }

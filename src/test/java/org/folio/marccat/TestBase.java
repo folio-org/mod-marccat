@@ -79,7 +79,7 @@ public class TestBase {
     headers.put(Global.OKAPI_TENANT_HEADER_NAME, tenantId);
     if (url != null) {
       headers.put(Global.OKAPI_URL, "http://localhost:8080");
-      headers.put(Global.OKAPI_TO_URL, "http://localhost:8080");
+      headers.put(Global.OKAPI_URL_TO, "http://localhost:8080");
       headers.put("Content-Type", "application/json");
     }
     return headers;

@@ -44,11 +44,10 @@ public class TenantRefService {
    */
   public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers) {
     logger.debug("Start sample data loading");
-    boolean loadBibliographicData = isLoadBibliographicSample(tenantAttributes);
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
     logger.debug("Is Load data " + loadData);
     if (loadData) {
-      tl.perform(headers, loadBibliographicData);
+      tl.perform(headers, isLoadBibliographicSample(tenantAttributes));
     }
     logger.debug("End sample data loading");
   }
@@ -129,6 +128,7 @@ public class TenantRefService {
       logger.debug("Load Sample Value " + parameter.getValue());
       if ("loadBibliographicSample".equals(parameter.getKey())) {
         loadBibliographicSample = Boolean.parseBoolean(parameter.getValue());
+        break;
       }
     }
     return loadBibliographicSample;
