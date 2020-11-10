@@ -13,7 +13,6 @@ import org.folio.marccat.integration.TenantRefService;
 import org.folio.marccat.integration.TenantService;
 import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,10 +40,8 @@ public class TenantAPI {
     tenantService.createTenant(tenant, okapiUrl);
     if (!okapiUrl.isEmpty()) {
       tenantRefService.loadData(attributes, okapiHeaders);
-      return new ResponseEntity("Success", CREATED);
-    } else {
-      return new ResponseEntity("Error", HttpStatus.BAD_GATEWAY);
     }
+    return new ResponseEntity("Success", CREATED);
 
   }
 
