@@ -3537,26 +3537,10 @@ public class FixedField {
   }
 
   /**
-   * @param subjectDescriptor The subjectDescriptor
-   */
-  public void setSubjectDescriptor(String subjectDescriptor) {
-    this.attributes.put("subjectDescriptor", subjectDescriptor);
-    this.subjectDescriptor = subjectDescriptor;
-  }
-
-  /**
    * @return The romanizationScheme
    */
   public String getRomanizationScheme() {
     return romanizationScheme;
-  }
-
-  /**
-   * @param romanizationScheme The romanizationScheme
-   */
-  public void setRomanizationScheme(String romanizationScheme) {
-    this.attributes.put("romanizationScheme", romanizationScheme);
-    this.romanizationScheme = romanizationScheme;
   }
 
   /**
@@ -3567,26 +3551,10 @@ public class FixedField {
   }
 
   /**
-   * @param bilingualUsage The bilingualUsage
-   */
-  public void setBilingualUsage(String bilingualUsage) {
-    this.attributes.put("bilingualUsage", bilingualUsage);
-    this.bilingualUsage = bilingualUsage;
-  }
-
-  /**
    * @return The recordType
    */
   public String getRecordType() {
     return recordType;
-  }
-
-  /**
-   * @param recordType The recordType
-   */
-  public void setRecordType(String recordType) {
-    this.attributes.put("recordType", recordType);
-    this.recordType = recordType;
   }
 
   /**
@@ -3597,26 +3565,10 @@ public class FixedField {
   }
 
   /**
-   * @param cataloguingRules The cataloguingRules
-   */
-  public void setCataloguingRules(String cataloguingRules) {
-    this.attributes.put("cataloguingRules", cataloguingRules);
-    this.cataloguingRules = cataloguingRules;
-  }
-
-  /**
    * @return The subjectSystem
    */
   public String getSubjectSystem() {
     return subjectSystem;
-  }
-
-  /**
-   * @param subjectSystem The subjectSystem
-   */
-  public void setSubjectSystem(String subjectSystem) {
-    this.attributes.put("subjectSystem", subjectSystem);
-    this.subjectSystem = subjectSystem;
   }
 
   /**
@@ -3627,26 +3579,10 @@ public class FixedField {
   }
 
   /**
-   * @param seriesType The seriesType
-   */
-  public void setSeriesType(String seriesType) {
-    this.attributes.put("seriesType", seriesType);
-    this.seriesType = seriesType;
-  }
-
-  /**
    * @return The seriesNumbering
    */
   public String getSeriesNumbering() {
     return seriesNumbering;
-  }
-
-  /**
-   * @param seriesNumbering The seriesNumbering
-   */
-  public void setSeriesNumbering(String seriesNumbering) {
-    this.attributes.put("seriesNumbering", seriesNumbering);
-    this.seriesNumbering = seriesNumbering;
   }
 
   /**
@@ -3657,26 +3593,10 @@ public class FixedField {
   }
 
   /**
-   * @param mainAddedEntryIndicator The mainAddedEntryIndicator
-   */
-  public void setMainAddedEntryIndicator(String mainAddedEntryIndicator) {
-    this.attributes.put("mainAddedEntryIndicator", mainAddedEntryIndicator);
-    this.mainAddedEntryIndicator = mainAddedEntryIndicator;
-  }
-
-  /**
    * @return The subjectEntryIndicator
    */
   public String getSubjectEntryIndicator() {
     return subjectEntryIndicator;
-  }
-
-  /**
-   * @param subjectEntryIndicator The subjectEntryIndicator
-   */
-  public void setSubjectEntryIndicator(String subjectEntryIndicator) {
-    this.attributes.put("subjectEntryIndicator", subjectEntryIndicator);
-    this.subjectEntryIndicator = subjectEntryIndicator;
   }
 
   /**
@@ -3687,26 +3607,10 @@ public class FixedField {
   }
 
   /**
-   * @param seriesEntryIndicator The seriesEntryIndicator
-   */
-  public void setSeriesEntryIndicator(String seriesEntryIndicator) {
-    this.attributes.put("seriesEntryIndicator", seriesEntryIndicator);
-    this.seriesEntryIndicator = seriesEntryIndicator;
-  }
-
-  /**
    * @return The subDivisionType
    */
   public String getSubDivisionType() {
     return subDivisionType;
-  }
-
-  /**
-   * @param subDivisionType The subDivisionType
-   */
-  public void setSubDivisionType(String subDivisionType) {
-    this.attributes.put("subDivisionType", subDivisionType);
-    this.subDivisionType = subDivisionType;
   }
 
   /**
@@ -3717,26 +3621,10 @@ public class FixedField {
   }
 
   /**
-   * @param governmentAgency The governmentAgency
-   */
-  public void setGovernmentAgency(String governmentAgency) {
-    this.attributes.put("governmentAgency", governmentAgency);
-    this.governmentAgency = governmentAgency;
-  }
-
-  /**
    * @return The referenceStatus
    */
   public String getReferenceStatus() {
     return referenceStatus;
-  }
-
-  /**
-   * @param referenceStatus The referenceStatus
-   */
-  public void setReferenceStatus(String referenceStatus) {
-    this.attributes.put("referenceStatus", referenceStatus);
-    this.referenceStatus = referenceStatus;
   }
 
   /**
@@ -3747,26 +3635,10 @@ public class FixedField {
   }
 
   /**
-   * @param recordRevision The recordRevision
-   */
-  public void setRecordRevision(String recordRevision) {
-    this.attributes.put("recordRevision", recordRevision);
-    this.recordRevision = recordRevision;
-  }
-
-  /**
    * @return The nonUniqueName
    */
   public String getNonUniqueName() {
     return nonUniqueName;
-  }
-
-  /**
-   * @param nonUniqueName The nonUniqueName
-   */
-  public void setNonUniqueName(String nonUniqueName) {
-    this.attributes.put("nonUniqueName", nonUniqueName);
-    this.nonUniqueName = nonUniqueName;
   }
 
   /**
@@ -3777,14 +3649,6 @@ public class FixedField {
   }
 
   /**
-   * @param headingStatus The headingStatus
-   */
-  public void setHeadingStatus(String headingStatus) {
-    this.attributes.put("headingStatus", headingStatus);
-    this.headingStatus = headingStatus;
-  }
-
-  /**
    * @return The recordModification
    */
   public String getRecordModification() {
@@ -3792,26 +3656,10 @@ public class FixedField {
   }
 
   /**
-   * @param recordModification The recordModification
-   */
-  public void setRecordModification(String recordModification) {
-    this.attributes.put("recordModification", recordModification);
-    this.recordModification = recordModification;
-  }
-
-  /**
    * @return The cataloguingSourceCode
    */
   public String getCataloguingSourceCode() {
     return cataloguingSourceCode;
-  }
-
-  /**
-   * @param cataloguingSourceCode The cataloguingSourceCode
-   */
-  public void setCataloguingSourceCoder(String cataloguingSourceCode) {
-    this.attributes.put("cataloguingSourceCode", cataloguingSourceCode);
-    this.cataloguingSourceCode = cataloguingSourceCode;
   }
 
   /**
@@ -3934,11 +3782,13 @@ public class FixedField {
 
     MAP("map"),
     ELECTRONICAL_RESOURCE("electronicalResource"),
-    GLOBE("globe"), TACTILE_MATERIAL("tactileMaterial"),
+    GLOBE("globe"),
+    TACTILE_MATERIAL("tactileMaterial"),
     PROJECTED_GRAPHIC("projectedGraphic"),
     MICROFORM("microform"),
     NON_PROJECTED_GRAPHIC("nonProjectedGraphic"),
-    MOTION_PICTURE("motionPicture"), KIT("kit"),
+    MOTION_PICTURE("motionPicture"),
+    KIT("kit"),
     NOTATED_MUSIC("notatedMusic"),
     REMOTE_SENSING_IMAGE("remoteSensingImage"),
     SOUND_RECORDING("soundRecording"),
