@@ -1,7 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import java.util.Set;
-
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
@@ -13,8 +11,7 @@ import org.folio.marccat.exception.ModMarccatException;
 import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
-public abstract class AuthorityReferenceTag extends VariableField
-    implements PersistsViaItem, PersistentObjectWithView, Browsable, SkipInFiling {
+public abstract class AuthorityReferenceTag extends VariableField implements PersistsViaItem, PersistentObjectWithView, Browsable, SkipInFiling {
 
   /**
    * 
@@ -194,10 +191,6 @@ public abstract class AuthorityReferenceTag extends VariableField
 
   public void setUserViewString(String s) {
     getReference().setUserViewString(s);
-  }
-
-  public Set getValidEditableSubfields() {
-    return getTagImpl().getValidEditableSubfields(getCategory());
   }
 
   public String getVariantCodes() {

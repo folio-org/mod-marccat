@@ -89,10 +89,6 @@ public class AuthorityHeadingTag extends VariableField implements PersistsViaIte
     return false;
   }
 
-  public Set<Object> getValidEditableSubfields() {
-    return new TreeSet<>();
-  }
-
   public void setDescriptorStringText(StringText tagStringText) {
     getDescriptor().setStringText(tagStringText.toString());
   }
