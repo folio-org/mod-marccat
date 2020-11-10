@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.5",
+      "version": "2.2",
       "handlers": [
         {
           "methods": [
@@ -348,9 +348,11 @@
           ],
           "pathPattern": "/marccat/authority-record/fixed-field-display-value",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.authority-record.fixed-field-display-value.item.post"
+          ]
         },
         {
           "methods": [
@@ -590,6 +592,11 @@
       "description": "Get fixed field display value"
     },
     {
+      "permissionName": "marccat.authority-record.fixed-field-display-value.item.post",
+      "displayName": "marccat - get fixed field display value",
+      "description": "Get fixed field display value"
+    },
+    {
       "permissionName": "marccat.fixed-fields-code-groups-by-leader.collection.get",
       "displayName": "marccat - get dropdown collection for fixed field by leader",
       "description": "Get dropdown collection for fixed field by leader"
@@ -667,6 +674,7 @@
         "marccat.bibliographic-record.from-template.item.get",
         "marccat.bibliographic-record.duplicate.item.get",
         "marccat.bibliographic-record.fixed-field-display-value.item.post",
+        "marccat.authority-record.fixed-field-display-value.item.post",
         "marccat.fixed-fields-code-groups-by-leader.collection.get",
         "marccat.fixed-fields-code-groups.collection.get",
         "marccat.header-types.collection.get",

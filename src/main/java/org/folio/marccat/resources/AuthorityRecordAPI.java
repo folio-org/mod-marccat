@@ -35,7 +35,8 @@ public class AuthorityRecordAPI extends BaseResource {
   public ResponseEntity<Object> save(@RequestBody final AuthorityRecord record,
       // ContainerRecordTemplate container,
       @RequestParam(name = "view", defaultValue = View.DEFAULT_AUTHORITY_VIEW_AS_STRING) final int view,
-      @RequestParam final String lang, @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestParam final String lang,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
       @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     return doPost((storageService, configuration) -> {
@@ -50,8 +51,8 @@ public class AuthorityRecordAPI extends BaseResource {
         final GeneralInformation gi = new GeneralInformation();
         gi.setDefaultValues(configuration);
 
-        record.getFields().stream().filter(FixedFieldUtils::isFixedField)
-            .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)).forEach(field -> {
+        record.getFields().stream().filter(FixedFieldUtils::isFixedField).filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
+            .forEach(field -> {
             });
 
         authorityStorageService.saveAuthorityRecord(record, view, lang, configuration);
@@ -69,8 +70,9 @@ public class AuthorityRecordAPI extends BaseResource {
   public ResponseEntity<FixedField> getFixedFieldWithDisplayValue(@RequestBody final FixedField fixed,
       @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
       @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
-    return doPost((storageService, configuration) -> getAuthorityDisplayValueOfMaterial(fixed), tenant, okapiUrl,
-        configurator, () -> (isNotNullOrEmpty(fixed.getCode())));
+    return doPost((storageService, configuration) 
+        -> getAuthorityDisplayValueOfMaterial(fixed), 
+        tenant, okapiUrl, configurator, () -> (isNotNullOrEmpty(fixed.getCode())));
   }
 
 }
