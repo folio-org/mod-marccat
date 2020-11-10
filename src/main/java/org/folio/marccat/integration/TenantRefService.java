@@ -1,5 +1,6 @@
 package org.folio.marccat.integration;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,9 @@ public class TenantRefService {
    * @param tenantAttributes        the tenant attributes
    * @param headers                 the headers
    * @param loadBibliographicSample
+   * @throws IOException 
    */
-  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers) {
+  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers) throws IOException {
     logger.debug("Start sample data loading");
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
     logger.debug("Is Load data " + loadData);

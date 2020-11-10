@@ -149,8 +149,9 @@ public class TenantLoading {
    * @param headers                 Okapi headers taken verbatim from RMBs handler
    *                                loaded.
    * @param loadBibliographicSample
+   * @throws IOException 
    */
-  public void perform(Map<String, String> headers, boolean loadBibliographicSample) {
+  public void perform(Map<String, String> headers, boolean loadBibliographicSample) throws IOException {
 
     String okapiUrl = headers.get("X-Okapi-Url-to");
     if (okapiUrl == null) {
@@ -171,8 +172,9 @@ public class TenantLoading {
    * @param headers                 the headers
    * @param it                      the it
    * @param loadBibliographicSample
+   * @throws IOException 
    */
-  private void loadData(String okapiUrl, Map<String, String> headers, boolean loadBibliographicSample) {
+  private void loadData(String okapiUrl, Map<String, String> headers, boolean loadBibliographicSample) throws IOException {
 
     if (loadBibliographicSample) {
       loadDataBibliographic(okapiUrl, headers);
@@ -206,8 +208,9 @@ public class TenantLoading {
    *
    * @param okapiUrl the okapi url
    * @param headers  the headers
+   * @throws IOException 
    */
-  private void loadDataAuthority(String okapiUrl, Map<String, String> headers) {
+  private void loadDataAuthority(String okapiUrl, Map<String, String> headers) throws IOException {
     final String endPointUrl = okapiUrl + "/marccat/authority-record";
     logger.debug("Load data URL " + endPointUrl);
     HttpHeaders httpHeaders = new HttpHeaders();
@@ -216,17 +219,13 @@ public class TenantLoading {
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
     String requestJson;
-    try {
-      requestJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
-          String.valueOf(StandardCharsets.UTF_8));
+    requestJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
+        String.valueOf(StandardCharsets.UTF_8));
 
-      HttpEntity<String> entity = new HttpEntity<>(requestJson, httpHeaders);
-      String response = client.postForObject(fromUriString(endPointUrl).build().toUri(), entity, String.class);
-      if ("0".equals(response)) {
-        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE);
-      }
-    } catch (IOException e) {
-      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, e);
+    HttpEntity<String> entity = new HttpEntity<>(requestJson, httpHeaders);
+    String response = client.postForObject(fromUriString(endPointUrl).build().toUri(), entity, String.class);
+    if ("0".equals(response)) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE);
     }
 
   }

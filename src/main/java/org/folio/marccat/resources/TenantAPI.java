@@ -45,12 +45,10 @@ public class TenantAPI {
       if (!okapiUrl.isEmpty()) {
         tenantRefService.loadData(attributes, okapiHeaders);
       }
-      return new ResponseEntity("Success", HttpStatus.CREATED);
+      return new ResponseEntity<>("Success", HttpStatus.CREATED);
     } catch (SQLException | IOException e) {
-      return new ResponseEntity("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
-
   }
 
   public void addHeaders(@RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
