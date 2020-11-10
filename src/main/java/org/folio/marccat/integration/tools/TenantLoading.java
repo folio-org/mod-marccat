@@ -198,8 +198,14 @@ public class TenantLoading {
     MultiValueMap<String, Object> requestEntity = new LinkedMultiValueMap<>();
     File file = getResourceAsFile("/sample-data/load-from-file/sample_records.mrc");
     requestEntity.add("files", new FileSystemResource(file));
-    HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(requestEntity, httpHeaders);
-    client.exchange(fromUriString(endPointUrl).build().toUri(), HttpMethod.POST, httpEntity, String.class);
+    HttpEntity <MultiValueMap <String, Object>> httpEntity = new HttpEntity <>(requestEntity, httpHeaders);
+    client.exchange(
+      fromUriString(endPointUrl)
+        .build()
+        .toUri(),
+      HttpMethod.POST,
+      httpEntity,
+      String.class);
 
   }
 

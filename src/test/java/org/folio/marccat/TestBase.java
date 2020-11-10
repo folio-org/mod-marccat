@@ -37,7 +37,8 @@ public class TestBase {
 
   /** The marccat password. */
   @Value("${marccat.password}")
-  private String marccatPassword;
+  private  String marccatPassword;
+
 
   /** The database url. */
   @Value("${marccat.database.url}")
@@ -70,7 +71,7 @@ public class TestBase {
   /**
    * Adds the default headers.
    *
-   * @param url      the url
+   * @param url the url
    * @param tenantId the tenant id
    * @return the map
    */
@@ -78,11 +79,14 @@ public class TestBase {
     Map<String, String> headers = new HashMap<>();
     headers.put(Global.OKAPI_TENANT_HEADER_NAME, tenantId);
     if (url != null) {
-      headers.put(Global.OKAPI_URL, "http://localhost:8080");
-      headers.put(Global.OKAPI_URL_TO, "http://localhost:8080");
+      headers.put(Global.OKAPI_URL, "");
+      headers.put(Global.OKAPI_URL_TO, "");
       headers.put("Content-Type", "application/json");
     }
     return headers;
   }
+
+
+
 
 }
