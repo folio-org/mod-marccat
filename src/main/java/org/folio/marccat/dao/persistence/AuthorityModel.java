@@ -8,8 +8,11 @@ import org.folio.marccat.dao.AuthorityModelDAO;
  *
  */
 public class AuthorityModel extends Model {
-  private String frbrSecondGroup;
-  private String frbrThirdGroup;
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   /**
    * Gets the authority model DAO.
@@ -20,44 +23,7 @@ public class AuthorityModel extends Model {
     return new AuthorityModelDAO();
   }
 
-  /**
-   * Gets the frbr second group.
-   *
-   * @return the frbr second group
-   */
-  public String getFrbrSecondGroup() {
-    return frbrSecondGroup;
-  }
-
-  /**
-   * Sets the frbr second group. This group is related to the FRBR entity:
-   * Persons, Families and Corporate Bodies.
-   *
-   * @param frbrSecondGroup the new frbr second group
-   */
-  public void setFrbrSecondGroup(final String frbrSecondGroup) {
-    this.frbrSecondGroup = frbrSecondGroup;
-  }
-
-  /**
-   * Gets the frbr third group. This group is related to the FRBR entity:
-   * Concepts, Objcts, Places, Events.
-   *
-   * @return the frbr third group
-   */
-  public String getFrbrThirdGroup() {
-    return frbrThirdGroup;
-  }
-
-  /**
-   * Sets the frbr third group.
-   *
-   * @param frbrThirdGroup the new frbr third group
-   */
-  public void setFrbrThirdGroup(final String frbrThirdGroup) {
-    this.frbrThirdGroup = frbrThirdGroup;
-  }
-
+  @Deprecated
   public AbstractDAO getDAO() {
     return null;
   }

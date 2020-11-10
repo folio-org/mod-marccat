@@ -24,15 +24,20 @@ public interface CatalogingInformation {
    *
    * @param storageService the storage service.
    * @param headerTypeCode the header type code selected from drop-down tag list.
-   * @param code           the tag number code.
-   * @param leader         the leader of record.
-   * @param valueField     the display value field (null or blank a default value
-   *                       will'be set).
-   * @param lang           the lang associated with the current request.
+   * @param code the tag number code.
+   * @param leader the leader of record.
+   * @param valueField the display value field (null or blank a default value
+   *        will'be set).
+   * @param lang the lang associated with the current request.
    * @return a fixed-field containing all selected values.
    */
-  static FixedField getFixedField(final StorageService storageService, final int headerTypeCode, final String code,
-      final String leader, String valueField, final String lang, final Map<String, String> serviceConfiguration) {
+  static FixedField getFixedField(final StorageService storageService,
+    final int headerTypeCode,
+    final String code,
+    final String leader,
+    String valueField,
+    final String lang,
+    final Map<String, String> serviceConfiguration) {
 
     FixedField fixedField = null;
     if (isFixedField(code) && checkParameters(code, headerTypeCode, leader)) {
@@ -75,7 +80,13 @@ public interface CatalogingInformation {
 
         generalInformation.setHeaderType(headerTypeCode);
         final Map<String, Object> mapRecordTypeMaterialHeader = storageService
-            .getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
+          .getMaterialTypeInfosByHeaderCode(headerTypeCode, code);
+        generalInformation
+          .setMaterialTypeCode((String) mapRecordTypeMaterialHeader
+            .get(Global.MATERIAL_TYPE_CODE_LABEL));
+        generalInformation
+          .setFormOfMaterial((String) mapRecordTypeMaterialHeader
+            .get(Global.FORM_OF_MATERIAL_LABEL));
         generalInformation
             .setMaterialTypeCode((String) mapRecordTypeMaterialHeader.get(Global.MATERIAL_TYPE_CODE_LABEL));
         generalInformation.setFormOfMaterial((String) mapRecordTypeMaterialHeader.get(Global.FORM_OF_MATERIAL_LABEL));
@@ -124,9 +135,9 @@ public interface CatalogingInformation {
   /**
    * Checks the input parameters depending on field code.
    *
-   * @param code           the current field/tag code
+   * @param code the current field/tag code
    * @param headerTypeCode the header type code
-   * @param leader         the leader specified for template
+   * @param leader the leader specified for template
    * @return true if parameters are valid, false otherwise
    */
   static boolean checkParameters(final String code, final int headerTypeCode, final String leader) {
@@ -171,7 +182,7 @@ public interface CatalogingInformation {
    * Inject material or other material values for drop-down list selected.
    *
    * @param fixedField the fixedField to populate.
-   * @param gi         the general information used to create fixed field.
+   * @param gi the general information used to create fixed field.
    */
   static void setMaterialValues(final FixedField fixedField, final GeneralInformation gi) {
     String displayValue;

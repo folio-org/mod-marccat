@@ -312,9 +312,11 @@
           ],
           "pathPattern": "/marccat/authority-record/from-template/{idTemplate}",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.authority-record.from-template.item.get"
+          ]
         },
         {
           "methods": [
@@ -580,6 +582,11 @@
       "description": "Get bibliographic record from template"
     },
     {
+      "permissionName": "marccat.authority-record.from-template.item.get",
+      "displayName": "marccat - get authority record from template",
+      "description": "Get authority record from template"
+    },
+    {
       "permissionName": "marccat.bibliographic-record.duplicate.item.get",
       "displayName": "marccat - get duplicate bibliographic record",
       "description": "Get duplicate bibliographic record"
@@ -665,6 +672,7 @@
         "marccat.bibliographic-record.item.get",
         "marccat.bibliographic-record.item.delete",
         "marccat.bibliographic-record.from-template.item.get",
+        "marccat.authority-record.from-template.item.get",
         "marccat.bibliographic-record.duplicate.item.get",
         "marccat.bibliographic-record.fixed-field-display-value.item.post",
         "marccat.fixed-fields-code-groups-by-leader.collection.get",
