@@ -161,7 +161,7 @@ public class TenantLoading {
       logger.debug("TenantLoading.perform No X-Okapi-Url header");
       return;
     }
-    performR(okapiUrl, headers, loadBibliographicSample);
+    loadData(okapiUrl, headers, loadBibliographicSample);
   }
 
   /**
@@ -172,7 +172,7 @@ public class TenantLoading {
    * @param it                      the it
    * @param loadBibliographicSample
    */
-  private void performR(String okapiUrl, Map<String, String> headers, boolean loadBibliographicSample) {
+  private void loadData(String okapiUrl, Map<String, String> headers, boolean loadBibliographicSample) {
 
     if (loadBibliographicSample) {
       loadDataBibliographic(okapiUrl, headers);

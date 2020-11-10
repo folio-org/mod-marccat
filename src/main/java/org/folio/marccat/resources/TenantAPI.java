@@ -1,6 +1,5 @@
 package org.folio.marccat.resources;
 
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 import java.io.IOException;
@@ -13,6 +12,7 @@ import org.folio.marccat.integration.TenantRefService;
 import org.folio.marccat.integration.TenantService;
 import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,15 +33,23 @@ public class TenantAPI {
   private TenantRefService tenantRefService;
 
   @PostMapping
-  public ResponseEntity<String> create(@RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
-      @RequestHeader(Global.OKAPI_URL) String okapiUrl, @RequestHeader(Global.OKAPI_URL_TO) String okapiUrlTo,
-      @RequestBody TenantAttributes attributes) throws SQLException, IOException {
+  public ResponseEntity<String> create(
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl,
+      @RequestHeader(Global.OKAPI_URL_TO) String okapiUrlTo,
+      @RequestBody TenantAttributes attributes
+    ) {
     addHeaders(tenant, okapiUrl, okapiUrlTo);
-    tenantService.createTenant(tenant, okapiUrl);
-    if (!okapiUrl.isEmpty()) {
-      tenantRefService.loadData(attributes, okapiHeaders);
+    try {
+      tenantService.createTenant(tenant, okapiUrl);
+      if (!okapiUrl.isEmpty()) {
+        tenantRefService.loadData(attributes, okapiHeaders);
+      }
+      return new ResponseEntity("Success", HttpStatus.CREATED);
+    } catch (SQLException | IOException e) {
+      return new ResponseEntity("Error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return new ResponseEntity("Success", CREATED);
+    
 
   }
 

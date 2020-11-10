@@ -46,9 +46,9 @@ public class TenantRefService {
     logger.debug("Start sample data loading");
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
     logger.debug("Is Load data " + loadData);
-    if (loadData) {
-      tl.perform(headers, isLoadBibliographicSample(tenantAttributes));
-    }
+    // if (loadData) {
+    tl.perform(headers, isLoadBibliographicSample(tenantAttributes));
+    // }
     logger.debug("End sample data loading");
   }
 
