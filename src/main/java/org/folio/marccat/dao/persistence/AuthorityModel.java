@@ -23,6 +23,9 @@ public class AuthorityModel extends Model {
     return new AuthorityModelDAO();
   }
 
+  /**
+   * @deprecated
+   */
   @Deprecated
   public AbstractDAO getDAO() {
     return null;
