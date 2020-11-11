@@ -162,6 +162,26 @@
       {
         "code": "500",
         "mandatory": false,
+        "fieldStatus": "deleted",
+        "variableField": {
+          "keyNumber": 12,
+          "categoryCode": 7,
+          "headingTypeCode": "50",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "500",
+          "displayValue": "\u001faI promessi sposi è un celebre romanzo storico di Alessandro Manzoni.",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "500",
+        "mandatory": false,
         "fieldStatus": "new",
         "variableField": {
           "keyNumber": 0,
@@ -169,7 +189,7 @@
           "ind1": " ",
           "ind2": " ",
           "code": "500",
-          "displayValue": "\u001faI promessi sposi è un celebre romanzo storico di Alessandro Manzoni.",
+          "displayValue": "\u001faI promessi sposi è un celebre romanzo storico.",
           "subfields": [],
           "sequenceNumber": 0,
           "skipInFiling": 0

@@ -1,0 +1,371 @@
+{
+  "bibliographicRecord": {
+    "id": 7,
+    "canadianContentIndicator": "0",
+    "verificationLevel": "2",
+    "leader": {
+      "code": "000",
+      "value": "00000nmm  2200000   4500"
+    },
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "000000000007",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20180719141135.0",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 7,
+          "categoryCode": 1,
+          "headerTypeCode": 32,
+          "code": "008",
+          "displayValue": "180719s        enk        u        eng r",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "020",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 1,
+          "categoryCode": 5,
+          "headingTypeCode": "9",
+          "itemTypeCode": "8",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "020",
+          "displayValue": "\u001fa9788800206938",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC\u001fbeng\u001fcItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "100",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 1,
+          "categoryCode": 2,
+          "headingTypeCode": "2",
+          "itemTypeCode": "3",
+          "functionCode": "2",
+          "ind1": "1",
+          "ind2": " ",
+          "code": "100",
+          "displayValue": "\u001faTrifone, Maurizio",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "245",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 1,
+          "categoryCode": 3,
+          "headingTypeCode": "1",
+          "itemTypeCode": "3",
+          "functionCode": "-1",
+          "ind1": "1",
+          "ind2": "2",
+          "code": "245",
+          "displayValue": "\u001faI promessi sposi/",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 2
+        },
+        "added": false
+      },
+      {
+        "code": "264",
+        "mandatory": false,
+        "fieldStatus": "changed",
+        "variableField": {
+          "keyNumber": 1,
+          "categoryCode": 7,
+          "headingTypeCode": "411",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": "1",
+          "code": "264",
+          "displayValue": "\u001fa[S.l.] :\u001fbMondadori Education,\u001fc2013.",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+
+      {
+        "code": "300",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 1,
+          "categoryCode": 7,
+          "headingTypeCode": "35",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "300",
+          "displayValue": "\u001fa1536 p.",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "490",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 2,
+          "categoryCode": 7,
+          "headingTypeCode": "47",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": "0",
+          "ind2": " ",
+          "code": "490",
+          "displayValue": "\u001faDizionari",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "520",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 7,
+          "headingTypeCode": "85",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "520",
+          "displayValue": "\u001faIl Devoto-Oli dei Sinonimi e Contrari, vocabolario ricco e completo, che consente di orientarsi nella scelta tra tante informazioni e alternative lessicali, grazie a una struttura funzionale e innovativa: i sinonimi e i contrari sono raggruppati in base a indicazioni di registro (colloquiale, elevato, regionale ecc.) e di settore (fisica, medicina, informatica ecc.), che aiutano il lettore a selezionare rapidamente e con sicurezza il sinonimo più adatto al proprio contesto, secondo le gradazioni di significato (particolarmente utili anche per gli utenti non italofoni). Le accezioni e le locuzioni sono accompagnate da brevi definizioni che distinguono i sinonimi associati all'uso proprio da quelli di uso figurato. verbi, gli aggettivi e i sostantivi hanno, inoltre, l'indicazione della reggenza grazie alla quale si può capire come variare anche la struttura grammaticale in funzione di ogni sinonimo adottato. 47.000 voci, tra lemmi e sottolemmi.  361.000 sinonimi, in ordine alfabetico e raggruppati in base alla marca d'uso. 110.000 contrari e inversi, in ordine alfabetico e con marche d'uso. 90.000 accezioni.",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "700",
+        "mandatory": false,
+        "fieldStatus": "deleted",
+        "variableField": {
+          "keyNumber": 2,
+          "categoryCode": 2,
+          "headingTypeCode": "2",
+          "itemTypeCode": "2",
+          "functionCode": "7",
+          "ind1": "0",
+          "ind2": " ",
+          "code": "700",
+          "displayValue": "\u001faTrifone, Maurizio. \u001ftIl Devoto-Oli dei sinonimi e contrari",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "773",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 0,
+          "code": "773",
+          "ind1": "1",
+          "ind2": " ",
+          "displayValue": "\u001fw2",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 8
+        },
+        "added": true
+      },
+      {
+        "code": "773",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": 0,
+          "code": "773",
+          "ind1": "1",
+          "ind2": " ",
+          "displayValue": "\u001faDevoto-Oli dei Contrari",
+          "headingTypeCode": 0,
+          "sequenceNumber": 0,
+          "skipInFiling": 0,
+          "subfields": [],
+          "categoryCode": 8
+        },
+        "added": true
+      }
+    ],
+    "recordView": 1
+  },
+  "recordTemplate": {
+    "id": 1,
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 39,
+          "code": "001",
+          "displayValue": "00000000469",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "005 - Transaction Date/Time",
+          "headerTypeCode": 41,
+          "code": "005",
+          "displayValue": "20200818151707.",
+          "sequenceNumber": 0,
+          "attributes": {}
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "changed",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 32,
+          "code": "008",
+          "displayValue": "200818s        enk        u        eng r",
+          "dateEnteredOnFile": "200818",
+          "dateTypeCode": "s",
+          "dateFirstPublication": "    ",
+          "dateLastPublication": "    ",
+          "placeOfPublication": "enk",
+          "governmentPublicationCode": " ",
+          "computerFileTypeCode": "u",
+          "computerTargetAudienceCode": " ",
+          "computerFileFormCode": " ",
+          "languageCode": "eng",
+          "recordModifiedCode": " ",
+          "recordCataloguingSourceCode": "r",
+          "sequenceNumber": 0,
+          "attributes": {
+            "computerTargetAudienceCode": " ",
+            "dateFirstPublication": "    ",
+            "dateTypeCode": "s",
+            "governmentPublicationCode": " ",
+            "recordModifiedCode": " ",
+            "recordCataloguingSourceCode": "r",
+            "placeOfPublication": "enk",
+            "computerFileFormCode": " ",
+            "languageCode": "eng",
+            "computerFileTypeCode": "u",
+            "dateEnteredOnFile": "200818",
+            "dateLastPublication": "    "
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faItFiC",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ]
+  }
+}

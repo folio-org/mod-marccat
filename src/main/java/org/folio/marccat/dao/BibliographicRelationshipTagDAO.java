@@ -126,10 +126,11 @@ public class BibliographicRelationshipTagDAO extends AbstractDAO {
    */
   public int getReciprocalType(final int relationTypeCode, final Session session) throws HibernateException{
     final List result = session.find(
-      "select rcpcl.relationshipReciprocalTypeCode from RelationReciprocal rcpcl where rcpcl.relationshipTypeCode = ?",
+      "select rcpcl.relationshipReciprocalTypeCode from RelationReciprocal as rcpcl where rcpcl.relationshipTypeCode = ?",
       new Object[]{relationTypeCode},
       new Type[]{Hibernate.INTEGER});
     return !result.isEmpty() ? (Integer)result.get(0) : -1;
+
   }
 
 
