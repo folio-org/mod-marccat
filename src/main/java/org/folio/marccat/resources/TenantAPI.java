@@ -51,8 +51,7 @@ public class TenantAPI {
     }
   }
 
-  public void addHeaders(@RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) String tenant,
-      @RequestHeader(Global.OKAPI_URL) String okapiUrl, @RequestHeader(Global.OKAPI_URL_TO) String okapiUrlTo) {
+  public void addHeaders(String tenant, String okapiUrl, String okapiUrlTo) {
     okapiHeaders.put(Global.OKAPI_TENANT_HEADER_NAME, tenant);
     okapiHeaders.put(Global.OKAPI_URL, okapiUrl);
     okapiHeaders.put(Global.OKAPI_URL_TO, okapiUrlTo);
