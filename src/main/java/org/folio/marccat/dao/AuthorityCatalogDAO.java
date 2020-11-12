@@ -102,9 +102,6 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       logger.warn("No heading found for authority item");
       throw new DataAccessException();
     }
-    if (logger.isDebugEnabled()) {
-      logger.debug("heading loaded: " + heading);
-    }
     result.setDescriptor(heading);
     return result;
   }
@@ -142,8 +139,6 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     });
 
     new AutDAO().delete(item.getItemEntity(), session);
-    if (item.getModelItem() != null)
-      session.delete(item.getModelItem());
     transaction.commit();
   }
 
