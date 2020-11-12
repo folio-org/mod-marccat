@@ -7,7 +7,6 @@ import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.common.Tag;
-import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.dao.persistence.AuthorityHeadingTag;
@@ -118,14 +117,12 @@ public class AuthorityCatalogDAO extends CatalogDAO {
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
     final Transaction transaction = getTransaction(session);
 
-    item.getTags().stream().filter(aTag -> aTag instanceof Persistence).forEach(tag -> {
-      try {
-        session.delete(tag);
-      } catch (HibernateException e) {
-        cleanUp(transaction);
-        throw new ModMarccatException(e);
-      }
-    });
+    /*
+     * item.getTags().stream().filter(aTag -> aTag instanceof
+     * Persistence).forEach(tag -> { try { session.delete(tag); } catch
+     * (HibernateException e) { cleanUp(transaction); throw new
+     * ModMarccatException(e); } });
+     */
 
     item.getTags().stream().filter(aTag -> aTag instanceof AuthorityHeadingTag).forEach(tag -> {
       AuthorityHeadingTag authorityHeadingTag = (AuthorityHeadingTag) tag;
