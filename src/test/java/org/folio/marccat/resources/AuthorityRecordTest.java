@@ -65,8 +65,25 @@ public class AuthorityRecordTest extends TestBase {
 
   }
 
+  /*
+   * @Test public void test4_save_bibliographic() throws Exception { String url =
+   * getURI("/marccat/bibliographic-record"); Map<String, String> headers =
+   * addDefaultHeaders(url, StorageTestSuite.TENANT_ID); String templateJson =
+   * IOUtils.toString(this.getClass().getResourceAsStream(
+   * "/bibliographic/record.json"), "UTF-8"); ObjectMapper objectMapper = new
+   * ObjectMapper(); ContainerRecordTemplate containerRecordTemplate =
+   * objectMapper.readValue(templateJson, ContainerRecordTemplate.class);
+   * 
+   * given().headers("Content-Type",
+   * "application/json").headers(headers).queryParam("view", "1")
+   * .queryParam("lang",
+   * "ita").body(containerRecordTemplate).when().post(url).then().statusCode(201);
+   * 
+   * }
+   */
+
   @Test
-  public void test4_save_return201Status() throws IOException {
+  public void test5_save_return201Status() throws IOException {
     String url = getURI("/marccat/authority-record");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
     String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name2.json"),
@@ -81,19 +98,18 @@ public class AuthorityRecordTest extends TestBase {
 
   }
 
-  /*
-   * @Test public void test5_delete_return423Status() throws IOException {
-   * 
-   * String url = getURI("/marccat/authority-record/" + authorityId); Map<String,
-   * String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-   * 
-   * given().headers(headers).when().delete(url).then().statusCode(423);
-   * 
-   * }
-   */
+  @Test
+  public void test6_delete_return423Status() throws IOException {
+
+    String url = getURI("/marccat/authority-record/" + authorityId);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given().headers(headers).when().delete(url).then().statusCode(423);
+
+  }
 
   @Test
-  public void test6_delete_return404Status() throws IOException {
+  public void test7_delete_return404Status() throws IOException {
     String url = getURI("/marccat/authority-record/1000");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
