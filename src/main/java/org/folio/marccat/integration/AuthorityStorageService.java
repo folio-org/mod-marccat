@@ -73,7 +73,7 @@ public class AuthorityStorageService {
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveAuthorityRecord(final AuthorityRecord record, final int view, final String lang,
+  public Integer saveAuthorityRecord(final AuthorityRecord record, final int view, final String lang,
       final Map<String, String> configuration) {
     CatalogItem item = null;
     try {
@@ -91,6 +91,8 @@ public class AuthorityStorageService {
 
       final AuthorityCatalogDAO dao = new AuthorityCatalogDAO();
       dao.saveCatalogItem(item, getStorageService().getSession());
+
+      return item.getAmicusNumber();
 
     } catch (Exception e) {
       logger.error(Message.MOD_MARCCAT_00019_SAVE_AUT_RECORD_FAILURE, record.getId(), e);

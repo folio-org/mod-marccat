@@ -1,22 +1,28 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Query;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ReferentialIntegrityException;
+import static org.folio.marccat.util.F.deepCopy;
+
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import static org.folio.marccat.util.F.deepCopy;
+
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.NME_HDG;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.TTL_HDG;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
+
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Query;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.type.Type;
 
 
 /**
@@ -337,10 +343,6 @@ public abstract class DescriptorDAO extends AbstractDAO implements Serializable 
         .getName(), descriptor.getClass().getName());
     }
     if (supportsCrossReferences() && getXrefCount(descriptor, View.toIntView(descriptor.getUserViewString()), session) > 0) {
-      throw new ReferentialIntegrityException(descriptor.getReferenceClass(
-        descriptor.getClass()).getName(), descriptor.getClass().getName());
-    }
-    if (supportsAuthorities() && descriptor.getAuthorityCount() > 0) {
       throw new ReferentialIntegrityException(descriptor.getReferenceClass(
         descriptor.getClass()).getName(), descriptor.getClass().getName());
     }

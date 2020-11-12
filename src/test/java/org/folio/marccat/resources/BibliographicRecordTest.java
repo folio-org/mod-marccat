@@ -1,25 +1,22 @@
 package org.folio.marccat.resources;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.response.Response;
+import static io.restassured.RestAssured.given;
+
+import java.util.Map;
+
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
 import org.folio.marccat.TestBase;
 import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.LockEntityType;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Map;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")

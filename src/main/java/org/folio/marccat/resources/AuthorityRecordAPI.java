@@ -58,8 +58,8 @@ public class AuthorityRecordAPI extends BaseResource {
             .filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE)).forEach(field -> {
             });
 
-        authorityStorageService.saveAuthorityRecord(record, view, lang, configuration);
-        return new ResponseEntity<>("1", HttpStatus.CREATED);
+        Integer authorityId = authorityStorageService.saveAuthorityRecord(record, view, lang, configuration);
+        return new ResponseEntity<>(authorityId, HttpStatus.OK);
 
       } catch (final Exception exception) {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
