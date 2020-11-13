@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.1",
+      "version": "2.2",
       "handlers": [
         {
           "methods": [
@@ -384,9 +384,11 @@
           ],
           "pathPattern": "/marccat/auth-header-types",
           "modulePermissions": [
-            "configuration.all"
+            "configuration.entries.collection.get"
           ],
-          "permissionsRequired": []
+          "permissionsRequired": [
+            "marccat.header-types.collection.get"
+          ]
         },
         {
           "methods": [

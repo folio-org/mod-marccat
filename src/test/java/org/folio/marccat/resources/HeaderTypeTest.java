@@ -16,13 +16,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class HeaderTypeTest extends TestBase {
 
   @Test
-
   public void getDocumentCountById() {
 
     String url = getURI("/marccat/header-types");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
-    given().param("code", "1").param("lang", "ita").headers(headers).when().get(url).then().statusCode(200);
+    given()
+      .param("code", "008")
+      .param("lang", "ita")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
   }
 
   @Test
@@ -31,7 +37,14 @@ public class HeaderTypeTest extends TestBase {
     String url = getURI("/marccat/auth-header-types");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
-    given().param("code", "008").param("lang", "eng").headers(headers).when().get(url).then().statusCode(200);
+    given()
+      .param("code", "008")
+      .param("lang", "eng")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
   }
 
 }

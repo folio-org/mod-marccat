@@ -22,9 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HeaderTypeAPI extends BaseResource {
 
   @GetMapping("/header-types")
-  public HeadingTypeCollection getHeadingTypes(@RequestParam final String code, @RequestParam final String lang,
-      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+  public HeadingTypeCollection getHeadingTypes(@RequestParam final String code,
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
 
       final int category = Global.HEADER_CATEGORY;
@@ -37,15 +38,17 @@ public class HeaderTypeAPI extends BaseResource {
 
   @GetMapping("/auth-header-types")
   public HeadingTypeCollection getAuthorityHeadingTypes(@RequestParam final String code,
-      @RequestParam final String lang, @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+    @RequestParam final String lang,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
 
       HeadingTypeCollection headingTypeCollection = new HeadingTypeCollection();
       List<HeadingType> headingTypes = new ArrayList<>();
       HeadingType headingType = new HeadingType();
-      headingType.setCode(Global.AUT_MATERIAL_DESCRIPTION_HEADER_TYPE);
-      headingType.setDescription(Global.AUT_MATERIAL_DESCRIPTION_DESC);
+      if (code.equals(Global.AUTHORITY_MATERIAL_DESCRIPTION_DESCRIPTION))
+        headingType.setCode(Global.AUTHORITY_MATERIAL_DESCRIPTION_HEADER_TYPE);
+      headingType.setDescription(code);
       headingTypes.add(headingType);
       headingTypeCollection.setHeadingTypes(headingTypes);
       return headingTypeCollection;

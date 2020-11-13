@@ -1,6 +1,6 @@
 #%RAML 1.0
 title:  MARCcat
-version: v1.6
+version: v1.3
 protocols: [ HTTP, HTTPS ]
 baseUri: https://github.com/folio-org/mod-marccat
 
@@ -16,7 +16,7 @@ types:
   searchResultVertical: !include schema/searchResultVertical.json
   searchResultCollection: !include schema/searchResultCollection.json
   authority: !include schema/authority.json
-  select: !include schema/select.json
+  select: !include schema/selectAuthorityHeader008Tag.json
 
 
 traits:
@@ -28,6 +28,7 @@ traits:
 resourceTypes:
   collection: !include raml-storage/raml-util/rtypes/collection.raml
   collection-item: !include raml-storage/raml-util/rtypes/item-collection.raml
+  get-only: !include raml-storage/raml-util/rtypes/get-only-with-json-response.raml
 
 /marccat:
   /search:
@@ -152,15 +153,13 @@ resourceTypes:
             text/plain:
               example: "Error in validation"  
 
-  /marccat/auth-header-types:
+  /auth-header-types:
     displayName: Get the header type for 008 authority tag
     type:
-      collection-item:
-        exampleItem: !include examples/authority008HeaderType.json
-        schema: select
-    post:
-      is: [validate
-        ]
+      get-only:
+        schema: authorityHeader008Tag.json
+        exampleCollection: !include examples/authorityHeader008Tag.json
+    get:
       description: Get the value for the header type of 008 authority tag 
       responses:
         200:

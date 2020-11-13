@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "select values list schema",
+  "title": "authority header type for 008 tag",
   "type": "object",
-  "description": "select  metadata",
+  "description": "the values for header type for the code 008 tag",
   "properties": {
     "headingTypes": {
       "type": "array",
@@ -10,7 +10,7 @@
       "items": [
         {
           "type": "object",
-          "description": "heading types",
+          "description": "heading types for 008 tag",
           "properties": {
             "value": {
               "type": "integer",
