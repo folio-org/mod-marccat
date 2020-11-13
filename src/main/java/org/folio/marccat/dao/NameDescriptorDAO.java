@@ -1,15 +1,20 @@
 package org.folio.marccat.dao;
 
+import java.util.List;
+
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.View;
+import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.NME_HDG;
+import org.folio.marccat.dao.persistence.REF;
+import org.folio.marccat.dao.persistence.TTL_HDG;
+import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.ReferentialIntegrityException;
+
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.type.Type;
-import org.folio.marccat.business.common.Persistence;
-import org.folio.marccat.business.common.View;
-import org.folio.marccat.dao.persistence.*;
-import org.folio.marccat.exception.DataAccessException;
-import org.folio.marccat.exception.ReferentialIntegrityException;
-import java.util.List;
 
 /**
  * Manages headings in the NME_HDG table.
@@ -192,8 +197,7 @@ public class NameDescriptorDAO extends DescriptorDAO {
     if (countList.get(0) > 0) {
       throw new ReferentialIntegrityException("NME_TTL_HDG", "NME_HDG");
     }
-    p.markDeleted();
-    persistByStatus(p, session);
+    super.delete(p, session);
   }
 
 

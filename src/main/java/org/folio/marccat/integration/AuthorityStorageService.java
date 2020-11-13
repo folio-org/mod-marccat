@@ -26,7 +26,10 @@ import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.RecordInUseException;
+import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.resources.domain.AuthorityRecord;
+import org.folio.marccat.resources.domain.CountDocument;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.domain.Leader;
@@ -70,7 +73,7 @@ public class AuthorityStorageService {
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveAuthorityRecord(final AuthorityRecord record, final int view, final String lang,
+  public Integer saveAuthorityRecord(final AuthorityRecord record, final int view, final String lang,
       final Map<String, String> configuration) {
     CatalogItem item = null;
     try {
@@ -88,6 +91,8 @@ public class AuthorityStorageService {
 
       final AuthorityCatalogDAO dao = new AuthorityCatalogDAO();
       dao.saveCatalogItem(item, getStorageService().getSession());
+
+      return item.getAmicusNumber();
 
     } catch (Exception e) {
       logger.error(Message.MOD_MARCCAT_00019_SAVE_AUT_RECORD_FAILURE, record.getId(), e);
@@ -199,6 +204,34 @@ public class AuthorityStorageService {
     ((AuthorityItem) item).getAutItmData().setHeadingType(Global.NAME_TYPE_HDG);
     item.addTag(newTag);
 
+  }
+
+  /**
+   * Delete a authority record.
+   *
+   * @param itemNumber -- the amicus number associated to record.
+   */
+  public void deleteAuhorityRecordById(final Integer itemNumber) {
+    final AuthorityCatalog catalog = new AuthorityCatalog();
+
+    try {
+      CatalogItem item = getCatalogItemByKey(itemNumber, View.AUTHORITY);
+      CountDocument countDocument = getStorageService().getCountDocumentByAutNumber(itemNumber,
+          View.DEFAULT_BIBLIOGRAPHIC_VIEW);
+      if (countDocument.getCountDocuments() == 0) {
+        catalog.deleteCatalogItem(item, getStorageService().getSession());
+      } else {
+        throw new RecordInUseException();
+      }
+
+    } catch (RecordInUseException exception) {
+      throw new RecordInUseException();
+    } catch (RecordNotFoundException exception) {
+      throw new RecordNotFoundException(exception);
+    } catch (Exception exception) {
+      logger.error(Message.MOD_MARCCAT_00022_DELETE_RECORD_FAILURE, itemNumber, exception);
+      throw new DataAccessException(exception);
+    }
   }
 
 }

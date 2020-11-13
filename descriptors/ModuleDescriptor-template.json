@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.1",
+      "version": "2.2",
       "handlers": [
         {
           "methods": [
@@ -308,6 +308,18 @@
         },
         {
           "methods": [
+            "DELETE"
+          ],
+          "pathPattern": "/marccat/authority-record/{id}",
+          "modulePermissions": [
+            "configuration.entries.collection.get"
+          ],
+          "permissionsRequired": [
+            "marccat.authority-record.item.delete"
+          ]
+        },
+        {
+          "methods": [
             "GET"
           ],
           "pathPattern": "/marccat/bibliographic-record/from-template/{idTemplate}",
@@ -565,6 +577,11 @@
       "description": "Delete individual bibliographic record"
     },
     {
+      "permissionName": "marccat.authority-record.item.delete",
+      "displayName": "marccat - delete individual authority record",
+      "description": "Delete individual authority record"
+    },
+    {
       "permissionName": "marccat.bibliographic-record.from-template.item.get",
       "displayName": "marccat - get bibliographic record from template",
       "description": "Get bibliographic record from template"
@@ -631,6 +648,7 @@
       "subPermissions": [
         "marccat.authority.insert.post",
         "marccat.authority.collection.get",
+        "marccat.authority-record.item.delete",
         "marccat.search.collection.get",
         "marccat.mergedSearch.collection.get",
         "marccat.searchVertical.collection.get",
