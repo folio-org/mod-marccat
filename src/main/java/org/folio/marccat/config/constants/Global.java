@@ -129,6 +129,8 @@ public class Global {
   public static final int AUT_TITLE_CATEGORY = 22;
   public static final int AUT_SUBJECT_CATEGORY = 18;
   public static final int AUT_NAME_TITLE_CATEOGRY = 11;
+  public static final int AUTHORITY_MATERIAL_DESCRIPTION_HEADER_TYPE = 10;
+  public static final String AUTHORITY_MATERIAL_DESCRIPTION_DESCRIPTION = "008";
   public static final String NAME_TYPE_HDG = "NH";
   public static final String TITLE_TYPE_HDG = "TH";
   public static final String SUBJECT_TYPE_HDG = "SH";

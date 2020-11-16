@@ -416,6 +416,18 @@
         },
         {
           "methods": [
+            "GET"
+          ],
+          "pathPattern": "/marccat/auth-header-types",
+          "modulePermissions": [
+            "configuration.entries.collection.get"
+          ],
+          "permissionsRequired": [
+            "marccat.header-types.collection.get"
+          ]
+        },
+        {
+          "methods": [
             "POST"
           ],
           "pathPattern": "/marccat/create-heading",
