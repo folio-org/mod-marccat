@@ -46,6 +46,7 @@ patch:
   database4: /database-setup/patches/MARCCAT_DB/1.5
   procedure: /database-setup/patches/MARCCAT_DB_PLPGSQL/3.3
   database6: /database-setup/patches/MARCCAT_DB/1.6
+  database7: /database-setup/patches/MARCCAT_DB/1.7
 
 server:
   port: 8081
