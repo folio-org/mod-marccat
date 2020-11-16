@@ -1,8 +1,11 @@
 package org.folio.marccat;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.integration.MarccatHelper;
 import org.junit.Before;
@@ -23,6 +26,9 @@ import io.restassured.RestAssured;
 @ActiveProfiles("test")
 public class TestBase {
 
+  public static final String CONTENT_TYPE = "Content-Type";
+  public static final String FILE_TYPE = "application/json";
+
   /** The local port. */
   @LocalServerPort
   private int localPort;
@@ -37,8 +43,7 @@ public class TestBase {
 
   /** The marccat password. */
   @Value("${marccat.password}")
-  private  String marccatPassword;
-
+  private String marccatPassword;
 
   /** The database url. */
   @Value("${marccat.database.url}")
@@ -81,12 +86,13 @@ public class TestBase {
     if (url != null) {
       headers.put(Global.OKAPI_URL, "");
       headers.put(Global.OKAPI_URL_TO, "");
-      headers.put("Content-Type", "application/json");
+      headers.put(CONTENT_TYPE, FILE_TYPE);
     }
     return headers;
   }
 
-
-
+  public String getTemplateJson(String fileName) throws IOException {
+    return IOUtils.toString(this.getClass().getResourceAsStream(fileName), String.valueOf(StandardCharsets.UTF_8));
+  }
 
 }

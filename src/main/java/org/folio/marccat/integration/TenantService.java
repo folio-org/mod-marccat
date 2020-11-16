@@ -167,6 +167,12 @@ public class TenantService {
   private String patchDatabase6;
 
   /**
+   * The database patch.
+   */
+  @Value("${patch.database7}")
+  private String patchDatabase7;
+
+  /**
    * Creates the tenant.
    *
    * @param tenant   the tenant
@@ -241,6 +247,7 @@ public class TenantService {
     executePatch(databaseName, patchDatabase3, "Install patch MARCCAT DB 1.4", "MARCCAT DB 1.4 found");
     executePatch(databaseName, patchDatabase4, "Install patch MARCCAT DB 1.5", "MARCCAT DB 1.5 found");
     executePatch(databaseName, patchDatabase6, "Install patch MARCCAT DB 1.6", "MARCCAT DB 1.6 found");
+    executePatch(databaseName, patchDatabase7, "Install patch MARCCAT DB 1.7", "MARCCAT DB 1.7 found");
   }
 
   /**
