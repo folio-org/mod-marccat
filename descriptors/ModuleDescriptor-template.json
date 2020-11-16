@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.2",
+      "version": "2.4",
       "handlers": [
         {
           "methods": [
@@ -310,6 +310,18 @@
           "methods": [
             "GET"
           ],
+          "pathPattern": "/marccat/authority-record/from-template/{idTemplate}",
+          "modulePermissions": [
+            "configuration.entries.collection.get"
+          ],
+          "permissionsRequired": [
+            "marccat.authority-record.from-template.item.get"
+          ]
+        },
+        {
+          "methods": [
+            "GET"
+          ],
           "pathPattern": "/marccat/bibliographic-record/from-template/{idTemplate}",
           "modulePermissions": [
             "configuration.entries.collection.get"
@@ -344,6 +356,18 @@
         },
         {
           "methods": [
+            "POST"
+          ],
+          "pathPattern": "/marccat/authority-record/fixed-field-display-value",
+          "modulePermissions": [
+            "configuration.entries.collection.get"
+          ],
+          "permissionsRequired": [
+            "marccat.authority-record.fixed-field-display-value.item.post"
+          ]
+        },
+        {
+          "methods": [
             "GET"
           ],
           "pathPattern": "/marccat/fixed-fields-code-groups-by-leader",
@@ -359,6 +383,18 @@
             "GET"
           ],
           "pathPattern": "/marccat/fixed-fields-code-groups",
+          "modulePermissions": [
+            "configuration.entries.collection.get"
+          ],
+          "permissionsRequired": [
+            "marccat.fixed-fields-code-groups.collection.get"
+          ]
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "pathPattern": "/marccat/auth-fixed-fields-code-groups",
           "modulePermissions": [
             "configuration.entries.collection.get"
           ],
@@ -582,12 +618,22 @@
       "description": "Get bibliographic record from template"
     },
     {
+      "permissionName": "marccat.authority-record.from-template.item.get",
+      "displayName": "marccat - get authority record from template",
+      "description": "Get authority record from template"
+    },
+    {
       "permissionName": "marccat.bibliographic-record.duplicate.item.get",
       "displayName": "marccat - get duplicate bibliographic record",
       "description": "Get duplicate bibliographic record"
     },
     {
       "permissionName": "marccat.bibliographic-record.fixed-field-display-value.item.post",
+      "displayName": "marccat - get fixed field display value",
+      "description": "Get fixed field display value"
+    },
+    {
+      "permissionName": "marccat.authority-record.fixed-field-display-value.item.post",
       "displayName": "marccat - get fixed field display value",
       "description": "Get fixed field display value"
     },
@@ -637,6 +683,11 @@
       "description": "Save MARC authority record"
     },
     {
+      "permissionName": "marccat.fixed-fields-code-groups.collection.get",
+      "displayName": "marccat - get dropdown collection for fixed field",
+      "description": "Get dropdown collection for fixed field"
+    },
+    {
       "permissionName": "marccat.all",
       "displayName": "marccat - all permissions",
       "description": "Entire set of permissions needed to use the marccat",
@@ -667,8 +718,10 @@
         "marccat.bibliographic-record.item.get",
         "marccat.bibliographic-record.item.delete",
         "marccat.bibliographic-record.from-template.item.get",
+        "marccat.authority-record.from-template.item.get",
         "marccat.bibliographic-record.duplicate.item.get",
         "marccat.bibliographic-record.fixed-field-display-value.item.post",
+        "marccat.authority-record.fixed-field-display-value.item.post",
         "marccat.fixed-fields-code-groups-by-leader.collection.get",
         "marccat.fixed-fields-code-groups.collection.get",
         "marccat.header-types.collection.get",

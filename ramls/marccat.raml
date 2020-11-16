@@ -1,6 +1,6 @@
 #%RAML 1.0
 title:  MARCcat
-version: v1.3
+version: v1.4
 protocols: [ HTTP, HTTPS ]
 baseUri: https://github.com/folio-org/mod-marccat
 
@@ -136,12 +136,80 @@ resourceTypes:
         exampleItem: !include examples/name.json
         schema: authority
     post:
-      is: [validate
-        ]
+      is: [validate]
       description: Create authority record
       responses:
         201:
           description: "Authority created"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"  
+
+  /authority-record/from-template/{idTemplate}:
+    displayName: Get authority marc records template
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityTemplate.json
+        schema: authority
+    post:
+      is: [validate]
+      description: Get authority record template
+      responses:
+        200:
+          description: "Return an authority template"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"
+              
+  /authority-record/fixed-field-display-value:
+    displayName: Change the display value for the authority 008 tag 
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityFixedField008.json
+        schema: authority
+    post:
+      is: [validate]
+      description: Change the display value for 008 tag
+      responses:
+        201:
+          description: "Display value for 008 changed"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"                
+
+  /auth-fixed-fields-code-groups:
+    displayName: Get authority control fields values
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityFixedField.json
+        schema: authority
+    post:
+      is: [validate]
+      description: Get authority control fields values
+      responses:
+        200:
+          description: "Return the fixed values for authority"
         400:
           description: "Bad request"
           body:
@@ -174,4 +242,3 @@ resourceTypes:
           body:
             text/plain:
               example: "Error in validation"  
- 

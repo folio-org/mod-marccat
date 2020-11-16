@@ -9,10 +9,13 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
 import org.folio.marccat.TestBase;
+import org.folio.marccat.resources.domain.FixedField;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author elena
@@ -22,33 +25,93 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("test")
 public class AuthorityRecordTest extends TestBase {
 
-  @Test
-  public void save_return201Status() throws IOException {
-    String url = getURI("/marccat/authority-record");
-    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
-        String.valueOf(StandardCharsets.UTF_8));
+  private static final String AUTHORITY_RECORD_URL = "/marccat/authority-record";
+  private static final String CONTENT_TYPE = "Content-Type";
+  private static final String FILE_TYPE = "application/json";
 
-    given().headers("Content-Type", "application/json").headers(headers).queryParam("view", "-1")
-        .queryParam("lang", "eng").body(templateJson).when().post(url).then().statusCode(201);
+  @Test
+  public void saveNameReturn201Status() throws IOException {
+    String url = getURI(AUTHORITY_RECORD_URL);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson = getTemplateJson("/authority/name.json");
+
+    given()
+      .headers(CONTENT_TYPE, FILE_TYPE)
+      .headers(headers)
+      .queryParam("view", "-1")
+      .queryParam("lang", "eng")
+      .body(templateJson)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
 
   }
 
   @Test
   public void getDocumentCountById() throws IOException {
 
-    String url = getURI("/marccat/authority-record");
+    String url = getURI(AUTHORITY_RECORD_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
-        String.valueOf(StandardCharsets.UTF_8));
+    String templateJson = getTemplateJson("/authority/name.json");
 
-    given().headers("Content-Type", "application/json").headers(headers).queryParam("view", "-1")
-        .queryParam("lang", "eng").body(templateJson).when().post(url).then().statusCode(201);
+    given()
+      .headers(CONTENT_TYPE, FILE_TYPE)
+      .headers(headers)
+      .queryParam("view", "-1")
+      .queryParam("lang", "eng")
+      .body(templateJson)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
 
     url = getURI("/marccat/document-count-by-id");
     headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
-    given().param("id", "1").param("view", "-1").headers(headers).when().get(url).then().statusCode(200);
+    given()
+      .param("id", "1")
+      .param("view", "-1")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
   }
 
+  @Test
+  public void getEmptyRecord() {
+
+    String url = getURI("/marccat/authority-record/from-template/1");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("lang", "eng")
+      .param("view", "-1")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+  @Test
+  public void getAuthorityFixedFieldDisplayValue() throws IOException {
+
+    String url = getURI("/marccat/authority-record/fixed-field-display-value");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson =  getTemplateJson("/authority/fixedField.json");
+    ObjectMapper objectMapper = new ObjectMapper();
+    FixedField fixedField = objectMapper.readValue(templateJson, FixedField.class);
+
+    given()
+      .headers(CONTENT_TYPE, FILE_TYPE)
+      .headers(headers)
+      .body(fixedField)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
+
+  }
 }

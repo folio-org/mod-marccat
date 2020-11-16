@@ -83,6 +83,7 @@ public class Global {
   public static final String LOADING_FILE_ADDED = "added";
   public static final String LOADING_FILE_ERRORS = "errors";
   public static final String AN_KEY_CODE_FIELD = "BI";
+  public static final String AN_KEY_AUT = "AA";
   public static final String ERROR_MANDATORY_TAG = "-1";
   public static final String ERROR_DUPLICATE_TAG = "-2";
   public static final String ERROR_EMPTY_TAG = "-3";
@@ -97,16 +98,20 @@ public class Global {
   public static final int LEADER_HEADER_TYPE = 15;
   public static final int CONTROL_NUMBER_HEADER_TYPE = 39;
   public static final int DATETIME_TRANSACION_HEADER_TYPE = 41;
+  public static final int AUT_DATETIME_TRANSACION_HEADER_TYPE = 12;
   public static final int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
   public static final String FIXED_LEADER_LENGTH = "00000";
   public static final char RECORD_STATUS_CODE = 'n';
   public static final char RECORD_TYPE_CODE = 'a';
+  public static final char AUT_RECORD_TYPE_CODE = 'z';
   public static final char BIBLIOGRAPHIC_LEVEL_CODE = 'm';
   public static final char CONTROL_TYPE_CODE = ' ';
   public static final char CHARACTER_CODING_SCHEME_CODE = ' ';
   public static final String FIXED_LEADER_BASE_ADDRESS = "2200000";
   public static final char ENCODING_LEVEL = ' ';
+  public static final char AUT_ENCODING_LEVEL = 'n';
   public static final char DESCRIPTIVE_CATALOGUING_CODE = ' ';
+  public static final char PUNCTUATION_POLICY = ' ';
   public static final char LINKED_RECORD_CODE = ' ';
   public static final String FIXED_LEADER_PORTION = "4500";
   public static final Map<Integer, String> PHYSICAL_TYPES_MAP;
@@ -367,6 +372,27 @@ public class Global {
     code.put("MIC_POLARITY", T_MIC_PLRTY.class);
     code.put("MIC_REDUCT_RATIO_RANGE", T_MIC_RDCTN_RATIO_RNG.class);
     code.put("MIC_SPEC_DESIGN", T_MIC_SMD.class);
+    // Authority
+    code.put("SUBJECT_DESCRIPTOR", T_AUT_SBJCT_DSCTR.class);
+    code.put("ROMANIZATION_SCHEME", T_AUT_RMNZT_SCHM.class);
+    code.put("BILINGUAL_USAGE", T_AUT_BLNGL_USG.class);
+    code.put("AUT_RECORD_TYPE", T_AUT_REC_TYP.class);
+    code.put("AUT_CATALOGUIG_RULES", T_AUT_CTLGG_RLE.class);
+    code.put("SUBJECT_SYSTEM", T_AUT_SBJCT_SYS.class);
+    code.put("SERIES_TYPE", T_AUT_SRS_TYP.class);
+    code.put("SERIES_NUMBERING", T_AUT_SRS_NBRG.class);
+    code.put("MAIN_ADDED_ENTRY_INDICATOR", T_AUT_MAIN_ADD_ENTRY.class);
+    code.put("SUBJECT_ENTRY_INDICATOR", T_AUT_SBJCT_ENTRY.class);
+    code.put("SERIES_ENTRY_INDICATOR", T_AUT_SRS_ENTRY.class);
+    code.put("SUB_DIVISION_TYPE", T_AUT_SUB_DIV_TYP.class);
+    code.put("GOVERNMENT_AGENCY", T_AUT_GOVT_AGNCY.class);
+    code.put("REFERENCE_STATUS", T_AUT_REF_STUS.class);
+    code.put("AUT_RECORD_REVISION", T_AUT_REC_RVSN.class);
+    code.put("NON_UNIQUE_NAME", T_AUT_NON_UNQ_NME.class);
+    code.put("HEADING_STATUS", T_AUT_HDG_STUS.class);
+    code.put("RECORD_MODIFICATION", T_AUT_REC_MDFTN.class);
+    code.put("CATALOGUING_SOURCE_CODE", T_AUT_CTLGG_SRC.class);
+
     MAP_CODE_LISTS = Collections.unmodifiableMap(code);
   }
 

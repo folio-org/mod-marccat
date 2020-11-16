@@ -1,21 +1,64 @@
 package org.folio.marccat.resources.shared;
 
-import org.folio.marccat.config.log.Log;
-import org.folio.marccat.config.log.Message;
-import org.folio.marccat.enumaration.CodeListsType;
-import org.folio.marccat.integration.StorageService;
-import org.folio.marccat.resources.domain.*;
-import org.folio.marccat.shared.CatalogingInformation;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
+import static org.folio.marccat.config.constants.Global.BOOK_TYPE;
+import static org.folio.marccat.config.constants.Global.COLOR_CODE;
+import static org.folio.marccat.config.constants.Global.COMPUTER_TYPE;
+import static org.folio.marccat.config.constants.Global.CONFIGURATION_CODE;
+import static org.folio.marccat.config.constants.Global.CONTROL_FIELD_CATEGORY_CODE;
+import static org.folio.marccat.config.constants.Global.DIMENSION_CODE;
+import static org.folio.marccat.config.constants.Global.ELECTRONIC_RESOURCE;
+import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
+import static org.folio.marccat.config.constants.Global.FIXED_FIELDS;
+import static org.folio.marccat.config.constants.Global.FORM_OF_ITEM_CODE;
+import static org.folio.marccat.config.constants.Global.FORM_OF_MATERIAL_LABEL;
+import static org.folio.marccat.config.constants.Global.GLOBE;
+import static org.folio.marccat.config.constants.Global.GOVERNMENT_PUBLICATION_CODE;
+import static org.folio.marccat.config.constants.Global.KIT_CODE;
+import static org.folio.marccat.config.constants.Global.MAP_CODE;
+import static org.folio.marccat.config.constants.Global.MAP_TYPE;
+import static org.folio.marccat.config.constants.Global.MATERIAL_TAG_CODE;
+import static org.folio.marccat.config.constants.Global.MEDIUM_FOR_SOUND_CODE;
+import static org.folio.marccat.config.constants.Global.MICROFORM;
+import static org.folio.marccat.config.constants.Global.MIXED_TYPE;
+import static org.folio.marccat.config.constants.Global.MOTION_PICTURE;
+import static org.folio.marccat.config.constants.Global.MUSIC_TYPE;
+import static org.folio.marccat.config.constants.Global.NON_PROJECTED_GRAPHIC;
+import static org.folio.marccat.config.constants.Global.NOTATED_MUSIC;
+import static org.folio.marccat.config.constants.Global.OTHER_MATERIAL_TAG_CODE;
+import static org.folio.marccat.config.constants.Global.PHYSICAL_DESCRIPTION_TAG_CODE;
+import static org.folio.marccat.config.constants.Global.PHYSICAL_TYPES_MAP;
+import static org.folio.marccat.config.constants.Global.POLARITY_CODE;
+import static org.folio.marccat.config.constants.Global.PROJECTED_GRAPHIC;
+import static org.folio.marccat.config.constants.Global.REMOTE_SENSING_IMAGE;
+import static org.folio.marccat.config.constants.Global.SERIAL_TYPE;
+import static org.folio.marccat.config.constants.Global.SOUND_ON_MEDIUM_OR_SEPARATE_CODE;
+import static org.folio.marccat.config.constants.Global.SOUND_RECORDING;
+import static org.folio.marccat.config.constants.Global.SPECIFIC_MATERIAL_DESIGNAION_ON_CODE;
+import static org.folio.marccat.config.constants.Global.TACTILE_MATERIAL;
+import static org.folio.marccat.config.constants.Global.TEXT_CODE;
+import static org.folio.marccat.config.constants.Global.UNSPECIFIED;
+import static org.folio.marccat.config.constants.Global.VIDEO_RECORDING;
+import static org.folio.marccat.config.constants.Global.VISUAL_TYPE;
+import static org.folio.marccat.enumaration.CodeListsType.*;
+import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
-import static org.folio.marccat.config.constants.Global.*;
-import static org.folio.marccat.enumaration.CodeListsType.*;
-import static org.folio.marccat.resources.shared.MappingUtils.toPairItem;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
+import org.folio.marccat.enumaration.CodeListsType;
+import org.folio.marccat.integration.AuthorityStorageService;
+import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.resources.domain.Field;
+import org.folio.marccat.resources.domain.FieldTemplate;
+import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
+import org.folio.marccat.resources.domain.FixedFieldElement;
+import org.folio.marccat.resources.domain.Pair;
+import org.folio.marccat.shared.CatalogingInformation;
 
 public class FixedFieldUtils {
 
@@ -50,8 +93,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Video Recording type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoVRcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -67,8 +110,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Unspecified type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoUNScodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -78,8 +121,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Text type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoTXTcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -89,8 +132,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Sound Recording type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoSNDcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -111,8 +154,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Remote Sensing Image type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoRSIcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -129,8 +172,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Notated Music type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoNMcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -140,8 +183,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Kit type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoKITcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -151,8 +194,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Motion Picture type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoMPcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -172,54 +215,61 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("kindOfColorStockCode", storageService.getCodesList(lang, MP_KIND_COLORS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("deteriorationStageCode", storageService.getCodesList(lang, MP_DETERIORATION_STAGE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("completenessCode", storageService.getCodesList(lang, MP_COMPLETENESS).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("inspectionDate", Collections.emptyList() ));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("inspectionDate", Collections.emptyList()));
   }
 
   /**
    * Sets values Non Project Graphic type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoNPGcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(SPECIFIC_MATERIAL_DESIGNAION_ON_CODE, storageService.getCodesList(lang, NPG_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(SPECIFIC_MATERIAL_DESIGNAION_ON_CODE,storageService.getCodesList(lang, NPG_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(COLOR_CODE, storageService.getCodesList(lang, NPG_COLOR).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("primarySupportMaterialCode", storageService.getCodesList(lang, NPG_PRIMARY_SUPPORT).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("secondarySupportMaterialCode", storageService.getCodesList(lang, NPG_SECONDARY_SUPPORT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("secondarySupportMaterialCode",storageService.getCodesList(lang, NPG_SECONDARY_SUPPORT).stream().map(toPairItem).collect(toList())));
   }
 
   /**
    * Sets values Microform type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoMICcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(SPECIFIC_MATERIAL_DESIGNAION_ON_CODE, storageService.getCodesList(lang, MIC_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(POLARITY_CODE, storageService.getCodesList(lang, MIC_POLARITY).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(DIMENSION_CODE, storageService.getCodesList(lang, MIC_DIMENSIONS).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("reductionRatioRangeCode", storageService.getCodesList(lang, MIC_REDUCT_RATIO_RANGE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(SPECIFIC_MATERIAL_DESIGNAION_ON_CODE,
+        storageService.getCodesList(lang, MIC_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement(POLARITY_CODE, storageService.getCodesList(lang, MIC_POLARITY).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement(DIMENSION_CODE, storageService.getCodesList(lang, MIC_DIMENSIONS).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("reductionRatioRangeCode", storageService.getCodesList(lang, MIC_REDUCT_RATIO_RANGE).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(COLOR_CODE, storageService.getCodesList(lang, MIC_COLOR).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("emulsionOnFilmCode", storageService.getCodesList(lang, MIC_EMUL_FILM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("generationCode", storageService.getCodesList(lang, MIC_GENERATION).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("baseOfFilmCode", storageService.getCodesList(lang, MIC_BASE_FILM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement("emulsionOnFilmCode", storageService.getCodesList(lang, MIC_EMUL_FILM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement("generationCode", storageService.getCodesList(lang, MIC_GENERATION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement("baseOfFilmCode", storageService.getCodesList(lang, MIC_BASE_FILM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("reductionRatioCode", Collections.emptyList()));
   }
 
   /**
    * Sets values Project Graphic type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoPGcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(SPECIFIC_MATERIAL_DESIGNAION_ON_CODE, storageService.getCodesList(lang, PG_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement(SPECIFIC_MATERIAL_DESIGNAION_ON_CODE,storageService.getCodesList(lang, PG_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(COLOR_CODE, storageService.getCodesList(lang, PG_COLOR).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("baseOfEmulsionCode", storageService.getCodesList(lang, PG_EMUL_BASE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("soundOnMediumOrSeparateCode", storageService.getCodesList(lang, SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("soundOnMediumOrSeparateCode",storageService.getCodesList(lang, SOUND_MEDIUM_OR_SEP).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("mediumForSoundCode", storageService.getCodesList(lang, MEDIUM_FOR_SOUND).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("dimensionCode", storageService.getCodesList(lang, PG_DIMENSIONS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("secondarySupportMaterialCode", storageService.getCodesList(lang, PG_SECONDARY_SUPPORT).stream().map(toPairItem).collect(toList())));
@@ -228,8 +278,8 @@ public class FixedFieldUtils {
   /**
    * Sets values Map type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoMAPcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -237,15 +287,15 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement(COLOR_CODE, storageService.getCodesList(lang, MAP_COLOR).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("physicalMediumCode", storageService.getCodesList(lang, MAP_PHYSICAL_MEDIUM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("typeOfReproductionCode", storageService.getCodesList(lang, MAP_TYPE_OF_REPRODUCTION).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("productionDetailsCode", storageService.getCodesList(lang, MAP_PRODUCTION_DETAILS).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults( new FixedFieldElement("productionDetailsCode", storageService.getCodesList(lang, MAP_PRODUCTION_DETAILS).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement(POLARITY_CODE, storageService.getCodesList(lang, MAP_POLARITY).stream().map(toPairItem).collect(toList())));
   }
 
   /**
    * Sets values Globe type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoGLBcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -258,26 +308,34 @@ public class FixedFieldUtils {
   /**
    * Sets values Tactile Material type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoTCTcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("specificMaterialDesignationCode", storageService.getCodesList(lang, TCT_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("classOfBrailleWritingCode1", storageService.getCodesList(lang, TCT_CLASS_BRAILLE_WRITING).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("classOfBrailleWritingCode2", storageService.getCodesList(lang, TCT_CLASS_BRAILLE_WRITING).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("levelOfContractionCode", storageService.getCodesList(lang, TCT_CONTRACTION_LVL).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode1", storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode2", storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode3", storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("specificPhysicalCharacteristicsCode", storageService.getCodesList(lang, TCT_SPECIAL_PHYSICAL_CHAR).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("specificMaterialDesignationCode",
+        storageService.getCodesList(lang, TCT_SPEC_DESIGN).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("classOfBrailleWritingCode1",
+        storageService.getCodesList(lang, TCT_CLASS_BRAILLE_WRITING).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("classOfBrailleWritingCode2",
+        storageService.getCodesList(lang, TCT_CLASS_BRAILLE_WRITING).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("levelOfContractionCode", storageService.getCodesList(lang, TCT_CONTRACTION_LVL).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode1",
+        storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode2",
+        storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("brailleMusicFormatCode3",
+        storageService.getCodesList(lang, TCT_BRAILLE_MUSIC_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("specificPhysicalCharacteristicsCode",
+        storageService.getCodesList(lang, TCT_SPECIAL_PHYSICAL_CHAR).stream().map(toPairItem).collect(toList())));
   }
 
   /**
    * Sets values Computer File type for 007 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setPhysicalInfoCFcodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -290,23 +348,58 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("antecedentSourceCode", storageService.getCodesList(lang, CF_ANTECEDENT_SRC).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("levelOfCompressionCode", storageService.getCodesList(lang, CF_COMPRESSION_LVL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("reformattingQualityCode", storageService.getCodesList(lang, CF_REFORMATTING_QUALITY).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("imageBitDepth", Collections.emptyList() ));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("imageBitDepth", Collections.emptyList()));
+  }
+
+  /**
+   * Inject codes groups for 008 authority tags.
+   *
+   * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
+   * @param storageService the storage service.
+   * @param lang the lang associated with the current request.
+   * @param headerTypeCode the header type code selected.
+   * @param tag the tag code.
+   */
+  public static void injectAuthorityMaterialCodes(final FixedFieldCodesGroup fixedFieldCodesGroup,
+      final AuthorityStorageService authorityStorageService,
+      final String lang) {
+
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("subjectDescriptor", authorityStorageService.getCodesList(lang, SUBJECT_DESCRIPTOR).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("romanizationScheme", authorityStorageService.getCodesList(lang, ROMANIZATION_SCHEME).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("bilingualUsage", authorityStorageService.getCodesList(lang, BILINGUAL_USAGE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("recordType", authorityStorageService.getCodesList(lang, AUT_RECORD_TYPE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cataloguingRules", authorityStorageService.getCodesList(lang, AUT_CATALOGUIG_RULES).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("subjectSystem", authorityStorageService.getCodesList(lang, SUBJECT_SYSTEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("seriesType", authorityStorageService.getCodesList(lang, SERIES_TYPE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("seriesNumbering", authorityStorageService.getCodesList(lang, SERIES_NUMBERING).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("mainAddedEntryIndicator", authorityStorageService.getCodesList(lang, MAIN_ADDED_ENTRY_INDICATOR).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("subjectEntryIndicator", authorityStorageService.getCodesList(lang, SUBJECT_ENTRY_INDICATOR).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("seriesEntryIndicator", authorityStorageService.getCodesList(lang, SERIES_ENTRY_INDICATOR).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("subDivisionType", authorityStorageService.getCodesList(lang, SUB_DIVISION_TYPE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("governmentAgency", authorityStorageService.getCodesList(lang, GOVERNMENT_AGENCY).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("referenceStatus", authorityStorageService.getCodesList(lang, REFERENCE_STATUS).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("recordRevision", authorityStorageService.getCodesList(lang, AUT_RECORD_REVISION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("nonUniqueName", authorityStorageService.getCodesList(lang, NON_UNIQUE_NAME).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("headingStatus", authorityStorageService.getCodesList(lang, HEADING_STATUS).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("recordModification", authorityStorageService.getCodesList(lang, RECORD_MODIFICATION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("cataloguingSourceCode", authorityStorageService.getCodesList(lang, CATALOGUING_SOURCE_CODE).stream().map(toPairItem).collect(toList())));
+
   }
 
   /**
    * Inject codes groups for 008 and 006 tags.
    *
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
-   * @param storageService       the storage service.
-   * @param lang                 the lang associated with the current request.
-   * @param headerTypeCode       the header type code selected.
-   * @param tag                  the tag code.
+   * @param storageService the storage service.
+   * @param lang the lang associated with the current request.
+   * @param headerTypeCode the header type code selected.
+   * @param tag the tag code.
    */
   public static void injectMaterialCodes(final FixedFieldCodesGroup fixedFieldCodesGroup,
-                                         final StorageService storageService,
-                                         final String lang,
-                                         final int headerTypeCode,
-                                         final String tag) {
+      final StorageService storageService,
+      final String lang,
+      final int headerTypeCode,
+      final String tag) {
     Map<String, Object> mapRecordTypeMaterial = storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, tag);
     if (mapRecordTypeMaterial != null) {
       if (tag.equals(MATERIAL_TAG_CODE)) {
@@ -317,74 +410,76 @@ public class FixedFieldUtils {
       }
       String material = (String) mapRecordTypeMaterial.get(FORM_OF_MATERIAL_LABEL);
       switch (material) {
-        case BOOK_TYPE:
-          setBookMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
-              storageService.getCodesList(lang, BOOK_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
-          }
-          break;
-        case MUSIC_TYPE:
-          setMusicMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
-              storageService.getCodesList(lang, MUSIC_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
-          }
+      case BOOK_TYPE:
+        setBookMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+        if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
+          fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, storageService.getCodesList(lang, BOOK_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
+        }
+        break;
+      case MUSIC_TYPE:
+        setMusicMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+        if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
+          fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, storageService.getCodesList(lang, MUSIC_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
+        }
 
-          break;
-        case SERIAL_TYPE:
-          setSerialMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            Pair p = new Pair();
-            p.setCode("s");
-            p.setDescription("Serial");
-            List<Pair> list = Collections.singletonList(p);
-            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
-          }
-          break;
-        case MIXED_TYPE:
-          fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-          if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            Pair p = new Pair();
-            p.setCode("p");
-            p.setDescription("Mixed material");
-            List<Pair> list = Collections.singletonList(p);
-            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
-          }
-          break;
-        case MAP_TYPE:
-          setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
-              storageService.getCodesList(lang, MAP_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
-          }
-          break;
-        case VISUAL_TYPE:
-          setVisualMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE,
-              storageService.getCodesList(lang, VM_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
-         }
-          break;
-        case COMPUTER_TYPE:
-          setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
-          if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
-            Pair p = new Pair();
-            p.setCode("m");
-            p.setDescription("Computer file");
-            List<Pair> list = Collections.singletonList(p);
-            fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
-          }
+        break;
+      case SERIAL_TYPE:
+        setSerialMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+        if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
+          Pair p = new Pair();
+          p.setCode("s");
+          p.setDescription("Serial");
+          List<Pair> list = Collections.singletonList(p);
+          fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
+        }
+        break;
+      case MIXED_TYPE:
+        fixedFieldCodesGroup
+            .addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+        if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
+          Pair p = new Pair();
+          p.setCode("p");
+          p.setDescription("Mixed material");
+          List<Pair> list = Collections.singletonList(p);
+          fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
+        }
+        break;
+      case MAP_TYPE:
+        setMapMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+        if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
+          fixedFieldCodesGroup.addResults(
+              new FixedFieldElement(MATERIAL_TYPE, storageService.getCodesList(lang, MAP_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
+        }
+        break;
+      case VISUAL_TYPE:
+        setVisualMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+        if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
+          fixedFieldCodesGroup
+              .addResults(new FixedFieldElement(MATERIAL_TYPE, storageService.getCodesList(lang, VM_MATERIAL_CODE).stream().map(toPairItem).collect(toList())));
+        }
+        break;
+      case COMPUTER_TYPE:
+        setComputerMaterialCodes(lang, storageService, fixedFieldCodesGroup);
+        if (tag.equals(OTHER_MATERIAL_TAG_CODE)) {
+          Pair p = new Pair();
+          p.setCode("m");
+          p.setDescription("Computer file");
+          List<Pair> list = Collections.singletonList(p);
+          fixedFieldCodesGroup.addResults(new FixedFieldElement(MATERIAL_TYPE, list));
+        }
 
-          break;
-        default:
+        break;
+      default:
 
       }
 
       if (tag.equals(MATERIAL_TAG_CODE)) {
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("languageCode", storageService.getCodesList(lang, LANGUAGE).stream().map(toPairItem).collect(toList())));
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("recordModifiedCode", storageService.getCodesList(lang, MODIFIED_RECORD_TYPE).stream().map(toPairItem).collect(toList())));
-        fixedFieldCodesGroup.addResults(new FixedFieldElement("recordCataloguingSourceCode", storageService.getCodesList(lang, CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup
+            .addResults(new FixedFieldElement("languageCode", storageService.getCodesList(lang, LANGUAGE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(
+            new FixedFieldElement("recordModifiedCode", storageService.getCodesList(lang, MODIFIED_RECORD_TYPE).stream().map(toPairItem).collect(toList())));
+        fixedFieldCodesGroup.addResults(new FixedFieldElement("recordCataloguingSourceCode",
+            storageService.getCodesList(lang, CATALOGUING_SOURCE).stream().map(toPairItem).collect(toList())));
       }
     } else {
       logger.error(Message.MOD_MARCCAT_00019_HEADER_TYPE_ID_WRONG, tag);
@@ -392,26 +487,29 @@ public class FixedFieldUtils {
 
   }
 
-
   /**
    * Sets values Computer File type for 008/006 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setComputerMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerTargetAudienceCode", storageService.getCodesList(lang, COMPUTER_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerFileFormCode", storageService.getCodesList(lang, COMPUTER_FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerFileTypeCode", storageService.getCodesList(lang, COMPUTER_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("computerTargetAudienceCode",
+        storageService.getCodesList(lang, COMPUTER_TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("computerFileFormCode", storageService.getCodesList(lang, COMPUTER_FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("computerFileTypeCode", storageService.getCodesList(lang, COMPUTER_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
   }
 
   /**
    * Sets values Visual type for 008/006 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setVisualMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -421,13 +519,13 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualMaterialTypeCode", storageService.getCodesList(lang, VSL_TYPE_MATERIAL).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("visualTechniqueCode", storageService.getCodesList(lang, VSL_TECHNIQUE).stream().map(toPairItem).collect(toList())));
- }
+  }
 
   /**
    * Sets values Map type for 008/006 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setMapMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -447,60 +545,83 @@ public class FixedFieldUtils {
   /**
    * Sets values Music type for 008/006 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setMusicMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormOfCompositionCode", storageService.getCodesList(lang, MSC_FORM_OF_COMPOSITION).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormatCode", storageService.getCodesList(lang, MSC_FORMAT).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicPartsCode", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(TARGET_AUDIENCE_CODE, storageService.getCodesList(lang, TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode1", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode2", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode3", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode4", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode5", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTextualMaterialCode6", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicLiteraryTextCode1", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicLiteraryTextCode2", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTranspositionArrangementCode", storageService.getCodesList(lang, MSC_TRANSPOSITION_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicFormOfCompositionCode",
+        storageService.getCodesList(lang, MSC_FORM_OF_COMPOSITION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement("musicFormatCode", storageService.getCodesList(lang, MSC_FORMAT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement("musicPartsCode", storageService.getCodesList(lang, MSC_PARTS).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement(TARGET_AUDIENCE_CODE, storageService.getCodesList(lang, TARGET_AUDIENCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("musicTextualMaterialCode1", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("musicTextualMaterialCode2", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("musicTextualMaterialCode3", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("musicTextualMaterialCode4", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("musicTextualMaterialCode5", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("musicTextualMaterialCode6", storageService.getCodesList(lang, MSC_TEXTUAL_MAT_CODE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("musicLiteraryTextCode1", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("musicLiteraryTextCode2", storageService.getCodesList(lang, MSC_LITERARY_TEXT).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("musicTranspositionArrangementCode",
+        storageService.getCodesList(lang, MSC_TRANSPOSITION_CODE).stream().map(toPairItem).collect(toList())));
 
   }
 
   /**
    * Sets values Continuing resource type for 008/006 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setSerialMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
 
     final List<Pair> natureOfContents = storageService.getCodesList(lang, NATURE_OF_CONTENT).stream().map(toPairItem).collect(toList());
 
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialFrequencyCode", storageService.getCodesList(lang, SRL_FREQUENCY).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialRegularityCode", storageService.getCodesList(lang, SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialTypeCode", storageService.getCodesList(lang, SRL_TYPE_CONTINUING_RESOURCE).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialFormOriginalItemCode", storageService.getCodesList(lang, SRL_FORM_ORGNL_ITEM).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement("serialFrequencyCode", storageService.getCodesList(lang, SRL_FREQUENCY).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("serialRegularityCode", storageService.getCodesList(lang, SRL_REGULARITY).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("serialTypeCode", storageService.getCodesList(lang, SRL_TYPE_CONTINUING_RESOURCE).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("serialFormOriginalItemCode", storageService.getCodesList(lang, SRL_FORM_ORGNL_ITEM).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup
+        .addResults(new FixedFieldElement(FORM_OF_ITEM_CODE, storageService.getCodesList(lang, FORM_OF_ITEM).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfEntireWork", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent1", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent2", natureOfContents));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("natureOfContent3", natureOfContents));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("conferencePublicationCode", storageService.getCodesList(lang, CONF_PUBLICATION).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialOriginalAlphabetOfTitleCode", storageService.getCodesList(lang, SRL_ORIGIN_ALPHABET).stream().map(toPairItem).collect(toList())));
-    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialSuccessiveLatestCode", storageService.getCodesList(lang, SRL_ENTRY_CONVENTION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement(GOVERNMENT_PUBLICATION_CODE, storageService.getCodesList(lang, GOV_PUBLICATION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(
+        new FixedFieldElement("conferencePublicationCode", storageService.getCodesList(lang, CONF_PUBLICATION).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialOriginalAlphabetOfTitleCode",
+        storageService.getCodesList(lang, SRL_ORIGIN_ALPHABET).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("serialSuccessiveLatestCode",
+        storageService.getCodesList(lang, SRL_ENTRY_CONVENTION).stream().map(toPairItem).collect(toList())));
 
   }
 
   /**
    * Sets values Book type for 008/006 fixed field
    *
-   * @param lang                 the lang associated with the current request.
-   * @param storageService       the storage service.
+   * @param lang the lang associated with the current request.
+   * @param storageService the storage service.
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
    */
   public static void setBookMaterialCodes(final String lang, final StorageService storageService, final FixedFieldCodesGroup fixedFieldCodesGroup) {
@@ -530,8 +651,8 @@ public class FixedFieldUtils {
    * Inject codes group for Leader tag.
    *
    * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
-   * @param storageService       the storage service.
-   * @param lang                 the lang associated with the current request.
+   * @param storageService the storage service.
+   * @param lang the lang associated with the current request.
    */
   public static void injectLeaderCodes(final FixedFieldCodesGroup fixedFieldCodesGroup, final StorageService storageService, final String lang) {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("itemRecordStatusCode", storageService.getRecordStatusTypes(lang).stream().map(toPairItem).collect(toList())));
@@ -544,86 +665,101 @@ public class FixedFieldUtils {
     fixedFieldCodesGroup.addResults(new FixedFieldElement("linkedRecordCode", storageService.getMultipartResourceLevels(lang).stream().map(toPairItem).collect(toList())));
   }
 
-  public static void injectDefaultValues(FixedFieldCodesGroup fixedFieldCodesGroup, StorageService storageService, Map<String, String> parameter, int headerType, String lang, Map<String, String> configuration) {
-    FieldTemplate fieldTemplate = ofNullable(CatalogingInformation.getFixedField(storageService, headerType, parameter.get("code"), parameter.get("leader"), parameter.get("valueField"), lang, configuration))
-      .map(f -> {
-        final FieldTemplate fieldT = new FieldTemplate();
-        fieldT.setFixedField(f);
-        return fieldT;
-      }).orElseGet(() -> {
-        logger.error(Message.MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID, CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
-        return new FieldTemplate();
-      });
-    fixedFieldCodesGroup.getResults()
-      .keySet()
-      .forEach(key -> {
-        String currentValue = (String) fieldTemplate
-          .getFixedField()
-          .getAttributes()
-          .get(key);
-        if (currentValue != null) {
-          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(currentValue);
-        } else {
-          fixedFieldCodesGroup.getResults().get(key).setDafaultValue(EMPTY_VALUE);
-        }
-      });
+  /**
+   * Inject codes group for Leader tag.
+   *
+   * @param fixedFieldCodesGroup the fixedFieldCodesGroup to populate.
+   * @param storageService the storage service.
+   * @param lang the lang associated with the current request.
+   */
+  public static void injectAuthorityLeaderCodes(final FixedFieldCodesGroup fixedFieldCodesGroup,
+      final AuthorityStorageService authorityStorageService,
+      final String lang) {
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("recordStatusCode", authorityStorageService.getRecordStatusTypes(lang).stream().map(toPairItem).collect(toList())));
+    fixedFieldCodesGroup.addResults(new FixedFieldElement("encodingLevel", authorityStorageService.getEncodingLevels(lang).stream().map(toPairItem).collect(toList())));
+  }
+
+  public static void injectDefaultValues(FixedFieldCodesGroup fixedFieldCodesGroup,
+      StorageService storageService,
+      Map<String, String> parameter,
+      int headerType,
+      String lang,
+      Map<String, String> configuration) {
+    FieldTemplate fieldTemplate = ofNullable(CatalogingInformation.getFixedField(storageService, headerType, parameter.get("code"), parameter.get("leader"),
+        parameter.get("valueField"), lang, configuration)).map(f -> {
+          final FieldTemplate fieldT = new FieldTemplate();
+          fieldT.setFixedField(f);
+          return fieldT;
+        }).orElseGet(() -> {
+          logger.error(Message.MOD_MARCCAT_00016_FIELD_PARAMETER_INVALID, CONTROL_FIELD_CATEGORY_CODE, parameter.get("code"));
+          return new FieldTemplate();
+        });
+    fixedFieldCodesGroup.getResults().keySet().forEach(key -> {
+      String currentValue = (String) fieldTemplate.getFixedField().getAttributes().get(key);
+      if (currentValue != null) {
+        fixedFieldCodesGroup.getResults().get(key).setDafaultValue(currentValue);
+      } else {
+        fixedFieldCodesGroup.getResults().get(key).setDafaultValue(EMPTY_VALUE);
+      }
+    });
 
   }
 
-  public static void injectPhysicalDescriptionCodes(final FixedFieldCodesGroup fixedFieldCodesGroup, final StorageService storageService, final String lang, final int headerTypeCode) {
+  public static void injectPhysicalDescriptionCodes(final FixedFieldCodesGroup fixedFieldCodesGroup,
+      final StorageService storageService,
+      final String lang,
+      final int headerTypeCode) {
     String categoryOfMaterial = PHYSICAL_TYPES_MAP.get(headerTypeCode);
     if (categoryOfMaterial != null) {
-      fixedFieldCodesGroup.addResults(new FixedFieldElement("categoryOfMaterial", storageService.getCodesList(lang, CodeListsType.CATEGORY_MATERIAL)
-        .stream()
-        .map(toPairItem)
-        .collect(toList())));
+      fixedFieldCodesGroup.addResults(new FixedFieldElement("categoryOfMaterial",
+          storageService.getCodesList(lang, CodeListsType.CATEGORY_MATERIAL).stream().map(toPairItem).collect(toList())));
       switch (categoryOfMaterial) {
-        case ELECTRONIC_RESOURCE:
-          setPhysicalInfoCFcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case GLOBE:
-          setPhysicalInfoGLBcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case MAP_CODE:
-          setPhysicalInfoMAPcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case TACTILE_MATERIAL:
-          setPhysicalInfoTCTcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case PROJECTED_GRAPHIC:
-          setPhysicalInfoPGcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case MICROFORM:
-          setPhysicalInfoMICcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case NON_PROJECTED_GRAPHIC:
-          setPhysicalInfoNPGcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case MOTION_PICTURE:
-          setPhysicalInfoMPcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case KIT_CODE:
-          setPhysicalInfoKITcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case NOTATED_MUSIC:
-          setPhysicalInfoNMcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case REMOTE_SENSING_IMAGE:
-          setPhysicalInfoRSIcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case SOUND_RECORDING:
-          setPhysicalInfoSNDcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case TEXT_CODE:
-          setPhysicalInfoTXTcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case UNSPECIFIED:
-          setPhysicalInfoUNScodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        case VIDEO_RECORDING:
-          setPhysicalInfoVRcodes(lang, storageService, fixedFieldCodesGroup);
-          break;
-        default:
+      case ELECTRONIC_RESOURCE:
+        setPhysicalInfoCFcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case GLOBE:
+        setPhysicalInfoGLBcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case MAP_CODE:
+        setPhysicalInfoMAPcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case TACTILE_MATERIAL:
+        setPhysicalInfoTCTcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case PROJECTED_GRAPHIC:
+        setPhysicalInfoPGcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case MICROFORM:
+        setPhysicalInfoMICcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case NON_PROJECTED_GRAPHIC:
+        setPhysicalInfoNPGcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case MOTION_PICTURE:
+        setPhysicalInfoMPcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case KIT_CODE:
+        setPhysicalInfoKITcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case NOTATED_MUSIC:
+        setPhysicalInfoNMcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case REMOTE_SENSING_IMAGE:
+        setPhysicalInfoRSIcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case SOUND_RECORDING:
+        setPhysicalInfoSNDcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case TEXT_CODE:
+        setPhysicalInfoTXTcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case UNSPECIFIED:
+        setPhysicalInfoUNScodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      case VIDEO_RECORDING:
+        setPhysicalInfoVRcodes(lang, storageService, fixedFieldCodesGroup);
+        break;
+      default:
       }
 
     } else {
