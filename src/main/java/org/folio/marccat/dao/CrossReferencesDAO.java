@@ -72,11 +72,25 @@ public class CrossReferencesDAO extends AbstractDAO {
   @SuppressWarnings("unchecked")
   public REF loadReciprocal(final REF ref, final int cataloguingView, final Session session) throws HibernateException {
     final int reciprocalType = ReferenceType.getReciprocal(ref.getType());
-    final List<REF> list = session.find(
-        "from " + ref.getClass().getName() + " as ref " + " where ref.key.target = ? AND " + " ref.key.source = ? AND "
-            + " substr(ref.key.userViewString, ?, 1) = '1' AND " + " ref.key.type = ?",
-        new Object[] { ref.getSource(), ref.getTarget(), cataloguingView, reciprocalType },
-        new Type[] { Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER, Hibernate.INTEGER });
+    final List<REF> list =
+        session.find(
+          "from "
+            + ref.getClass().getName()
+            + " as ref "
+            + " where ref.key.target = ? AND "
+            + " ref.key.source = ? AND "
+            + " substr(ref.key.userViewString, ?, 1) = '1' AND "
+            + " ref.key.type = ?",
+          new Object[]{
+            ref.getSource(),
+            ref.getTarget(),
+            cataloguingView,
+            reciprocalType},
+          new Type[]{
+            Hibernate.INTEGER,
+            Hibernate.INTEGER,
+            Hibernate.INTEGER,
+            Hibernate.INTEGER});
     return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
 
   }

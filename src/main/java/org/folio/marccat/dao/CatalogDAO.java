@@ -1,7 +1,5 @@
 package org.folio.marccat.dao;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +25,6 @@ import org.folio.marccat.exception.ModMarccatException;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Abstract class for common implementations of CatalogDAO (Bib and Auth).
