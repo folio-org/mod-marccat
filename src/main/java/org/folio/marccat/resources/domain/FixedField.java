@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
+
 @JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile",
     "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2",
     "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfEntireWork", "natureOfContent1", "natureOfContent2",
@@ -3737,13 +3738,13 @@ public class FixedField {
   @Generated("org.jsonschema2pojo")
   public static enum MaterialType {
 
-    MUSIC("music"),
-    MAP("map"),
-    COMPUTER_FILE("computerFile"),
-    BOOK("book"),
+    MUSIC("music"), 
+    MAP("map"), 
+    COMPUTER_FILE("computerFile"), 
+    BOOK("book"), 
     MIXED_MATERIAL("mixedMaterial"),
-    CONTINUING_RESOURCE("continuingResource"),
-    VISUAL_MATERIAL("visualMaterial"),
+    CONTINUING_RESOURCE("continuingResource"), 
+    VISUAL_MATERIAL("visualMaterial"), 
     UNDEFINED("undefined");
 
     private static final Map<String, MaterialType> CONSTANTS = new HashMap<String, MaterialType>();
@@ -3790,10 +3791,10 @@ public class FixedField {
     MOTION_PICTURE("motionPicture"),
     KIT("kit"),
     NOTATED_MUSIC("notatedMusic"),
-    REMOTE_SENSING_IMAGE("remoteSensingImage"),
-    SOUND_RECORDING("soundRecording"),
+    REMOTE_SENSING_IMAGE("remoteSensingImage"), 
+    SOUND_RECORDING("soundRecording"), 
     TEXT("text"),
-    VIDEO_RECORDING("videoRecording"),
+    VIDEO_RECORDING("videoRecording"), 
     UNSPECIFIED("unspecified");
 
     private static final Map<String, PhysicalType> CONSTANTS = new HashMap<String, PhysicalType>();
