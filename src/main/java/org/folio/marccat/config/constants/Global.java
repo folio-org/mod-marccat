@@ -223,6 +223,7 @@ public class Global {
       "681", "682", "688");
 
   public static final short SUBJECT_SOURCE_CODE_OTHERS = 6;
+  public static final char NOT_APLICABLE = 'n';
 
   static {
     Map<String, String> errors = new HashMap<>();
