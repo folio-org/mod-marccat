@@ -186,14 +186,12 @@ public class Global {
   public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
   public static final List<String> FIXED_FIELDS = Arrays.asList("000", "001", "005", "006", "007", "008");
   public static final List<String> MANDATORY_FIELDS = Arrays.asList("000", "001", "008", "040");
-  public static final List<String> AUT_NAMES = Arrays.asList("100", "110", "111");
-  public static final List<String> AUT_NAMES_X = Arrays.asList("400", "410", "411", "500", "510", "511", "700", "710",
-      "711");
-  public static final List<String> AUT_TITLE = Arrays.asList("130");
-  public static final List<String> AUT_TITLE_X = Arrays.asList("430", "530", "730");
-  public static final List<String> AUT_SUBJECT = Arrays.asList("150", "151", "155", "180", "182", "185");
-  public static final List<String> AUT_SUBJECT_X = Arrays.asList("450", "550", "750", "451", "551", "751", "455", "555",
-      "755", "480", "580", "780", "482", "582", "782", "485", "585", "785");
+  public static final List<String> AUT_NAMES = Collections.unmodifiableList(Arrays.asList("100", "110", "111"));
+  public static final List<String> AUT_NAMES_X = Collections.unmodifiableList(Arrays.asList("400", "410", "411", "500", "510", "511", "700", "710", "711"));
+  public static final List<String> AUT_TITLE = Collections.unmodifiableList(Arrays.asList("130"));
+  public static final List<String> AUT_TITLE_X = Collections.unmodifiableList(Arrays.asList("430", "530", "730"));
+  public static final List<String> AUT_SUBJECT = Collections.unmodifiableList(Arrays.asList("150", "151", "155", "180", "182", "185"));
+  public static final List<String> AUT_SUBJECT_X = Collections.unmodifiableList(Arrays.asList("450", "550", "750", "451", "551", "751", "455", "555", "755", "480", "580", "780", "482", "582", "782", "485", "585", "785"));
   public static final List<String> NAMES = Arrays.asList("100", "110", "111");
   public static final List<String> NAMES_D = Arrays.asList("110", "111", "710", "711");
   public static final List<String> NAMES_E = Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410",
@@ -219,8 +217,7 @@ public class Global {
   public static final String MODULE_CONFIGURATION = "mod-configuration";
   public static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
   public static final String UNDEFINED = "und";
-  public static final List<String> AUT_NOTES = Arrays.asList("667", "670", "672", "673", "675", "677", "678", "680",
-      "681", "682", "688");
+  public static final List<String> AUT_NOTES = Collections.unmodifiableList(Arrays.asList("667", "670", "672", "673", "675", "677", "678", "680", "681", "682", "688"));
 
   public static final short SUBJECT_SOURCE_CODE_OTHERS = 6;
   public static final char NOT_APLICABLE = 'n';
