@@ -134,8 +134,7 @@ resourceTypes:
         exampleItem: !include examples/name.json
         schema: authority
     post:
-      is: [validate
-        ]
+      is: [validate]
       description: Create authority record
       responses:
         201:
@@ -151,6 +150,29 @@ resourceTypes:
             text/plain:
               example: "Error in validation"  
 
+  /authority-record/from-template/{idTemplate}:
+    displayName: Get authority marc records template
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityTemplate.json
+        schema: authority
+    post:
+      is: [validate]
+      description: Get authority record template
+      responses:
+        200:
+          description: "Return an authority template"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"
+              
   /authority-record/fixed-field-display-value:
     displayName: Change the display value for the authority 008 tag 
     type:
@@ -158,8 +180,7 @@ resourceTypes:
         exampleItem: !include examples/authorityFixedField008.json
         schema: authority
     post:
-      is: [validate
-        ]
+      is: [validate]
       description: Change the display value for 008 tag
       responses:
         201:
@@ -173,5 +194,4 @@ resourceTypes:
           description: "Internal server error"
           body:
             text/plain:
-              example: "Error in validation"  
-            
+              example: "Error in validation"                

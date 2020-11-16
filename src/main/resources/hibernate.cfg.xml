@@ -6,6 +6,8 @@
 	<session-factory>
 
 	<property name="show_sql">false</property>
+    <mapping resource="org/folio/marccat/dao/persistence/AUTHORITY_MODEL.hbm.xml"/>
+    <mapping resource="org/folio/marccat/dao/persistence/AUTHORITY_MODEL_ITEM.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/BibliographicModel.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/BibliographicModelItem.hbm.xml"/>
 		<mapping resource="org/folio/marccat/dao/persistence/DB_LIST.hbm.xml"/>
