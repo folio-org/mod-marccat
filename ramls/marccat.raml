@@ -1,6 +1,7 @@
 #%RAML 1.0
 title:  MARCcat
-version: v1.3
+version: v1.4
+
 protocols: [ HTTP, HTTPS ]
 baseUri: https://github.com/folio-org/mod-marccat
 
@@ -195,3 +196,27 @@ resourceTypes:
           body:
             text/plain:
               example: "Error in validation"                
+
+  /auth-fixed-fields-code-groups:
+    displayName: Get authority control fields values
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityFixedField.json
+        schema: authority
+    post:
+      is: [validate]
+      description: Get authority control fields values
+      responses:
+        200:
+          description: "Return the fixed values for authority"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"  
+

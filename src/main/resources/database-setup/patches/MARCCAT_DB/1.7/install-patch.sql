@@ -7,6 +7,7 @@
 \echo MARCCAT DB 1.7 - Start -------------------------------------------------------------
 \echo
 \ir MODCAT-214.sql
+\ir MODCAT-216.sql
 \ir patch_hstry_upd.sql
 \echo
 \echo MARCCAT DB 1.7 - End ---------------------------------------------------------------

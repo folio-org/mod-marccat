@@ -17,41 +17,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue",
-    "materialType", "physicalType", "dateEnteredOnFile", "dateTypeCode", "dateFirstPublication", "dateLastPublication",
-    "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2", "bookIllustrationCode3",
-    "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfEntireWork", "natureOfContent1",
-    "natureOfContent2", "natureOfContent3", "natureOfContent4", "governmentPublicationCode",
-    "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode", "bookLiteraryFormTypeCode",
-    "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3",
-    "cartographicReliefCode4", "cartographicProjectionCode", "cartographicMaterial",
-    "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2",
-    "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1",
-    "musicTextualMaterialCode2", "musicTextualMaterialCode3", "musicTextualMaterialCode4", "musicTextualMaterialCode5",
-    "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2",
-    "musicTranspositionArrangementCode", "computerFileTypeCode", "computerTargetAudienceCode", "computerFileFormCode",
-    "visualRunningTime", "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode",
-    "serialTypeCode", "serialFormOriginalItemCode", "serialOriginalAlphabetOfTitleCode", "serialSuccessiveLatestCode",
-    "languageCode", "recordModifiedCode", "recordCataloguingSourceCode", "itemRecordStatusCode", "itemRecordTypeCode",
-    "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel",
-    "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial",
-    "specificMaterialDesignationCode", "colorCode", "physicalMediumCode", "typeOfReproductionCode", "polarityCode",
-    "dimensionCode", "generationCode", "baseOfFilmCode", "includesSoundCode", "mediumForSoundCode",
-    "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode",
-    "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode",
-    "productionDetailsCode", "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode",
-    "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColorCode", "kindOfColorStockCode",
-    "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode",
-    "videoRecordingFormatCode", "remoteSensingDataTypeCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode",
-    "attitudeOfSensorCode", "cloudCoverCode", "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode",
-    "remoteDataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode", "tapeConfigurationCode", "discTypeCode",
-    "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode",
-    "classOfBrailleWritingCode1", "classOfBrailleWritingCode2", "levelOfContractionCode", "brailleMusicFormatCode1",
-    "brailleMusicFormatCode2", "brailleMusicFormatCode3", "specificPhysicalCharacteristicsCode", "formatCode",
-    "subjectDescriptor", "romanizationScheme", "bilingualUsage", "recordType", "cataloguingRules", "subjectSystem",
-    "seriesType", "seriesNumbering", "mainAddedEntryIndicator", "subjectEntryIndicator", "seriesEntryIndicator",
-    "subDivisionType", "governmentAgency", "referenceStatus", "recordRevision", "nonUniqueName", "headingStatus",
-    "recordModification", "cataloguingSourceCode", "sequenceNumber", "attributes" })
+
+@JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile",
+    "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2",
+    "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfEntireWork", "natureOfContent1", "natureOfContent2",
+    "natureOfContent3", "natureOfContent4", "governmentPublicationCode", "conferencePublicationCode", "bookFestschrift", "bookIndexAvailabilityCode",
+    "bookLiteraryFormTypeCode", "bookBiographyCode", "cartographicReliefCode1", "cartographicReliefCode2", "cartographicReliefCode3", "cartographicReliefCode4",
+    "cartographicProjectionCode", "cartographicMaterial", "cartographicIndexAvailabilityCode", "cartographicFormatCode1", "cartographicFormatCode2",
+    "musicFormOfCompositionCode", "musicFormatCode", "musicPartsCode", "musicTextualMaterialCode1", "musicTextualMaterialCode2", "musicTextualMaterialCode3",
+    "musicTextualMaterialCode4", "musicTextualMaterialCode5", "musicTextualMaterialCode6", "musicLiteraryTextCode1", "musicLiteraryTextCode2",
+    "musicTranspositionArrangementCode", "computerFileTypeCode", "computerTargetAudienceCode", "computerFileFormCode", "visualRunningTime",
+    "visualMaterialTypeCode", "visualTechniqueCode", "serialFrequencyCode", "serialRegularityCode", "serialTypeCode", "serialFormOriginalItemCode",
+    "serialOriginalAlphabetOfTitleCode", "serialSuccessiveLatestCode", "languageCode", "recordModifiedCode", "recordCataloguingSourceCode",
+    "itemRecordStatusCode", "itemRecordTypeCode", "itemBibliographicLevelCode", "itemControlTypeCode", "characterCodingSchemeCode", "encodingLevel",
+    "descriptiveCataloguingCode", "linkedRecordCode", "materialTypeCode", "categoryOfMaterial", "specificMaterialDesignationCode", "colorCode",
+    "physicalMediumCode", "typeOfReproductionCode", "polarityCode", "dimensionCode", "generationCode", "baseOfFilmCode", "includesSoundCode",
+    "mediumForSoundCode", "secondarySupportMaterialCode", "configurationCode", "obsolete1", "obsolete2", "imageBitDepth", "fileFormatsCode",
+    "qualityAssuranceTargetCode", "antecedentSourceCode", "levelOfCompressionCode", "reformattingQualityCode", "productionDetailsCode",
+    "reductionRatioRangeCode", "reductionRatioCode", "emulsionOnFilmCode", "presentationFormatCode", "productionElementsCode", "refinedCategoriesOfColorCode",
+    "kindOfColorStockCode", "deteriorationStageCode", "completenessCode", "inspectionDate", "primarySupportMaterialCode", "baseOfEmulsionCode",
+    "videoRecordingFormatCode", "remoteSensingDataTypeCode", "soundOnMediumOrSeparateCode", "altitudeOfSensorCode", "attitudeOfSensorCode", "cloudCoverCode",
+    "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "remoteDataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode",
+    "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode",
+    "classOfBrailleWritingCode1", "classOfBrailleWritingCode2", "levelOfContractionCode", "brailleMusicFormatCode1", "brailleMusicFormatCode2",
+    "brailleMusicFormatCode3", "specificPhysicalCharacteristicsCode", "formatCode", "subjectDescriptor", "romanizationScheme", "bilingualUsage", "recordType",
+    "cataloguingRules", "subjectSystem", "seriesType", "seriesNumbering", "mainAddedEntryIndicator", "subjectEntryIndicator", "seriesEntryIndicator",
+    "subDivisionType", "governmentAgency", "referenceStatus", "recordRevision", "nonUniqueName", "headingStatus", "recordModification", "cataloguingSourceCode",
+    "sequenceNumber", "attributes" })
 public class FixedField {
 
   @JsonProperty("attributes")
@@ -465,43 +457,24 @@ public class FixedField {
   @JsonProperty("formatCode")
   private String formatCode;
 
-  @JsonProperty("subjectDescriptor")
   private String subjectDescriptor;
-  @JsonProperty("romanizationScheme")
   private String romanizationScheme;
-  @JsonProperty("bilingualUsage")
   private String bilingualUsage;
-  @JsonProperty("recordType")
   private String recordType;
-  @JsonProperty("cataloguingRules")
   private String cataloguingRules;
-  @JsonProperty("subjectSystem")
   private String subjectSystem;
-  @JsonProperty("seriesType")
   private String seriesType;
-  @JsonProperty("seriesNumbering")
   private String seriesNumbering;
-  @JsonProperty("mainAddedEntryIndicator")
   private String mainAddedEntryIndicator;
-  @JsonProperty("subjectEntryIndicator")
   private String subjectEntryIndicator;
-  @JsonProperty("seriesEntryIndicator")
   private String seriesEntryIndicator;
-  @JsonProperty("subDivisionType")
   private String subDivisionType;
-  @JsonProperty("governmentAgency")
   private String governmentAgency;
-  @JsonProperty("referenceStatus")
   private String referenceStatus;
-  @JsonProperty("recordRevision")
   private String recordRevision;
-  @JsonProperty("nonUniqueName")
   private String nonUniqueName;
-  @JsonProperty("headingStatus")
   private String headingStatus;
-  @JsonProperty("recordModification")
   private String recordModification;
-  @JsonProperty("cataloguingSourceCode")
   private String cataloguingSourceCode;
 
   @JsonProperty("sequenceNumber")
@@ -1268,7 +1241,7 @@ public class FixedField {
 
   /**
    * @param cartographicIndexAvailabilityCode The
-   *                                          cartographicIndexAvailabilityCode
+   *        cartographicIndexAvailabilityCode
    */
   @JsonProperty("cartographicIndexAvailabilityCode")
   public void setCartographicIndexAvailabilityCode(String cartographicIndexAvailabilityCode) {
@@ -1591,7 +1564,7 @@ public class FixedField {
 
   /**
    * @param musicTranspositionArrangementCode The
-   *                                          musicTranspositionArrangementCode
+   *        musicTranspositionArrangementCode
    */
   @JsonProperty("musicTranspositionArrangementCode")
   public void setMusicTranspositionArrangementCode(String musicTranspositionArrangementCode) {
@@ -1845,7 +1818,7 @@ public class FixedField {
 
   /**
    * @param serialOriginalAlphabetOfTitleCode The
-   *                                          serialOriginalAlphabetOfTitleCode
+   *        serialOriginalAlphabetOfTitleCode
    */
   @JsonProperty("serialOriginalAlphabetOfTitleCode")
   public void setSerialOriginalAlphabetOfTitleCode(String serialOriginalAlphabetOfTitleCode) {
@@ -2940,8 +2913,6 @@ public class FixedField {
     return this;
   }
 
-  // DA QUI
-
   /**
    * @return The videoRecordingFormatCode
    */
@@ -3337,7 +3308,7 @@ public class FixedField {
 
   /**
    * @param specialPlaybackCharacteristicsCode The
-   *                                           specialPlaybackCharacteristicsCode
+   *        specialPlaybackCharacteristicsCode
    */
   @JsonProperty("specialPlaybackCharacteristicsCode")
   public void setSpecialPlaybackCharacteristicsCode(String specialPlaybackCharacteristicsCode) {
@@ -3522,7 +3493,7 @@ public class FixedField {
 
   /**
    * @param specificPhysicalCharacteristicsCode The
-   *                                            specificPhysicalCharacteristicsCode
+   *        specificPhysicalCharacteristicsCode
    */
   @JsonProperty("specificPhysicalCharacteristicsCode")
   public void setSpecificPhysicalCharacteristicsCode(String specificPhysicalCharacteristicsCode) {
@@ -3562,7 +3533,6 @@ public class FixedField {
   /**
    * @return The subjectDescriptor
    */
-  @JsonProperty("subjectDescriptor")
   public String getSubjectDescriptor() {
     return subjectDescriptor;
   }
@@ -3570,7 +3540,6 @@ public class FixedField {
   /**
    * @return The romanizationScheme
    */
-  @JsonProperty("romanizationScheme")
   public String getRomanizationScheme() {
     return romanizationScheme;
   }
@@ -3578,7 +3547,6 @@ public class FixedField {
   /**
    * @return The bilingualUsage
    */
-  @JsonProperty("bilingualUsage")
   public String getBilingualUsage() {
     return bilingualUsage;
   }
@@ -3586,7 +3554,6 @@ public class FixedField {
   /**
    * @return The recordType
    */
-  @JsonProperty("recordType")
   public String getRecordType() {
     return recordType;
   }
@@ -3594,7 +3561,6 @@ public class FixedField {
   /**
    * @return The cataloguingRules
    */
-  @JsonProperty("cataloguingRules")
   public String getCataloguingRules() {
     return cataloguingRules;
   }
@@ -3602,7 +3568,6 @@ public class FixedField {
   /**
    * @return The subjectSystem
    */
-  @JsonProperty("subjectSystem")
   public String getSubjectSystem() {
     return subjectSystem;
   }
@@ -3610,7 +3575,6 @@ public class FixedField {
   /**
    * @return The seriesType
    */
-  @JsonProperty("seriesType")
   public String getSeriesType() {
     return seriesType;
   }
@@ -3618,7 +3582,6 @@ public class FixedField {
   /**
    * @return The seriesNumbering
    */
-  @JsonProperty("seriesNumbering")
   public String getSeriesNumbering() {
     return seriesNumbering;
   }
@@ -3626,7 +3589,6 @@ public class FixedField {
   /**
    * @return The mainAddedEntryIndicator
    */
-  @JsonProperty("mainAddedEntryIndicator")
   public String getMainAddedEntryIndicator() {
     return mainAddedEntryIndicator;
   }
@@ -3634,7 +3596,6 @@ public class FixedField {
   /**
    * @return The subjectEntryIndicator
    */
-  @JsonProperty("subjectEntryIndicator")
   public String getSubjectEntryIndicator() {
     return subjectEntryIndicator;
   }
@@ -3642,7 +3603,6 @@ public class FixedField {
   /**
    * @return The seriesEntryIndicator
    */
-  @JsonProperty("seriesEntryIndicator")
   public String getSeriesEntryIndicator() {
     return seriesEntryIndicator;
   }
@@ -3650,7 +3610,6 @@ public class FixedField {
   /**
    * @return The subDivisionType
    */
-  @JsonProperty("subDivisionType")
   public String getSubDivisionType() {
     return subDivisionType;
   }
@@ -3658,7 +3617,6 @@ public class FixedField {
   /**
    * @return The governmentAgency
    */
-  @JsonProperty("governmentAgency")
   public String getGovernmentAgency() {
     return governmentAgency;
   }
@@ -3666,7 +3624,6 @@ public class FixedField {
   /**
    * @return The referenceStatus
    */
-  @JsonProperty("referenceStatus")
   public String getReferenceStatus() {
     return referenceStatus;
   }
@@ -3674,7 +3631,6 @@ public class FixedField {
   /**
    * @return The recordRevision
    */
-  @JsonProperty("recordRevision")
   public String getRecordRevision() {
     return recordRevision;
   }
@@ -3682,7 +3638,6 @@ public class FixedField {
   /**
    * @return The nonUniqueName
    */
-  @JsonProperty("nonUniqueName")
   public String getNonUniqueName() {
     return nonUniqueName;
   }
@@ -3690,7 +3645,6 @@ public class FixedField {
   /**
    * @return The headingStatus
    */
-  @JsonProperty("headingStatus")
   public String getHeadingStatus() {
     return headingStatus;
   }
@@ -3698,7 +3652,6 @@ public class FixedField {
   /**
    * @return The recordModification
    */
-  @JsonProperty("recordModification")
   public String getRecordModification() {
     return recordModification;
   }
@@ -3706,7 +3659,6 @@ public class FixedField {
   /**
    * @return The cataloguingSourceCode
    */
-  @JsonProperty("cataloguingSourceCode")
   public String getCataloguingSourceCode() {
     return cataloguingSourceCode;
   }
@@ -3829,15 +3781,15 @@ public class FixedField {
   @Generated("org.jsonschema2pojo")
   public static enum PhysicalType {
 
-    MAP("map"), 
-    ELECTRONICAL_RESOURCE("electronicalResource"), 
-    GLOBE("globe"), 
+    MAP("map"),
+    ELECTRONICAL_RESOURCE("electronicalResource"),
+    GLOBE("globe"),
     TACTILE_MATERIAL("tactileMaterial"),
-    PROJECTED_GRAPHIC("projectedGraphic"), 
-    MICROFORM("microform"), 
+    PROJECTED_GRAPHIC("projectedGraphic"),
+    MICROFORM("microform"),
     NON_PROJECTED_GRAPHIC("nonProjectedGraphic"),
-    MOTION_PICTURE("motionPicture"), 
-    KIT("kit"), 
+    MOTION_PICTURE("motionPicture"),
+    KIT("kit"),
     NOTATED_MUSIC("notatedMusic"),
     REMOTE_SENSING_IMAGE("remoteSensingImage"), 
     SOUND_RECORDING("soundRecording"), 

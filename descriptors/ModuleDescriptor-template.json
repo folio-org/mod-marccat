@@ -10,7 +10,7 @@
   "provides": [
     {
       "id": "marccat",
-      "version": "2.2",
+      "version": "2.4",
       "handlers": [
         {
           "methods": [
@@ -394,6 +394,18 @@
           "methods": [
             "GET"
           ],
+          "pathPattern": "/marccat/auth-fixed-fields-code-groups",
+          "modulePermissions": [
+            "configuration.entries.collection.get"
+          ],
+          "permissionsRequired": [
+            "marccat.fixed-fields-code-groups.collection.get"
+          ]
+        },
+        {
+          "methods": [
+            "GET"
+          ],
           "pathPattern": "/marccat/header-types",
           "modulePermissions": [
             "configuration.entries.collection.get"
@@ -657,6 +669,11 @@
       "permissionName": "marccat.authority.insert.post",
       "displayName": "MARCcat - save authority record",
       "description": "Save MARC authority record"
+    },
+    {
+      "permissionName": "marccat.fixed-fields-code-groups.collection.get",
+      "displayName": "marccat - get dropdown collection for fixed field",
+      "description": "Get dropdown collection for fixed field"
     },
     {
       "permissionName": "marccat.all",
