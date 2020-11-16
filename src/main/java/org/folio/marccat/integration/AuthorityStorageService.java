@@ -158,6 +158,7 @@ public class AuthorityStorageService {
    *
    * @param record -- the authority record to save.
    * @param view -- the view associated to user.
+   * @param lang -- the language associated to user.
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
