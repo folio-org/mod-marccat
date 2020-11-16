@@ -25,8 +25,8 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.AuthorityCatalogDAO;
 import org.folio.marccat.dao.AuthorityCorrelationDAO;
-import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.dao.AuthorityModelDAO;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.Authority008Tag;
 import org.folio.marccat.dao.persistence.AuthorityCorrelation;
@@ -45,9 +45,8 @@ import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.domain.Leader;
-import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.resources.domain.RecordTemplate;
-import org.folio.marccat.resources.shared.RecordUtils;
+import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -162,7 +161,7 @@ public class AuthorityStorageService {
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveAuthorityRecord(final AuthorityRecord record, final int view, final String lang, final Map<String, String> configuration) {
+  public Integer saveAuthorityRecord(final AuthorityRecord record, final int view, final String lang, final Map<String, String> configuration) {
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
@@ -179,7 +178,7 @@ public class AuthorityStorageService {
 
       final AuthorityCatalogDAO dao = new AuthorityCatalogDAO();
       dao.saveCatalogItem(item, getStorageService().getSession());
-
+      return item.getAmicusNumber();
     } catch (Exception e) {
       logger.error(Message.MOD_MARCCAT_00019_SAVE_AUT_RECORD_FAILURE, record.getId(), e);
       throw new DataAccessException(e);
