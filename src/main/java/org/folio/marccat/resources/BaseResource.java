@@ -8,10 +8,9 @@ import org.folio.marccat.resources.domain.ErrorCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
-
-import static org.folio.marccat.config.constants.Global.BASE_URI;
 
 public abstract class BaseResource {
   protected Log logger = new Log(getClass());
@@ -33,6 +32,5 @@ public abstract class BaseResource {
     logger.error(message, errors);
     return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
   }
-
 
 }

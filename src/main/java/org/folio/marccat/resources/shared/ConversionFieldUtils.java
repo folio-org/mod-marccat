@@ -1,10 +1,10 @@
 package org.folio.marccat.resources.shared;
 
+import static java.util.Optional.ofNullable;
+
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.shared.GeneralInformation;
-
-import static java.util.Optional.ofNullable;
 
 /**
  * ConversionFieldUtils the utility class for Field
@@ -39,7 +39,6 @@ public class ConversionFieldUtils {
     fixedField.setLinkedRecordCode(String.valueOf(leaderValue.charAt(19)));
   }
 
-
   /**
    * Inject material or other material values for drop-down list selected.
    *
@@ -63,7 +62,7 @@ public class ConversionFieldUtils {
       fixedField.setLanguageCode(displayValue.substring(35, 38));
       fixedField.setRecordModifiedCode(String.valueOf(displayValue.charAt(38)));
       fixedField.setRecordCataloguingSourceCode(String.valueOf(displayValue.charAt(39)));
-    } else { //006
+    } else { // 006
       fixedField.setMaterialTypeCode(String.valueOf(displayValue.charAt(0)));
     }
 
@@ -158,11 +157,8 @@ public class ConversionFieldUtils {
    */
   public static void setPhysicalInformationValuesInFixedField(final FixedField fixedField) {
 
-    final String categoryOfMaterial = ofNullable(fixedField.getCategoryOfMaterial())
-      .map(category -> fixedField.getCategoryOfMaterial())
-      .orElseGet(() -> {
-        return ofNullable(Global.PHYSICAL_TYPES_MAP.get(fixedField.getHeaderTypeCode())).orElse(Global.UNSPECIFIED);
-      });
+    final String categoryOfMaterial = ofNullable(fixedField.getCategoryOfMaterial()).map(category -> fixedField.getCategoryOfMaterial())
+        .orElseGet(() -> ofNullable(Global.PHYSICAL_TYPES_MAP.get(fixedField.getHeaderTypeCode())).orElse(Global.UNSPECIFIED));
 
     final String valueField = fixedField.getDisplayValue();
 
@@ -286,13 +282,13 @@ public class ConversionFieldUtils {
   /**
    * Return a display value for the material description.
    *
-   * @param fixedField     the fixedField to populate.
+   * @param fixedField the fixedField to populate.
    * @param formOfMaterial the form of material.
    */
   /**
    * Return a display value for the material description.
    *
-   * @param fixedField     the fixedField to populate.
+   * @param fixedField the fixedField to populate.
    * @param formOfMaterial the form of material.
    */
   public static FixedField getDisplayValueOfMaterial(final FixedField fixedField, final String formOfMaterial) {
@@ -307,7 +303,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getDateLastPublication());
       sb.append(fixedField.getPlaceOfPublication());
 
-    } else { //006
+    } else { // 006
       sb.append(fixedField.getMaterialTypeCode());
     }
     if (gi.isBook()) {
@@ -411,6 +407,41 @@ public class ConversionFieldUtils {
     return fixedField;
   }
 
+  /**
+   * Return a display value for the material description.
+   *
+   * @param fixedField the fixedField to populate.
+   * @param formOfMaterial the form of material.
+   */
+  public static FixedField getAuthorityDisplayValueOfMaterial(final FixedField fixedField) {
+    if (fixedField != null) {
+      StringBuilder sb = new StringBuilder();
+
+      sb.append(fixedField.getDateEnteredOnFile());
+      sb.append(fixedField.getSubjectDescriptor());
+      sb.append(fixedField.getRomanizationScheme());
+      sb.append(fixedField.getBilingualUsage());
+      sb.append(fixedField.getRecordType());
+      sb.append(fixedField.getCataloguingRules());
+      sb.append(fixedField.getSubjectSystem());
+      sb.append(fixedField.getSeriesType());
+      sb.append(fixedField.getSeriesNumbering());
+      sb.append(fixedField.getMainAddedEntryIndicator());
+      sb.append(fixedField.getSubjectEntryIndicator());
+      sb.append(fixedField.getSeriesEntryIndicator());
+      sb.append(fixedField.getSubDivisionType());
+      sb.append(fixedField.getGovernmentAgency());
+      sb.append(fixedField.getReferenceStatus());
+      sb.append(fixedField.getRecordRevision());
+      sb.append(fixedField.getNonUniqueName());
+      sb.append(fixedField.getHeadingStatus());
+      sb.append(fixedField.getRecordModification());
+      sb.append(fixedField.getCataloguingSourceCode());
+
+      fixedField.setDisplayValue(sb.toString());
+    }
+    return fixedField;
+  }
 
   /**
    * Return a display value for the physical information.
@@ -419,11 +450,8 @@ public class ConversionFieldUtils {
    */
   public static FixedField getDisplayValueOfPhysicalInformation(final FixedField fixedField) {
 
-    final String categoryOfMaterial = ofNullable(fixedField.getCategoryOfMaterial())
-      .map(category -> fixedField.getCategoryOfMaterial())
-      .orElseGet(() -> {
-        return ofNullable(Global.PHYSICAL_TYPES_MAP.get(fixedField.getHeaderTypeCode())).orElse(Global.UNSPECIFIED);
-      });
+    final String categoryOfMaterial = ofNullable(fixedField.getCategoryOfMaterial()).map(category -> fixedField.getCategoryOfMaterial())
+        .orElseGet(() -> ofNullable(Global.PHYSICAL_TYPES_MAP.get(fixedField.getHeaderTypeCode())).orElse(Global.UNSPECIFIED));
     StringBuilder sb = new StringBuilder();
     sb.append(categoryOfMaterial);
     sb.append(fixedField.getSpecificMaterialDesignationCode());
@@ -533,9 +561,5 @@ public class ConversionFieldUtils {
     fixedField.setDisplayValue(sb.toString());
     return fixedField;
   }
-
-
-
-
 
 }
