@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.given;
 public class HeaderTypeTest extends TestBase {
 
  @Test
-  public void getDocumentCountById() {
+  public void getHeaderTypes() {
 
     String url = getURI( "/marccat/header-types");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);

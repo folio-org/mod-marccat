@@ -455,6 +455,7 @@ public class FixedFieldCodesGroupTest extends TestBase {
       .statusCode(200);
   }
 
+  @Test
   public void getFixedFieldCodesGroups_failed() {
 
     String url = getURI(FIXED_FIELDS_CODE_GROUPS_URL);
@@ -469,7 +470,7 @@ public class FixedFieldCodesGroupTest extends TestBase {
       .when()
       .get(url)
       .then()
-      .statusCode(200);
+      .statusCode(500);
   }
 
 
