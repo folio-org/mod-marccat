@@ -29,4 +29,19 @@ public class SeeAlsoReferenceTag extends SeeSeeAlsoReference {
     return true;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+
+    if (obj != null && obj.getClass().equals(this.getClass())) {
+      SeeAlsoReferenceTag aReference = (SeeAlsoReferenceTag) obj;
+      return (super.equals(aReference) && aReference.getDualReference().equals(this.getDualReference()));
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return getReference().hashCode() + getDualReference().hashCode();
+  }
 }
