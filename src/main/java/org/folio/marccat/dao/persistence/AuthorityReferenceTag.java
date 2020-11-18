@@ -223,9 +223,5 @@ public abstract class AuthorityReferenceTag extends VariableField implements Per
     getTargetDescriptor().setStringText(tagStringText.getSubfieldsWithoutCodes("w").toString());
   }
 
-  @Override
-  public void validate(int index) {
-    // TODO
-  }
 
 }

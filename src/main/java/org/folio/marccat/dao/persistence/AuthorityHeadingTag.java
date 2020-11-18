@@ -1,8 +1,5 @@
 package org.folio.marccat.dao.persistence;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
