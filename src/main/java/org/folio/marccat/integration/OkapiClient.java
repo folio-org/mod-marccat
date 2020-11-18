@@ -132,6 +132,7 @@ public class OkapiClient {
         }
         if (env != null) {
           for (EnvEntry e : env) {
+            logger.debug("All the environment variables from Okapi for Marccat: " + e.getName() + "value: " + e.getValue());
             entries.put(e.getName(), e.getValue());
           }
         }
