@@ -2,6 +2,7 @@ package org.folio.marccat.business.cataloguing.authority;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import org.folio.marccat.business.cataloguing.bibliographic.PersistsViaItem;
@@ -53,11 +54,6 @@ public class AuthorityItem extends CatalogItem implements Serializable {
     return getAutItmData();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see CatalogItem#setItemEntity(ItemEntity)
-   */
   public void setItemEntity(ItemEntity item) {
     setAutItmData((AUT) item);
   }
@@ -75,10 +71,10 @@ public class AuthorityItem extends CatalogItem implements Serializable {
   }
 
   public void sortTags(Session session) {
-    Collections.sort(getTags(), (o1, o2) -> {
+    Collections.sort(getTags(), (Comparator<Tag>) (o1, o2) -> {
       Tag t1 = o1;
       Tag t2 = o2;
-      return t1.getMarcEncoding(session).getMarcTag().compareTo(t2.getMarcEncoding().getMarcTag());
+      return t1.getMarcEncoding(session).getMarcTag().compareTo(t2.getMarcEncoding(session).getMarcTag());
     });
   }
 }

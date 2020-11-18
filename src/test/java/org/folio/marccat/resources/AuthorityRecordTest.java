@@ -49,6 +49,67 @@ public class AuthorityRecordTest extends TestBase {
   }
 
   @Test
+  public void saveTitleReturn201Status() throws IOException {
+    String url = getURI(AUTHORITY_RECORD_URL);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/title.json"),
+        String.valueOf(StandardCharsets.UTF_8));
+
+    given()
+      .headers(CONTENT_TYPE, FILE_TYPE)
+      .headers(headers)
+      .queryParam("view", "-1")
+      .queryParam("lang", "eng")
+      .body(templateJson)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
+
+  }
+
+  @Test
+  public void saveSubjectReturn201Status() throws IOException {
+    String url = getURI(AUTHORITY_RECORD_URL);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/subject.json"),
+        String.valueOf(StandardCharsets.UTF_8));
+
+    given()
+      .headers(CONTENT_TYPE, FILE_TYPE)
+      .headers(headers)
+      .queryParam("view", "-1")
+      .queryParam("lang", "eng")
+      .body(templateJson)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
+
+  }
+
+  @Test
+  public void saveGeographicReturn201Status() throws IOException {
+    String url = getURI(AUTHORITY_RECORD_URL);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/geographic.json"),
+        String.valueOf(StandardCharsets.UTF_8));
+
+    given()
+      .headers(CONTENT_TYPE, FILE_TYPE)
+      .headers(headers)
+      .queryParam("view", "-1")
+      .queryParam("lang", "eng")
+      .body(templateJson)
+      .when()
+      .post(url)
+      .then()
+      .statusCode(201);
+
+
+  }
+
+  @Test
   public void getDocumentCountById() throws IOException {
 
     String url = getURI(AUTHORITY_RECORD_URL);

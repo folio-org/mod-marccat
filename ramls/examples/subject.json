@@ -1,6 +1,5 @@
 {
-  "authorityRecord": {
-    "id": 0,
+    "id":0,
     "canadianContentIndicator": "0",
     "verificationLevel": "1",
     "leader": {
@@ -18,9 +17,7 @@
           "code": "001",
           "displayValue": "00000000100",
           "sequenceNumber": 0,
-          "attributes": {
-            
-          }
+          "attributes": {}
         },
         "added": true
       },
@@ -31,13 +28,11 @@
         "fixedField": {
           "categoryCode": 1,
           "description": "005 Data/hour of transaction",
-          "headerTypeCode": 12,
+          "headerTypeCode": 41,
           "code": "005",
           "displayValue": "20200901111027.",
           "sequenceNumber": 0,
-          "attributes": {
-            
-          }
+          "attributes": {}
         },
         "added": false
       },
@@ -47,13 +42,11 @@
         "fieldStatus": "unchanged",
         "fixedField": {
           "categoryCode": 1,
-          "headerTypeCode": 10,
+          "headerTypeCode": 31,
           "code": "008",
-          "displayValue": "200729 n annnnabbn n2ann und u",
+          "displayValue": "201001 n acanaaabn           n aaa     u",
           "sequenceNumber": 0,
-          "attributes": {
-            
-          }
+          "attributes": {}
         },
         "added": true
       },
@@ -74,19 +67,59 @@
         "added": true
       },
       {
-        "code": "100",
+        "code": "150",
         "mandatory": false,
         "fieldStatus": "new",
         "variableField": {
-          "keyNumber": 1,
-          "categoryCode": 3,
+          "keyNumber": -1,
+          "categoryCode": 4,
           "headingTypeCode": "1",
           "itemTypeCode": "2",
           "functionCode": "-1",
-          "ind1": "1",
+          "ind1": " ",
           "ind2": " ",
-          "code": "100",
-          "displayValue": "\u001faIbaiScanbit",
+          "code": "150",
+          "displayValue": "\u001faLa Historia de España",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "750",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": -1,
+          "categoryCode": 4,
+          "headingTypeCode": "1",
+          "itemTypeCode": "2",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "750",
+          "displayValue": "\u001faHistoria de España",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "670",
+        "mandatory": false,
+        "fieldStatus": "new",
+        "variableField": {
+          "keyNumber": -1,
+          "categoryCode": 7,
+          "headingTypeCode": "1",
+          "itemTypeCode": "2",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "670",
+          "displayValue": "\u001faHistoria",
           "subfields": [],
           "sequenceNumber": 0,
           "skipInFiling": 0
@@ -95,88 +128,4 @@
       }
     ],
     "recordView": 0
-  },
-  "recordTemplate": {
-    "id": "1",
-    "name": "Authority",
-    "group": "1",
-    "type": "A",
-    "leader": {
-      "code": "000",
-      "value": "00000nz   2200000   4500"
-    },
-    "fields": [
-      {
-        "code": "001",
-        "mandatory": true,
-        "fieldStatus": "unchanged",
-        "fixedField": {
-          "keyNumber": 0,
-          "categoryCode": 1,
-          "headerTypeCode": 11,
-          "code": "001",
-          "displayValue": "00000000000",
-          "sequenceNumber": 0,
-          "attributes": {
-            
-          }
-        },
-        "added": false
-      },
-      {
-        "code": "005",
-        "mandatory": true,
-        "fieldStatus": "unchanged",
-        "fixedField": {
-          "categoryCode": 1,
-          "description": "005 Data/ora di transazione",
-          "headerTypeCode": 12,
-          "code": "005",
-          "displayValue": "20190705105614.",
-          "sequenceNumber": 0,
-          "attributes": {
-            
-          }
-        },
-        "added": false
-      },
-      {
-        "code": "008",
-        "mandatory": true,
-        "fieldStatus": "unchanged",
-        "fixedField": {
-          "keyNumber": 1,
-          "categoryCode": 1,
-          "headerTypeCode": 10,
-          "code": "008",
-          "displayValue": "200729 n annnnabbn n2ann und u",
-          "sequenceNumber": 0,
-          "attributes": {
-            
-          }
-        },
-        "added": false
-      },
-      {
-        "code": "040",
-        "mandatory": true,
-        "fieldStatus": "unchanged",
-        "variableField": {
-          "keyNumber": 0,
-          "categoryCode": 1,
-          "headingTypeCode": "1",
-          "itemTypeCode": "-1",
-          "functionCode": "-1",
-          "ind1": " ",
-          "ind2": " ",
-          "code": "040",
-          "displayValue": "\u001faSCA",
-          "subfields": [],
-          "sequenceNumber": 0,
-          "skipInFiling": 0
-        },
-        "added": false
-      }
-    ]
-  }
 }
