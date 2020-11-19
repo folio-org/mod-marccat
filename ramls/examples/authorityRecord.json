@@ -1,0 +1,165 @@
+{
+  "authorityRecord": {
+    "id": 282,
+    "canadianContentIndicator": "0",
+    "verificationLevel": "1",
+    "leader": {
+      "code": "000",
+      "value": "00000nz   2200000n  4500"
+    },
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 11,
+          "code": "001",
+          "displayValue": "000000000282",
+          "sequenceNumber": 0,
+          "attributes": {
+            
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 12,
+          "code": "005",
+          "displayValue": "20201014123504.715",
+          "sequenceNumber": 0,
+          "attributes": {
+            
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 10,
+          "code": "008",
+          "displayValue": "201001 n acanaaabn           n aaa     d",
+          "sequenceNumber": 0,
+          "attributes": {
+            
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "aSCAbeng",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "100",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 2,
+          "headingTypeCode": "2",
+          "itemTypeCode": "3",
+          "functionCode": "-1",
+          "ind1": "1",
+          "ind2": " ",
+          "code": "100",
+          "displayValue": "aIbaiScanbit2",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "400",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 2,
+          "headingTypeCode": "2",
+          "itemTypeCode": "5",
+          "functionCode": "2",
+          "ind1": "3",
+          "ind2": " ",
+          "code": "400",
+          "displayValue": "wnaxnaScanbit",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "400",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 2,
+          "headingTypeCode": "2",
+          "itemTypeCode": "3",
+          "functionCode": "2",
+          "ind1": "1",
+          "ind2": " ",
+          "code": "400",
+          "displayValue": "aVitoria",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      },
+      {
+        "code": "670",
+        "mandatory": false,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 51,
+          "categoryCode": 7,
+          "headingTypeCode": "21",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "670",
+          "displayValue": "aEmpresa",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ],
+    "recordView": -1
+  }
+}
