@@ -1,18 +1,19 @@
 package org.folio.marccat.dao;
 
-import net.sf.hibernate.Hibernate;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.type.Type;
+import java.util.List;
+import java.util.Objects;
+
 import org.folio.marccat.business.common.Persistence;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.REF;
 import org.folio.marccat.dao.persistence.ReferenceType;
 
-import java.util.List;
-import java.util.Objects;
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import net.sf.hibernate.type.Type;
 
 /**
  * Class representing the Cross References for a single heading
@@ -33,9 +34,11 @@ public class CrossReferencesDAO extends AbstractDAO {
   public void save(final Persistence p, final Session session) throws HibernateException {
     final REF ref = (REF) p;
     final Transaction transaction = getTransaction(session);
-    session.save(ref);
     final REF reciprocal = ref.createReciprocal();
-    session.save(reciprocal);
+    if (loadReciprocal(ref, View.DEFAULT_BIBLIOGRAPHIC_VIEW, session) == null)
+      session.save(ref);
+    if (loadReciprocal(reciprocal, View.DEFAULT_BIBLIOGRAPHIC_VIEW, session) == null)
+      session.save(reciprocal);
     transaction.commit();
   }
 
@@ -70,24 +73,24 @@ public class CrossReferencesDAO extends AbstractDAO {
   public REF loadReciprocal(final REF ref, final int cataloguingView, final Session session) throws HibernateException {
     final int reciprocalType = ReferenceType.getReciprocal(ref.getType());
     final List<REF> list =
-      session.find(
-        "from "
-          + ref.getClass().getName()
-          + " as ref "
-          + " where ref.key.target = ? AND "
-          + " ref.key.source = ? AND "
-          + " substr(ref.key.userViewString, ?, 1) = '1' AND "
-          + " ref.key.type = ?",
-        new Object[]{
-          ref.getSource(),
-          ref.getTarget(),
-          cataloguingView,
-          reciprocalType},
-        new Type[]{
-          Hibernate.INTEGER,
-          Hibernate.INTEGER,
-          Hibernate.INTEGER,
-          Hibernate.INTEGER});
+        session.find(
+          "from "
+            + ref.getClass().getName()
+            + " as ref "
+            + " where ref.key.target = ? AND "
+            + " ref.key.source = ? AND "
+            + " substr(ref.key.userViewString, ?, 1) = '1' AND "
+            + " ref.key.type = ?",
+          new Object[]{
+            ref.getSource(),
+            ref.getTarget(),
+            cataloguingView,
+            reciprocalType},
+          new Type[]{
+            Hibernate.INTEGER,
+            Hibernate.INTEGER,
+            Hibernate.INTEGER,
+            Hibernate.INTEGER});
     return list.stream().filter(Objects::nonNull).findFirst().orElse(null);
 
   }
@@ -103,18 +106,9 @@ public class CrossReferencesDAO extends AbstractDAO {
    * @return the ref
    * @throws HibernateException the hibernate exception
    */
-  public REF load(
-    final Descriptor source,
-    final Descriptor target,
-    final short referenceType,
-    final int cataloguingView,
-    final Session session)
-    throws HibernateException {
+  public REF load(final Descriptor source, final Descriptor target, final short referenceType,
+      final int cataloguingView, final Session session) throws HibernateException {
 
-    return ((DescriptorDAO) source.getDAO()).loadReference(
-      source,
-      target,
-      referenceType,
-      cataloguingView, session);
+    return ((DescriptorDAO) source.getDAO()).loadReference(source, target, referenceType, cataloguingView, session);
   }
 }

@@ -1,5 +1,6 @@
 package org.folio.marccat.integration;
 
+import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
 import static org.folio.marccat.util.F.locale;
 
@@ -23,24 +24,29 @@ import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.AuthorityCatalogDAO;
-import org.folio.marccat.dao.CodeTableDAO;
+import org.folio.marccat.dao.AuthorityCorrelationDAO;
 import org.folio.marccat.dao.AuthorityModelDAO;
+import org.folio.marccat.dao.CodeTableDAO;
 import org.folio.marccat.dao.SystemNextNumberDAO;
 import org.folio.marccat.dao.persistence.Authority008Tag;
+import org.folio.marccat.dao.persistence.AuthorityCorrelation;
 import org.folio.marccat.dao.persistence.AuthorityLeader;
+import org.folio.marccat.dao.persistence.AuthorityNote;
+import org.folio.marccat.dao.persistence.AuthorityReferenceTag;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.Descriptor;
+import org.folio.marccat.dao.persistence.EquivalenceReference;
+import org.folio.marccat.dao.persistence.SBJCT_HDG;
 import org.folio.marccat.dao.persistence.T_AUT_ENCDG_LVL;
 import org.folio.marccat.dao.persistence.T_AUT_REC_STUS;
 import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.resources.domain.AuthorityRecord;
-import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.resources.domain.RecordTemplate;
-import org.folio.marccat.resources.shared.RecordUtils;
+import org.folio.marccat.shared.CorrelationValues;
 import org.folio.marccat.util.StringText;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,6 +67,18 @@ public class AuthorityStorageService {
 
   public void setStorageService(StorageService storageService) {
     this.storageService = storageService;
+  }
+
+  public CorrelationValues getCorrelationVariableField(final Integer category, final String indicator1,
+      final String indicator2, final String code) {
+    final AuthorityCorrelationDAO authorityCorrelationDAO = new AuthorityCorrelationDAO();
+    try {
+      return ofNullable(authorityCorrelationDAO.getAuthorityCorrelation(getStorageService().getSession(), code,
+          indicator1.charAt(0), indicator2.charAt(0), category)).map(AuthorityCorrelation::getValues).orElse(null);
+    } catch (final HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
   }
 
   /**
@@ -140,10 +158,11 @@ public class AuthorityStorageService {
    *
    * @param record -- the authority record to save.
    * @param view -- the view associated to user.
+   * @param lang -- the language associated to user.
    * @param generalInformation -- @linked GeneralInformation for default values.
    * @throws DataAccessException in case of data access exception.
    */
-  public void saveAuthorityRecord(final AuthorityRecord record, final int view, final String lang, final Map<String, String> configuration) {
+  public Integer saveAuthorityRecord(final AuthorityRecord record, final int view, final String lang, final Map<String, String> configuration) {
     CatalogItem item = null;
     try {
       item = getCatalogItemByKey(record.getId(), view);
@@ -160,7 +179,7 @@ public class AuthorityStorageService {
 
       final AuthorityCatalogDAO dao = new AuthorityCatalogDAO();
       dao.saveCatalogItem(item, getStorageService().getSession());
-
+      return item.getAmicusNumber();
     } catch (Exception e) {
       logger.error(Message.MOD_MARCCAT_00019_SAVE_AUT_RECORD_FAILURE, record.getId(), e);
       throw new DataAccessException(e);
@@ -192,11 +211,10 @@ public class AuthorityStorageService {
     item.getItemEntity().setLanguageOfCataloguing(lang);
     if (leader != null) {
       final AuthorityLeader autLeader = catalog.createRequiredLeaderTag(item);
-      autLeader.setCorrelationKey(tagImpl.getMarcEncoding(autLeader, getStorageService().getSession()));
+      catalog.toAuthorityLeader(leader.getValue(), autLeader);
       if (!item.getTags().contains(autLeader))
         item.addTag(autLeader);
     }
-
     ControlNumberTag cnt = catalog.createRequiredControlNumberTag(item);
     if (!item.getTags().contains(cnt))
       item.addTag(cnt);
@@ -205,43 +223,62 @@ public class AuthorityStorageService {
     if (!item.getTags().contains(dateOfLastTransactionTag))
       item.addTag(dateOfLastTransactionTag);
 
-    Authority008Tag a008 = catalog.createRequired008Tag(item);
-    if (!item.getTags().contains(a008))
-      item.addTag(a008);
-
-    record.getFields().stream().skip(1).forEach(field -> {
+    record.getFields().forEach(field -> {
       final String tagNbr = field.getCode();
-      if (tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
-        final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
+      if (tagNbr.equals(Global.MATERIAL_TAG_CODE)) {
+        Authority008Tag a008 = catalog.createRequired008Tag(item);
+        final org.folio.marccat.resources.domain.FixedField tag008 = field.getFixedField();
+        catalog.toAuthority008Tag(tag008.getDisplayValue(), a008);
+        if (!item.getTags().contains(a008))
+          item.addTag(a008);
+
+      } else if (tagNbr.equals(Global.CATALOGING_SOURCE_TAG_CODE)) {
         CataloguingSourceTag cst = catalog.createRequiredCataloguingSourceTag(item);
-        cst.setStringText(new StringText(variableField.getValue()));
+        cst.setStringText(new StringText(field.getVariableField().getValue()));
         if (!item.getTags().contains(cst))
           item.addTag(cst);
       }
 
-      if (Global.NAMES.contains(tagNbr)) {
+      else if (Global.AUT_NAMES.contains(tagNbr) || Global.AUT_TITLE.contains(tagNbr)
+          || Global.AUT_SUBJECT.contains(tagNbr) || Global.AUT_NAMES_X.contains(tagNbr)
+          || Global.AUT_TITLE_X.contains(tagNbr) || Global.AUT_SUBJECT_X.contains(tagNbr)) {
         try {
-          processNameTag(field, tagImpl, item, catalog, configuration);
+          processDesciptorTag(tagNbr, ((AuthorityItem) item).getAutItmData().getHeadingNumber(),
+              field.getVariableField(), catalog, item, tagImpl, configuration);
         } catch (HibernateException | SQLException e) {
           throw new DataAccessException(e);
         }
+      } else if (Global.AUT_NOTES.contains(tagNbr)) {
+        final CorrelationValues correlationValues = getCorrelationVariableField(
+            field.getVariableField().getCategoryCode(), field.getVariableField().getInd1(),
+            field.getVariableField().getInd2(), tagNbr);
+        AuthorityNote newTag = catalog.createAuthorityNote(item, correlationValues);
+        newTag.setContent(field.getVariableField().getValue());
+
+        final StringText st = new StringText(field.getVariableField().getValue());
+        newTag.setStringText(st);
+
+        newTag.setItemNumber(autItemNumber);
+        newTag.markNew();
+        item.addTag(newTag);
       }
 
     });
     return item;
   }
 
-  private void processNameTag(Field field, AuthorityTagImpl tagImpl, CatalogItem item, AuthorityCatalog catalog, final Map<String, String> configuration)
-      throws HibernateException, SQLException {
-    final String tagNbr = field.getCode();
-    final org.folio.marccat.resources.domain.VariableField variableField = field.getVariableField();
+
+  public void processDesciptorTag(String tagNbr, int headingAutNumber,
+      org.folio.marccat.resources.domain.VariableField variableField, AuthorityCatalog catalog, CatalogItem item,
+      AuthorityTagImpl tagImpl, Map<String, String> configuration) throws HibernateException, SQLException {
+
     Heading heading = new Heading();
     heading.setTag(tagNbr);
     heading.setInd1(variableField.getInd1());
     heading.setInd2(variableField.getInd2());
     heading.setDisplayValue(variableField.getValue());
 
-    heading.setCategoryCode(RecordUtils.getTagCategory(heading, this.getStorageService()));
+    heading.setCategoryCode(tagImpl.getTagCategory(heading, getStorageService().getSession()));
     int headingNumber = 0;
     final boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_VALUE);
     final boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
@@ -259,12 +296,25 @@ public class AuthorityStorageService {
         descriptor.setSkipInFiling(skipInFiling);
         headingNumber = getStorageService().createOrReplaceDescriptor(configuration, descriptor, View.DEFAULT_BIBLIOGRAPHIC_VIEW);
         heading.setKeyNumber(headingNumber);
+        descriptor.getKey().setHeadingNumber(headingNumber);
+
+        if (descriptor instanceof SBJCT_HDG)
+          ((SBJCT_HDG) descriptor).setSourceCode(Global.SUBJECT_SOURCE_CODE_OTHERS);
+
+        heading.setKeyNumber(headingNumber);
+        ((Browsable) newTag).setDescriptor(descriptor);
+        if (newTag instanceof AuthorityReferenceTag) {
+          ((AuthorityReferenceTag) newTag).getReference().toSubfieldWReferenceTag(variableField.getValue(),
+              (newTag instanceof EquivalenceReference));
+          ((AuthorityReferenceTag) newTag).getReference().setSource(headingAutNumber);
+        }
+
       }
 
     }
+    if (!(newTag instanceof AuthorityReferenceTag))
+      ((AuthorityItem) item).getAutItmData().setHeadingNumber(headingNumber);
 
-    ((AuthorityItem) item).getAutItmData().setHeadingNumber(headingNumber);
-    ((AuthorityItem) item).getAutItmData().setHeadingType(Global.NAME_TYPE_HDG);
     item.addTag(newTag);
 
   }
