@@ -173,6 +173,7 @@ public class AuthorityRecordTest extends TestBase {
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
+      .param("lang", "eng")
       .param("view", "-1")
       .headers(headers)
       .when()
@@ -188,11 +189,12 @@ public class AuthorityRecordTest extends TestBase {
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
-      .param("view", "-1")
-      .headers(headers)
-      .when()
-      .get(url)
-      .then()
-        .statusCode(204); // expected fail
+     .param("lang", "eng")
+     .param("view", "-1")
+     .headers(headers)
+     .when()
+     .get(url)
+     .then()
+     .statusCode(404); // expected fail
   }
 }
