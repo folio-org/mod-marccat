@@ -137,12 +137,12 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     item.addAllTags(getHeaderFields(item).toArray(new Tag[0]));
     AuthorityHeadingTag heading = getHeadingField(item, session);
     item.addTag(heading);
-    item.addAllTags(getReferenceFields(item, heading, session).toArray(new Tag[0]));
+    item.addAllTags(getReferenceFields(heading, session).toArray(new Tag[0]));
   
     item.addAllTags(getNotes(amicusNumber, session).toArray(new Tag[0]));
     Iterator<Tag> iter = item.getTags().iterator();
     while (iter.hasNext()) {
-      Tag ff = (Tag) iter.next();
+      Tag ff = iter.next();
       ff.setTagImpl(new AuthorityTagImpl());
       if (ff instanceof PersistsViaItem) {
         ((PersistsViaItem) ff).setItemEntity(item.getItemEntity());
@@ -151,14 +151,14 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     return item;
   }
 
-  public List<Tag> getReferenceFields(AuthorityItem item, AuthorityHeadingTag heading, Session session) throws HibernateException {
+  public List<Tag> getReferenceFields(AuthorityHeadingTag heading, Session session) throws HibernateException {
     List<Tag> result = new ArrayList<>();
     Descriptor d = heading.getDescriptor();
     DescriptorDAO dao = (DescriptorDAO) d.getDAO();
     List<REF> refs = dao.getCrossReferences(heading.getDescriptor(), View.DEFAULT_BIBLIOGRAPHIC_VIEW, session);
     Iterator<REF> iter = refs.iterator();
     while (iter.hasNext()) {
-      REF anXref = (REF) iter.next();
+      REF anXref = iter.next();
       int refType = anXref.getType();
       if (ReferenceType.isAuthorityTag(refType)) {
 
