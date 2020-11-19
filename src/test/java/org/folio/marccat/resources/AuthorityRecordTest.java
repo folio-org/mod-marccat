@@ -17,6 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.restassured.response.Response;
+
 /**
  * @author elena
  *
@@ -28,23 +30,25 @@ public class AuthorityRecordTest extends TestBase {
   private static final String AUTHORITY_RECORD_URL = "/marccat/authority-record";
   private static final String CONTENT_TYPE = "Content-Type";
   private static final String FILE_TYPE = "application/json";
+  private static String authorityId;
 
   @Test
-  public void saveNameReturn201Status() throws IOException {
+  public void test1_save_return201Status() throws IOException {
     String url = getURI(AUTHORITY_RECORD_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
     String templateJson = getTemplateJson("/authority/name.json");
 
-    given()
+    Response myResponse = given()
       .headers(CONTENT_TYPE, FILE_TYPE)
       .headers(headers)
       .queryParam("view", "-1")
       .queryParam("lang", "eng")
       .body(templateJson)
       .when()
-      .post(url)
-      .then()
-      .statusCode(201);
+        .post(url);
+    authorityId = myResponse.jsonPath().get("body").toString();
+
+    myResponse.then().statusCode(201);
 
   }
 
@@ -110,25 +114,10 @@ public class AuthorityRecordTest extends TestBase {
   }
 
   @Test
-  public void getDocumentCountById() throws IOException {
+  public void test2_getDocumentCountById() throws IOException {
 
-    String url = getURI(AUTHORITY_RECORD_URL);
+    String url = getURI("/marccat/document-count-by-id");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    String templateJson = getTemplateJson("/authority/name.json");
-
-    given()
-      .headers(CONTENT_TYPE, FILE_TYPE)
-      .headers(headers)
-      .queryParam("view", "-1")
-      .queryParam("lang", "eng")
-      .body(templateJson)
-      .when()
-      .post(url)
-      .then()
-      .statusCode(201);
-
-    url = getURI("/marccat/document-count-by-id");
-    headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
       .param("id", "1")
@@ -143,7 +132,7 @@ public class AuthorityRecordTest extends TestBase {
   @Test
   public void getEmptyRecord() {
 
-    String url = getURI("/marccat/authority-record/from-template/1");
+    String url = getURI(AUTHORITY_RECORD_URL + "/from-template/1");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -159,7 +148,7 @@ public class AuthorityRecordTest extends TestBase {
   @Test
   public void getAuthorityFixedFieldDisplayValue() throws IOException {
 
-    String url = getURI("/marccat/authority-record/fixed-field-display-value");
+    String url = getURI(AUTHORITY_RECORD_URL + "/fixed-field-display-value");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
     String templateJson =  getTemplateJson("/authority/fixedField.json");
     ObjectMapper objectMapper = new ObjectMapper();
@@ -178,9 +167,9 @@ public class AuthorityRecordTest extends TestBase {
   
   
   @Test
-  public void getRecord() {
+  public void test3_getRecord() {
 
-    String url = getURI("/marccat/authority-record/11");
+    String url = getURI(AUTHORITY_RECORD_URL + "/" + authorityId);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -195,7 +184,7 @@ public class AuthorityRecordTest extends TestBase {
   @Test
   public void getRecordFailed() {
 
-    String url = getURI("/marccat/authority-record/1");
+    String url = getURI(AUTHORITY_RECORD_URL + "/1");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
@@ -204,6 +193,6 @@ public class AuthorityRecordTest extends TestBase {
       .when()
       .get(url)
       .then()
-      .statusCode(404); // expected fail
+        .statusCode(204); // expected fail
   }
 }
