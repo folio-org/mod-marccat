@@ -10,6 +10,7 @@ import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.integration.StorageService;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.shared.ConversionFieldUtils;
+import org.folio.marccat.resources.shared.RecordUtils;
 import org.folio.marccat.util.F;
 
 public interface CatalogingInformation {
@@ -60,8 +61,8 @@ public interface CatalogingInformation {
       case Global.MATERIAL_TAG_CODE:
         generalInformation = new GeneralInformation();
         generalInformation.setDefaultValues(serviceConfiguration);
-        final Map<String, Object> mapRecordTypeMaterialLeader = storageService
-            .getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
+        final Map<String, Object> mapRecordTypeMaterialLeader = RecordUtils.
+          getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code, storageService.getSession());
         final int headerTypeCalculated = (int) mapRecordTypeMaterialLeader.get(Global.HEADER_TYPE_LABEL);
 
         generalInformation.setFormOfMaterial((String) mapRecordTypeMaterialLeader.get(Global.FORM_OF_MATERIAL_LABEL));

@@ -2,8 +2,8 @@ package org.folio.marccat.integration;
 
 import static java.lang.String.valueOf;
 import static java.util.Optional.ofNullable;
-import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
+import static org.folio.marccat.resources.shared.RecordUtils.getRecordField;
 import static org.folio.marccat.util.F.locale;
 
 import java.io.IOException;
@@ -14,7 +14,6 @@ import java.util.Map;
 import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
-import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
@@ -38,17 +37,14 @@ import org.folio.marccat.dao.persistence.AuthorityNote;
 import org.folio.marccat.dao.persistence.AuthorityReferenceTag;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.Correlation;
-import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.EquivalenceReference;
-import org.folio.marccat.dao.persistence.MaterialDescription;
 import org.folio.marccat.dao.persistence.SBJCT_HDG;
 import org.folio.marccat.dao.persistence.T_AUT_ENCDG_LVL;
 import org.folio.marccat.dao.persistence.T_AUT_REC_STUS;
 import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.model.Subfield;
 import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.Heading;
@@ -158,86 +154,7 @@ public class AuthorityStorageService {
     authorityRecord.setVerificationLevel(valueOf(item.getItemEntity().getVerificationLevel()));
 
     item.getTags().stream().skip(1).forEach((Tag aTag) -> {
-      int keyNumber = 0;
-      int sequenceNbr = 0;
-      int skipInFiling = 0;
-
-      if (aTag.isFixedField() && aTag instanceof MaterialDescription) {
-        final MaterialDescription materialTag = (MaterialDescription) aTag;
-        keyNumber = materialTag.getMaterialDescriptionKeyNumber();
-        final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
-        final Map<String, Object> map;
-        // if (tagNbr.equals("008"))
-        // map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(),
-        // materialTag.getItemBibliographicLevelCode(), tagNbr);
-        // else
-        // map =
-        // getHeaderTypeByRecordTypeCode(materialTag.getMaterialTypeCode().charAt(0));
-        // materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
-        // materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ?
-        // materialTag.getMaterialTypeCode() : null);
-        // materialTag.setFormOfMaterial((String)
-        // map.get(Global.FORM_OF_MATERIAL_LABEL));
-      }
-
-      /*
-       * if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint) {
-       * keyNumber = ((BibliographicAccessPoint)
-       * aTag).getDescriptor().getKey().getHeadingNumber(); try { sequenceNbr =
-       * ((BibliographicAccessPoint) aTag).getSequenceNumber(); } catch (Exception e)
-       * { sequenceNbr = 0; }
-       * 
-       * if (aTag instanceof TitleAccessPoint) { skipInFiling = ((TitleAccessPoint)
-       * aTag).getDescriptor().getSkipInFiling(); } }
-       */
-      if (!aTag.isFixedField() && aTag instanceof AuthorityNote) {
-        keyNumber = ((AuthorityNote) aTag).getNoteNbr();
-        try {
-          sequenceNbr = ((AuthorityNote) aTag).getSequenceNumber();
-        } catch (Exception e) {
-          sequenceNbr = 0;
-        }
-      }
-
-      final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, getStorageService().getSession());
-
-      String entry = aTag.isFixedField() ? (((FixedField) aTag).getDisplayString())
-          : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
-
-      final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
-      org.folio.marccat.resources.domain.VariableField variableField;
-      org.folio.marccat.resources.domain.FixedField fixedField;
-      String tagNumber = correlation.getMarcTag();
-
-      if (aTag.isFixedField()) {
-        fixedField = new org.folio.marccat.resources.domain.FixedField();
-        fixedField.setSequenceNumber(sequenceNbr);
-        fixedField.setCode(tagNumber);
-        fixedField.setDisplayValue(entry);
-        fixedField.setHeaderTypeCode(aTag.getCorrelation(1));
-        fixedField.setCategoryCode(aTag.getCategory());
-        fixedField.setKeyNumber(keyNumber);
-        field.setFixedField(fixedField);
-      } else {
-        variableField = new org.folio.marccat.resources.domain.VariableField();
-        variableField.setSequenceNumber(sequenceNbr);
-        variableField.setCode(correlation.getMarcTag());
-        variableField.setInd1(EMPTY_STRING + correlation.getMarcFirstIndicator());
-        variableField.setInd2(EMPTY_STRING + correlation.getMarcSecondIndicator());
-        variableField.setHeadingTypeCode(Integer.toString(aTag.getCorrelation(1)));
-        variableField.setItemTypeCode(Integer.toString(aTag.getCorrelation(2)));
-        variableField.setFunctionCode(Integer.toString(aTag.getCorrelation(3)));
-        variableField.setValue(entry);
-        variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
-        variableField.setKeyNumber(keyNumber);
-        variableField.setSkipInFiling(skipInFiling);
-        if (variableField.getInd2().equals("S"))
-          variableField.setInd2(EMPTY_STRING + skipInFiling);
-        field.setVariableField(variableField);
-      }
-
-      field.setCode(tagNumber);
-
+      org.folio.marccat.resources.domain.Field field = getRecordField(aTag, getStorageService().getSession());
       authorityRecord.getFields().add(field);
     });
 

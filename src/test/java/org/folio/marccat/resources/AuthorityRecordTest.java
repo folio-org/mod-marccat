@@ -188,7 +188,7 @@ public class AuthorityRecordTest extends TestBase {
   @Test
   public void test9GetRecordFailed() {
 
-    String url = getURI(AUTHORITY_RECORD_URL + "/1000000");
+    String url = getURI(AUTHORITY_RECORD_URL + "/0");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given()
