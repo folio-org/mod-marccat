@@ -1,6 +1,8 @@
 package org.folio.marccat.integration;
 
+import static java.lang.String.valueOf;
 import static java.util.Optional.ofNullable;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
 import static org.folio.marccat.util.F.locale;
 
@@ -12,6 +14,7 @@ import java.util.Map;
 import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
+import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
 import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
@@ -35,14 +38,19 @@ import org.folio.marccat.dao.persistence.AuthorityNote;
 import org.folio.marccat.dao.persistence.AuthorityReferenceTag;
 import org.folio.marccat.dao.persistence.CatalogItem;
 import org.folio.marccat.dao.persistence.Correlation;
+import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.dao.persistence.Descriptor;
 import org.folio.marccat.dao.persistence.EquivalenceReference;
+import org.folio.marccat.dao.persistence.MaterialDescription;
 import org.folio.marccat.dao.persistence.SBJCT_HDG;
 import org.folio.marccat.dao.persistence.T_AUT_ENCDG_LVL;
 import org.folio.marccat.dao.persistence.T_AUT_REC_STUS;
 import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.exception.DataAccessException;
+import org.folio.marccat.exception.RecordNotFoundException;
+import org.folio.marccat.model.Subfield;
 import org.folio.marccat.resources.domain.AuthorityRecord;
+import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.resources.domain.RecordTemplate;
@@ -119,6 +127,134 @@ public class AuthorityStorageService {
   public List<Avp<String>> getCodesList(final String lang, final CodeListsType codeListType) {
     final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(getStorageService().getSession(), Global.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
+  }
+  
+  /**
+   * Get the record associated with given data.
+   *
+   * @param itemNumber -- the record identifier.
+   * @param view -- the search view.
+   * @return the {@link AuthorityRecord} associated with the given data.
+   */
+  public ContainerRecordTemplate getAuthorityRecordById(final int itemNumber, final int view) {
+
+    final ContainerRecordTemplate container = new ContainerRecordTemplate();
+    CatalogItem item;
+    try {
+      item = getCatalogItemByKey(itemNumber, view);
+    } catch (RecordNotFoundException re) {
+      return null;
+    }
+
+    final AuthorityRecord authorityRecord = new AuthorityRecord();
+    authorityRecord.setId(item.getAmicusNumber());
+    authorityRecord.setRecordView(View.AUTHORITY);
+
+    org.folio.marccat.resources.domain.Leader leader = new org.folio.marccat.resources.domain.Leader();
+    leader.setCode("000");
+    leader.setValue(((org.folio.marccat.dao.persistence.Leader) item.getTag(0)).getDisplayString());
+    authorityRecord.setLeader(leader);
+    authorityRecord.setCanadianContentIndicator(Global.AUTHORITY_CANADIAN_INDICATOR);
+    authorityRecord.setVerificationLevel(valueOf(item.getItemEntity().getVerificationLevel()));
+
+    item.getTags().stream().skip(1).forEach((Tag aTag) -> {
+      int keyNumber = 0;
+      int sequenceNbr = 0;
+      int skipInFiling = 0;
+
+      if (aTag.isFixedField() && aTag instanceof MaterialDescription) {
+        final MaterialDescription materialTag = (MaterialDescription) aTag;
+        keyNumber = materialTag.getMaterialDescriptionKeyNumber();
+        final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
+        final Map<String, Object> map;
+        // if (tagNbr.equals("008"))
+        // map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(),
+        // materialTag.getItemBibliographicLevelCode(), tagNbr);
+        // else
+        // map =
+        // getHeaderTypeByRecordTypeCode(materialTag.getMaterialTypeCode().charAt(0));
+        // materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
+        // materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ?
+        // materialTag.getMaterialTypeCode() : null);
+        // materialTag.setFormOfMaterial((String)
+        // map.get(Global.FORM_OF_MATERIAL_LABEL));
+      }
+
+      /*
+       * if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint) {
+       * keyNumber = ((BibliographicAccessPoint)
+       * aTag).getDescriptor().getKey().getHeadingNumber(); try { sequenceNbr =
+       * ((BibliographicAccessPoint) aTag).getSequenceNumber(); } catch (Exception e)
+       * { sequenceNbr = 0; }
+       * 
+       * if (aTag instanceof TitleAccessPoint) { skipInFiling = ((TitleAccessPoint)
+       * aTag).getDescriptor().getSkipInFiling(); } }
+       */
+      if (!aTag.isFixedField() && aTag instanceof AuthorityNote) {
+        keyNumber = ((AuthorityNote) aTag).getNoteNbr();
+        try {
+          sequenceNbr = ((AuthorityNote) aTag).getSequenceNumber();
+        } catch (Exception e) {
+          sequenceNbr = 0;
+        }
+      }
+
+      final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, getStorageService().getSession());
+
+      String entry = aTag.isFixedField() ? (((FixedField) aTag).getDisplayString())
+          : ((VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
+
+      final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
+      org.folio.marccat.resources.domain.VariableField variableField;
+      org.folio.marccat.resources.domain.FixedField fixedField;
+      String tagNumber = correlation.getMarcTag();
+
+      if (aTag.isFixedField()) {
+        fixedField = new org.folio.marccat.resources.domain.FixedField();
+        fixedField.setSequenceNumber(sequenceNbr);
+        fixedField.setCode(tagNumber);
+        fixedField.setDisplayValue(entry);
+        fixedField.setHeaderTypeCode(aTag.getCorrelation(1));
+        fixedField.setCategoryCode(aTag.getCategory());
+        fixedField.setKeyNumber(keyNumber);
+        field.setFixedField(fixedField);
+      } else {
+        variableField = new org.folio.marccat.resources.domain.VariableField();
+        variableField.setSequenceNumber(sequenceNbr);
+        variableField.setCode(correlation.getMarcTag());
+        variableField.setInd1(EMPTY_STRING + correlation.getMarcFirstIndicator());
+        variableField.setInd2(EMPTY_STRING + correlation.getMarcSecondIndicator());
+        variableField.setHeadingTypeCode(Integer.toString(aTag.getCorrelation(1)));
+        variableField.setItemTypeCode(Integer.toString(aTag.getCorrelation(2)));
+        variableField.setFunctionCode(Integer.toString(aTag.getCorrelation(3)));
+        variableField.setValue(entry);
+        variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
+        variableField.setKeyNumber(keyNumber);
+        variableField.setSkipInFiling(skipInFiling);
+        if (variableField.getInd2().equals("S"))
+          variableField.setInd2(EMPTY_STRING + skipInFiling);
+        field.setVariableField(variableField);
+      }
+
+      field.setCode(tagNumber);
+
+      authorityRecord.getFields().add(field);
+    });
+
+    container.setAuthorityRecord(authorityRecord);
+    container.setRecordTemplate(ofNullable(item.getModelItem()).map(model -> {
+      try {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final RecordTemplate template = objectMapper.readValue(model.getRecordFields(), RecordTemplate.class);
+        template.setId(model.getModel().getId());
+        return template;
+      } catch (IOException exception) {
+        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+        return null;
+      }
+    }).orElse(null));
+
+    return container;
   }
 
   /**

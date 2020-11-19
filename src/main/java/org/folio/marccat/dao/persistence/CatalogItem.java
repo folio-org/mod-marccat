@@ -1,9 +1,26 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.Session;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.business.cataloguing.common.TagImpl;
-import org.folio.marccat.business.common.group.*;
+import org.folio.marccat.business.common.group.BibliographicGroupManager;
+import org.folio.marccat.business.common.group.GroupComparator;
+import org.folio.marccat.business.common.group.GroupManager;
+import org.folio.marccat.business.common.group.MultiTagContainer;
+import org.folio.marccat.business.common.group.TagContainer;
+import org.folio.marccat.business.common.group.TagGroup;
+import org.folio.marccat.business.common.group.UniqueTagContainer;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.exception.DataAccessException;
@@ -14,12 +31,7 @@ import org.folio.marccat.shared.Validation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.Serializable;
-import java.util.*;
+import net.sf.hibernate.Session;
 
 
 /**
@@ -313,6 +325,12 @@ public abstract class CatalogItem implements Serializable {
     for (int i = 0; i < getTags().size(); i++) {
       checkRepeatability(i);
       getTag(i).validate(i);
+    }
+  }
+
+  public void addAllTags(Tag[] tags) {
+    for (int i = 0; i < tags.length; i++) {
+      addTag(tags[i]);
     }
   }
 

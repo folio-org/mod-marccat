@@ -21,6 +21,7 @@ import org.folio.marccat.business.common.PropertyBasedFactoryBuilder;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AuthorityCatalogDAO;
+import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.CatalogDAO;
 import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.dao.ModelDAO;
@@ -295,6 +296,16 @@ public class AuthorityCatalog extends Catalog {
     // TODO It is an abstract class that should be implemented. At the moment this
     // function is not used.
     return null;
+  }
+
+  public static AuthorityHeadingTag createHeadingTagByType(String type) {
+    AuthorityHeadingTag result = null;
+    try {
+      result = (AuthorityHeadingTag) ((Class) HEADING_TAG_BY_AUT_TYPE.get(type)).newInstance();
+    } catch (InstantiationException | IllegalAccessException ex) {
+      throw new ModMarccatException(Message.MOD_MARCCAT_00036_NOT_CREATE_OBJECT);
+    }
+    return result;
   }
 
   public static DescriptorDAO getDaoByType(String type) {

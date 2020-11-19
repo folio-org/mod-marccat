@@ -175,4 +175,35 @@ public class AuthorityRecordTest extends TestBase {
       .statusCode(201);
 
   }
+  
+  
+  @Test
+  public void getRecord() {
+
+    String url = getURI("/marccat/authority-record/11");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("view", "-1")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(200);
+  }
+
+  @Test
+  public void getRecordFailed() {
+
+    String url = getURI("/marccat/authority-record/1");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given()
+      .param("view", "-1")
+      .headers(headers)
+      .when()
+      .get(url)
+      .then()
+      .statusCode(404); // expected fail
+  }
 }
