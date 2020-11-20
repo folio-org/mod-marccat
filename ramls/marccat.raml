@@ -155,7 +155,7 @@ resourceTypes:
   /authority-record/{idRecord}:
     displayName: Get authority marc record
     type:
-      collection-item:
+      get-only:
         exampleItem: !include examples/authorityRecord.json
         schema: authority
     post:
@@ -201,7 +201,7 @@ resourceTypes:
   /authority-record/fixed-field-display-value:
     displayName: Change the display value for the authority 008 tag 
     type:
-      collection-item:
+      get-only:
         exampleItem: !include examples/authorityFixedField008.json
         schema: authority
     post:
@@ -224,7 +224,7 @@ resourceTypes:
   /auth-fixed-fields-code-groups:
     displayName: Get authority control fields values
     type:
-      collection-item:
+      get-only:
         exampleItem: !include examples/authorityFixedField.json
         schema: authority
     post:
