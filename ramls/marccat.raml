@@ -156,7 +156,7 @@ resourceTypes:
     displayName: Get authority marc record
     type:
       get-only:
-        exampleItem: !include examples/authorityRecord.json
+        exampleCollection: !include examples/authorityRecord.json
         schema: authority
     post:
       is: [validate]
@@ -179,7 +179,7 @@ resourceTypes:
     displayName: Get authority marc records template
     type:
       get-only:
-        exampleItem: !include examples/authorityTemplate.json
+        exampleCollection: !include examples/authorityTemplate.json
         schema: authority
     get:
       is: [validate]
@@ -202,7 +202,7 @@ resourceTypes:
     displayName: Change the display value for the authority 008 tag 
     type:
       get-only:
-        exampleItem: !include examples/authorityFixedField008.json
+        exampleCollection: !include examples/authorityFixedField008.json
         schema: authority
     post:
       is: [validate]
@@ -225,7 +225,7 @@ resourceTypes:
     displayName: Get authority control fields values
     type:
       get-only:
-        exampleItem: !include examples/authorityFixedField.json
+        exampleCollection: !include examples/authorityFixedField.json
         schema: authority
     post:
       is: [validate]
