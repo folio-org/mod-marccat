@@ -7,3 +7,6 @@ target
 .eclipse
 .doc/node_modules
 *.lock
+/bin/
+/.settings/
+/.classpath
