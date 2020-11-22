@@ -1,5 +1,8 @@
 package org.folio.marccat.dao;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.folio.marccat.dao.persistence.AuthorityCorrelation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 
@@ -28,6 +31,24 @@ public class AuthorityCorrelationDAO extends RecordCorrelationDAO {
 
     return (AuthorityCorrelation) super.getRecordCorrelation(session, tag, firstIndicator, secondIndicator,
         categoryCode, queryFrom);
+  }
+
+  /**
+   * Gets correlations using tag and indicators.
+   *
+   * @param session         -- current hibernate session.
+   * @param tag             -- the tag number.
+   * @param firstIndicator  -- the 1st. indicator.
+   * @param secondIndicator -- the 2nd. indicator.
+   * @return a list of authority correlation.
+   * @throws HibernateException in case of hibernate exception.
+   */
+  public List<AuthorityCorrelation> getCategoryCorrelation(final Session session, final String tag,
+      final char firstIndicator, final char secondIndicator) throws HibernateException {
+
+    return super.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator, queryFrom).stream()
+        .map(s -> (AuthorityCorrelation) s).collect(Collectors.toList());
+
   }
 
   /**

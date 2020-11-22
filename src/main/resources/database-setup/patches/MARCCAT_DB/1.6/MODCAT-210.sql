@@ -1140,3 +1140,5 @@ Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('511', '1', ' ', 'NH', 11, 
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('511', '1', ' ', 'SH', 4, 13, 4, -1, 'SU');
 Insert into OLISUITE.S_AUT_MARC_IND_DB_CRLTN VALUES ('511', '1', ' ', 'TH', 11, 4, 7, 4, ' ');
 COMMIT;
+
+INSERT INTO AMICUS.T_REF_LNK_DSPLY VALUES (40, 'n', '0', '2015-07-01 00:00:00', NULL, 'Not applicable', 'Not applicable', 'Not applicable', 'Not applicable');

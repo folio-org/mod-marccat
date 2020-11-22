@@ -7,11 +7,6 @@ import org.folio.marccat.business.cataloguing.authority.AuthorityHeaderFieldHelp
  *
  */
 public class AuthorityLeader extends Leader {
-  /**
-  * 
-  */
-  private static final long serialVersionUID = -8424702482938592732L;
-
   public AuthorityLeader() {
     super();
     setHeaderField(new AuthorityHeaderFieldHelper());
@@ -33,8 +28,16 @@ public class AuthorityLeader extends Leader {
     return getAutItm().getEncodingLevel();
   }
 
+  public void setEncodingLevel(char c) {
+    getAutItm().setEncodingLevel(c);
+  }
+
   public char getRecordStatusCode() {
     return getAutItm().getRecordStatusCode();
+  }
+
+  public void setRecordStatusCode(char c) {
+    getAutItm().setRecordStatusCode(c);
   }
 
 }

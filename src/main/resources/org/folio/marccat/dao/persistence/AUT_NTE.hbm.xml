@@ -9,7 +9,7 @@
 			<key-property name="noteNbr" column="AUT_NTE_NBR" />
 			<key-property name="itemNumber" column="AUT_NBR" />
 		</composite-id>
-		<property name="stringText">
+		<property name="noteStringText">
 			<column name="AUT_NTE_STRNG_TXT" />
 		</property>
 		<property name="noteType">

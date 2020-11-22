@@ -54,16 +54,10 @@ public class BibliographicNote extends RecordNote {
     }
   }
 
-  /**
-   *
-   */
   public char getOverflowIndicator() {
     return overflowIndicator;
   }
 
-  /**
-   *
-   */
   public void setOverflowIndicator(final char c) {
     overflowIndicator = c;
   }
@@ -73,16 +67,10 @@ public class BibliographicNote extends RecordNote {
     return new BibliographicNoteDAO();
   }
 
-  /**
-   * @return
-   */
   public List<BibliographicNoteOverflow> getOverflowList() {
     return overflowList;
   }
 
-  /**
-   * @param list
-   */
   public void setOverflowList(List<BibliographicNoteOverflow> list) {
     overflowList = list;
   }
