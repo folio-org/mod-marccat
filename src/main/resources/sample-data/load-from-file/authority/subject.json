@@ -73,19 +73,19 @@
       "added": true
     },
     {
-      "code": "100",
+      "code": "150",
       "mandatory": false,
       "fieldStatus": "new",
       "variableField": {
         "keyNumber": -1,
-        "categoryCode": 2,
+        "categoryCode": 4,
         "headingTypeCode": "1",
         "itemTypeCode": "2",
         "functionCode": "-1",
-        "ind1": "1",
+        "ind1": " ",
         "ind2": " ",
-        "code": "100",
-        "displayValue": "\u001faBeethoven, Ludwig van,\u001fd1770-1827.",
+        "code": "150",
+        "displayValue": "\u001faOncologic Nursing",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0
@@ -93,39 +93,19 @@
       "added": false
     },
     {
-      "code": "400",
+      "code": "750",
       "mandatory": false,
       "fieldStatus": "new",
       "variableField": {
         "keyNumber": -1,
-        "categoryCode": 2,
+        "categoryCode": 4,
         "headingTypeCode": "1",
         "itemTypeCode": "2",
         "functionCode": "-1",
-        "ind1": "1",
+        "ind1": " ",
         "ind2": " ",
-        "code": "400",
-        "displayValue": "\u001faBeethoven, Ludwig van,\u001fwanna",
-        "subfields": [],
-        "sequenceNumber": 0,
-        "skipInFiling": 0
-      },
-      "added": false
-    },
-    {
-      "code": "500",
-      "mandatory": false,
-      "fieldStatus": "new",
-      "variableField": {
-        "keyNumber": -1,
-        "categoryCode": 2,
-        "headingTypeCode": "1",
-        "itemTypeCode": "2",
-        "functionCode": "-1",
-        "ind1": "1",
-        "ind2": " ",
-        "code": "500",
-        "displayValue": "\u001faBeethoven",
+        "code": "750",
+        "displayValue": "\u001faCancer\u001fxNursing",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0
@@ -145,7 +125,7 @@
         "ind1": " ",
         "ind2": " ",
         "code": "670",
-        "displayValue": "\u001faComposer and pianista",
+        "displayValue": "\u001faCancer",
         "subfields": [],
         "sequenceNumber": 0,
         "skipInFiling": 0

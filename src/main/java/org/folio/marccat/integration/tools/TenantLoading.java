@@ -224,12 +224,26 @@ public class TenantLoading {
     httpHeaders.add(Global.OKAPI_URL, headers.get(Global.OKAPI_URL));
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-    String requestJson;
-    requestJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
+    String requestJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
         String.valueOf(StandardCharsets.UTF_8));
-
     HttpEntity<String> entity = new HttpEntity<>(requestJson, httpHeaders);
     String response = client.postForObject(fromUriString(endPointUrl).build().toUri(), entity, String.class);
+    if ("0".equals(response)) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE);
+    }
+
+    requestJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/subject.json"),
+        String.valueOf(StandardCharsets.UTF_8));
+    entity = new HttpEntity<>(requestJson, httpHeaders);
+    response = client.postForObject(fromUriString(endPointUrl).build().toUri(), entity, String.class);
+    if ("0".equals(response)) {
+      logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE);
+    }
+
+    requestJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/title.json"),
+        String.valueOf(StandardCharsets.UTF_8));
+    entity = new HttpEntity<>(requestJson, httpHeaders);
+    response = client.postForObject(fromUriString(endPointUrl).build().toUri(), entity, String.class);
     if ("0".equals(response)) {
       logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE);
     }
