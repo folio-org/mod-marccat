@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-
 @JsonPropertyOrder({ "keyNumber", "categoryCode", "description", "headerTypeCode", "code", "displayValue", "materialType", "physicalType", "dateEnteredOnFile",
     "dateTypeCode", "dateFirstPublication", "dateLastPublication", "placeOfPublication", "bookIllustrationCode1", "bookIllustrationCode2",
     "bookIllustrationCode3", "bookIllustrationCode4", "targetAudienceCode", "formOfItemCode", "natureOfEntireWork", "natureOfContent1", "natureOfContent2",
@@ -40,7 +39,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
     "platformConstructionTypeCode", "platformUseCode", "sensorTypeCode", "remoteDataTypeCode", "speedCode", "grooveWidthCode", "tapeWidthCode",
     "tapeConfigurationCode", "discTypeCode", "sndMaterialTypeCode", "cuttingTypeCode", "specialPlaybackCharacteristicsCode", "storageTechniqueCode",
     "classOfBrailleWritingCode1", "classOfBrailleWritingCode2", "levelOfContractionCode", "brailleMusicFormatCode1", "brailleMusicFormatCode2",
-    "brailleMusicFormatCode3", "specificPhysicalCharacteristicsCode", "formatCode", "subjectDescriptor", "romanizationScheme", "bilingualUsage", "recordType",
+    "brailleMusicFormatCode3", "specificPhysicalCharacteristicsCode", "formatCode", "recordStatusCode", "subjectDescriptor", "romanizationScheme",
+    "bilingualUsage", "recordType",
     "cataloguingRules", "subjectSystem", "seriesType", "seriesNumbering", "mainAddedEntryIndicator", "subjectEntryIndicator", "seriesEntryIndicator",
     "subDivisionType", "governmentAgency", "referenceStatus", "recordRevision", "nonUniqueName", "headingStatus", "recordModification", "cataloguingSourceCode",
     "sequenceNumber", "attributes" })
@@ -457,6 +457,7 @@ public class FixedField {
   @JsonProperty("formatCode")
   private String formatCode;
 
+  private String recordStatusCode;
   private String subjectDescriptor;
   private String romanizationScheme;
   private String bilingualUsage;
@@ -3531,10 +3532,27 @@ public class FixedField {
   }
 
   /**
+   * @return The recordStatusCode
+   */
+  public String getRecordStatusCode() {
+    return subjectDescriptor;
+  }
+
+  public void setRecordStatusCode(String recordStatusCode) {
+    this.attributes.put("recordStatusCode", recordStatusCode);
+    this.recordStatusCode = recordStatusCode;
+  }
+
+  /**
    * @return The subjectDescriptor
    */
   public String getSubjectDescriptor() {
     return subjectDescriptor;
+  }
+
+  public void setSubjectDescriptor(String subjectDescriptor) {
+    this.attributes.put("subjectDescriptor", subjectDescriptor);
+    this.subjectDescriptor = subjectDescriptor;
   }
 
   /**
@@ -3544,6 +3562,11 @@ public class FixedField {
     return romanizationScheme;
   }
 
+  public void setRomanizationScheme(String romanizationScheme) {
+    this.attributes.put("romanizationScheme", romanizationScheme);
+    this.romanizationScheme = romanizationScheme;
+  }
+
   /**
    * @return The bilingualUsage
    */
@@ -3551,11 +3574,22 @@ public class FixedField {
     return bilingualUsage;
   }
 
+  public void setBilingualUsage(String bilingualUsage) {
+    this.attributes.put("bilingualUsage", bilingualUsage);
+    this.bilingualUsage = bilingualUsage;
+  }
+
+
   /**
    * @return The recordType
    */
   public String getRecordType() {
     return recordType;
+  }
+
+  public void setRecordType(String recordType) {
+    this.attributes.put("recordType", recordType);
+    this.recordType = recordType;
   }
 
   /**
@@ -3565,11 +3599,21 @@ public class FixedField {
     return cataloguingRules;
   }
 
+  public void setCataloguingRules(String cataloguingRules) {
+    this.attributes.put("cataloguingRules", cataloguingRules);
+    this.cataloguingRules = cataloguingRules;
+  }
+
   /**
    * @return The subjectSystem
    */
   public String getSubjectSystem() {
     return subjectSystem;
+  }
+
+  public void setSubjectSystem(String subjectSystem) {
+    this.attributes.put("subjectSystem", subjectSystem);
+    this.subjectSystem = subjectSystem;
   }
 
   /**
@@ -3579,11 +3623,21 @@ public class FixedField {
     return seriesType;
   }
 
+  public void setSeriesType(String seriesType) {
+    this.attributes.put("seriesType", seriesType);
+    this.seriesType = seriesType;
+  }
+
   /**
    * @return The seriesNumbering
    */
   public String getSeriesNumbering() {
     return seriesNumbering;
+  }
+
+  public void setSeriesNumbering(String seriesNumbering) {
+    this.attributes.put("seriesNumbering", seriesNumbering);
+    this.seriesNumbering = seriesNumbering;
   }
 
   /**
@@ -3593,11 +3647,21 @@ public class FixedField {
     return mainAddedEntryIndicator;
   }
 
+  public void setMainAddedEntryIndicator(String mainAddedEntryIndicator) {
+    this.attributes.put("mainAddedEntryIndicator", mainAddedEntryIndicator);
+    this.mainAddedEntryIndicator = mainAddedEntryIndicator;
+  }
+
   /**
    * @return The subjectEntryIndicator
    */
   public String getSubjectEntryIndicator() {
     return subjectEntryIndicator;
+  }
+
+  public void setSubjectEntryIndicator(String subjectEntryIndicator) {
+    this.attributes.put("subjectEntryIndicator", subjectEntryIndicator);
+    this.subjectEntryIndicator = subjectEntryIndicator;
   }
 
   /**
@@ -3607,11 +3671,21 @@ public class FixedField {
     return seriesEntryIndicator;
   }
 
+  public void setSeriesEntryIndicator(String seriesEntryIndicator) {
+    this.attributes.put("seriesEntryIndicator", seriesEntryIndicator);
+    this.seriesEntryIndicator = seriesEntryIndicator;
+  }
+
   /**
    * @return The subDivisionType
    */
   public String getSubDivisionType() {
     return subDivisionType;
+  }
+
+  public void setSubDivisionType(String subDivisionType) {
+    this.attributes.put("subDivisionType", subDivisionType);
+    this.subDivisionType = subDivisionType;
   }
 
   /**
@@ -3621,11 +3695,21 @@ public class FixedField {
     return governmentAgency;
   }
 
+  public void setGovernmentAgency(String governmentAgency) {
+    this.attributes.put("governmentAgency", governmentAgency);
+    this.governmentAgency = governmentAgency;
+  }
+
   /**
    * @return The referenceStatus
    */
   public String getReferenceStatus() {
     return referenceStatus;
+  }
+
+  public void setReferenceStatus(String referenceStatus) {
+    this.attributes.put("referenceStatus", referenceStatus);
+    this.referenceStatus = referenceStatus;
   }
 
   /**
@@ -3635,11 +3719,21 @@ public class FixedField {
     return recordRevision;
   }
 
+  public void setRecordRevision(String recordRevision) {
+    this.attributes.put("recordRevision", recordRevision);
+    this.recordRevision = recordRevision;
+  }
+
   /**
    * @return The nonUniqueName
    */
   public String getNonUniqueName() {
     return nonUniqueName;
+  }
+
+  public void setNonUniqueName(String nonUniqueName) {
+    this.attributes.put("nonUniqueName", nonUniqueName);
+    this.nonUniqueName = nonUniqueName;
   }
 
   /**
@@ -3649,6 +3743,11 @@ public class FixedField {
     return headingStatus;
   }
 
+  public void setHeadingStatus(String headingStatus) {
+    this.attributes.put("headingStatus", headingStatus);
+    this.headingStatus = headingStatus;
+  }
+
   /**
    * @return The recordModification
    */
@@ -3656,11 +3755,21 @@ public class FixedField {
     return recordModification;
   }
 
+  public void setRecordModification(String recordModification) {
+    this.attributes.put("recordModification", recordModification);
+    this.recordModification = recordModification;
+  }
+
   /**
    * @return The cataloguingSourceCode
    */
   public String getCataloguingSourceCode() {
     return cataloguingSourceCode;
+  }
+
+  public void setCataloguingSourceCode(String cataloguingSourceCode) {
+    this.attributes.put("cataloguingSourceCode", cataloguingSourceCode);
+    this.cataloguingSourceCode = cataloguingSourceCode;
   }
 
   /**

@@ -15,7 +15,6 @@ import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.RecordTemplate;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
-import org.folio.marccat.shared.GeneralInformation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,9 +50,6 @@ public class AuthorityRecordAPI extends RecordAPI {
         authorityStorageService.setStorageService(storageService);
 
         record.getFields().forEach(field -> setCategory(field, storageService));
-
-        final GeneralInformation gi = new GeneralInformation();
-        gi.setDefaultValues(configuration);
 
         record.getFields().stream().filter(FixedFieldUtils::isFixedField).filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
             .forEach(field -> {

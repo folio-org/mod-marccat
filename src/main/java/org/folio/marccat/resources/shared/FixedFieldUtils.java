@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.enumaration.CodeListsType;
@@ -363,7 +364,7 @@ public class FixedFieldUtils {
   public static void injectAuthorityMaterialCodes(final FixedFieldCodesGroup fixedFieldCodesGroup,
       final AuthorityStorageService authorityStorageService,
       final String lang) {
-
+    fixedFieldCodesGroup.setHeaderTypeCode(Global.AUTHORITY_MATERIAL_DESCRIPTION_HEADER_TYPE);
     fixedFieldCodesGroup.addResults(new FixedFieldElement("subjectDescriptor", authorityStorageService.getCodesList(lang, SUBJECT_DESCRIPTOR).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("romanizationScheme", authorityStorageService.getCodesList(lang, ROMANIZATION_SCHEME).stream().map(toPairItem).collect(toList())));
     fixedFieldCodesGroup.addResults(new FixedFieldElement("bilingualUsage", authorityStorageService.getCodesList(lang, BILINGUAL_USAGE).stream().map(toPairItem).collect(toList())));
