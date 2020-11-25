@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "authority header type for 008 tag",
+  "type": "object",
+  "description": "the values for header type for the code 008 tag",
+  "properties": {
+    "headingTypes": {
+      "type": "array",
+      "description": "list of heading types values",
+      "items": [
+        {
+          "type": "object",
+          "description": "heading types for 008 tag",
+          "properties": {
+            "value": {
+              "type": "integer",
+              "description": "the header type value"
+            },
+            "label": {
+              "type": "string",
+              "description": "the header type label"
+            }
+          },
+          "required": [
+            "value",
+            "label"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "headingTypes"
+  ]
+}

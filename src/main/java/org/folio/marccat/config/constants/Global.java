@@ -123,6 +123,7 @@ public class Global {
   public static final int CLASSIFICATION_CATEGORY = 6;
   public static final int PUBLISHER_CATEGORY = 7;
   public static final int BIB_NOTE_CATEGORY = 7;
+  public static final int AUT_NOTE_CATEGORY = 7;
   public static final int NAME_TITLE_CATEGORY = 11;
   public static final int RELATION_CATEGORY = 8;
   public static final int AUT_NAME_CATEGORY = 17;
@@ -150,6 +151,7 @@ public class Global {
   public static final String AUTHORITY_HEADING_STATUS = "n";
   public static final String AUTHORITY_RECORD_MODIFICATION = " ";
   public static final String AUTHORITY_CATALOGUING_SOURCE_CODE = "u";
+  public static final String AUTHORITY_MATERIAL_DESCRIPTION_DESCRIPTION = "008";
   public static final String NAME_TYPE_HDG = "NH";
   public static final String TITLE_TYPE_HDG = "TH";
   public static final String SUBJECT_TYPE_HDG = "SH";
@@ -204,6 +206,12 @@ public class Global {
   public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
   public static final List<String> FIXED_FIELDS = Arrays.asList("000", "001", "005", "006", "007", "008");
   public static final List<String> MANDATORY_FIELDS = Arrays.asList("000", "001", "008", "040");
+  public static final List<String> AUT_NAMES = Collections.unmodifiableList(Arrays.asList("100", "110", "111"));
+  public static final List<String> AUT_NAMES_X = Collections.unmodifiableList(Arrays.asList("400", "410", "411", "500", "510", "511", "700", "710", "711"));
+  public static final List<String> AUT_TITLE = Collections.unmodifiableList(Arrays.asList("130"));
+  public static final List<String> AUT_TITLE_X = Collections.unmodifiableList(Arrays.asList("430", "530", "730"));
+  public static final List<String> AUT_SUBJECT = Collections.unmodifiableList(Arrays.asList("150", "151", "155", "180", "182", "185"));
+  public static final List<String> AUT_SUBJECT_X = Collections.unmodifiableList(Arrays.asList("450", "550", "750", "451", "551", "751", "455", "555", "755", "480", "580", "780", "482", "582", "782", "485", "585", "785"));
   public static final List<String> NAMES = Arrays.asList("100", "110", "111");
   public static final List<String> NAMES_D = Arrays.asList("110", "111", "710", "711");
   public static final List<String> NAMES_E = Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410",
@@ -229,6 +237,10 @@ public class Global {
   public static final String MODULE_CONFIGURATION = "mod-configuration";
   public static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
   public static final String UNDEFINED = "und";
+  public static final List<String> AUT_NOTES = Collections.unmodifiableList(Arrays.asList("667", "670", "672", "673", "675", "677", "678", "680", "681", "682", "688"));
+
+  public static final short SUBJECT_SOURCE_CODE_OTHERS = 6;
+  public static final char NOT_APLICABLE = 'n';
 
   static {
     Map<String, String> errors = new HashMap<>();
