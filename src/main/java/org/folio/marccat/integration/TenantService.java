@@ -14,10 +14,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
 import org.apache.commons.io.IOUtils;
@@ -228,20 +225,20 @@ public class TenantService {
    */
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName = tenant + marccatSuffix;
-    final Map<String, String> env = System.getenv();
-    logger.debug("Before Environment Variables: DB_HOST " + host);
-    logger.debug("Before Environment Variables: DB_PORT: " + port);
-    logger.debug("Before Environment Variables: DB_USERNAME: " + adminUser);
-    logger.debug("Before Environment Variables: DB_PASSWORD: " + adminPassword);
+    final Map<String, String> env = allDBConfigs();
+    logger.info("Before Environment Variables: DB_HOST " + host);
+    logger.info("Before Environment Variables: DB_PORT: " + port);
+    logger.info("Before Environment Variables: DB_USERNAME: " + adminUser);
+    logger.info("Before Environment Variables: DB_PASSWORD: " + adminPassword);
     if (!env.isEmpty() && external.equals("false")) {
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
-      logger.debug("After Environment Variables: DB_HOST " + host);
-      logger.debug("After Environment Variables: DB_PORT " + port);
-      logger.debug("After Environment Variables: DB_USERNAME: " + adminUser);
-      logger.debug("After Environment Variables: DB_PASSWORD: " + adminPassword);
+      logger.info("After Environment Variables: DB_HOST " + host);
+      logger.info("After Environment Variables: DB_PORT " + port);
+      logger.info("After Environment Variables: DB_USERNAME: " + adminUser);
+      logger.info("After Environment Variables: DB_PASSWORD: " + adminPassword);
     }
     createRole();
     boolean databaseNotExist = databaseExists(databaseName);
@@ -581,6 +578,23 @@ public class TenantService {
         .filter(node -> "datasource".equals(node.get("configName").asText()))
         .map(node -> new AbstractMap.SimpleEntry<>(node.get("code").asText(), node.get("value").asText()))
         .collect(toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+  }
+
+  /**
+   * Return configurations of the database server.
+   *
+   * @return the map of the configurations
+   */
+  private  Map<String, String> allDBConfigs() {
+    final Map<String, String> env = System.getenv();
+    final HashMap <String, String> config = new HashMap <>();
+    env.forEach((key, value) -> {
+      if (! key.startsWith("DB_")) {
+        return;
+      }
+      config.put(key, value);
+    });
+    return config;
   }
 
 }
