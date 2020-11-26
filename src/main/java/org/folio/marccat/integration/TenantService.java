@@ -228,16 +228,20 @@ public class TenantService {
    */
   private void initializeDatabase(final String tenant) throws SQLException {
     final String databaseName = tenant + marccatSuffix;
-    final Map<String, String> env = okapiClient.getModuleEnvs(Global.MODULE_MARCCAT);
-    logger.debug("Before Environment Variables from application: DB_HOST " + host);
-    logger.debug("Before Environment Variables from application: DB_PORT: " + port);
+    final Map<String, String> env = System.getenv();
+    logger.debug("Before Environment Variables: DB_HOST " + host);
+    logger.debug("Before Environment Variables: DB_PORT: " + port);
+    logger.debug("Before Environment Variables: DB_USERNAME: " + adminUser);
+    logger.debug("Before Environment Variables: DB_PASSWORD: " + adminPassword);
     if (!env.isEmpty() && external.equals("false")) {
       host = env.get("DB_HOST");
       port = env.get("DB_PORT");
       adminUser = env.get("DB_USERNAME");
       adminPassword = env.get("DB_PASSWORD");
-      logger.debug("After Environment Variables from Okapi: DB_HOST " + host);
-      logger.debug("After Environment Variables from Okapi: DB_PORT " + port);
+      logger.debug("After Environment Variables: DB_HOST " + host);
+      logger.debug("After Environment Variables: DB_PORT " + port);
+      logger.debug("After Environment Variables: DB_USERNAME: " + adminUser);
+      logger.debug("After Environment Variables: DB_PASSWORD: " + adminPassword);
     }
     createRole();
     boolean databaseNotExist = databaseExists(databaseName);
