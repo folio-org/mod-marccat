@@ -16,7 +16,6 @@ import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.RecordTemplate;
-import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +60,6 @@ public class AuthorityRecordAPI extends RecordAPI {
 
   @PostMapping("/authority-record")
   public ResponseEntity<Object> save(@RequestBody final ContainerRecordTemplate container,
-    // ContainerRecordTemplate container,
     @RequestParam(name = "view", defaultValue = View.DEFAULT_AUTHORITY_VIEW_AS_STRING) final int view,
     @RequestParam final String lang,
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
