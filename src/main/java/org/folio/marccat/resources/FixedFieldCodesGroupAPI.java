@@ -120,6 +120,14 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
         } else if (tag.equals(MATERIAL_TAG_CODE)) {
           injectAuthorityMaterialCodes(fixedFieldCodesGroup, authorityStorageService, lang);
         }
+        /**
+         * inject default values
+         */
+        HashMap<String, String> parameter = new HashMap<>();
+        parameter.put("leader", leader);
+        parameter.put("code", code);
+        parameter.put("valueField", valueField);
+        injectDefaultValues(fixedFieldCodesGroup, storageService, parameter, headerTypeCode, lang, configuration);
         return fixedFieldCodesGroup;
       }).orElse(null);
     }, tenant, okapiUrl, configurator);

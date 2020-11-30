@@ -55,12 +55,13 @@ public interface CatalogingInformation {
       case Global.LEADER_TAG_NUMBER:
         final String description = storageService.getHeadingTypeDescription(headerTypeCode, lang, Global.INT_CATEGORY);
         fixedField.setDescription(description);
-        fixedField.setDisplayValue(ofNullable(valueField).orElse(getLeaderValue(true)));
-        setLeaderValues(fixedField);
+        fixedField.setDisplayValue(ofNullable(valueField).orElse(getLeaderValue(headerTypeCode != Global.AUTHORITY_LEADER_TYPE)));
+        setLeaderValues(fixedField, headerTypeCode);
         break;
       case Global.MATERIAL_TAG_CODE:
         generalInformation = new GeneralInformation();
         generalInformation.setDefaultValues(serviceConfiguration);
+        if (headerTypeCode != Global.AUTHORITY_MATERIAL_DESCRIPTION_HEADER_TYPE) {
         final Map<String, Object> mapRecordTypeMaterialLeader = RecordUtils.
           getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code, storageService.getSession());
         final int headerTypeCalculated = (int) mapRecordTypeMaterialLeader.get(Global.HEADER_TYPE_LABEL);
@@ -72,6 +73,7 @@ public interface CatalogingInformation {
         // header type code doesn't match with leader value
         if (headerTypeCode != headerTypeCalculated) {
           valueField = null;
+          }
         }
         break;
 
@@ -123,12 +125,42 @@ public interface CatalogingInformation {
         }
 
         fixedField.setHeaderTypeCode(generalInformation.getHeaderType());
+        if (headerTypeCode != Global.AUTHORITY_MATERIAL_DESCRIPTION_HEADER_TYPE)
         fixedField.setDescription(
             storageService.getHeadingTypeDescription(generalInformation.getHeaderType(), lang, Global.INT_CATEGORY));
         fixedField.setDisplayValue(valueField);
         setMaterialValues(fixedField, generalInformation);
       }
     }
+
+    return fixedField;
+  }
+
+  static FixedField getAuthorityFixedField(
+    final int headerTypeCode,
+    final String code,
+    final String lang,
+    final Map<String, String> serviceConfiguration) {
+
+    FixedField fixedField = new FixedField();
+      fixedField.setCode(code);
+      fixedField.setCategoryCode(Global.INT_CATEGORY);
+      fixedField.setHeaderTypeCode(headerTypeCode);
+
+
+      GeneralInformation generalInformation = null;
+
+
+        generalInformation = new GeneralInformation();
+        generalInformation.setDefaultValues(serviceConfiguration);
+
+
+
+
+            generalInformation.setEnteredOnFileDateYYMMDD(F.getFormattedToday("yyMMdd"));
+
+        fixedField.setHeaderTypeCode(generalInformation.getHeaderType());
+
 
     return fixedField;
   }
@@ -151,13 +183,13 @@ public interface CatalogingInformation {
    *
    * @param fixedField the fixedField to populate.
    */
-  static void setLeaderValues(final FixedField fixedField) {
+  static void setLeaderValues(final FixedField fixedField, final int headerTypeCode) {
 
-    final String leaderValue = fixedField.getDisplayValue().length() != Global.LEADER_LENGTH ? getLeaderValue(true)
+    final String leaderValue = fixedField.getDisplayValue().length() != Global.LEADER_LENGTH ? getLeaderValue((headerTypeCode != Global.AUTHORITY_LEADER_TYPE))
         : fixedField.getDisplayValue();
 
     fixedField.setDisplayValue(leaderValue);
-    ConversionFieldUtils.setLeaderValuesInFixedField(fixedField);
+    ConversionFieldUtils.setLeaderValuesInFixedField(fixedField, headerTypeCode);
   }
 
   /**

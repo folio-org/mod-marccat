@@ -1,7 +1,9 @@
 {
+  "headerTypeCode": 10,
   "results": {
     "subjectDescriptor": {
       "name": "subjectDescriptor",
+      "defaultValue": " ",
       "dropdownSelect": [
         {
           "value": " ",
@@ -27,6 +29,7 @@
     },
     "romanizationScheme": {
       "name": "romanizationScheme",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": "|",
@@ -68,6 +71,7 @@
     },
     "bilingualUsage": {
       "name": "bilingualUsage",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": " ",
@@ -93,6 +97,7 @@
     },
     "recordType": {
       "name": "recordType",
+      "defaultValue": "a",
       "dropdownSelect": [
         {
           "value": "|",
@@ -130,6 +135,7 @@
     },
     "cataloguingRules": {
       "name": "cataloguingRules",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": "|",
@@ -163,6 +169,7 @@
     },
     "subjectSystem": {
       "name": "subjectSystem",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": "|",
@@ -212,6 +219,7 @@
     },
     "seriesType": {
       "name": "seriesType",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": "|",
@@ -241,6 +249,7 @@
     },
     "seriesNumbering": {
       "name": "seriesNumbering",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": "|",
@@ -266,6 +275,7 @@
     },
     "mainAddedEntryIndicator": {
       "name": "mainAddedEntryIndicator",
+      "defaultValue": "a",
       "dropdownSelect": [
         {
           "value": "|",
@@ -275,6 +285,7 @@
     },
     "subjectEntryIndicator": {
       "name": "subjectEntryIndicator",
+      "defaultValue": "b",
       "dropdownSelect": [
         {
           "value": "|",
@@ -292,6 +303,7 @@
     },
     "seriesEntryIndicator": {
       "name": "seriesEntryIndicator",
+      "defaultValue": "b",
       "dropdownSelect": [
         {
           "value": "|",
@@ -309,6 +321,7 @@
     },
     "subDivisionType": {
       "name": "subDivisionType",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": " ",
@@ -346,6 +359,7 @@
     },
     "governmentAgency": {
       "name": "governmentAgency",
+      "defaultValue": " ",
       "dropdownSelect": [
         {
           "value": " ",
@@ -399,6 +413,7 @@
     },
     "referenceStatus": {
       "name": "referenceStatus",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": " ",
@@ -420,6 +435,7 @@
     },
     "recordRevision": {
       "name": "recordRevision",
+      "defaultValue": "a",
       "dropdownSelect": [
         {
           "value": "|",
@@ -437,6 +453,7 @@
     },
     "nonUniqueName": {
       "name": "nonUniqueName",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": "|",
@@ -458,6 +475,7 @@
     },
     "headingStatus": {
       "name": "headingStatus",
+      "defaultValue": "n",
       "dropdownSelect": [
         {
           "value": "|",
@@ -487,6 +505,7 @@
     },
     "recordModification": {
       "name": "recordModification",
+      "defaultValue": " ",
       "dropdownSelect": [
         {
           "value": " ",
@@ -504,6 +523,7 @@
     },
     "cataloguingSourceCode": {
       "name": "cataloguingSourceCode",
+      "defaultValue": "u",
       "dropdownSelect": [
         {
           "value": " ",
