@@ -1,5 +1,6 @@
 {
-    "id":0,
+  "authorityRecord": {
+    "id": 0,
     "canadianContentIndicator": "0",
     "verificationLevel": "1",
     "leader": {
@@ -17,7 +18,9 @@
           "code": "001",
           "displayValue": "00000000100",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": true
       },
@@ -32,7 +35,9 @@
           "code": "005",
           "displayValue": "20200901111027.",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": false
       },
@@ -46,7 +51,9 @@
           "code": "008",
           "displayValue": "201001 n acanaaabn           n aaa     u",
           "sequenceNumber": 0,
-          "attributes": {}
+          "attributes": {
+            
+          }
         },
         "added": true
       },
@@ -128,4 +135,82 @@
       }
     ],
     "recordView": 0
+  },
+  "recordTemplate": {
+    "id": 1,
+    "fields": [
+      {
+        "code": "001",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 11,
+          "code": "001",
+          "displayValue": "00000000015",
+          "sequenceNumber": 0,
+          "attributes": {
+            
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "005",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "categoryCode": 1,
+          "description": "046 Special Coded Dates",
+          "headerTypeCode": 12,
+          "code": "005",
+          "displayValue": "20201130083558.",
+          "sequenceNumber": 0,
+          "attributes": {
+            
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "008",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "fixedField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headerTypeCode": 10,
+          "code": "008",
+          "displayValue": "201130 n acanaaabn           n aaa     u",
+          "dateEnteredOnFile": "201130",
+          "sequenceNumber": 0,
+          "attributes": {
+            "dateEnteredOnFile": "201130"
+          }
+        },
+        "added": false
+      },
+      {
+        "code": "040",
+        "mandatory": true,
+        "fieldStatus": "unchanged",
+        "variableField": {
+          "keyNumber": 0,
+          "categoryCode": 1,
+          "headingTypeCode": "1",
+          "itemTypeCode": "-1",
+          "functionCode": "-1",
+          "ind1": " ",
+          "ind2": " ",
+          "code": "040",
+          "displayValue": "\u001faPS",
+          "subfields": [],
+          "sequenceNumber": 0,
+          "skipInFiling": 0
+        },
+        "added": false
+      }
+    ]
+  }
 }
