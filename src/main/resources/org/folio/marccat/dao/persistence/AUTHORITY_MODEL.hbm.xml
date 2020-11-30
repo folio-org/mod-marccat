@@ -5,6 +5,7 @@
 <hibernate-mapping>
 	<class
 		name="org.folio.marccat.dao.persistence.AuthorityModel"
+		schema="olisuite"
 		table="AUTHORITY_MODEL">
 		<id name="id">
 			<column name="ID" not-null="true"/>
@@ -15,8 +16,6 @@
 		<property name="label" column="LABEL"/>
 		<property name="recordFields" column="XML_FIELDS"/>
 		<property name="frbrFirstGroup" column="FRBR_TYPE_FIRST"/>
-		<property name="frbrSecondGroup" column="FRBR_TYPE_SECOND"/>
-		<property name="frbrThirdGroup" column="FRBR_TYPE_THIRD"/>
 		
 	</class>
 </hibernate-mapping>

@@ -1,20 +1,26 @@
 package org.folio.marccat.dao.persistence;
 
-import net.sf.hibernate.CallbackException;
-import net.sf.hibernate.Session;
+import static org.folio.marccat.util.F.deepCopy;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+
 import org.folio.marccat.business.common.PersistenceState;
 import org.folio.marccat.business.common.PersistentObjectWithView;
 import org.folio.marccat.business.common.View;
+import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.dao.AbstractDAO;
 import org.folio.marccat.dao.CrossReferencesDAO;
 import org.folio.marccat.dao.DescriptorDAO;
 import org.folio.marccat.exception.ModMarccatException;
 
-import java.io.Serializable;
+import net.sf.hibernate.CallbackException;
+import net.sf.hibernate.Session;
 
 /**
- * abstract class for all cross-reference tables (including NME_NME_TTL_REF
- * and TTL_NME_TTL_REF).
+ * abstract class for all cross-reference tables (including NME_NME_TTL_REF and
+ * TTL_NME_TTL_REF).
  *
  * @author paulm
  * @author carment
@@ -81,14 +87,12 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
    */
   private String targetStringText;
 
-
   /**
    * Instantiates a new ref.
    */
-  public REF() {
+  protected REF() {
     setDefault();
   }
-
 
   /**
    * New instance of a cross reference.
@@ -138,20 +142,32 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
    * Sets the default.
    */
   public void setDefault() {
+    this.setPrintConstant('n');
     this.setAuthorityStructure('a');
     this.setEarlierRules('x');
     this.setFormerHeading('x');
-    if (getKey() != null
-      && ReferenceType.isEquivalence(getKey().getType())) {
-      this.setNoteGeneration('x');
-    } else {
-      this.setNoteGeneration('@');
-    }
+    this.setNoteGeneration(getKey() != null && ReferenceType.isEquivalence(getKey().getType()) ? 'x' : 'n');
     this.setLinkDisplay('n');
     this.setReplacementComplexity('n');
     this.setVerificationLevel('1');
   }
 
+  public void toSubfieldWReferenceTag(final String displayValue, boolean equivalent) {
+    List<String> rawSubfields = Arrays.asList(displayValue.split(Global.SUBFIELD_DELIMITER));
+    for (String subfieldW : rawSubfields) {
+      if (subfieldW.startsWith("w")) {
+        if (equivalent) {
+          this.setLinkDisplay(subfieldW.substring(1).charAt(0));
+          this.setReplacementComplexity(subfieldW.substring(1).charAt(1));
+        } else {
+          this.setPrintConstant(subfieldW.substring(1).charAt(0));
+          this.setAuthorityStructure(subfieldW.substring(1).charAt(1));
+          this.setEarlierRules(subfieldW.substring(1).charAt(2));
+          this.setNoteGeneration(subfieldW.substring(1).charAt(3));
+        }
+      }
+    }
+  }
 
   /**
    * Clone.
@@ -159,16 +175,11 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
    * @return the object
    */
   public Object copy() {
-    try {
-      RefKey newKey = (RefKey) getKey().copy();
-      REF result = (REF) super.clone();
-      result.setKey(newKey);
-      return result;
-    } catch (CloneNotSupportedException e) {
-      return new Object();
-    }
+    RefKey newKey = (RefKey) getKey().copy();
+    REF result = (REF) deepCopy(this);
+    result.setKey(newKey);
+    return result;
   }
-
 
   /**
    * Creates the cross reference reciprocal.
@@ -183,7 +194,6 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
     return result;
   }
 
-
   /**
    * Equals.
    *
@@ -196,7 +206,6 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
     }
     return false;
   }
-
 
   /**
    * Gets the authority structure.
@@ -611,4 +620,5 @@ public abstract class REF extends PersistenceState implements Serializable, Pers
   public void setReplacementComplexity(Character replacementComplexity) {
     this.replacementComplexity = replacementComplexity;
   }
+
 }

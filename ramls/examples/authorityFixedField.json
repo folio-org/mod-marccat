@@ -1,0 +1,539 @@
+{
+  "headerTypeCode": 10,
+  "results": {
+    "subjectDescriptor": {
+      "name": "subjectDescriptor",
+      "defaultValue": " ",
+      "dropdownSelect": [
+        {
+          "value": " ",
+          "label": "Not subdivided geographically"
+        },
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "d",
+          "label": "Direct"
+        },
+        {
+          "value": "i",
+          "label": "Indirect"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        }
+      ]
+    },
+    "romanizationScheme": {
+      "name": "romanizationScheme",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "International Standard"
+        },
+        {
+          "value": "b",
+          "label": "National Standard"
+        },
+        {
+          "value": "c",
+          "label": "Nat Lib assoc standard"
+        },
+        {
+          "value": "d",
+          "label": "National Library Standard"
+        },
+        {
+          "value": "e",
+          "label": "Local Standard"
+        },
+        {
+          "value": "f",
+          "label": "Unknown"
+        },
+        {
+          "value": "g",
+          "label": "Conv name in lang of cat"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        }
+      ]
+    },
+    "bilingualUsage": {
+      "name": "bilingualUsage",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": " ",
+          "label": "No information provided"
+        },
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "b",
+          "label": "English and French"
+        },
+        {
+          "value": "e",
+          "label": "English only"
+        },
+        {
+          "value": "f",
+          "label": "French only"
+        }
+      ]
+    },
+    "recordType": {
+      "name": "recordType",
+      "defaultValue": "a",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Authorized heading record"
+        },
+        {
+          "value": "b",
+          "label": "Untraced reference record"
+        },
+        {
+          "value": "c",
+          "label": "Traced reference record"
+        },
+        {
+          "value": "d",
+          "label": "Subdivision record"
+        },
+        {
+          "value": "e",
+          "label": "Node label record"
+        },
+        {
+          "value": "f",
+          "label": "Auth. heading/subdivision"
+        },
+        {
+          "value": "g",
+          "label": "Ref/subdivision record"
+        }
+      ]
+    },
+    "cataloguingRules": {
+      "name": "cataloguingRules",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Earlier rules"
+        },
+        {
+          "value": "b",
+          "label": "AACR1"
+        },
+        {
+          "value": "c",
+          "label": "AACR2"
+        },
+        {
+          "value": "d",
+          "label": "AACR2 Compatible"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        },
+        {
+          "value": "z",
+          "label": "Other"
+        }
+      ]
+    },
+    "subjectSystem": {
+      "name": "subjectSystem",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Library of Congress"
+        },
+        {
+          "value": "b",
+          "label": "LC Children's Literature"
+        },
+        {
+          "value": "c",
+          "label": "US Nat Lib of Medicine(MESH)"
+        },
+        {
+          "value": "d",
+          "label": "National agriculture Lib sbjct authority file"
+        },
+        {
+          "value": "k",
+          "label": "Canadian"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        },
+        {
+          "value": "r",
+          "label": "Arts and Arch Thesaurus"
+        },
+        {
+          "value": "s",
+          "label": "Sears List"
+        },
+        {
+          "value": "v",
+          "label": "Rep de vedettes-matiere"
+        },
+        {
+          "value": "z",
+          "label": "Other"
+        }
+      ]
+    },
+    "seriesType": {
+      "name": "seriesType",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Monographic series"
+        },
+        {
+          "value": "b",
+          "label": "Multipart item"
+        },
+        {
+          "value": "c",
+          "label": "Series-like phrase"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        },
+        {
+          "value": "z",
+          "label": "Other"
+        }
+      ]
+    },
+    "seriesNumbering": {
+      "name": "seriesNumbering",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Numbered series"
+        },
+        {
+          "value": "b",
+          "label": "Unnumbered series"
+        },
+        {
+          "value": "c",
+          "label": "Numbering varies-640/641"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable(not series)"
+        }
+      ]
+    },
+    "mainAddedEntryIndicator": {
+      "name": "mainAddedEntryIndicator",
+      "defaultValue": "a",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        }
+      ]
+    },
+    "subjectEntryIndicator": {
+      "name": "subjectEntryIndicator",
+      "defaultValue": "b",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "OK as subject AE"
+        },
+        {
+          "value": "b",
+          "label": "Not OK as subject AE"
+        }
+      ]
+    },
+    "seriesEntryIndicator": {
+      "name": "seriesEntryIndicator",
+      "defaultValue": "b",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "OK as series AE"
+        },
+        {
+          "value": "b",
+          "label": "Not OK as series AE"
+        }
+      ]
+    },
+    "subDivisionType": {
+      "name": "subDivisionType",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": " ",
+          "label": "Value pre def of c.p.(OBS)"
+        },
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Topical subdivision"
+        },
+        {
+          "value": "b",
+          "label": "Form subdivision"
+        },
+        {
+          "value": "c",
+          "label": "Period subdivision"
+        },
+        {
+          "value": "d",
+          "label": "Place subdivision"
+        },
+        {
+          "value": "e",
+          "label": "Language subdivision"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        }
+      ]
+    },
+    "governmentAgency": {
+      "name": "governmentAgency",
+      "defaultValue": " ",
+      "dropdownSelect": [
+        {
+          "value": " ",
+          "label": "Not a govt agency"
+        },
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Autonomous or semi-autonomous components of Malaysia"
+        },
+        {
+          "value": "c",
+          "label": "Multilocal"
+        },
+        {
+          "value": "f",
+          "label": "Federal/national"
+        },
+        {
+          "value": "i",
+          "label": "International intergovernmental"
+        },
+        {
+          "value": "l",
+          "label": "Local jurisdiction"
+        },
+        {
+          "value": "m",
+          "label": "Multistate"
+        },
+        {
+          "value": "o",
+          "label": "Government agency - type undetermined"
+        },
+        {
+          "value": "s",
+          "label": "State,Provincial,territorial,dependent,etc."
+        },
+        {
+          "value": "u",
+          "label": "Unknown"
+        },
+        {
+          "value": "z",
+          "label": "Other"
+        }
+      ]
+    },
+    "referenceStatus": {
+      "name": "referenceStatus",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": " ",
+          "label": "Value already used"
+        },
+        {
+          "value": "a",
+          "label": "References have been evaluated"
+        },
+        {
+          "value": "b",
+          "label": "Refs not been evaluated"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        }
+      ]
+    },
+    "recordRevision": {
+      "name": "recordRevision",
+      "defaultValue": "a",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Record can be used"
+        },
+        {
+          "value": "b",
+          "label": "Record not usable"
+        }
+      ]
+    },
+    "nonUniqueName": {
+      "name": "nonUniqueName",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Unique name"
+        },
+        {
+          "value": "b",
+          "label": "Nonunique name"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        }
+      ]
+    },
+    "headingStatus": {
+      "name": "headingStatus",
+      "defaultValue": "n",
+      "dropdownSelect": [
+        {
+          "value": "|",
+          "label": "No attempt to code"
+        },
+        {
+          "value": "a",
+          "label": "Fully established heading"
+        },
+        {
+          "value": "b",
+          "label": "Memorandum"
+        },
+        {
+          "value": "c",
+          "label": "Provisional"
+        },
+        {
+          "value": "d",
+          "label": "Preliminary"
+        },
+        {
+          "value": "n",
+          "label": "Not applicable"
+        }
+      ]
+    },
+    "recordModification": {
+      "name": "recordModification",
+      "defaultValue": " ",
+      "dropdownSelect": [
+        {
+          "value": " ",
+          "label": "Record not modified"
+        },
+        {
+          "value": "s",
+          "label": "Record shortened"
+        },
+        {
+          "value": "x",
+          "label": "Non input chars. present"
+        }
+      ]
+    },
+    "cataloguingSourceCode": {
+      "name": "cataloguingSourceCode",
+      "defaultValue": "u",
+      "dropdownSelect": [
+        {
+          "value": " ",
+          "label": "National bibliographic agency"
+        },
+        {
+          "value": "c",
+          "label": "Co-operative cataloguing programmes"
+        }
+      ]
+    }
+  }
+}

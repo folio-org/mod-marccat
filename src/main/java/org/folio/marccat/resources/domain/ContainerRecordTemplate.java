@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "bibliographicRecord", "recordTemplate" })
+@JsonPropertyOrder({ "bibliographicRecord", "authorityRecord", "recordTemplate" })
 public class ContainerRecordTemplate {
 
   @JsonProperty("bibliographicRecord")
@@ -45,6 +45,14 @@ public class ContainerRecordTemplate {
   public AuthorityRecord getAuthorityRecord() {
     return authorityRecord;
   }
+
+  /**
+   * @param authorityRecord the authority record.
+   */
+  /*
+   * public void setAuthorityRecord(AuthorityRecord authorityRecord) {
+   * this.authorityRecord = authorityRecord; }
+   */
 
   /**
    * @return the record template.

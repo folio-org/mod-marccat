@@ -38,7 +38,7 @@ public class Global {
   public static final String MODULE_MARCCAT = "mod-marccat";
   public static final String OKAPI_TENANT_HEADER_NAME = "X-Okapi-Tenant";
   public static final String OKAPI_URL = "X-Okapi-Url";
-  public static final String OKAPI_TO_URL = "X-Okapi-Url-to";
+  public static final String OKAPI_URL_TO = "X-Okapi-Url-to";
   public static final String OKAPI_TOKEN_HEADER_NAME = "X-Okapi-Token";
   public static final String EMPTY_STRING = "";
   public static final String EMPTY_VALUE = " ";
@@ -83,6 +83,7 @@ public class Global {
   public static final String LOADING_FILE_ADDED = "added";
   public static final String LOADING_FILE_ERRORS = "errors";
   public static final String AN_KEY_CODE_FIELD = "BI";
+  public static final String AN_KEY_AUT = "AA";
   public static final String ERROR_MANDATORY_TAG = "-1";
   public static final String ERROR_DUPLICATE_TAG = "-2";
   public static final String ERROR_EMPTY_TAG = "-3";
@@ -97,16 +98,20 @@ public class Global {
   public static final int LEADER_HEADER_TYPE = 15;
   public static final int CONTROL_NUMBER_HEADER_TYPE = 39;
   public static final int DATETIME_TRANSACION_HEADER_TYPE = 41;
+  public static final int AUT_DATETIME_TRANSACION_HEADER_TYPE = 12;
   public static final int MATERIAL_DESCRIPTION_HEADER_TYPE = 31;
   public static final String FIXED_LEADER_LENGTH = "00000";
   public static final char RECORD_STATUS_CODE = 'n';
   public static final char RECORD_TYPE_CODE = 'a';
+  public static final char AUT_RECORD_TYPE_CODE = 'z';
   public static final char BIBLIOGRAPHIC_LEVEL_CODE = 'm';
   public static final char CONTROL_TYPE_CODE = ' ';
   public static final char CHARACTER_CODING_SCHEME_CODE = ' ';
   public static final String FIXED_LEADER_BASE_ADDRESS = "2200000";
   public static final char ENCODING_LEVEL = ' ';
+  public static final char AUT_ENCODING_LEVEL = 'n';
   public static final char DESCRIPTIVE_CATALOGUING_CODE = ' ';
+  public static final char PUNCTUATION_POLICY = ' ';
   public static final char LINKED_RECORD_CODE = ' ';
   public static final String FIXED_LEADER_PORTION = "4500";
   public static final Map<Integer, String> PHYSICAL_TYPES_MAP;
@@ -118,12 +123,35 @@ public class Global {
   public static final int CLASSIFICATION_CATEGORY = 6;
   public static final int PUBLISHER_CATEGORY = 7;
   public static final int BIB_NOTE_CATEGORY = 7;
+  public static final int AUT_NOTE_CATEGORY = 7;
   public static final int NAME_TITLE_CATEGORY = 11;
   public static final int RELATION_CATEGORY = 8;
   public static final int AUT_NAME_CATEGORY = 17;
   public static final int AUT_TITLE_CATEGORY = 22;
   public static final int AUT_SUBJECT_CATEGORY = 18;
   public static final int AUT_NAME_TITLE_CATEOGRY = 11;
+  public static final int AUTHORITY_LEADER_TYPE = 9;
+  public static final int AUTHORITY_MATERIAL_DESCRIPTION_HEADER_TYPE = 10;
+  public static final String AUTHORITY_SUBJECT_DESCRIPTOR = " ";
+  public static final String AUTHORITY_ROMANIZATION_SCHEME = "n";
+  public static final String AUTHORITY_BILINGUAL_USAGE = "n";
+  public static final String AUTHORITY_RECORD_TYPE = "a";
+  public static final String AUTHORITY_CATALOGING_RULES = "n";
+  public static final String AUTHORITY_SUBJECT_SYSTEM = "n";
+  public static final String AUTHORITY_SERIES_TYPE = "n";
+  public static final String AUTHORITY_SERIES_NUMBERING = "n";
+  public static final String AUTHORITY_MAIN_ADDED_ENTRY_INDICATOR = "a";
+  public static final String AUTHORITY_SUBJECT_ENTRY_INDICATOR = "b";
+  public static final String AUTHORITY_SERIES_ENTRY_INDICATOR = "b";
+  public static final String AUTHORITY_SUB_DIVISION_TYPE = "n";
+  public static final String AUTHORITY_GOVERNMENT_AGENCY = " ";
+  public static final String AUTHORITY_REFERENCE_STATUS = "n";
+  public static final String AUTHORITY_RECORD_REVISION = "a";
+  public static final String AUTHORITY_NON_UNIQUE_NAME = "n";
+  public static final String AUTHORITY_HEADING_STATUS = "n";
+  public static final String AUTHORITY_RECORD_MODIFICATION = " ";
+  public static final String AUTHORITY_CATALOGUING_SOURCE_CODE = "u";
+  public static final String AUTHORITY_MATERIAL_DESCRIPTION_DESCRIPTION = "008";
   public static final String NAME_TYPE_HDG = "NH";
   public static final String TITLE_TYPE_HDG = "TH";
   public static final String SUBJECT_TYPE_HDG = "SH";
@@ -178,6 +206,12 @@ public class Global {
   public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
   public static final List<String> FIXED_FIELDS = Arrays.asList("000", "001", "005", "006", "007", "008");
   public static final List<String> MANDATORY_FIELDS = Arrays.asList("000", "001", "008", "040");
+  public static final List<String> AUT_NAMES = Collections.unmodifiableList(Arrays.asList("100", "110", "111"));
+  public static final List<String> AUT_NAMES_X = Collections.unmodifiableList(Arrays.asList("400", "410", "411", "500", "510", "511", "700", "710", "711"));
+  public static final List<String> AUT_TITLE = Collections.unmodifiableList(Arrays.asList("130"));
+  public static final List<String> AUT_TITLE_X = Collections.unmodifiableList(Arrays.asList("430", "530", "730"));
+  public static final List<String> AUT_SUBJECT = Collections.unmodifiableList(Arrays.asList("150", "151", "155", "180", "182", "185"));
+  public static final List<String> AUT_SUBJECT_X = Collections.unmodifiableList(Arrays.asList("450", "550", "750", "451", "551", "751", "455", "555", "755", "480", "580", "780", "482", "582", "782", "485", "585", "785"));
   public static final List<String> NAMES = Arrays.asList("100", "110", "111");
   public static final List<String> NAMES_D = Arrays.asList("110", "111", "710", "711");
   public static final List<String> NAMES_E = Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410",
@@ -203,6 +237,10 @@ public class Global {
   public static final String MODULE_CONFIGURATION = "mod-configuration";
   public static final String SUB_PATH_CONFIGURATION = "/configurations/entries";
   public static final String UNDEFINED = "und";
+  public static final List<String> AUT_NOTES = Collections.unmodifiableList(Arrays.asList("667", "670", "672", "673", "675", "677", "678", "680", "681", "682", "688"));
+
+  public static final short SUBJECT_SOURCE_CODE_OTHERS = 6;
+  public static final char NOT_APLICABLE = 'n';
 
   static {
     Map<String, String> errors = new HashMap<>();
@@ -365,6 +403,27 @@ public class Global {
     code.put("MIC_POLARITY", T_MIC_PLRTY.class);
     code.put("MIC_REDUCT_RATIO_RANGE", T_MIC_RDCTN_RATIO_RNG.class);
     code.put("MIC_SPEC_DESIGN", T_MIC_SMD.class);
+    // Authority
+    code.put("SUBJECT_DESCRIPTOR", T_AUT_SBJCT_DSCTR.class);
+    code.put("ROMANIZATION_SCHEME", T_AUT_RMNZT_SCHM.class);
+    code.put("BILINGUAL_USAGE", T_AUT_BLNGL_USG.class);
+    code.put("AUT_RECORD_TYPE", T_AUT_REC_TYP.class);
+    code.put("AUT_CATALOGUIG_RULES", T_AUT_CTLGG_RLE.class);
+    code.put("SUBJECT_SYSTEM", T_AUT_SBJCT_SYS.class);
+    code.put("SERIES_TYPE", T_AUT_SRS_TYP.class);
+    code.put("SERIES_NUMBERING", T_AUT_SRS_NBRG.class);
+    code.put("MAIN_ADDED_ENTRY_INDICATOR", T_AUT_MAIN_ADD_ENTRY.class);
+    code.put("SUBJECT_ENTRY_INDICATOR", T_AUT_SBJCT_ENTRY.class);
+    code.put("SERIES_ENTRY_INDICATOR", T_AUT_SRS_ENTRY.class);
+    code.put("SUB_DIVISION_TYPE", T_AUT_SUB_DIV_TYP.class);
+    code.put("GOVERNMENT_AGENCY", T_AUT_GOVT_AGNCY.class);
+    code.put("REFERENCE_STATUS", T_AUT_REF_STUS.class);
+    code.put("AUT_RECORD_REVISION", T_AUT_REC_RVSN.class);
+    code.put("NON_UNIQUE_NAME", T_AUT_NON_UNQ_NME.class);
+    code.put("HEADING_STATUS", T_AUT_HDG_STUS.class);
+    code.put("RECORD_MODIFICATION", T_AUT_REC_MDFTN.class);
+    code.put("CATALOGUING_SOURCE_CODE", T_AUT_CTLGG_SRC.class);
+
     MAP_CODE_LISTS = Collections.unmodifiableMap(code);
   }
 

@@ -113,7 +113,7 @@ public class SearchTest extends TestBase {
     String url = getURI("/marccat/searchAuth");
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
-    given().param("q", "NA giannini").param("lang", "eng").headers(headers).when().get(url).then().statusCode(200);
+    given().param("q", "NA IbaiScanbit").param("lang", "eng").headers(headers).when().get(url).then().statusCode(200);
   }
 
 }

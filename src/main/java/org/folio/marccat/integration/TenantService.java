@@ -167,14 +167,19 @@ public class TenantService {
   private String patchDatabase6;
 
   /**
+   * The database patch.
+   */
+  @Value("${patch.database7}")
+  private String patchDatabase7;
+
+  /**
    * Creates the tenant.
    *
    * @param tenant   the tenant
    * @param okapiUrl the okapi url
    * @throws SQLException the SQL exception
-   * @throws IOException  Signals that an I/O exception has occurred.
    */
-  public void createTenant(final String tenant, final String okapiUrl) throws SQLException, IOException {
+  public void createTenant(final String tenant, final String okapiUrl) throws SQLException {
     logger.debug("Enable tenant" + " - Start");
     okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);
@@ -242,6 +247,7 @@ public class TenantService {
     executePatch(databaseName, patchDatabase3, "Install patch MARCCAT DB 1.4", "MARCCAT DB 1.4 found");
     executePatch(databaseName, patchDatabase4, "Install patch MARCCAT DB 1.5", "MARCCAT DB 1.5 found");
     executePatch(databaseName, patchDatabase6, "Install patch MARCCAT DB 1.6", "MARCCAT DB 1.6 found");
+    executePatch(databaseName, patchDatabase7, "Install patch MARCCAT DB 1.7", "MARCCAT DB 1.7 found");
   }
 
   /**
@@ -424,8 +430,8 @@ public class TenantService {
       tempFile.deleteOnExit();
       String stringInputStream = IOUtils.toString(inputStream, UTF_8);
       if (isReplaceVariables) {
-        stringInputStream = stringInputStream.replaceAll(":user_name", marccatUser)
-            .replaceAll("password", marccatPassword).replaceAll("database_name", databaseName);
+        stringInputStream = stringInputStream.replace(":user_name", marccatUser)
+            .replace("password", marccatPassword).replace("database_name", databaseName);
       }
       final InputStream toInputStream = IOUtils.toInputStream(stringInputStream, UTF_8);
       IOUtils.copy(toInputStream, new FileOutputStream(tempFile));

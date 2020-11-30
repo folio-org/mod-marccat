@@ -1,6 +1,6 @@
 #%RAML 1.0
 title:  MARCcat
-version: v1.2
+version: v1.4
 protocols: [ HTTP, HTTPS ]
 baseUri: https://github.com/folio-org/mod-marccat
 
@@ -16,6 +16,7 @@ types:
   searchResultVertical: !include schema/searchResultVertical.json
   searchResultCollection: !include schema/searchResultCollection.json
   authority: !include schema/authority.json
+  authorityHeader008Tag: !include schema/authorityHeader008Tag.json
 
 
 traits:
@@ -27,6 +28,7 @@ traits:
 resourceTypes:
   collection: !include raml-storage/raml-util/rtypes/collection.raml
   collection-item: !include raml-storage/raml-util/rtypes/item-collection.raml
+  get-only: !include raml-storage/raml-util/rtypes/get-only.raml
 
 /marccat:
   /search:
@@ -134,12 +136,102 @@ resourceTypes:
         exampleItem: !include examples/name.json
         schema: authority
     post:
-      is: [validate
-        ]
+      is: [validate]
       description: Create authority record
       responses:
         201:
           description: "Authority created"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"  
+
+  /authority-record/from-template/{idTemplate}:
+    displayName: Get authority marc records template
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityTemplate.json
+        schema: authority
+    post:
+      is: [validate]
+      description: Get authority record template
+      responses:
+        200:
+          description: "Return an authority template"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"
+              
+  /authority-record/fixed-field-display-value:
+    displayName: Change the display value for the authority 008 tag 
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityFixedField008.json
+        schema: authority
+    post:
+      is: [validate]
+      description: Change the display value for 008 tag
+      responses:
+        201:
+          description: "Display value for 008 changed"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"                
+
+  /auth-fixed-fields-code-groups:
+    displayName: Get authority control fields values
+    type:
+      collection-item:
+        exampleItem: !include examples/authorityFixedField.json
+        schema: authority
+    post:
+      is: [validate]
+      description: Get authority control fields values
+      responses:
+        200:
+          description: "Return the fixed values for authority"
+        400:
+          description: "Bad request"
+          body:
+            text/plain:
+              example: "Required String parameter 'lang' is not present"
+        500:
+          description: "Internal server error"
+          body:
+            text/plain:
+              example: "Error in validation"  
+
+  /auth-header-types:
+    displayName: Get the header type for 008 authority tag
+    type:
+      get-only:
+        schema: authorityHeader008Tag
+        exampleCollection: !include examples/authorityHeader008Tag.json
+    get:
+      description: Get the value for the header type of 008 authority tag 
+      responses:
+        200:
+          description: "Return the header type values"
         400:
           description: "Bad request"
           body:
