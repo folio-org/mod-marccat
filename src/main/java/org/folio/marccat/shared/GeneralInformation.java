@@ -1,13 +1,14 @@
 package org.folio.marccat.shared;
 
-import org.apache.commons.lang.StringUtils;
-import org.folio.marccat.config.constants.Global;
-
-import java.util.Map;
-
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
+
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.util.F;
 
 /**
  * Class related to:
@@ -92,6 +93,28 @@ public class GeneralInformation {
 
   private String includesSoundCode;
 
+  // Authority
+  private String bilingualUsage;
+  private String cataloguingRules;
+  private String cataloguingSourceCode;
+  private String governmentAgency;
+  private String headingStatus;
+  private String headingType;
+  private String mainAddedEntryIndicator;
+  private String nonUniqueName;
+  private String recordModification;
+  private String recordRevision;
+  private String recordType;
+  private String referenceStatus;
+  private String romanizationScheme;
+  private String seriesEntryIndicator;
+  private String seriesNumbering;
+  private String seriesType;
+  private String subDivisionType;
+  private String subjectDescriptor;
+  private String subjectEntryIndicator;
+  private String subjectSystem;
+
 
 
   /**
@@ -159,6 +182,25 @@ public class GeneralInformation {
     setRemoteSensingDataTypeCode(configuration.get("material.remoteSensingDataTypeCode"));
     setIncludesSoundCode(configuration.get("material.includesSoundCode"));
 
+    setBilingualUsage(Global.AUTHORITY_BILINGUAL_USAGE);
+    setCataloguingRules(Global.AUTHORITY_CATALOGING_RULES);
+    setCataloguingSourceCode(Global.AUTHORITY_CATALOGUING_SOURCE_CODE);
+    setGovernmentAgency(Global.AUTHORITY_GOVERNMENT_AGENCY);
+    setHeadingStatus(Global.AUTHORITY_HEADING_STATUS);
+    setMainAddedEntryIndicator(Global.AUTHORITY_MAIN_ADDED_ENTRY_INDICATOR);
+    setNonUniqueName(Global.AUTHORITY_NON_UNIQUE_NAME);
+    setRecordModification(Global.AUTHORITY_RECORD_MODIFICATION);
+    setRecordRevision(Global.AUTHORITY_RECORD_REVISION);
+    setRecordType(Global.AUTHORITY_RECORD_TYPE);
+    setReferenceStatus(Global.AUTHORITY_REFERENCE_STATUS);
+    setRomanizationScheme(Global.AUTHORITY_ROMANIZATION_SCHEME);
+    setSeriesEntryIndicator(Global.AUTHORITY_SERIES_ENTRY_INDICATOR);
+    setSeriesNumbering(Global.AUTHORITY_SERIES_NUMBERING);
+    setSeriesType(Global.AUTHORITY_SERIES_TYPE);
+    setSubDivisionType(Global.AUTHORITY_SUB_DIVISION_TYPE);
+    setSubjectDescriptor(Global.AUTHORITY_SUBJECT_DESCRIPTOR);
+    setSubjectEntryIndicator(Global.AUTHORITY_SUBJECT_ENTRY_INDICATOR);
+    setSubjectSystem(Global.AUTHORITY_SUBJECT_SYSTEM);
   }
 
   /**
@@ -168,6 +210,31 @@ public class GeneralInformation {
    */
   public String getValueString() {
     final StringBuilder sb = new StringBuilder();
+    if (getMaterialDescription008Indicator()==null) {//aut
+      sb.append(F.getFormattedToday("yyMMdd"))
+        .append(getSubjectDescriptor())
+        .append(getRomanizationScheme())
+        .append(getBilingualUsage())
+        .append(getRecordType())
+        .append(getCataloguingRules())
+        .append(getSubjectSystem())
+        .append(getSeriesType())
+        .append(getSeriesNumbering())
+        .append(getMainAddedEntryIndicator())
+        .append(getSubjectEntryIndicator())
+        .append(getSeriesEntryIndicator())
+        .append(getSubDivisionType())
+        .append("          ")
+        .append(getGovernmentAgency())
+        .append(getReferenceStatus())
+        .append(" ")
+        .append(getRecordRevision())
+        .append(getNonUniqueName())
+        .append(getHeadingStatus())
+        .append("    ")
+        .append(getRecordModification())
+        .append(getCataloguingSourceCode());
+    }else {
     if (getMaterialDescription008Indicator().equals("1")) {
       sb.append(getEnteredOnFileDateYYMMDD())
         .append(getItemDateTypeCode())
@@ -199,7 +266,7 @@ public class GeneralInformation {
         .append(getRecordModifiedCode())
         .append(getRecordCataloguingSourceCode());
     }
-
+    }
     return sb.toString();
   }
 
@@ -846,7 +913,165 @@ public class GeneralInformation {
     this.includesSoundCode = includesSoundCode;
   }
 
+  public String getBilingualUsage() {
+    return bilingualUsage;
+  }
 
+  public void setBilingualUsage(String bilingualUsage) {
+    this.bilingualUsage = bilingualUsage;
+  }
+
+  public String getCataloguingRules() {
+    return cataloguingRules;
+  }
+
+  public void setCataloguingRules(String cataloguingRules) {
+    this.cataloguingRules = cataloguingRules;
+  }
+
+  public String getCataloguingSourceCode() {
+    return cataloguingSourceCode;
+  }
+
+  public void setCataloguingSourceCode(String cataloguingSourceCode) {
+    this.cataloguingSourceCode = cataloguingSourceCode;
+  }
+
+  public String getGovernmentAgency() {
+    return governmentAgency;
+  }
+
+  public void setGovernmentAgency(String governmentAgency) {
+    this.governmentAgency = governmentAgency;
+  }
+
+  public String getHeadingStatus() {
+    return headingStatus;
+  }
+
+  public void setHeadingStatus(String headingStatus) {
+    this.headingStatus = headingStatus;
+  }
+
+  public String getHeadingType() {
+    return headingType;
+  }
+
+  public void setHeadingType(String headingType) {
+    this.headingType = headingType;
+  }
+
+  public String getMainAddedEntryIndicator() {
+    return mainAddedEntryIndicator;
+  }
+
+  public void setMainAddedEntryIndicator(String mainAddedEntryIndicator) {
+    this.mainAddedEntryIndicator = mainAddedEntryIndicator;
+  }
+
+  public String getNonUniqueName() {
+    return nonUniqueName;
+  }
+
+  public void setNonUniqueName(String nonUniqueName) {
+    this.nonUniqueName = nonUniqueName;
+  }
+
+  public String getRecordModification() {
+    return recordModification;
+  }
+
+  public void setRecordModification(String recordModification) {
+    this.recordModification = recordModification;
+  }
+
+  public String getRecordRevision() {
+    return recordRevision;
+  }
+
+  public void setRecordRevision(String recordRevision) {
+    this.recordRevision = recordRevision;
+  }
+
+  public String getRecordType() {
+    return recordType;
+  }
+
+  public void setRecordType(String recordType) {
+    this.recordType = recordType;
+  }
+
+  public String getReferenceStatus() {
+    return referenceStatus;
+  }
+
+  public void setReferenceStatus(String referenceStatus) {
+    this.referenceStatus = referenceStatus;
+  }
+
+  public String getRomanizationScheme() {
+    return romanizationScheme;
+  }
+
+  public void setRomanizationScheme(String romanizationScheme) {
+    this.romanizationScheme = romanizationScheme;
+  }
+
+  public String getSeriesEntryIndicator() {
+    return seriesEntryIndicator;
+  }
+
+  public void setSeriesEntryIndicator(String seriesEntryIndicator) {
+    this.seriesEntryIndicator = seriesEntryIndicator;
+  }
+
+  public String getSeriesNumbering() {
+    return seriesNumbering;
+  }
+
+  public void setSeriesNumbering(String seriesNumbering) {
+    this.seriesNumbering = seriesNumbering;
+  }
+
+  public String getSeriesType() {
+    return seriesType;
+  }
+
+  public void setSeriesType(String seriesType) {
+    this.seriesType = seriesType;
+  }
+
+  public String getSubDivisionType() {
+    return subDivisionType;
+  }
+
+  public void setSubDivisionType(String subDivisionType) {
+    this.subDivisionType = subDivisionType;
+  }
+
+  public String getSubjectDescriptor() {
+    return subjectDescriptor;
+  }
+
+  public void setSubjectDescriptor(String subjectDescriptor) {
+    this.subjectDescriptor = subjectDescriptor;
+  }
+
+  public String getSubjectEntryIndicator() {
+    return subjectEntryIndicator;
+  }
+
+  public void setSubjectEntryIndicator(String subjectEntryIndicator) {
+    this.subjectEntryIndicator = subjectEntryIndicator;
+  }
+
+  public String getSubjectSystem() {
+    return subjectSystem;
+  }
+
+  public void setSubjectSystem(String subjectSystem) {
+    this.subjectSystem = subjectSystem;
+  }
 
 
 }
