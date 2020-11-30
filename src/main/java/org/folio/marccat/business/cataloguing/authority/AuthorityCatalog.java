@@ -65,7 +65,6 @@ public class AuthorityCatalog extends Catalog {
   private static final AuthorityCatalogDAO daoCatalog = new AuthorityCatalogDAO();
 
   private static final String modMarccatExMessage = "Could not create object";
-  private static final AuthorityCatalogDAO daoCatalog = new AuthorityCatalogDAO();
 
   private static final Map<String, Class<?>> DAO_BY_AUT_TYPE = new HashMap<>();
   static {
