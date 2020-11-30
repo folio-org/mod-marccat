@@ -74,19 +74,19 @@
         "added": true
       },
       {
-        "code": "100",
+        "code": "130",
         "mandatory": false,
         "fieldStatus": "new",
         "variableField": {
           "keyNumber": -1,
-          "categoryCode": 2,
+          "categoryCode": 3,
           "headingTypeCode": "1",
           "itemTypeCode": "2",
           "functionCode": "-1",
-          "ind1": "1",
-          "ind2": " ",
-          "code": "100",
-          "displayValue": "\u001faBeethoven, Ludwig van,\u001fd1770-1827.",
+          "ind1": " ",
+          "ind2": "3",
+          "code": "130",
+          "displayValue": "\u001faBible",
           "subfields": [],
           "sequenceNumber": 0,
           "skipInFiling": 0
@@ -94,39 +94,19 @@
         "added": false
       },
       {
-        "code": "400",
+        "code": "730",
         "mandatory": false,
         "fieldStatus": "new",
         "variableField": {
           "keyNumber": -1,
-          "categoryCode": 2,
+          "categoryCode": 3,
           "headingTypeCode": "1",
           "itemTypeCode": "2",
           "functionCode": "-1",
-          "ind1": "1",
-          "ind2": " ",
-          "code": "400",
-          "displayValue": "\u001faBeethoven, Ludwig van,\u001fwanna",
-          "subfields": [],
-          "sequenceNumber": 0,
-          "skipInFiling": 0
-        },
-        "added": false
-      },
-      {
-        "code": "500",
-        "mandatory": false,
-        "fieldStatus": "new",
-        "variableField": {
-          "keyNumber": -1,
-          "categoryCode": 2,
-          "headingTypeCode": "1",
-          "itemTypeCode": "2",
-          "functionCode": "-1",
-          "ind1": "1",
-          "ind2": " ",
-          "code": "500",
-          "displayValue": "\u001faBeethoven",
+          "ind1": " ",
+          "ind2": "0",
+          "code": "730",
+          "displayValue": "\u001faBible.\u001fwaa",
           "subfields": [],
           "sequenceNumber": 0,
           "skipInFiling": 0
@@ -146,7 +126,7 @@
           "ind1": " ",
           "ind2": " ",
           "code": "670",
-          "displayValue": "\u001faComposer and pianista",
+          "displayValue": "\u001faBible",
           "subfields": [],
           "sequenceNumber": 0,
           "skipInFiling": 0

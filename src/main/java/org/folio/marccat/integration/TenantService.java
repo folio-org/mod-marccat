@@ -178,9 +178,8 @@ public class TenantService {
    * @param tenant   the tenant
    * @param okapiUrl the okapi url
    * @throws SQLException the SQL exception
-   * @throws IOException  Signals that an I/O exception has occurred.
    */
-  public void createTenant(final String tenant, final String okapiUrl) throws SQLException, IOException {
+  public void createTenant(final String tenant, final String okapiUrl) throws SQLException {
     logger.debug("Enable tenant" + " - Start");
     okapiClient.setOkapiUrl(okapiUrl);
     initializeDatabase(tenant);

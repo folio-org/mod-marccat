@@ -1,13 +1,15 @@
 package org.folio.marccat.integration;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.integration.tools.TenantLoading;
 import org.folio.rest.jaxrs.model.Parameter;
 import org.folio.rest.jaxrs.model.TenantAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 /**
  * The Class TenantRefService.
@@ -21,10 +23,10 @@ public class TenantRefService {
   private static final String SAMPLE_LEAD = "sample-data";
 
   /** The Constant SAMPLE_KEY. */
-  private static final String SAMPLE_KEY = "loadSample";
+  public static final String SAMPLE_KEY = "loadSample";
 
   /** The Constant REFERENCE_KEY. */
-  private static final String REFERENCE_KEY = "loadReference";
+  public static final String REFERENCE_KEY = "loadReference";
 
   /** The Constant REFERENCE_LEAD. */
   private static final String REFERENCE_LEAD = "ref-data";
@@ -34,36 +36,37 @@ public class TenantRefService {
   @Autowired
   private TenantLoading tl;
 
-
   /**
    * Load data.
    *
-   * @param tenantAttributes the tenant attributes
-   * @param headers the headers
+   * @param tenantAttributes        the tenant attributes
+   * @param headers                 the headers
+   * @param loadBibliographicSample
+   * @throws IOException 
    */
-  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers){
+  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers) throws IOException {
     logger.debug("Start sample data loading");
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
     logger.debug("Is Load data " + loadData);
-  // if (loadData) {
-      tl.perform(tenantAttributes, headers);
-   // }
+    // if (loadData) {
+    tl.perform(headers, isLoadBibliographicSample(tenantAttributes));
+    // }
     logger.debug("End sample data loading");
   }
-
 
   /**
    * Builds the data loading parameters.
    *
-   * @param tenantAttributes the tenant attributes
-   * @param tl the tl
+   * @param tenantAttributes        the tenant attributes
+   * @param tl                      the tl
+   * @param loadSample
+   * @param loadBibliographicSample
    * @return true, if successful
    */
   private boolean buildDataLoadingParameters(TenantAttributes tenantAttributes, TenantLoading tl) {
     boolean loadData = false;
     if (isLoadReference(tenantAttributes)) {
-      tl.withKey(REFERENCE_KEY)
-        .withLead(REFERENCE_LEAD);
+      tl.withKey(REFERENCE_KEY).withLead(REFERENCE_LEAD);
       loadData = true;
     }
     if (isLoadSample(tenantAttributes)) {
@@ -113,5 +116,25 @@ public class TenantRefService {
 
   }
 
+  /**
+   * Checks if is load bibliographic sample.
+   *
+   * @param tenantAttributes the tenant attributes
+   * @return true, if is load sample
+   */
+  private boolean isLoadBibliographicSample(TenantAttributes tenantAttributes) {
+    boolean loadBibliographicSample = false;
+    List<Parameter> parameters = tenantAttributes.getParameters();
+    for (Parameter parameter : parameters) {
+      logger.debug("Load Sample Parameter " + parameter.getKey());
+      logger.debug("Load Sample Value " + parameter.getValue());
+      if ("loadBibliographicSample".equals(parameter.getKey())) {
+        loadBibliographicSample = Boolean.parseBoolean(parameter.getValue());
+        break;
+      }
+    }
+    return loadBibliographicSample;
+
+  }
 
 }

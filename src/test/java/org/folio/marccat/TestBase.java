@@ -85,7 +85,7 @@ public class TestBase {
     headers.put(Global.OKAPI_TENANT_HEADER_NAME, tenantId);
     if (url != null) {
       headers.put(Global.OKAPI_URL, "");
-      headers.put(Global.OKAPI_TO_URL, "");
+      headers.put(Global.OKAPI_URL_TO, "");
       headers.put(CONTENT_TYPE, FILE_TYPE);
     }
     return headers;
