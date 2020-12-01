@@ -2,7 +2,6 @@ package org.folio.marccat.resources;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
