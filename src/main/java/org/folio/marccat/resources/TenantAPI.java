@@ -46,7 +46,7 @@ public class TenantAPI {
         tenantRefService.loadData(attributes, okapiHeaders);
       }
       return new ResponseEntity<>("Success", HttpStatus.CREATED);
-    } catch (SQLException | IOException e) {
+    } catch (SQLException e) {
       return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

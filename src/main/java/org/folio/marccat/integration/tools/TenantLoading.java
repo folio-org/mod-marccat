@@ -151,7 +151,7 @@ public class TenantLoading {
    * @param loadBibliographicSample
    * @throws IOException 
    */
-  public void perform(Map<String, String> headers, boolean loadBibliographicSample) throws IOException {
+  public void perform(Map<String, String> headers, boolean loadBibliographicSample) {
 
     String okapiUrl = headers.get("X-Okapi-Url-to");
     if (okapiUrl == null) {
@@ -174,7 +174,7 @@ public class TenantLoading {
    * @param loadBibliographicSample
    * @throws IOException 
    */
-  private void loadData(String okapiUrl, Map<String, String> headers, boolean loadBibliographicSample) throws IOException {
+  private void loadData(String okapiUrl, Map<String, String> headers, boolean loadBibliographicSample) {
 
     if (loadBibliographicSample) {
       loadDataBibliographic(okapiUrl, headers);
