@@ -44,7 +44,7 @@ public class TenantRefService {
    * @param loadBibliographicSample
    * @throws IOException 
    */
-  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers) throws IOException {
+  public void loadData(TenantAttributes tenantAttributes, Map<String, String> headers) {
     logger.debug("Start sample data loading");
     boolean loadData = buildDataLoadingParameters(tenantAttributes, tl);
     logger.debug("Is Load data " + loadData);
