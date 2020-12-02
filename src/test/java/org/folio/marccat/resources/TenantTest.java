@@ -109,10 +109,10 @@ public class TenantTest extends TestBase {
     p2.setKey("loadReference");
     p2.setValue("true");
 
-    Parameter p3 = new Parameter();
+    /*Parameter p3 = new Parameter();
     p3.setKey("loadBibliographicSample");
-    p3.setValue("false");
-    List<Parameter> parameters = Arrays.asList(p, p2, p3);
+    p3.setValue("false");*/
+    List<Parameter> parameters = Arrays.asList(p, p2);
     ta.setParameters(parameters);
 
     Map<String, String> headers = addDefaultHeadersForTenant(url, StorageTestSuite.TENANT_ID);
