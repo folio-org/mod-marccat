@@ -123,7 +123,7 @@ public class TenantRefService {
    * @return true, if is load sample
    */
   private boolean isLoadBibliographicSample(TenantAttributes tenantAttributes) {
-    boolean loadBibliographicSample = false;
+    boolean loadBibliographicSample = true;
     List<Parameter> parameters = tenantAttributes.getParameters();
     for (Parameter parameter : parameters) {
       logger.debug("Load Sample Parameter " + parameter.getKey());
