@@ -40,7 +40,7 @@ public class AuthorityRecordTest extends TestBase {
   public void test1_save_return201Status() throws IOException {
     String url = getURI(AUTHORITY_RECORD_URL);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name3.json"),
         String.valueOf(StandardCharsets.UTF_8));
     
     Response myResponse = 
@@ -65,7 +65,7 @@ public class AuthorityRecordTest extends TestBase {
   @Test
   public void test3_delete_return204Status() throws IOException {
 
-    String url = getURI("/marccat/authority-record/" + authorityId);
+    String url = getURI(AUTHORITY_RECORD_URL + "/" + authorityId);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given().headers(headers).when().delete(url).then().statusCode(204);
@@ -91,7 +91,7 @@ public class AuthorityRecordTest extends TestBase {
   @Test
   public void test6_delete_return423Status() throws IOException {
 
-    String url = getURI("/marccat/authority-record/" + authorityId);
+    String url = getURI(AUTHORITY_RECORD_URL + "/" + authorityId);
     Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
 
     given().headers(headers).when().delete(url).then().statusCode(423);
