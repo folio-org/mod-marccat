@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.persistence.BibliographicCorrelation;
+import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.exception.DataAccessException;
 
@@ -57,7 +58,7 @@ public class BibliographicCorrelationDAO extends RecordCorrelationDAO {
    * @return a list of bibliographic correlation.
    * @throws HibernateException in case of hibernate exception.
    */
-  public List<BibliographicCorrelation> getCategoryCorrelation(final Session session, final String tag,
+  public List<Correlation> getCategoryCorrelation(final Session session, final String tag,
       final char firstIndicator, final char secondIndicator) throws HibernateException {
 
     try {
