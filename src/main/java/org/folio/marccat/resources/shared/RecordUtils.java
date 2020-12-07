@@ -129,11 +129,11 @@ public class RecordUtils {
    * @param field -- the field to set category.
    * @param storageService -- the storageService module.
    */
-  public static void setCategory(final Field field, final StorageService storageService) {
+  public static void setCategory(final Field field, final int view, final StorageService storageService) {
     if (isFixedField(field))
       field.getFixedField().setCategoryCode(Global.HEADER_CATEGORY);
     else if (getCategory(field) == 0) {
-      final int category = getTagCategory(field, storageService);
+      final int category = getTagCategory(field, view, storageService);
       field.getVariableField().setCategoryCode(category);
     }
 
@@ -146,21 +146,24 @@ public class RecordUtils {
    * @param storageService -- the storageService module.
    * @return a category code.
    */
-  public static int getTagCategory(final Field field, final StorageService storageService) {
+  public static int getTagCategory(final Field field, final int view, final StorageService storageService) {
     boolean hasTitle = isNameTitle(field.getCode(), field.getVariableField().getValue());
-    return storageService.getTagCategory(field.getCode(), field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);
+    return storageService.getTagCategory(field.getCode(), field.getVariableField().getInd1().charAt(0),
+        field.getVariableField().getInd2().charAt(0), hasTitle, view);
   }
 
   /**
    * Return category code of a heading by tag number.
    *
-   * @param heading -- the heading
+   * @param heading        -- the heading
+   * @param view
    * @param storageService -- the storageService module.
    * @return a category code.
    */
-  public static int getTagCategory(final Heading heading, final StorageService storageService) {
+  public static int getTagCategory(final Heading heading, int view, final StorageService storageService) {
     boolean hasTitle = isNameTitle(heading.getTag(), heading.getDisplayValue());
-    return storageService.getTagCategory(heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0), hasTitle);
+    return storageService.getTagCategory(heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0),
+        hasTitle, view);
   }
 
   /**
