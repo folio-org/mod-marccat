@@ -27,6 +27,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
+import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
+import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicCatalog;
 import org.folio.marccat.business.cataloguing.bibliographic.BibliographicItem;
@@ -34,6 +36,7 @@ import org.folio.marccat.business.cataloguing.bibliographic.BibliographicTagImpl
 import org.folio.marccat.business.cataloguing.bibliographic.FixedField;
 import org.folio.marccat.business.cataloguing.bibliographic.VariableField;
 import org.folio.marccat.business.cataloguing.common.Browsable;
+import org.folio.marccat.business.cataloguing.common.Catalog;
 import org.folio.marccat.business.cataloguing.common.CataloguingSourceTag;
 import org.folio.marccat.business.cataloguing.common.ControlNumberTag;
 import org.folio.marccat.business.cataloguing.common.DateOfLastTransactionTag;
@@ -47,6 +50,7 @@ import org.folio.marccat.config.log.Log;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.AutDAO;
 import org.folio.marccat.dao.AuthorityCatalogDAO;
+import org.folio.marccat.dao.AuthorityCorrelationDAO;
 import org.folio.marccat.dao.BibliographicCatalogDAO;
 import org.folio.marccat.dao.BibliographicCorrelationDAO;
 import org.folio.marccat.dao.BibliographicModelDAO;
@@ -1260,18 +1264,16 @@ public class StorageService implements Closeable {
    * @param firstIndicator  -- the 1.st indicator.
    * @param secondIndicator -- the 2nd. indicator.
    * @param hasTitle        -- indicates if there is a title portion in tag value.
+   * @param view
    * @return category code.
    * @throws DataAccessException -- in case of DataAccessException.
    */
   public int getTagCategory(final String tag, final char firstIndicator, final char secondIndicator,
-      final boolean hasTitle) {
-    final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
-
+      final boolean hasTitle, int view) {
     try {
-      List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator,
-          secondIndicator);
+      List<Correlation> correlations = getCategoryCorrelationByView(tag, firstIndicator, secondIndicator, view);
       if (correlations.stream().anyMatch(Objects::nonNull) && correlations.size() == 1) {
-        Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+        Optional<Correlation> firstElement = correlations.stream().findFirst();
         if (firstElement.isPresent())
           return firstElement.get().getKey().getMarcTagCategoryCode();
       } else {
@@ -1279,7 +1281,7 @@ public class StorageService implements Closeable {
           if ((tag.endsWith("00") || tag.endsWith("10") || tag.endsWith("11")) && hasTitle) {
             return Global.NAME_TITLE_CATEGORY;
           } else if (correlations.stream().anyMatch(Objects::nonNull)) {
-            Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+            Optional<Correlation> firstElement = correlations.stream().findFirst();
             if (firstElement.isPresent())
               return firstElement.get().getKey().getMarcTagCategoryCode();
           }
@@ -1291,6 +1293,15 @@ public class StorageService implements Closeable {
     } catch (final HibernateException exception) {
       logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
       throw new DataAccessException(exception);
+    }
+  }
+
+  private List<Correlation> getCategoryCorrelationByView(String tag, char firstIndicator, char secondIndicator,
+      int view) throws HibernateException {
+    if (view >= View.DEFAULT_BIBLIOGRAPHIC_VIEW) {
+      return new BibliographicCorrelationDAO().getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
+    } else {
+      return new AuthorityCorrelationDAO().getCategoryCorrelation(session, tag, firstIndicator, secondIndicator);
     }
   }
 
@@ -1307,10 +1318,10 @@ public class StorageService implements Closeable {
     final BibliographicCorrelationDAO dao = new BibliographicCorrelationDAO();
 
     try {
-      List<BibliographicCorrelation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator,
+      List<Correlation> correlations = dao.getCategoryCorrelation(session, tag, firstIndicator,
           secondIndicator);
       if (correlations.stream().anyMatch(Objects::nonNull)) {
-        Optional<BibliographicCorrelation> firstElement = correlations.stream().findFirst();
+        Optional<Correlation> firstElement = correlations.stream().findFirst();
         if (firstElement.isPresent())
           return firstElement.get().getKey().getMarcTagCategoryCode();
       }
@@ -1672,9 +1683,17 @@ public class StorageService implements Closeable {
    */
   public void saveHeading(final Heading heading, final int view, final Map<String, String> configuration) {
     try {
-      final BibliographicCatalog catalog = new BibliographicCatalog();
+      final Catalog catalog;
+      final TagImpl impl;
+      if (view >= View.DEFAULT_BIBLIOGRAPHIC_VIEW) {
+        catalog = new BibliographicCatalog();
+        impl = new BibliographicTagImpl();
+      } else {
+        catalog = new AuthorityCatalog();
+        impl = new AuthorityTagImpl();
+      }
+
       final CatalogItem item = catalog.newCatalogItem(new Object[] { view });
-      final TagImpl impl = new BibliographicTagImpl();
       final boolean isInd1IsEmpty = heading.getInd1().equals(EMPTY_VALUE);
       final boolean isInd2IsEmpty = heading.getInd2().equals(EMPTY_VALUE);
       final Correlation corr = impl.getCorrelation(heading.getTag(),

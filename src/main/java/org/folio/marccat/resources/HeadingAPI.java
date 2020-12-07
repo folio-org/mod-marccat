@@ -1,5 +1,11 @@
 package org.folio.marccat.resources;
 
+import static org.folio.marccat.config.constants.Global.BASE_URI;
+import static org.folio.marccat.integration.MarccatHelper.doDeleteWithResponse;
+import static org.folio.marccat.integration.MarccatHelper.doPost;
+import static org.folio.marccat.integration.MarccatHelper.doPut;
+import static org.folio.marccat.util.F.isNotNullOrEmpty;
+
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
@@ -9,10 +15,15 @@ import org.folio.marccat.resources.shared.RecordUtils;
 import org.folio.marccat.resources.shared.ValidationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import static org.folio.marccat.config.constants.Global.BASE_URI;
-import static org.folio.marccat.integration.MarccatHelper.*;
-import static org.folio.marccat.util.F.isNotNullOrEmpty;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = BASE_URI, produces = "application/json")
@@ -26,7 +37,7 @@ public class HeadingAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPost((storageService, configuration) -> {
-      heading.setCategoryCode(RecordUtils.getTagCategory(heading, storageService));
+      heading.setCategoryCode(RecordUtils.getTagCategory(heading, view, storageService));
       storageService.saveHeading(heading, view, configuration);
       return heading;
     }, tenant, okapiUrl, configurator, () -> (isNotNullOrEmpty(heading.getDisplayValue())));
@@ -75,7 +86,7 @@ public class HeadingAPI extends BaseResource {
     @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
     @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doPost((storageService, configuration) -> {
-      final int category = RecordUtils.getTagCategory(heading, storageService);
+      final int category = RecordUtils.getTagCategory(heading, view, storageService);
       if (category != 0) {
         heading.setCategoryCode(category);
         storageService.saveHeading(heading, view, configuration);

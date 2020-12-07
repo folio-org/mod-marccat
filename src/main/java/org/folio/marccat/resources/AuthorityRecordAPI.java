@@ -52,7 +52,7 @@ public class AuthorityRecordAPI extends RecordAPI {
         
         AuthorityRecord record = container.getAuthorityRecord();
 
-        record.getFields().forEach(field -> setCategory(field, storageService));
+        record.getFields().forEach(field -> setCategory(field, view, storageService));
 
         record.getFields().stream().filter(FixedFieldUtils::isFixedField).filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
             .forEach(field -> {

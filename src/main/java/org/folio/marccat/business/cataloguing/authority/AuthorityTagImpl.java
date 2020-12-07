@@ -13,7 +13,6 @@ import org.folio.marccat.business.cataloguing.common.TagImpl;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.dao.AuthorityCorrelationDAO;
 import org.folio.marccat.dao.persistence.AUT;
-import org.folio.marccat.dao.persistence.AuthorityCorrelation;
 import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 import org.folio.marccat.exception.DataAccessException;
@@ -102,16 +101,16 @@ public class AuthorityTagImpl extends TagImpl {
   public int getTagCategory(final Heading heading, Session session) {
 
     try {
-      List<AuthorityCorrelation> correlations = daoCorrelation.getCategoryCorrelation(session, heading.getTag(),
+      List<Correlation> correlations = daoCorrelation.getCategoryCorrelation(session, heading.getTag(),
           (heading.getInd1() != null ? heading.getInd1().charAt(0) : ' '),
           heading.getInd2() != null ? heading.getInd2().charAt(0) : ' ');
       if (correlations.stream().anyMatch(Objects::nonNull) && correlations.size() == 1) {
-        Optional<AuthorityCorrelation> firstElement = correlations.stream().findFirst();
+        Optional<Correlation> firstElement = correlations.stream().findFirst();
         if (firstElement.isPresent())
           return firstElement.get().getKey().getMarcTagCategoryCode();
       } else {
         if ((correlations.size() > 1) && (correlations.stream().anyMatch(Objects::nonNull))) {
-          Optional<AuthorityCorrelation> firstElement = correlations.stream().findFirst();
+          Optional<Correlation> firstElement = correlations.stream().findFirst();
           if (firstElement.isPresent())
             return firstElement.get().getKey().getMarcTagCategoryCode();
         }
