@@ -1,20 +1,20 @@
 package org.folio.marccat.resources;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static io.restassured.RestAssured.given;
+
+import java.util.Map;
+
 import org.apache.commons.io.IOUtils;
 import org.folio.marccat.StorageTestSuite;
 import org.folio.marccat.TestBase;
 import org.folio.marccat.exception.ReferentialIntegrityException;
 import org.folio.marccat.resources.domain.Heading;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Map;
-
-import static io.restassured.RestAssured.given;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -264,5 +264,17 @@ public class HeadingTest extends TestBase {
     catch (ReferentialIntegrityException | IllegalArgumentException e){
       //ok ReferentialIntegrityException: test deleteHeading_failed passed
     }
+  }
+
+  @Test
+  public void createNameHeadingFromAuthority() throws Exception {
+
+    String url = getURI("/marccat/create-heading");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String headingJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/headingName.json"), "UTF-8");
+    ObjectMapper objectMapper = new ObjectMapper();
+    Heading heading = objectMapper.readValue(headingJson, Heading.class);
+
+    given().headers(headers).queryParam("view", "-1").body(heading).when().post(url).then().statusCode(201);
   }
 }
