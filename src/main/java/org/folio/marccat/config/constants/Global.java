@@ -38,7 +38,7 @@ public class Global {
   public static final String MODULE_MARCCAT = "mod-marccat";
   public static final String OKAPI_TENANT_HEADER_NAME = "X-Okapi-Tenant";
   public static final String OKAPI_URL = "X-Okapi-Url";
-  public static final String OKAPI_TO_URL = "X-Okapi-Url-to";
+  public static final String OKAPI_URL_TO = "X-Okapi-Url-to";
   public static final String OKAPI_TOKEN_HEADER_NAME = "X-Okapi-Token";
   public static final String EMPTY_STRING = "";
   public static final String EMPTY_VALUE = " ";

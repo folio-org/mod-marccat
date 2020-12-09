@@ -96,7 +96,7 @@ public class BibliographicRecordAPI extends RecordAPI {
         final BibliographicRecord record = container.getBibliographicRecord();
         RecordTemplate template = ofNullable(container.getRecordTemplate()).isPresent() ? container.getRecordTemplate()
             : null;
-        record.getFields().forEach(field -> setCategory(field, storageService));
+        record.getFields().forEach(field -> setCategory(field, view, storageService));
         final Integer itemNumber = record.getId();
         final ErrorCollection errors = validate(record, storageService);
         if (!errors.getErrors().isEmpty())

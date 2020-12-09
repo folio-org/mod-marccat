@@ -12,6 +12,7 @@ import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
 import org.folio.marccat.integration.AuthorityStorageService;
 import org.folio.marccat.resources.domain.AuthorityRecord;
+import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.RecordTemplate;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
@@ -35,12 +36,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthorityRecordAPI extends RecordAPI {
 
   @PostMapping("/authority-record")
-  public ResponseEntity<Object> save(@RequestBody final AuthorityRecord record,
-    // ContainerRecordTemplate container,
-    @RequestParam(name = "view", defaultValue = View.DEFAULT_AUTHORITY_VIEW_AS_STRING) final int view,
-    @RequestParam final String lang,
-    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
-    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+
+  public ResponseEntity<Object> save(@RequestBody final ContainerRecordTemplate container,
+      @RequestParam(name = "view", defaultValue = View.DEFAULT_AUTHORITY_VIEW_AS_STRING) final int view,
+      @RequestParam(name = "lang", defaultValue = "eng") final String lang,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
 
     return doPost((storageService, configuration) -> {
       try {
@@ -48,8 +49,10 @@ public class AuthorityRecordAPI extends RecordAPI {
         AuthorityStorageService authorityStorageService = new AuthorityStorageService();
 
         authorityStorageService.setStorageService(storageService);
+        
+        AuthorityRecord record = container.getAuthorityRecord();
 
-        record.getFields().forEach(field -> setCategory(field, storageService));
+        record.getFields().forEach(field -> setCategory(field, view, storageService));
 
         record.getFields().stream().filter(FixedFieldUtils::isFixedField).filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
             .forEach(field -> {
@@ -62,7 +65,7 @@ public class AuthorityRecordAPI extends RecordAPI {
         logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
         return new ResponseEntity<>("0", HttpStatus.INTERNAL_SERVER_ERROR);
       }
-    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(record.getId().toString()));
+    }, tenant, okapiUrl, configurator, () -> isNotNullOrEmpty(container.getAuthorityRecord().getId().toString()));
 
   }
 
