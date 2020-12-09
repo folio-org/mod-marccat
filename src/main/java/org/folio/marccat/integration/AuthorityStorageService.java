@@ -252,7 +252,9 @@ public class AuthorityStorageService {
       throws HibernateException {
 
     final AuthorityCatalog catalog = new AuthorityCatalog();
-    final int autItemNumber = new SystemNextNumberDAO().getNextNumber("AA", getStorageService().getSession());
+
+    final int autItemNumber = getAutItemNumber(record.getId());
+
     final CatalogItem item = catalog.newCatalogItem(new Object[] { view, autItemNumber });
 
     AuthorityTagImpl tagImpl = new AuthorityTagImpl();
@@ -320,6 +322,14 @@ public class AuthorityStorageService {
     return item;
   }
 
+
+  private int getAutItemNumber(Integer recordIdJson) throws HibernateException {
+    if (recordIdJson == 0) {
+      return new SystemNextNumberDAO().getNextNumber("AA", getStorageService().getSession());
+    } else {
+      return recordIdJson;
+    }
+  }
 
   public void processDesciptorTag(String tagNbr, int headingAutNumber,
       org.folio.marccat.resources.domain.VariableField variableField, AuthorityCatalog catalog, CatalogItem item,
