@@ -31,6 +31,7 @@ import org.folio.marccat.resources.domain.LockEntityType;
 import org.folio.marccat.resources.domain.RecordTemplate;
 import org.folio.marccat.resources.shared.ConversionFieldUtils;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
+import org.folio.marccat.resources.shared.RecordUtils;
 import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.util.F;
 import org.springframework.http.HttpStatus;
@@ -120,8 +121,9 @@ public class BibliographicRecordAPI extends RecordAPI {
 
                 final Map<String, Object> mapRecordTypeMaterial = (field.getCode()
                     .equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
-                        ? storageService.getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6),
-                            leader.getValue().charAt(7), field.getCode())
+                        ? RecordUtils
+                          .getMaterialTypeInfosByLeaderValues(leader.getValue().charAt(6), leader.getValue().charAt(7), field.getCode(),
+                              storageService.getSession())
                         : storageService.getMaterialTypeInfosByHeaderCode(headerTypeCode, field.getCode());
 
                 ConversionFieldUtils.setMaterialValuesInFixedField(ff,

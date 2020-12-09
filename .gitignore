@@ -1,9 +1,0 @@
-.idea
-.metadata
-target
-*.iml
-.vertx
-.project
-.eclipse
-.doc/node_modules
-*.lock

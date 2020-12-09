@@ -272,6 +272,16 @@
         },
         {
           "methods": [
+            "GET"
+          ],
+          "pathPattern": "/marccat/authority-record/{id}",
+          "modulePermissions": [
+            "configuration.entries.collection.get"
+          ],
+          "permissionsRequired": ["marccat.authority-record.item.get" ]
+        },
+        {
+          "methods": [
             "POST"
           ],
           "pathPattern": "/marccat/bibliographic-record",
@@ -683,6 +693,11 @@
       "description": "Save MARC authority record"
     },
     {
+      "permissionName": "marccat.authority-record.item.get",
+      "displayName": "marccat - get individual authority record",
+      "description": "Get individual authority record"
+    },
+    {
       "permissionName": "marccat.fixed-fields-code-groups.collection.get",
       "displayName": "marccat - get dropdown collection for fixed field",
       "description": "Get dropdown collection for fixed field"
@@ -721,6 +736,7 @@
         "marccat.authority-record.from-template.item.get",
         "marccat.bibliographic-record.duplicate.item.get",
         "marccat.bibliographic-record.fixed-field-display-value.item.post",
+        "marccat.authority-record.item.get",
         "marccat.authority-record.fixed-field-display-value.item.post",
         "marccat.fixed-fields-code-groups-by-leader.collection.get",
         "marccat.fixed-fields-code-groups.collection.get",

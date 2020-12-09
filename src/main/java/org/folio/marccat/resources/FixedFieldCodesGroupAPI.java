@@ -22,6 +22,7 @@ import java.util.Map;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.integration.AuthorityStorageService;
 import org.folio.marccat.resources.domain.FixedFieldCodesGroup;
+import org.folio.marccat.resources.shared.RecordUtils;
 import org.folio.marccat.shared.CatalogingInformation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -42,7 +43,7 @@ public class FixedFieldCodesGroupAPI extends BaseResource implements CatalogingI
       @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
     return doGet((storageService, configuration) -> {
       final FixedFieldCodesGroup fixedFieldCodesGroup = new FixedFieldCodesGroup();
-      final Map<String, Object> map = storageService.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code);
+      final Map<String, Object> map = RecordUtils.getMaterialTypeInfosByLeaderValues(leader.charAt(6), leader.charAt(7), code, storageService.getSession());
       injectMaterialCodes(fixedFieldCodesGroup, storageService, lang, (int) map.get(Global.HEADER_TYPE_LABEL), code);
       fixedFieldCodesGroup.setHeaderTypeCode((int) map.get(Global.HEADER_TYPE_LABEL));
       /**
