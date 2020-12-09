@@ -57,6 +57,8 @@ public class IndexMain implements Serializable {
   public boolean equals(Object anObject) {
     if (anObject == null)
       return false;
+    if (this.getClass() != anObject.getClass())
+      return false;
     IndexMain aKey = (IndexMain) anObject;
     return  (this.getIndexKey() == aKey.getIndexKey());
   }

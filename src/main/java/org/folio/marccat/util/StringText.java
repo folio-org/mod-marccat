@@ -19,6 +19,7 @@ public class StringText implements Serializable {
 
   /**
    * The subfield list.
+
    */
   private List subfieldList = new ArrayList();
 
@@ -142,12 +143,18 @@ public class StringText implements Serializable {
     return this;
   }
 
+  @Override
+  public int hashCode() {
+    return subfieldList != null ? subfieldList.hashCode() : 0;
+  }
+
   /**
    * Equals.
    *
    * @param anObject the an object
    * @return true, if successful
    */
+  @Override
   public boolean equals(Object anObject) {
     if (anObject instanceof StringText) {
       return this.subfieldList.equals(
@@ -384,7 +391,6 @@ public class StringText implements Serializable {
    * @return true if given subfield is found
    */
   public boolean addTerminalPunctuation(String codes, String otherTerminals, String terminalChar) {
-    int subfieldIndex = 0;
     boolean result = false;
     for (Object o : getSubfieldList()) {
       Subfield s = (Subfield) o;
@@ -394,8 +400,7 @@ public class StringText implements Serializable {
           s.setContent(s.getContent() + terminalChar);
         }
       }
-      subfieldIndex++;
-    }
+     }
     return result;
   }
 

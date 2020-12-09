@@ -204,30 +204,30 @@ public class Global {
   public static final String COMPUTER_TYPE = "cf";
   public static final int CONTROL_FIELD_CATEGORY_CODE = 1;
   public static final char BIBLIOGRAPHIC_INDICATOR_NOT_NUMERIC = 'S';
-  public static final List<String> FIXED_FIELDS = Arrays.asList("000", "001", "005", "006", "007", "008");
-  public static final List<String> MANDATORY_FIELDS = Arrays.asList("000", "001", "008", "040");
+  public static final List<String> FIXED_FIELDS =  Collections.unmodifiableList(Arrays.asList("000", "001", "005", "006", "007", "008"));
+  public static final List<String> MANDATORY_FIELDS =  Collections.unmodifiableList(Arrays.asList("000", "001", "008", "040"));
   public static final List<String> AUT_NAMES = Collections.unmodifiableList(Arrays.asList("100", "110", "111"));
   public static final List<String> AUT_NAMES_X = Collections.unmodifiableList(Arrays.asList("400", "410", "411", "500", "510", "511", "700", "710", "711"));
   public static final List<String> AUT_TITLE = Collections.unmodifiableList(Arrays.asList("130"));
   public static final List<String> AUT_TITLE_X = Collections.unmodifiableList(Arrays.asList("430", "530", "730"));
   public static final List<String> AUT_SUBJECT = Collections.unmodifiableList(Arrays.asList("150", "151", "155", "180", "182", "185"));
   public static final List<String> AUT_SUBJECT_X = Collections.unmodifiableList(Arrays.asList("450", "550", "750", "451", "551", "751", "455", "555", "755", "480", "580", "780", "482", "582", "782", "485", "585", "785"));
-  public static final List<String> NAMES = Arrays.asList("100", "110", "111");
-  public static final List<String> NAMES_D = Arrays.asList("110", "111", "710", "711");
-  public static final List<String> NAMES_E = Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410",
-      "600", "610", "700", "710", "720", "721", "800", "810", "900", "910", "980", "981");
-  public static final List<String> NAMES_X = Arrays.asList("400", "410", "411", "700", "710", "711", "720", "721",
-      "722", "900", "910", "911", "980", "981", "982");
-  public static final List<String> NAMES_V = Arrays.asList("400", "410", "411", "800", "810", "811", "980", "981",
-      "982");
-  public static final List<String> NAMES_245 = Arrays.asList("600", "610", "611", "700", "710", "711", "720", "721",
-      "722", "800", "810", "811", "900", "910", "911", "980", "981", "982");
-  public static final List<String> SUBJECTS_4 = Arrays.asList("600", "610", "611");
-  public static final List<String> SUBJECTS_E = Arrays.asList("600", "610");
-  public static final List<String> TITLES_X = Arrays.asList("440", "730", "740", "930", "983");
-  public static final List<String> TITLES_V = Arrays.asList("440", "830", "983");
-  public static final List<String> TITLES = Arrays.asList("130", "241", "245", "730", "740", "830", "930", "941", "945",
-      "983");
+  public static final List<String> NAMES =  Collections.unmodifiableList(Arrays.asList("100", "110", "111"));
+  public static final List<String> NAMES_D =  Collections.unmodifiableList(Arrays.asList("110", "111", "710", "711"));
+  public static final List<String> NAMES_E =  Collections.unmodifiableList(Arrays.asList("100", "110", "120", "121", "240", "243", "400", "410",
+      "600", "610", "700", "710", "720", "721", "800", "810", "900", "910", "980", "981"));
+  public static final List<String> NAMES_X =  Collections.unmodifiableList(Arrays.asList("400", "410", "411", "700", "710", "711", "720", "721",
+      "722", "900", "910", "911", "980", "981", "982"));
+  public static final List<String> NAMES_V =  Collections.unmodifiableList(Arrays.asList("400", "410", "411", "800", "810", "811", "980", "981",
+      "982"));
+  public static final List<String> NAMES_245 =  Collections.unmodifiableList(Arrays.asList("600", "610", "611", "700", "710", "711", "720", "721",
+      "722", "800", "810", "811", "900", "910", "911", "980", "981", "982"));
+  public static final List<String> SUBJECTS_4 =  Collections.unmodifiableList(Arrays.asList("600", "610", "611"));
+  public static final List<String> SUBJECTS_E =  Collections.unmodifiableList(Arrays.asList("600", "610"));
+  public static final List<String> TITLES_X =  Collections.unmodifiableList(Arrays.asList("440", "730", "740", "930", "983"));
+  public static final List<String> TITLES_V =  Collections.unmodifiableList(Arrays.asList("440", "830", "983"));
+  public static final List<String> TITLES =  Collections.unmodifiableList(Arrays.asList("130", "241", "245", "730", "740", "830", "930", "941", "945",
+      "983"));
   public static final String TERMINAL_PUNCTUATION = ".?!)-";
   public static final String OTHER_TERMINAL_PUNCTUATION = ".?!)]-";
   public static final String SUBFIELD_DELIMITER = "\u001f";
