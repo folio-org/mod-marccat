@@ -200,32 +200,6 @@ public class AuthorityRecordTest extends TestBase {
      .then()
      .statusCode(404); // expected fail
   }
-    
-  @Test
-  public void test10SaveReturn201Status() throws IOException {
-    String url = getURI(AUTHORITY_RECORD_URL);
-    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name3.json"),
-        String.valueOf(StandardCharsets.UTF_8));
-    
-    Response myResponse = 
-        given().headers(CONTENT_TYPE, FILE_TYPE).headers(headers).queryParam("view", "-1")
-        .queryParam("lang", "eng").body(templateJson).when().post(url);
-
-    authorityId = myResponse.jsonPath().get("body").toString();
-
-    myResponse.then().statusCode(201);
-
-  }
-
-  @Test
-  public void test11GetDocumentCountById() throws IOException {
-
-    String url = getURI("/marccat/document-count-by-id");
-    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
-
-    given().param("id", authorityId).param("view", "-1").headers(headers).when().get(url).then().statusCode(200);
-  }
 
   @Test
   public void test12DeleteReturn204Status() throws IOException {
