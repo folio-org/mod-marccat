@@ -2,6 +2,8 @@ package org.folio.marccat.dao;
 
 import java.util.List;
 
+import org.folio.marccat.business.common.Persistence;
+import org.folio.marccat.business.common.View;
 import org.folio.marccat.dao.persistence.AUT;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordNotFoundException;
@@ -54,6 +56,19 @@ public class AutDAO extends AbstractDAO {
             + " where apf.headingNumber = ? and " + " substr(apf.userViewString, ?, 1) = '1'",
         new Object[] { headingNumber, searchingView }, new Type[] { Hibernate.INTEGER, Hibernate.INTEGER });
     return (!countDoc.isEmpty()) ? (Integer) countDoc.get(0) : 0;
+  }
+
+  @Override
+  public void delete(final Persistence p, final Session session) throws HibernateException {
+    if (!(p instanceof AUT)) {
+      throw new IllegalArgumentException("Argument must be a AUT");
+    }
+    final AUT b = (AUT) p;
+    session.delete(b);
+
+    session.delete("from FULL_CACHE as c where c.itemNumber = ? and c.userView = ? ",
+        new Object[] { b.getAmicusNumber(), View.AUTHORITY }, new Type[] { Hibernate.INTEGER, Hibernate.INTEGER });
+
   }
 
 }

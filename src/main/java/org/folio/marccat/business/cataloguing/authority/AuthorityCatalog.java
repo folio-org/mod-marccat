@@ -62,9 +62,10 @@ import org.folio.marccat.shared.CorrelationValues;
  *
  */
 public class AuthorityCatalog extends Catalog {
+  
+  private static final AuthorityCatalogDAO daoCatalog = new AuthorityCatalogDAO();
 
   private static final String modMarccatExMessage = "Could not create object";
-  private static final AuthorityCatalogDAO daoCatalog = new AuthorityCatalogDAO();
 
   private static final Map<String, Class<?>> DAO_BY_AUT_TYPE = new HashMap<>();
   static {
@@ -94,7 +95,7 @@ public class AuthorityCatalog extends Catalog {
 
   protected static AbstractMapBackedFactory fixedFieldFactory;
 
-  private static final Map<Object, Object> HEADING_TAG_BY_AUT_TYPE = new HashMap<>();
+  private static final Map<String, Class<?>> HEADING_TAG_BY_AUT_TYPE = new HashMap<>();
   static {
     HEADING_TAG_BY_AUT_TYPE.put(Global.NAME_TYPE_HDG, AuthorityNameHeadingTag.class);
     HEADING_TAG_BY_AUT_TYPE.put(Global.TITLE_TYPE_HDG, AuthorityTitleHeadingTag.class);
@@ -279,8 +280,6 @@ public class AuthorityCatalog extends Catalog {
 
   @Override
   public CatalogDAO getCatalogDao() {
-    // TODO It is an abstract class that should be implemented. At the moment this
-    // function is not used.
     return daoCatalog;
   }
 
@@ -301,7 +300,7 @@ public class AuthorityCatalog extends Catalog {
   public static AuthorityHeadingTag createHeadingTagByType(String type) {
     AuthorityHeadingTag result = null;
     try {
-      result = (AuthorityHeadingTag) ((Class) HEADING_TAG_BY_AUT_TYPE.get(type)).newInstance();
+      result = (AuthorityHeadingTag) ((Class<?>) HEADING_TAG_BY_AUT_TYPE.get(type)).newInstance();
     } catch (InstantiationException | IllegalAccessException ex) {
       throw new ModMarccatException(Message.MOD_MARCCAT_00036_NOT_CREATE_OBJECT);
     }
@@ -311,13 +310,13 @@ public class AuthorityCatalog extends Catalog {
   public static DescriptorDAO getDaoByType(String type) {
     DescriptorDAO result = null;
     try {
-      result = (DescriptorDAO) ((Class) DAO_BY_AUT_TYPE.get(type)).newInstance();
+      result = (DescriptorDAO) ((Class<?>) DAO_BY_AUT_TYPE.get(type)).newInstance();
     } catch (InstantiationException | IllegalAccessException ex) {
-      throw new ModMarccatException(modMarccatExMessage);
+      throw new ModMarccatException(ex);
     }
     return result;
   }
-
+  
   public void toAuthorityLeader(final String leaderValue, final AuthorityLeader authorityLeader) {
     authorityLeader.setRecordStatusCode(leaderValue.charAt(5));
     authorityLeader.setEncodingLevel(leaderValue.charAt(17));
@@ -350,5 +349,4 @@ public class AuthorityCatalog extends Catalog {
   public AuthorityNote createAuthorityNote(final CatalogItem item, final CorrelationValues correlationValues) {
     return (AuthorityNote) getNewTag(item, Global.AUT_NOTE_CATEGORY, correlationValues);
   }
-
 }

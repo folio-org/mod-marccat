@@ -1,6 +1,7 @@
 package org.folio.marccat.resources;
 
 import static org.folio.marccat.config.constants.Global.BASE_URI;
+import static org.folio.marccat.integration.MarccatHelper.doDeleteWithResponse;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.integration.MarccatHelper.doPost;
 import static org.folio.marccat.resources.shared.RecordUtils.resetStatus;
@@ -11,6 +12,8 @@ import static org.folio.marccat.util.F.isNotNullOrEmpty;
 import org.folio.marccat.business.common.View;
 import org.folio.marccat.config.constants.Global;
 import org.folio.marccat.config.log.Message;
+import org.folio.marccat.exception.RecordInUseException;
+import org.folio.marccat.exception.RecordNotFoundException;
 import org.folio.marccat.integration.AuthorityStorageService;
 import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.ContainerRecordTemplate;
@@ -19,6 +22,7 @@ import org.folio.marccat.resources.domain.RecordTemplate;
 import org.folio.marccat.resources.shared.FixedFieldUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -116,6 +121,28 @@ public class AuthorityRecordAPI extends RecordAPI {
       AuthorityRecord authorityRecord = new AuthorityRecord();
       getEmptyRecord(false, authorityRecord, template, lang, configuration, storageService);
       return authorityRecord;
+    }, tenant, okapiUrl, configurator);
+  }
+
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping("/authority-record/{id}")
+  public ResponseEntity<Object> delete(@PathVariable final String id,
+      @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+      @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+
+    return doDeleteWithResponse((storageService, configuration) -> {
+      try {
+        AuthorityStorageService authorityStorageService = new AuthorityStorageService();
+        authorityStorageService.setStorageService(storageService);
+        authorityStorageService.deleteAuhorityRecordById(Integer.parseInt(id));
+        return new ResponseEntity<>(id, HttpStatus.NO_CONTENT);
+      } catch (final RecordInUseException exception) {
+        logger.error(Message.MOD_MARCCAT_00039_RECORD_USED, id, exception);
+        return new ResponseEntity<>("0", HttpStatus.LOCKED);
+      } catch (final RecordNotFoundException exception) {
+        logger.error(Message.MOD_MARCCAT_00038_NOT_AUT_FOUND, id, exception);
+        return new ResponseEntity<>("0", HttpStatus.NOT_FOUND);
+      }
     }, tenant, okapiUrl, configurator);
   }
 

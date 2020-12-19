@@ -33,6 +33,7 @@ public class AuthorityRecordTest extends TestBase {
   private static final String AUTHORITY_RECORD_URL = "/marccat/authority-record";
   private static final String CONTENT_TYPE = "Content-Type";
   private static final String FILE_TYPE = "application/json";
+  
   private static String authorityId;
 
   @Test
@@ -168,7 +169,6 @@ public class AuthorityRecordTest extends TestBase {
 
   }
   
-  
   @Test
   public void test8GetRecord() {
 
@@ -199,5 +199,76 @@ public class AuthorityRecordTest extends TestBase {
      .get(url)
      .then()
      .statusCode(404); // expected fail
+  }
+    
+  @Test
+  public void test10SaveReturn201Status() throws IOException {
+    String url = getURI(AUTHORITY_RECORD_URL);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name.json"),
+        String.valueOf(StandardCharsets.UTF_8));
+    
+    Response myResponse = 
+        given().headers(CONTENT_TYPE, FILE_TYPE).headers(headers).queryParam("view", "-1")
+        .queryParam("lang", "eng").body(templateJson).when().post(url);
+
+    authorityId = myResponse.jsonPath().get("body").toString();
+
+    myResponse.then().statusCode(201);
+
+  }
+
+  @Test
+  public void test11GetDocumentCountById() throws IOException {
+
+    String url = getURI("/marccat/document-count-by-id");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given().param("id", authorityId).param("view", "-1").headers(headers).when().get(url).then().statusCode(200);
+  }
+
+  @Test
+  public void test12DeleteReturn204Status() throws IOException {
+
+    String url = getURI(AUTHORITY_RECORD_URL + "/" + authorityId);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given().headers(headers).when().delete(url).then().statusCode(204);
+
+  }
+
+  @Test
+  public void test13SaveReturn201Status() throws IOException {
+    String url = getURI(AUTHORITY_RECORD_URL);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+    String templateJson = IOUtils.toString(this.getClass().getResourceAsStream("/authority/name2.json"),
+        String.valueOf(StandardCharsets.UTF_8));
+
+    Response myResponse = given().headers(CONTENT_TYPE, FILE_TYPE).headers(headers).queryParam("view", "-1")
+        .queryParam("lang", "eng").body(templateJson).when().post(url);
+
+    authorityId = myResponse.jsonPath().get("body").toString();
+
+    myResponse.then().statusCode(201);
+
+  }
+
+  @Test
+  public void test14DeleteReturn423Status() throws IOException {
+
+    String url = getURI(AUTHORITY_RECORD_URL + "/" + authorityId);
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given().headers(headers).when().delete(url).then().statusCode(423);
+
+  }
+
+  @Test
+  public void test15DeleteReturn404Status() throws IOException {
+    String url = getURI("/marccat/authority-record/1000");
+    Map<String, String> headers = addDefaultHeaders(url, StorageTestSuite.TENANT_ID);
+
+    given().headers(headers).when().delete(url).then().statusCode(404);
+
   }
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
@@ -38,6 +40,7 @@ import org.folio.marccat.util.XmlUtils;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
 import net.sf.hibernate.type.Type;
 
 /**
@@ -47,6 +50,8 @@ import net.sf.hibernate.type.Type;
  *
  */
 public class AuthorityCatalogDAO extends CatalogDAO {
+
+  public static final Log logger = LogFactory.getLog(AuthorityCatalogDAO.class);
 
   public AuthorityCatalogDAO() {
     super();
@@ -130,6 +135,48 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     }
     result.setDescriptor(heading);
     return result;
+  }
+
+  @Override
+  public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
+    final Transaction transaction = getTransaction(session);
+
+    item.getTags().stream().filter(aTag -> aTag instanceof AuthorityReferenceTag).forEach(tag -> {
+      AuthorityReferenceTag referenceTag = (AuthorityReferenceTag) tag;
+      REF reference = referenceTag.getReference();
+      try {
+        reference.getDAO().delete(reference, session);
+      } catch (HibernateException e) {
+        cleanUpTransationAndThrowExeption(transaction, e);
+      }
+    });
+
+    item.getTags().stream().filter(aTag -> aTag instanceof AuthorityNote).forEach(tag -> {
+      AuthorityNote note = (AuthorityNote) tag;
+      try {
+        note.getDAO().delete(note, session);
+      } catch (HibernateException e) {
+        cleanUpTransationAndThrowExeption(transaction, e);
+      }
+    });
+
+    item.getTags().stream().filter(aTag -> aTag instanceof AuthorityHeadingTag).forEach(tag -> {
+      AuthorityHeadingTag authorityHeadingTag = (AuthorityHeadingTag) tag;
+      Descriptor authorityHeading = authorityHeadingTag.getDescriptor();
+      try {
+        authorityHeading.getDAO().delete(authorityHeading, session);
+      } catch (HibernateException e) {
+        cleanUpTransationAndThrowExeption(transaction, e);
+      }
+    });
+
+    new AutDAO().delete(item.getItemEntity(), session);
+    transaction.commit();
+  }
+  
+  private void cleanUpTransationAndThrowExeption(Transaction transaction, HibernateException e) {
+    cleanUp(transaction);
+    throw new ModMarccatException(e);
   }
 
   public AuthorityItem getAuthorityItemByAmicusNumber(int amicusNumber, Session session) throws HibernateException {
