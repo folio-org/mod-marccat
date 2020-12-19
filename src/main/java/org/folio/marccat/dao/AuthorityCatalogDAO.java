@@ -141,6 +141,27 @@ public class AuthorityCatalogDAO extends CatalogDAO {
   public void deleteCatalogItem(final CatalogItem item, final Session session) throws HibernateException {
     final Transaction transaction = getTransaction(session);
 
+    item.getTags().stream().filter(aTag -> aTag instanceof AuthorityReferenceTag).forEach(tag -> {
+      AuthorityReferenceTag referenceTag = (AuthorityReferenceTag) tag;
+      REF reference = referenceTag.getReference();
+      try {
+        reference.getDAO().delete(reference, session);
+      } catch (HibernateException e) {
+        cleanUp(transaction);
+        throw new ModMarccatException(e);
+      }
+    });
+
+    item.getTags().stream().filter(aTag -> aTag instanceof AuthorityNote).forEach(tag -> {
+      AuthorityNote note = (AuthorityNote) tag;
+      try {
+        note.getDAO().delete(note, session);
+      } catch (HibernateException e) {
+        cleanUp(transaction);
+        throw new ModMarccatException(e);
+      }
+    });
+
     item.getTags().stream().filter(aTag -> aTag instanceof AuthorityHeadingTag).forEach(tag -> {
       AuthorityHeadingTag authorityHeadingTag = (AuthorityHeadingTag) tag;
       Descriptor authorityHeading = authorityHeadingTag.getDescriptor();
