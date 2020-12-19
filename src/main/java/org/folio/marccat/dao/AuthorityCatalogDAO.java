@@ -1,12 +1,12 @@
 package org.folio.marccat.dao;
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.folio.marccat.business.cataloguing.authority.AuthorityCatalog;
 import org.folio.marccat.business.cataloguing.authority.AuthorityItem;
 import org.folio.marccat.business.cataloguing.authority.AuthorityTagImpl;
@@ -147,8 +147,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       try {
         reference.getDAO().delete(reference, session);
       } catch (HibernateException e) {
-        cleanUp(transaction);
-        throw new ModMarccatException(e);
+        cleanUpTransationAndThrowExeption(transaction, e);
       }
     });
 
@@ -157,8 +156,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       try {
         note.getDAO().delete(note, session);
       } catch (HibernateException e) {
-        cleanUp(transaction);
-        throw new ModMarccatException(e);
+        cleanUpTransationAndThrowExeption(transaction, e);
       }
     });
 
@@ -168,8 +166,7 @@ public class AuthorityCatalogDAO extends CatalogDAO {
       try {
         authorityHeading.getDAO().delete(authorityHeading, session);
       } catch (HibernateException e) {
-        cleanUp(transaction);
-        throw new ModMarccatException(e);
+        cleanUpTransationAndThrowExeption(transaction, e);
       }
     });
 
@@ -177,6 +174,11 @@ public class AuthorityCatalogDAO extends CatalogDAO {
     transaction.commit();
   }
   
+  private void cleanUpTransationAndThrowExeption(Transaction transaction, HibernateException e) {
+    cleanUp(transaction);
+    throw new ModMarccatException(e);
+  }
+
   public AuthorityItem getAuthorityItemByAmicusNumber(int amicusNumber, Session session) throws HibernateException {
     AuthorityItem item = getAuthorityItem(amicusNumber, session);
     item.addAllTags(getHeaderFields(item).toArray(new Tag[0]));
