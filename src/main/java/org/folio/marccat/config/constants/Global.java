@@ -241,6 +241,7 @@ public class Global {
 
   public static final short SUBJECT_SOURCE_CODE_OTHERS = 6;
   public static final char NOT_APLICABLE = 'n';
+  public static final String AUTHORITY_CANADIAN_INDICATOR = "0";
 
   static {
     Map<String, String> errors = new HashMap<>();

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.folio.marccat.dao.persistence.AuthorityCorrelation;
+import org.folio.marccat.dao.persistence.Correlation;
 import org.folio.marccat.dao.persistence.CorrelationKey;
 
 import net.sf.hibernate.HibernateException;
@@ -43,7 +44,7 @@ public class AuthorityCorrelationDAO extends RecordCorrelationDAO {
    * @return a list of authority correlation.
    * @throws HibernateException in case of hibernate exception.
    */
-  public List<AuthorityCorrelation> getCategoryCorrelation(final Session session, final String tag,
+  public List<Correlation> getCategoryCorrelation(final Session session, final String tag,
       final char firstIndicator, final char secondIndicator) throws HibernateException {
 
     return super.getCategoryCorrelation(session, tag, firstIndicator, secondIndicator, queryFrom).stream()

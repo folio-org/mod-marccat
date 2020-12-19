@@ -1,7 +1,9 @@
 package org.folio.marccat.integration;
 
+import static java.lang.String.valueOf;
 import static java.util.Optional.ofNullable;
 import static org.folio.marccat.config.constants.Global.EMPTY_VALUE;
+import static org.folio.marccat.resources.shared.RecordUtils.getRecordField;
 import static org.folio.marccat.util.F.locale;
 
 import java.io.IOException;
@@ -43,10 +45,11 @@ import org.folio.marccat.dao.persistence.T_AUT_REC_STUS;
 import org.folio.marccat.enumaration.CodeListsType;
 import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.exception.RecordInUseException;
-import org.folio.marccat.exception.RecordNotFoundException;
-import org.folio.marccat.resources.domain.AuthorityRecord;
 import org.folio.marccat.resources.domain.CountDocument;
 import org.folio.marccat.resources.domain.Field;
+import org.folio.marccat.exception.RecordNotFoundException;
+import org.folio.marccat.resources.domain.AuthorityRecord;
+import org.folio.marccat.resources.domain.ContainerRecordTemplate;
 import org.folio.marccat.resources.domain.Heading;
 import org.folio.marccat.resources.domain.Leader;
 import org.folio.marccat.resources.domain.RecordTemplate;
@@ -123,6 +126,55 @@ public class AuthorityStorageService {
   public List<Avp<String>> getCodesList(final String lang, final CodeListsType codeListType) {
     final CodeTableDAO dao = new CodeTableDAO();
     return dao.getList(getStorageService().getSession(), Global.MAP_CODE_LISTS.get(codeListType.toString()), locale(lang));
+  }
+  
+  /**
+   * Get the record associated with given data.
+   *
+   * @param itemNumber -- the record identifier.
+   * @param view -- the search view.
+   * @return the {@link AuthorityRecord} associated with the given data.
+   */
+  public ContainerRecordTemplate getAuthorityRecordById(final int itemNumber, final int view) {
+
+    final ContainerRecordTemplate container = new ContainerRecordTemplate();
+    CatalogItem item;
+    try {
+      item = getCatalogItemByKey(itemNumber, view);
+    } catch (RecordNotFoundException re) {
+      return null;
+    }
+
+    final AuthorityRecord authorityRecord = new AuthorityRecord();
+    authorityRecord.setId(item.getAmicusNumber());
+    authorityRecord.setRecordView(View.AUTHORITY);
+
+    org.folio.marccat.resources.domain.Leader leader = new org.folio.marccat.resources.domain.Leader();
+    leader.setCode("000");
+    leader.setValue(((org.folio.marccat.dao.persistence.Leader) item.getTag(0)).getDisplayString());
+    authorityRecord.setLeader(leader);
+    authorityRecord.setCanadianContentIndicator(Global.AUTHORITY_CANADIAN_INDICATOR);
+    authorityRecord.setVerificationLevel(valueOf(item.getItemEntity().getVerificationLevel()));
+
+    item.getTags().stream().skip(1).forEach((Tag aTag) -> {
+      org.folio.marccat.resources.domain.Field field = getRecordField(aTag, getStorageService().getSession());
+      authorityRecord.getFields().add(field);
+    });
+
+    container.setAuthorityRecord(authorityRecord);
+    container.setRecordTemplate(ofNullable(item.getModelItem()).map(model -> {
+      try {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final RecordTemplate template = objectMapper.readValue(model.getRecordFields(), RecordTemplate.class);
+        template.setId(model.getModel().getId());
+        return template;
+      } catch (IOException exception) {
+        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+        return null;
+      }
+    }).orElse(null));
+
+    return container;
   }
 
   /**
@@ -203,7 +255,9 @@ public class AuthorityStorageService {
       throws HibernateException {
 
     final AuthorityCatalog catalog = new AuthorityCatalog();
-    final int autItemNumber = new SystemNextNumberDAO().getNextNumber("AA", getStorageService().getSession());
+
+    final int autItemNumber = getAutItemNumber(record.getId());
+
     final CatalogItem item = catalog.newCatalogItem(new Object[] { view, autItemNumber });
 
     AuthorityTagImpl tagImpl = new AuthorityTagImpl();
@@ -271,6 +325,14 @@ public class AuthorityStorageService {
     return item;
   }
 
+
+  private int getAutItemNumber(Integer recordIdJson) throws HibernateException {
+    if (recordIdJson == 0) {
+      return new SystemNextNumberDAO().getNextNumber("AA", getStorageService().getSession());
+    } else {
+      return recordIdJson;
+    }
+  }
 
   public void processDesciptorTag(String tagNbr, int headingAutNumber,
       org.folio.marccat.resources.domain.VariableField variableField, AuthorityCatalog catalog, CatalogItem item,

@@ -452,7 +452,7 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getDateEnteredOnFile());
       sb.append(fixedField.getSubjectDescriptor());
       sb.append(fixedField.getRomanizationScheme());
-      sb.append(fixedField.getBilingualUsage());
+      sb.append("n".equals(fixedField.getBilingualUsage()) ? " " : fixedField.getBilingualUsage());
       sb.append(fixedField.getRecordType());
       sb.append(fixedField.getCataloguingRules());
       sb.append(fixedField.getSubjectSystem());
@@ -462,11 +462,14 @@ public class ConversionFieldUtils {
       sb.append(fixedField.getSubjectEntryIndicator());
       sb.append(fixedField.getSeriesEntryIndicator());
       sb.append(fixedField.getSubDivisionType());
+      sb.append("          ");
       sb.append(fixedField.getGovernmentAgency());
       sb.append(fixedField.getReferenceStatus());
+      sb.append(" ");
       sb.append(fixedField.getRecordRevision());
       sb.append(fixedField.getNonUniqueName());
       sb.append(fixedField.getHeadingStatus());
+      sb.append("    ");
       sb.append(fixedField.getRecordModification());
       sb.append(fixedField.getCataloguingSourceCode());
 

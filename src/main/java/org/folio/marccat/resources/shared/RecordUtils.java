@@ -3,12 +3,29 @@ package org.folio.marccat.resources.shared;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static org.folio.marccat.config.constants.Global.EMPTY_STRING;
 import static org.folio.marccat.resources.shared.FixedFieldUtils.isFixedField;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.folio.marccat.business.cataloguing.bibliographic.BibliographicAccessPoint;
+import org.folio.marccat.business.cataloguing.common.Tag;
 import org.folio.marccat.config.constants.Global;
+import org.folio.marccat.config.log.Log;
+import org.folio.marccat.config.log.Message;
+import org.folio.marccat.dao.RecordTypeMaterialDAO;
+import org.folio.marccat.dao.persistence.AuthorityNote;
+import org.folio.marccat.dao.persistence.BibliographicNoteTag;
+import org.folio.marccat.dao.persistence.CorrelationKey;
+import org.folio.marccat.dao.persistence.MaterialDescription;
+import org.folio.marccat.dao.persistence.PhysicalDescription;
+import org.folio.marccat.dao.persistence.PublisherManager;
+import org.folio.marccat.dao.persistence.RecordTypeMaterial;
+import org.folio.marccat.dao.persistence.TitleAccessPoint;
+import org.folio.marccat.exception.DataAccessException;
 import org.folio.marccat.integration.StorageService;
+import org.folio.marccat.model.Subfield;
 import org.folio.marccat.resources.domain.Field;
 import org.folio.marccat.resources.domain.FixedField;
 import org.folio.marccat.resources.domain.Heading;
@@ -20,7 +37,11 @@ import org.folio.marccat.shared.GeneralInformation;
 import org.folio.marccat.shared.Validation;
 import org.folio.marccat.util.F;
 
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+
 public class RecordUtils {
+  private static final Log logger = new Log(RecordUtils.class);
 
   private RecordUtils() {
   }
@@ -129,11 +150,11 @@ public class RecordUtils {
    * @param field -- the field to set category.
    * @param storageService -- the storageService module.
    */
-  public static void setCategory(final Field field, final StorageService storageService) {
+  public static void setCategory(final Field field, final int view, final StorageService storageService) {
     if (isFixedField(field))
       field.getFixedField().setCategoryCode(Global.HEADER_CATEGORY);
     else if (getCategory(field) == 0) {
-      final int category = getTagCategory(field, storageService);
+      final int category = getTagCategory(field, view, storageService);
       field.getVariableField().setCategoryCode(category);
     }
 
@@ -146,21 +167,24 @@ public class RecordUtils {
    * @param storageService -- the storageService module.
    * @return a category code.
    */
-  public static int getTagCategory(final Field field, final StorageService storageService) {
+  public static int getTagCategory(final Field field, final int view, final StorageService storageService) {
     boolean hasTitle = isNameTitle(field.getCode(), field.getVariableField().getValue());
-    return storageService.getTagCategory(field.getCode(), field.getVariableField().getInd1().charAt(0), field.getVariableField().getInd2().charAt(0), hasTitle);
+    return storageService.getTagCategory(field.getCode(), field.getVariableField().getInd1().charAt(0),
+        field.getVariableField().getInd2().charAt(0), hasTitle, view);
   }
 
   /**
    * Return category code of a heading by tag number.
    *
-   * @param heading -- the heading
+   * @param heading        -- the heading
+   * @param view
    * @param storageService -- the storageService module.
    * @return a category code.
    */
-  public static int getTagCategory(final Heading heading, final StorageService storageService) {
+  public static int getTagCategory(final Heading heading, int view, final StorageService storageService) {
     boolean hasTitle = isNameTitle(heading.getTag(), heading.getDisplayValue());
-    return storageService.getTagCategory(heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0), hasTitle);
+    return storageService.getTagCategory(heading.getTag(), heading.getInd1().charAt(0), heading.getInd2().charAt(0),
+        hasTitle, view);
   }
 
   /**
@@ -325,6 +349,166 @@ public class RecordUtils {
 
     }
     return variableField;
+  }
+
+  /**
+   * Gets the Material description information.
+   *
+   * @param recordTypeCode the record type code (Tag 006//00) used here as filter
+   *        criterion.
+   * @return a map with RecordTypeMaterial info.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public static Map<String, Object> getHeaderTypeByRecordTypeCode(final char recordTypeCode, Session session) {
+
+    final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
+
+    try {
+      final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
+      final RecordTypeMaterial rtm = dao.get006HeaderCode(session, recordTypeCode);
+
+      mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, rtm.getBibHeader006());
+      mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+      return mapRecordTypeMaterial;
+    } catch (final HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+  /**
+   * Gets the Material description information. The values depend on mtrl_dsc and
+   * bib_itm data (leader).
+   *
+   * @param recordTypeCode the record type code (leader 05) used here as filter
+   *        criterion.
+   * @param bibliographicLevel the bibliographic level (leader 06) used here as
+   *        filter criterion.
+   * @param code the tag number code used here as filter criterion.
+   * @return a map with RecordTypeMaterial info.
+   * @throws DataAccessException in case of data access failure.
+   */
+  public static Map<String, Object> getMaterialTypeInfosByLeaderValues(final char recordTypeCode, final char bibliographicLevel, final String code, Session session) {
+
+    final RecordTypeMaterialDAO dao = new RecordTypeMaterialDAO();
+
+    try {
+      final Map<String, Object> mapRecordTypeMaterial = new HashMap<>();
+      final RecordTypeMaterial rtm = dao.getMaterialHeaderCode(session, recordTypeCode, bibliographicLevel);
+
+      mapRecordTypeMaterial.put(Global.HEADER_TYPE_LABEL, (code.equals(Global.MATERIAL_TAG_CODE) ? rtm.getBibHeader008() : rtm.getBibHeader006()));
+      mapRecordTypeMaterial.put(Global.FORM_OF_MATERIAL_LABEL, rtm.getAmicusMaterialTypeCode());
+      return mapRecordTypeMaterial;
+    } catch (final HibernateException exception) {
+      logger.error(Message.MOD_MARCCAT_00010_DATA_ACCESS_FAILURE, exception);
+      throw new DataAccessException(exception);
+    }
+  }
+
+  public static Field getRecordField(final Tag aTag, Session session) {
+    final org.folio.marccat.resources.domain.Field field = new org.folio.marccat.resources.domain.Field();
+    org.folio.marccat.resources.domain.VariableField variableField;
+    org.folio.marccat.resources.domain.FixedField fixedField;
+    int keyNumber = 0;
+    int sequenceNbr = 0;
+    int skipInFiling = 0;
+    final CorrelationKey correlation = aTag.getTagImpl().getMarcEncoding(aTag, session);
+    String entry = aTag.isFixedField() ? (((org.folio.marccat.business.cataloguing.bibliographic.FixedField) aTag).getDisplayString())
+        : ((org.folio.marccat.business.cataloguing.bibliographic.VariableField) aTag).getStringText().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
+
+    String tagNumber = correlation.getMarcTag();
+
+    if (aTag.isFixedField() && aTag instanceof MaterialDescription) {
+      final MaterialDescription materialTag = (MaterialDescription) aTag;
+      keyNumber = materialTag.getMaterialDescriptionKeyNumber();
+      final String tagNbr = materialTag.getMaterialDescription008Indicator().equals("1") ? "008" : "006";
+      final Map<String, Object> map;
+      if (tagNbr.equals("008"))
+        map = getMaterialTypeInfosByLeaderValues(materialTag.getItemRecordTypeCode(), materialTag.getItemBibliographicLevelCode(), tagNbr, session);
+      else
+        map = getHeaderTypeByRecordTypeCode(materialTag.getMaterialTypeCode().charAt(0), session);
+      materialTag.setHeaderType((int) map.get(Global.HEADER_TYPE_LABEL));
+      materialTag.setMaterialTypeCode(tagNbr.equalsIgnoreCase("006") ? materialTag.getMaterialTypeCode() : null);
+      materialTag.setFormOfMaterial((String) map.get(Global.FORM_OF_MATERIAL_LABEL));
+    }
+
+    if (!aTag.isFixedField() && aTag instanceof BibliographicAccessPoint) {
+      keyNumber = ((BibliographicAccessPoint) aTag).getDescriptor().getKey().getHeadingNumber();
+      try {
+        sequenceNbr = ((BibliographicAccessPoint) aTag).getSequenceNumber();
+      } catch (Exception e) {
+        sequenceNbr = 0;
+      }
+
+      if (aTag instanceof TitleAccessPoint) {
+        skipInFiling = ((TitleAccessPoint) aTag).getDescriptor().getSkipInFiling();
+      }
+    }
+
+    if (!aTag.isFixedField() && aTag instanceof BibliographicNoteTag) {
+      keyNumber = ((BibliographicNoteTag) aTag).getNoteNbr();
+      try {
+        sequenceNbr = ((BibliographicNoteTag) aTag).getSequenceNumber();
+      } catch (Exception e) {
+        sequenceNbr = 0;
+      }
+    }
+    if (aTag.isFixedField() && aTag instanceof PhysicalDescription) {
+      final PhysicalDescription physicalTag = (PhysicalDescription) aTag;
+      keyNumber = physicalTag.getKeyNumber();
+    }
+
+    if (!aTag.isFixedField() && aTag instanceof AuthorityNote) {
+      keyNumber = ((AuthorityNote) aTag).getNoteNbr();
+      try {
+        sequenceNbr = ((AuthorityNote) aTag).getSequenceNumber();
+      } catch (Exception e) {
+        sequenceNbr = 0;
+      }
+    }
+    if (!aTag.isFixedField() && aTag instanceof PublisherManager && !((PublisherManager) aTag).getPublisherTagUnits().isEmpty()) {
+      keyNumber = ((PublisherManager) aTag).getPublisherTagUnits().get(0).getPublisherHeadingNumber(); // add gestione
+                                                                                                       // multi
+                                                                                                       // publisher
+    }
+
+    if (aTag instanceof PublisherManager) {
+      try {
+        entry = aTag.addPunctuation().getMarcDisplayString(Subfield.SUBFIELD_DELIMITER);
+      } catch (Exception exception) {
+        logger.error(Message.MOD_MARCCAT_00013_IO_FAILURE, exception);
+      }
+    }
+
+    if (aTag.isFixedField()) {
+      fixedField = new org.folio.marccat.resources.domain.FixedField();
+      fixedField.setSequenceNumber(sequenceNbr);
+      fixedField.setCode(tagNumber);
+      fixedField.setDisplayValue(entry);
+      fixedField.setHeaderTypeCode(aTag.getCorrelation(1));
+      fixedField.setCategoryCode(aTag.getCategory());
+      fixedField.setKeyNumber(keyNumber);
+      field.setFixedField(fixedField);
+    } else {
+      variableField = new org.folio.marccat.resources.domain.VariableField();
+      variableField.setSequenceNumber(sequenceNbr);
+      variableField.setCode(correlation.getMarcTag());
+      variableField.setInd1(EMPTY_STRING + correlation.getMarcFirstIndicator());
+      variableField.setInd2(EMPTY_STRING + correlation.getMarcSecondIndicator());
+      variableField.setHeadingTypeCode(Integer.toString(aTag.getCorrelation(1)));
+      variableField.setItemTypeCode(Integer.toString(aTag.getCorrelation(2)));
+      variableField.setFunctionCode(Integer.toString(aTag.getCorrelation(3)));
+      variableField.setValue(entry);
+      variableField.setCategoryCode(correlation.getMarcTagCategoryCode());
+      variableField.setKeyNumber(keyNumber);
+      variableField.setSkipInFiling(skipInFiling);
+      if (variableField.getInd2().equals("S"))
+        variableField.setInd2(EMPTY_STRING + skipInFiling);
+      field.setVariableField(variableField);
+    }
+
+    field.setCode(tagNumber);
+    return field;
+
   }
 
 }

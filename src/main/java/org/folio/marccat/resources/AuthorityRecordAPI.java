@@ -4,6 +4,7 @@ import static org.folio.marccat.config.constants.Global.BASE_URI;
 import static org.folio.marccat.integration.MarccatHelper.doDeleteWithResponse;
 import static org.folio.marccat.integration.MarccatHelper.doGet;
 import static org.folio.marccat.integration.MarccatHelper.doPost;
+import static org.folio.marccat.resources.shared.RecordUtils.resetStatus;
 import static org.folio.marccat.resources.shared.ConversionFieldUtils.getAuthorityDisplayValueOfMaterial;
 import static org.folio.marccat.resources.shared.RecordUtils.setCategory;
 import static org.folio.marccat.util.F.isNotNullOrEmpty;
@@ -40,6 +41,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = BASE_URI, produces = "application/json")
 public class AuthorityRecordAPI extends RecordAPI {
 
+  @GetMapping("/authority-record/{id}")
+  public ResponseEntity<Object> getRecord(@PathVariable final Integer id,
+    @RequestParam(name = "view", defaultValue = View.DEFAULT_AUTHORITY_VIEW_AS_STRING) final int view,
+    @RequestHeader(Global.OKAPI_TENANT_HEADER_NAME) final String tenant,
+    @RequestHeader(Global.OKAPI_URL) String okapiUrl) {
+    return doGet((storageService, configuration) -> {
+      AuthorityStorageService authorityStorageService = new AuthorityStorageService();
+
+      authorityStorageService.setStorageService(storageService);
+
+      final ContainerRecordTemplate container = authorityStorageService.getAuthorityRecordById(id, view);
+      if (container != null) {
+        final AuthorityRecord record = container.getAuthorityRecord();
+        if (record != null)
+          resetStatus(record);
+      } else {
+        return new ResponseEntity<>(container, HttpStatus.NOT_FOUND);
+      }
+      return new ResponseEntity<>(container, HttpStatus.OK);
+    }, tenant, okapiUrl, configurator);
+  }
+
   @PostMapping("/authority-record")
 
   public ResponseEntity<Object> save(@RequestBody final ContainerRecordTemplate container,
@@ -57,7 +80,7 @@ public class AuthorityRecordAPI extends RecordAPI {
         
         AuthorityRecord record = container.getAuthorityRecord();
 
-        record.getFields().forEach(field -> setCategory(field, storageService));
+        record.getFields().forEach(field -> setCategory(field, view, storageService));
 
         record.getFields().stream().filter(FixedFieldUtils::isFixedField).filter(field -> field.getCode().equalsIgnoreCase(Global.MATERIAL_TAG_CODE))
             .forEach(field -> {
